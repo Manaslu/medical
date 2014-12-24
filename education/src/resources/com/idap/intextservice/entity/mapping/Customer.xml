@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：t06_cust_mana -->
+<mapper namespace="com.idap.intextservice.customer.entity.Customer">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="customerMap" type="com.idap.intextservice.customer.entity.Customer">
+		<result property="custMamId" column="CUST_MAM_ID" jdbcType="INTEGER" />
+		<result property="custName" column="CUST_NAME" jdbcType="VARCHAR" />
+		<result property="custType" column="CUST_TYPE" jdbcType="VARCHAR" />
+		<result property="custAddr" column="CUST_ADDR" jdbcType="VARCHAR" />
+		<result property="contacts" column="CONTACTS" jdbcType="VARCHAR" />
+		<result property="tel" column="TEL" jdbcType="VARCHAR" />
+		<result property="post" column="POST" jdbcType="VARCHAR" />
+		<result property="eMail" column="E_MAIL" jdbcType="VARCHAR" />
+		<result property="custStats" column="CUST_STATS" jdbcType="VARCHAR" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.util.Map" resultMap="customerMap">
+		select t.cust_mam_id,
+               t.cust_name,
+               t.cust_type,
+               t.cust_addr,
+               t.contacts,
+               t.tel,
+               t.post,
+               t.e_mail,
+               t.cust_stats,
+               t.create_time,
+               t.update_time from t06_cust_mana t
+		<include refid="dynamicWhere" />
+		 order by t.CREATE_TIME desc
+	</select>
+	
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="customerMap">
+		select t.cust_mam_id,
+               t.cust_name,
+               t.cust_type,
+               t.cust_addr,
+               t.contacts,
+               t.tel,
+               t.post,
+               t.e_mail,
+               t.cust_stats,
+               t.create_time,
+               t.update_time from
+        	(SELECT a.*, ROWNUM AS ROWNO FROM (select s.* 
+        	 from t06_cust_mana s
+                <include refid="dynamicWheres" />
+                order by s.CREATE_TIME desc)a) t 
+		<include refid="dynamicWhere" />
+	</select>
+	
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+		select
+		count(1)
+		from
+		t06_cust_mana t
+		<include refid="dynamicWhere" />
+		 order by t.CREATE_TIME desc
+	</select>
+
+	<insert id="insert" parameterType="com.idap.intextservice.customer.entity.Customer">
+		INSERT INTO 
+	    t06_cust_mana (CUST_MAM_ID,CUST_NAME,CUST_TYPE,CUST_ADDR,CONTACTS,TEL,POST,E_MAIL,CUST_STATS,CREATE_TIME,UPDATE_TIME) 
+	    			values(
+	    			SEQ_T06_CUST_MANA.NEXTVAL,
+	    			#{custName,jdbcType=VARCHAR},
+	    			#{custType,jdbcType=VARCHAR},
+	    			#{custAddr,jdbcType=VARCHAR},
+	    			#{contacts,jdbcType=VARCHAR},
+	    			#{tel,jdbcType=VARCHAR},
+	    			#{post,jdbcType=VARCHAR},
+	    			#{eMail,jdbcType=VARCHAR},
+	    			#{custStats,jdbcType=VARCHAR},
+	    			#{createTime,jdbcType=TIMESTAMP},
+	    			#{updateTime,jdbcType=TIMESTAMP}
+	    			)
+	</insert>
+	
+	<!-- 4.删除 -->
+	<delete id="delete" parameterType="com.idap.intextservice.customer.entity.Customer">
+		DELETE FROM t06_cust_mana t
+		<include refid="dynamicWhere" />
+	</delete>
+	
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="custName!=null">
+				AND t.CUST_NAME like '%'||#{custName,jdbcType=VARCHAR}||'%' 
+			</if>
+			<if test="contacts!=null">
+				AND t.CONTACTS = #{contacts,jdbcType=VARCHAR} 
+			</if>
+			<if test="custType!=null">
+				AND t.CUST_TYPE=#{custType,jdbcType=VARCHAR} 
+			</if>
+			<if test="custStats!=null">
+				AND t.CUST_STATS=#{custStats,jdbcType=VARCHAR} 
+			</if>
+			<if test="custMamId!=null">
+				AND t.CUST_MAM_ID=#{custMamId,jdbcType=INTEGER}
+			</if>
+			<if test="createTime!=null">
+				AND TO_CHAR(t.CREATE_TIME,'YYYY-MM-DD')=#{createTime,jdbcType=TIMESTAMP} 
+			</if>
+			<if test="sno!=null and eno!=null">
+				AND t.rowno <![CDATA[<=]]>${eno}
+				AND t.rowno <![CDATA[>=]]> ${sno}
+			</if>
+		</trim>
+	</sql>
+	<sql id="dynamicWheres">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="custName!=null">
+				AND s.CUST_NAME like '%'||#{custName,jdbcType=VARCHAR}||'%' 
+			</if>
+			<if test="custType!=null">
+				AND s.CUST_TYPE=#{custType,jdbcType=VARCHAR} 
+			</if>
+			<if test="custStats!=null">
+				AND s.CUST_STATS=#{custStats,jdbcType=VARCHAR} 
+			</if>
+			<if test="custMamId!=null">
+				AND s.CUST_MAM_ID=#{custMamId,jdbcType=INTEGER}
+			</if>
+			<if test="createTime!=null">
+				AND TO_CHAR(s.CREATE_TIME,'YYYY-MM-DD')=#{createTime,jdbcType=TIMESTAMP} 
+			</if>
+		</trim>
+	</sql>
+	
+	<update id="update" parameterType="java.util.Map">
+		update t06_cust_mana t 
+		<include refid="dynamicSet"/>
+		where t.CUST_MAM_ID=#{custMamId,jdbcType=INTEGER}
+	</update>
+	
+	<!-- update:set 动态生成可更新字段 -->
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="custName!=null">
+				,t.CUST_NAME=#{custName,jdbcType=VARCHAR}
+			</if>
+			<if test="custType!=null">
+				,t.CUST_TYPE=#{custType,jdbcType=VARCHAR}
+			</if>
+			<if test="custAddr!=null">
+				,t.CUST_ADDR=#{custAddr,jdbcType=VARCHAR}
+			</if>
+			<if test="contacts!=null">
+				,t.CONTACTS=#{contacts,jdbcType=VARCHAR}
+			</if>
+			<if test="tel!=null">
+				,t.TEL=#{tel,jdbcType=VARCHAR}
+			</if>
+			<if test="post!=null">
+				,t.POST=#{post,jdbcType=VARCHAR}
+			</if>
+			<if test="eMail!=null">
+				,t.E_MAIL=#{eMail,jdbcType=VARCHAR}
+			</if>
+			<if test="custStats!=null">
+				,t.CUST_STATS=#{custStats,jdbcType=VARCHAR}
+			</if>
+			<if test="updateTime!=null">
+				,t.UPDATE_TIME=#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

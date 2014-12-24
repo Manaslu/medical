@@ -1,0 +1,158 @@
+<div class="col-sm-12 col-md-12">
+    <style type="text/css">
+        .ztree-ui li a {width:100%;padding-top: 0; display: inline-block;text-indent: .5em;position: relative;}
+        .ztree-ui li a:hover{
+            background-color: #D4FFE7;
+            border: 1px solid #7FE8B8;
+        }
+        .ztree li a.curSelectedNode {
+            background-color: #D4FFE7;
+            border: 1px solid #097941;
+        }
+        .ztree-ui .pull-right{
+            position: absolute;
+            top: -1px;
+            right: 5px;
+        }
+    </style>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <ul class="ztree ztree-ui" data-ztree="zTreeApi" id="ztree" data-setting="settings" data-data="data"></ul>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑/新建 -->
+<div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span ng-show="!isEdit">新增</span><span ng-show="isEdit">修改</span>机构</h4>
+            </div>
+            <form name="mm" novalidate="novalidate">
+            	<div class="modal-body form-horizontal">
+                
+                   	<div class="form-group" ng-if="!isEdit">
+                        <label class="col-lg-2 control-label">机构编码:</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" 
+                            ng-minlength="12" 
+                            maxlength="12" required 
+                            ng-model="obj.orgCd" name = "orgCd"  
+                            remote-valid="{server : 'Institution' , valid : 'valid' , params : 'getParams' , name : 'orgCd' , fn : 'query'}"
+                            my-valid="{valid:'myValid' , name:'reg'}"
+                            valid-tip="{reg : '只可以输入数字字母',required:'这个是必填的' , orgCd : '机构编码不能重复，请更换' , maxlength : '长度必须是12位' , minlength : '长度必须是12位'}"
+                            valid-pos="bottom"
+                            />
+                        </div><font color='red'>*</font>
+                   	</div>
+                   	<div class="form-group" ng-if="isEdit">
+                        <div class="col-lg-2" align="right">机构编码:</div>
+                        <div class="col-lg-9">
+                        	{{obj.orgCd}}
+                        </div>
+                   	</div>
+                    
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">机构名称:</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" required  ng-model="obj.orgName"  name="orgName"
+                            maxlength="40" 
+                            my-valid="{valid:'validName'}"
+                            valid-tip="{required:'这个是必填的'}"
+                            valid-pos="bottom"
+                            />
+                        </div><font color='red'>*</font>
+                    </div>
+                   	<div class="form-group" ng-show="(!siblings && obj.level==0) || (siblings && obj.level==1)">
+                            <label class="col-lg-2 control-label">所属省份:</label>
+                            <div class="col-lg-9" >
+                               <select name="provCode"  ng-model="obj.provCode" required  ng-options="(c.id) as (c.id + '--'+c.name) for c in model" class="form-control">
+                                     <option value="">请选择所属省份</option>
+                               </select>
+                         </div><font color='red'>*</font>
+	                </div>
+                    <div class="form-group" ng-show="(!siblings && obj.level!=0) || (siblings && obj.level!=1)">
+                            <label class="col-lg-2 control-label">所属省份:</label>
+                            <div class="col-lg-9" >
+                               <select name="provCode" disabled="disabled" ng-model="obj.provCode" required  ng-options="(c.id) as (c.id + '--'+c.name) for c in model" class="form-control">
+                                     <option value="">请选择所属省份</option>
+                               </select>
+                         </div><font color='red'>*</font>
+	                </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">行政区划代码:</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" ng-model="obj.orgId"
+                            maxlength="6"
+                            my-valid="{valid:'validPost', name:'reg'}"
+                            valid-tip="{reg : '行政区划代码只能输入数字'}"
+                     		valid-pos="bottom"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">机构别名:</label>
+                        <div class="col-lg-9">
+                            <input class="form-control"  type="text" ng-model="obj.orgOname"
+                            maxlength="30"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">邮编:</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" ng-model="obj.postCode"
+                            maxlength="6"
+                             my-valid="{valid:'validPost', name:'reg'}"
+                             valid-tip="{reg : 'postcode只能输入数字'}"
+                     		valid-pos="bottom"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">上级机构名称:</label>
+                        <div class="col-lg-9" ng-show="!siblings">
+                            <p class="form-control-static">{{parents.name}}</p>
+                        </div>
+                        <div class="col-lg-9" ng-show="siblings">
+                            <p class="form-control-static">{{parent.name}}</p>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="col-lg-2 control-label">当前状态:</label>
+                        <div class="col-lg-9">
+                            <label class="radio-inline"><input type="radio" class="radio" ng-model="obj.state" value="0" name="state"/> 启用</label>
+                            <label class="radio-inline"><input type="radio" class="radio" ng-model="obj.state" value="1" name="state"/> 停用</label>
+                        </div>
+                    </div> -->
+                
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="mm.$invalid" ng-click="save()" >保存</button>
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除机构</h4>
+            </div>
+            <div class="modal-body">
+                {{message || '确认要删除此机构吗？'}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-hide="message" data-dismiss="modal" ng-click="save()">确认删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

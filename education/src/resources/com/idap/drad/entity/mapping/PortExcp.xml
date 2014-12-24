@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <typeAlias type="com.idap.drad.entity.PortExcp" alias="PortExcp"/> -->
+<mapper namespace="com.idap.drad.entity.PortExcp">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="portExcpMap" type="com.idap.drad.entity.PortExcp">
+		<result property="excpId" column="EXCP_ID" jdbcType="VARCHAR" />
+		<result property="systemName" column="SYSTEM_NAME" jdbcType="VARCHAR" />
+		<result property="logProvince" column="LOG_PROVINCE" jdbcType="VARCHAR" />
+		<result property="tableNameCh" column="TABLE_NAME_CH" jdbcType="VARCHAR" />
+		<result property="tableNameEn" column="TABLE_NAME_EN" jdbcType="VARCHAR" />
+		<result property="dataSentFreq" column="DATA_SENT_FREQ"
+			jdbcType="VARCHAR" />
+		<result property="excpType" column="EXCP_TYPE" jdbcType="VARCHAR" />
+		<result property="excpTime" column="EXCP_TIME" jdbcType="TIMESTAMP" />
+		<result property="userName" column="USERNAME" jdbcType="VARCHAR" />
+		<result property="remark" column="REMARK" jdbcType="VARCHAR" />
+		<result property="state" column="STATE" jdbcType="NUMERIC" />
+		<result property="modifyDate" column="MODIFY_DATE" jdbcType="VARCHAR" />
+		<result property="dateProvinceNo" column="DATE_PROVINCE_NO"
+			jdbcType="CHAR" />
+	</resultMap>
+
+	<!--================= 动态内容部分 ================= -->
+	<!-- where：动态生成部分 -->
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="systemName!=null">
+				AND SYSTEM_NAME=#{systemName}
+			</if>
+
+			<if test="tableNameCh!=null">
+
+				AND TABLE_NAME_CH like '%'||#{tableNameCh}||'%' 
+			</if>
+			<if test="tableNameEn!=null">
+				AND TABLE_NAME_EN=#{tableNameEn}
+			</if>
+			<if test="dataSentFreq!=null">
+				AND DATA_SENT_FREQ=#{dataSentFreq}
+			</if>
+			<if test="excpType!=null">
+				AND EXCP_TYPE=#{excpType}
+			</if>
+			<if test="state!=null">
+				AND STATE=#{state}
+			</if>
+			<if test="excpTime!=null">
+				AND EXCP_TIME=#{excpTime}
+			</if>
+			<if test="excpLocation!=null">
+				AND EXCP_LOCATION=#{excpLocation}
+			</if>
+			<if test="dateProvinceNo!=null">
+				AND DATE_PROVINCE_NO=#{dateProvinceNo}
+			</if>
+			<if test="logProvince!=null">
+				AND LOG_PROVINCE in
+				<foreach item="pno" index="index" collection="logProvince"
+					open="(" separator="," close=")">
+					#{pno}
+				</foreach>
+			</if>
+			<if test="startTime!=null">
+				AND EXCP_TIME <![CDATA[>=]]>to_date(#{startTime},
+				'yyyy/mm/dd')
+			</if>
+			<if test="endTime!=null">
+				AND EXCP_TIME <![CDATA[<=]]>to_date('${endTime}
+				23:59:59', 'yyyy/mm/dd hh24:mi:ss')
+			</if>
+			<if test="sno!=null and eno!=null and orderBy==null">
+				AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+		</trim>
+	</sql>
+	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order},EXCP_ID
+		</if>
+		</if>
+	</sql>
+	<!-- group by 分组 -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			group by ${groupBy}
+		</if>
+	</sql>
+
+
+	<!-- 表所有的字段：insert 的表、字段 部分 -->
+	<sql id="allColumn">
+		t01_port_excp(
+		SYSTEM_NAME,
+		LOG_PROVINCE,
+		TABLE_NAME_CH,
+		TABLE_NAME_EN,
+		DATA_SENT_FREQ,
+		EXCP_TYPE,
+		EXCP_TIME,
+		EXCP_LOCATION,
+		DATE_PROVINCE_NO
+		)
+	</sql>
+
+	<sql id="allColumnNoTab">
+		EXCP_ID,
+		SYSTEM_NAME,
+		LOG_PROVINCE,
+		TABLE_NAME_CH,
+		TABLE_NAME_EN,
+		DATA_SENT_FREQ,
+		EXCP_TYPE,
+		EXCP_TIME,
+		EXCP_LOCATION,
+		DATE_PROVINCE_NO,
+		REMARK,
+		STATE,
+		USERNAME,
+		TO_CHAR(MODIFY_DATE,'YYYY-MM-DD') MODIFY_DATE
+	</sql>
+	
+	<sql id="allColumnNoTab2">
+		EXCP_ID,
+		SYSTEM_NAME,
+		LOG_PROVINCE,
+		TABLE_NAME_CH,
+		TABLE_NAME_EN,
+		DATA_SENT_FREQ,
+		EXCP_TYPE,
+		EXCP_TIME,
+		EXCP_LOCATION,
+		DATE_PROVINCE_NO,
+		REMARK,
+		STATE,
+		USERNAME,
+		MODIFY_DATE
+	</sql>
+
+	<!-- 单条插入：动态生成可插入字段 对应的变量列表 -->
+	<sql id="allColumnVar">
+		values(
+		#{systemName,jdbcType=VARCHAR},
+		#{logProvince,jdbcType=VARCHAR},
+		#{tableNameCh,jdbcType=VARCHAR},
+		#{tableNameEn,jdbcType=VARCHAR},
+		#{dataSentFreq,jdbcType=VARCHAR},
+		#{excpType,jdbcType=VARCHAR},
+		#{excpTime,jdbcType=DATE},
+		#{excpLocation,jdbcType=VARCHAR},
+		#{dateProvinceNo,jdbcType=CHAR}
+		)
+	</sql>
+
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumnNoTab" />
+			from
+			(
+			select orderContentTab.*,ROWNUM AS rowno
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumnNoTab2" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumnNoTab2" />
+		from
+		t01_port_excp
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy"/>
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>
+			${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>
+			${sno}
+		</if>
+	</sql>
+
+	<!-- ================================================= -->
+	<!-- 1.1根据id查询对像 -->
+	<select id="queryById" parameterType="String" resultMap="portExcpMap">
+		select
+		<include refid="allColumnNoTab" />
+		from t01_port_excp where id=#{value}
+	</select>
+
+
+
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map"
+		resultMap="portExcpMap">
+		<include refid="queryBody" />
+	</select>
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		count(1)
+		from
+		t01_port_excp
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 6.1批量更新 -->
+	<update id="update" parameterType="com.idap.drad.entity.PortExcp">
+		update t01_port_excp
+		set
+		USERNAME=#{userName},
+		REMARK=#{remark},
+		STATE=2,
+		MODIFY_DATE=SYSDATE
+		where
+		EXCP_ID=#{excpId}
+	</update>
+
+	<!-- =========================自定义操作======================== -->
+
+</mapper>
+
+
+
+

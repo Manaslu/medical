@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>自定义滚动条demo</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+    <style type="text/css">
+        div[content]{
+            height: 300px;
+            overflow: auto;
+        }
+        div[scroll]{
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body ng-controller="TestCtrl as t">
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-6" scroll content>
+            <p ng-repeat="i in [1,2,3,4,5,6,7]">{{t.str}}</p>
+        </div>
+        <div class="col-sm-6" content>
+            <p ng-repeat="i in [1,2,3,4,5,6,7]">{{t.str}}</p>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="../base/es5-shim/es5-shim.min.js"></script>
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/jquery-mousewheel/jquery.mousewheel.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+
+var app = angular.module('app', []);
+app.controller('TestCtrl', function ($scope) {
+    this.str = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus rhoncus nibh ac ultricies blandit. Nunc blandit blandit lobortis. Maecenas id dolor scelerisque, facilisis dolor eu, interdum urna. Nullam consectetur lectus quis mi interdum accumsan. Nulla malesuada est nec neque suscipit pulvinar. Vivamus sagittis, nunc a porttitor tempus, mi neque eleifend diam, nec porttitor metus dui a orci. Cras tempus lobortis nisl ut sagittis. Maecenas semper in magna mollis venenatis. Vestibulum fermentum tincidunt fringilla.';
+});
+
+app.directive('scroll' , function(){
+    return {
+        link : function(scope , el , attr){
+            el.on('mousewheel' , function(event){
+                event.preventDefault();
+                console.log('event.deltaY' , event.deltaY , 'this.scrollTop' , this.scrollTop)
+                var top = (el.scrollTop() + ((event.deltaY * 30) * -1));
+                el.scrollTop(top);
+            });
+        },
+        transclude : true,
+        template : '<div class="scroll-body" ng-transclude></div>'
+    }
+});
+document.addEventListener
+angular.bootstrap(document, ['app']);
+
+</script>
+</body>
+</html>

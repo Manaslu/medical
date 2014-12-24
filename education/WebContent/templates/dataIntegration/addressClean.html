@@ -1,0 +1,170 @@
+<div class="col-sm-12 col-md-12" ng-show="viewIndex == 0">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+				<div class="col-sm-2 col-md-2">  
+                    <label>数据名称</label>
+                    <input class="form-control" type="text" ng-model="params.dataSetName " placeholder="请输入源数据、目标数据名称"/>   
+                </div>
+				<div class="col-sm-2 col-md-2">
+					<label> 数据结构定义</label>
+					<select class="form-control" select2 data-live-search="true" ng-model="params.dataDefId"
+						ng-options="item.dataDefId as item.dataDefName for item in defs">
+						<option value="">请选择</option>
+					</select>
+				</div>
+				<div class="col-sm-2 col-md-2">
+					<label>匹配状态</label>
+					<select class="form-control" ng-model="params.opStats">
+						<option value=''>请选择</option>
+<!-- 						<option value='init'>待匹配</option> -->
+						<option value='running'>匹配中</option>
+						<option value='finished'>匹配成功</option>
+						<option value='failure'>匹配失败</option>
+					</select>
+				</div>
+				<div class="col-sm-3 col-md-3">
+					<label> 操作日期 </label>
+					<div data-datetimepicker="range" range start="params.startTime" end="params.endTime"></div>
+				</div>
+				<div class="col-sm-2 col-md-3">
+					<label>&nbsp;</label>
+					<button class="btn btn-info btn-custom" type="button" ng-click="refresh('first' , true)">查询</button>
+					<button class="btn btn-primary btn-custom" type="button" ng-click="edit()">匹配设置</button>
+					<button class="btn btn-info btn-custom" type="button" ng-click="resetQuery()">重置</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+	<table class="table table-striped table-bordered table-condensed index-center  table-costom">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>源数据</th>
+				<th>目标数据</th>
+				<th>数据结构定义</th>
+<!-- 				<th>操作人</th> -->
+				<th class="col-datetime-1">操作时间</th>
+				<th class="col-status-1">状态</th>
+				<th class="col-opt-1">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td>{{current*limit+$index+1}}</td>
+				<td>{{item.set1Name}}</td>
+				<td>{{item.resultSetName}}</td>
+				<td>{{item.dataDefName1}}</td>
+<!-- 				<td>{{item.userName}}</td> -->
+				<td>{{item.createDate|date:'yyyy-MM-dd HH:mm'}}</td>
+				<td>{{item.opStats|DP_post}}</td>
+				<td>
+<!--                     <a href="javascript:" ng-if="item.opStats=='failure'" ng-click="reExecute(item.ruleId)">重新执行</a> -->
+				    <a href="javascript:" ng-if="item.opStats=='finished'" ng-click="detail(item)">查看</a>
+                    <a href="javascript:" ng-if="item.opStats=='failure'" ng-click="toRemove(item);" data-target="#dataIntelogRm" data-toggle="modal">删除</a>
+                    <a href="javascript:" data-toggle="modal" data-target="#report"  ng-if="item.opStats=='finished'"  ng-click="toRePort(item)">报告</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div data-remote-paging="pager" data-params="params" data-refresh="refresh" data-current="current"
+					data-total="total" data-data="limitArr" data-limit="limit"></div>
+</div>
+<!-- 删除对话框 -->
+<div class="modal fade" id="dataIntelogRm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除数据</h4>
+            </div>
+            <div class="modal-body">确认要删除此数据么？</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove()">确认删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="report" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">查看报告</h4>
+            </div>
+            <div class="modal-body">
+                <h4>地址匹配参数</h4>
+                <table class="table table-striped table-bordered table-condensed index-center">
+                    <tbody>
+                        <tr>
+                        	<td>匹配类型：地址标准化</td>
+                            <td>地址所在列：{{addressColumn}}</td>
+                            <td>邮编所在列：{{postColumn || '暂无'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>地址匹配报告</h4>
+                <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>数据名称</th>
+                            <th>数据总量</th>
+                            <th>匹配类型</th>
+                            <th>匹配数据量</th>
+                            <th>比重</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="rowlink">
+                        <td rowspan="5">{{ obj.set1Name }}</td>
+                        <td rowspan="5">{{data[0].y+data[1].y+data[2].y+data[3].y+data[4].y}}</td>
+                        <td>{{data[0].name}}</td>
+                        <td>{{data[0].y}}</td>
+                        <td>{{data[0].y*100/(data[0].y+data[1].y+data[2].y+data[3].y+data[4].y) | number : 2}}%</td>
+                    </tr>
+                    <tr class="rowlink">
+                        <td>{{data[1].name}}</td>
+                        <td>{{data[1].y}}</td>
+                        <td>{{data[1].y*100/(data[0].y+data[1].y+data[2].y+data[3].y+data[4].y) | number : 2}}%</td>
+                    </tr>
+                    <tr class="rowlink">
+                        <td>{{data[2].name}}</td>
+                        <td>{{data[2].y}}</td>
+                        <td>{{data[2].y*100/(data[0].y+data[1].y+data[2].y+data[3].y+data[4].y) | number : 2}}%</td>
+                    </tr>
+                    <tr class="rowlink">
+                        <td>{{data[3].name}}</td>
+                        <td>{{data[3].y}}</td>
+                        <td>{{data[3].y*100/(data[0].y+data[1].y+data[2].y+data[3].y+data[4].y) | number : 2}}%</td>
+                    </tr>
+                    <tr class="rowlink">
+                        <td>{{data[4].name}}</td>
+                        <td>{{data[4].y}}</td>
+                        <td>{{data[4].y*100/(data[0].y+data[1].y+data[2].y+data[3].y+data[4].y) | number : 2}}%</td>
+                    </tr>                   
+                    
+                    </tbody>
+                </table>
+
+                <div data-charts="chartConfig" style="height: 300px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div ng-include="'templates/dataIntegration/addressClean-extends.html'"></div>
+<!-- <div ng-include="'templates/dataIntegration/dataClean/ds-content.html'"></div> -->
+<div view-data-set="showDataSetInfo"></div>
+<div selecter-data-set="DsSelector"></div>

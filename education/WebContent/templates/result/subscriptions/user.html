@@ -1,0 +1,200 @@
+<div class="col-sm-12 col-md-12">
+
+     <!-- 订阅信息查询/新增 -->
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+				<div class="row">
+					<div class="col-sm-2 col-md-2">
+						<label>报表名称</label> 
+				            <select name="anaThemeRepId"  select2 data-live-search="true" ng-model="params.anaThemeRepId" required ng-options="c.anaThemeRepId as c.repName for c in themeNameList" class="form-control">
+				                 <option value="">-----请选择报表名称------</option>
+				            </select>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>订阅名称</label> 
+						<input ng-model="params.subscribeName" id="subscribeName" class="form-control" type="text" />
+					</div>
+					<div class="col-sm-3 col-md-3">
+						<label>创建日期</label>
+						<div data-datetimepicker range start="params.startTime" end="params.endTime"></div>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>状态</label> 
+						<select class="form-control" ng-model="params.subscribeType">
+							<option value="">请选择</option>
+							<option value="1">未订阅</option>
+							<option value="2">已订阅</option>
+						</select>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>订阅类型</label> 
+						<select class="form-control" ng-model="params.subscribeMethod">
+							<option value="">请选择</option>
+							<option value="1">邮件</option>
+							<option value="2">短信</option>
+						</select>
+					</div>
+				</div>
+				<div class="row text-center">
+					<button class="btn btn-info btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+					<button class="btn btn-primary btn-custom" type="reset" ng-click="reset(params)">重置</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>报表名称</th>
+            <th>订阅名称</th>
+            <th width="100">订阅类型</th>
+            <th width="100">状态</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td align="center">{{$index+1}}</td>
+            <td align="center">{{item.repName}}</td>
+            <td align="center">{{item.subscribeName}}</td>
+            <td align="center">{{item.subscribeMethod | RSM_subscribeMethod}}</td>
+            <td align="center">{{item.subscribeType | RSU_subscribeType}}</td>
+            <td align="center">{{item.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>
+                <a href="javascript:" data-toggle="modal" data-target="#queryDialog" ng-click="toUpdate(item)">查看</a>
+                <span ng-show="{{item.subscribeType == '1'}}"> 
+                <a href="javascript:" data-toggle="modal" data-target="#empowerDialog" ng-click="toQuery(item)">订阅</a>
+                </span>
+                <span ng-show="{{item.subscribeType == '2'}}"> 
+                <a href="javascript:" data-toggle="modal" data-target="#empowerDialog" ng-click="toExit(item)">退订</a>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+     <!-- 订阅信息分页数据 -->
+	<div data-remote-paging="pager"
+	     data-refresh="refresh"
+		 data-current="current" 
+		 data-total="total" 
+		 data-data="limitArr"
+		 data-limit="limit" 
+		 data-params="params">
+	</div>
+</div>
+
+<!-- 订阅/退订对话框 -->
+<div class="modal fade" id="empowerDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="ed" class="form-horizontal" novalidate="novalidate">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">
+						{{empower.useremail ? '订阅/退订' : '用户信息修改'}}
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" ng-show="!empower.useremail">
+						<label class="col-lg-2 control-label">email</label>
+						<div class="col-lg-8">
+							<input class="form-control" name="email" required type="email" ng-model="empower.email" placeholder="email"
+                                valid-tip="{email : '邮箱格式不正确，请重新填写'}"
+                           		valid-pos="bottom" />
+						</div><span style="color:red">*</span>
+					</div>
+					<div ng-show="empower.useremail">确认要订阅/退订此数据？</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click="empowerStats(empower)" ng-disabled='!ed.$valid' data-dismiss="modal">确认</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			
+			</form>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!--查看详细信息-->
+<div class="modal fade" id="queryDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">订阅详细信息</h4>
+			</div>
+			<div class="modal-body">
+				<div class="col-sm-12 col-md-12">
+					<form role="form" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-lg-2 control-label">报表名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{empower.repName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{empower.subscribeName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅类型</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ empower.subscribeMethod | RSM_subscribeMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">推送方式</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ empower.pushMethod | RSM_pushMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">状态</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{ empower.subscribeType | RSU_subscribeType}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">创建人</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{empower.createName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">创建时间</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{empower.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">描述</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{empower.subscribeDesc}}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>

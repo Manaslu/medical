@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>数据重构测试demo</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap-datepicker-master/_build/datepicker.css"/>
+    <link rel="stylesheet" href="../css/newIndex.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../css/ie8.css"/>
+    <![endif]-->
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl">
+<div class="container">
+
+    <div ng-show="view == 0" help="选择数据集及连接方式">
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <label>选择数据集A</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <label>选择数据集B</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <label>选择连接方式</label>
+                <select class="form-control"
+                        ng-model="integrationType"
+                        ng-options="key as val  for (key,val) in integrationTypes"></select>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <h4>
+                一 ： 设置整合依据
+                <div class="pull-right">
+                    <button class="btn btn-default" ng-click="roles.push({})">添加整合依据</button>
+                </div>
+            </h4>
+            <table class="table table-striped table-bordered table-condensed index-center">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>数据集A</th>
+                    <th>数据集B</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="rowlink" ng-repeat="role in roles">
+                    <td>{{$index + 1}}</td>
+                    <td>
+                        <select ng-model="role.a" style="width: 150px;" ng-options="item as item.columnDesc for item in dbAColumns"></select>
+                    </td>
+                    <td>
+                        <select ng-model="role.b" style="width: 150px;" ng-options="item as item.columnDesc for item in getBRoleKeys(role.a)"></select>
+                    </td>
+                    <td>
+                        <a href="javascript:" ng-click="roles.splice($index , 1)">取消</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row text-center">
+            <button class="btn btn-primary" ng-click="startIntegration()">开始整合</button>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .no-availability{
+            color: #949494 !important;
+            background-color: #F7F7F7 !important;
+            border-color: #dedede !important;
+        }
+        th.active, td.active{
+            background-color: #D6E6FF !important;
+            border-color: #c8d6ee !important;
+            color: #666;
+        }
+    </style>
+
+    <div ng-if="view == 1" help="开始数据整合">
+        <div class="row">
+            <h4 style="margin-bottom: 10px;">
+                二 ： 数据整合
+            </h4>
+
+            <table class="table table-striped table-bordered table-condensed">
+                <tr>
+                    <td colspan="5">颜色示例</td>
+                </tr>
+                <tr>
+                    <td class="active">整合依据</td>
+                    <td class="warning">数据集A</td>
+                    <td class="danger">数据集B</td>
+                    <td class="success">合并颜色</td>
+                    <td class="no-availability">不合并颜色</td>
+                </tr>
+            </table>
+
+            <div class="col-sm-12 col-md-12 clearfix" style="margin-bottom: 10px;">
+                <div class="pull-right">
+                    <button class="btn btn-xs btn-primary" ng-click="toggleViewMode()">切换整合视图</button>
+                </div>
+            </div>
+
+            <div ng-if="viewMode==0" class="table-auto-scroll" data-integration="options" data-view-mode="1">
+            </div>
+            <div ng-if="viewMode==1" data-integration="options" data-view-mode="2">
+            </div>
+
+        </div>
+        <div class="row text-center">
+            <button class="btn btn-primary" ng-click="showView(0);">重选整合依据</button>
+            <button class="btn btn-primary" ng-click="reset();">重置</button>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="../base/es5-shim/es5-shim.min.js"></script>
+<script src="../base/underscore/underscore.js"></script>
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/bootstrap-datepicker.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+
+    var app = angular.module('app', []);
+
+    app.directive('integration' , function($http){
+       var table1 , table2;
+        $http.get('./tmps/table1.ejs').success(function(str){
+            table1 = str;
+        });
+        $http.get('./tmps/table2.ejs').success(function(str){
+            table2 = str;
+        });
+       return {
+           scope : {
+               options : '=integration'
+           },
+           link : function(scope , el , attr){
+                var Render = _.template(attr.viewMode == 1 ? table1 : table2, null, {
+                   variable: 'data'
+               });
+
+               scope.options.getName = function(column , has){
+                   if(has){
+                       if(column._rule){
+                            column = column._rule.b;
+                       }else{
+                           column = column._merge;
+                       }
+                   }
+                   return column._dbName + ' ' + column.columnDesc;
+               };
+
+               scope.options.getVal = function(column , mergeColumn , index){
+                   var meDb = column._meDb[index] || {},//字段A
+                       pDb = column._pDb[index] || {};//字段B
+
+                   if(column._rule){//如果是整合规则,默认返回自己数据集的值
+                       return meDb[column.columnName];
+                   }
+
+                   var ret = [];
+
+                   //如果是整合字段，
+                   // 则选中A字段
+                   // 或者选中B字段，
+                   // 或者都没有选中的情况下，必须的，将数据集A的字段做收集
+                   if(column._chk || (!column._chk && mergeColumn && !mergeColumn._chk)){
+                       putVal(meDb[column.columnName]);
+                   }
+
+                   //如果有选中B字段，则将B字段加入集合
+                   if(mergeColumn && mergeColumn._chk){
+                       putVal(pDb[mergeColumn.columnName]);
+                   }
+
+                   //字段没有任何选中，默认选中字段A
+                   if(!ret.length){
+                       putVal(meDb[column.columnName]);
+                   }
+
+                   //如果是number类型，则相加
+                   if(column && mergeColumn && column.dataType == 'number' && mergeColumn.dataType == 'number'){
+                       return ret.length <= 1 ? ret[0] || '' : ret[0] + ret[1];
+                   }
+
+                   return ret.join(',');
+
+                   function putVal(val){
+                       val && ret.push(val);
+                   }
+               };
+
+               scope.$watch('options.change' , function(){
+                   console.time('buildData as readHtml');
+
+                   console.time('buildData');
+                   buildData();//优先整合依据，然后整合，然后dbA字段，然后dbB字段
+                   console.timeEnd('buildData');
+
+                   el[0].innerHTML = Render(scope.options);
+
+                   console.timeEnd('buildData as readHtml');
+               });
+
+               //合并字段
+               el.on('change',  'select' , function(){//选择和并列
+                   var select = $(this),
+                       index = select.data('index'),
+                       self = getColumn(index),
+                       merge = self.mergeKeys[select.val()];
+
+                   self._merge = merge;
+                   merge._merge = self;
+
+                   scope.options.change = !scope.options.change;
+
+                   scope.$apply();
+               });
+
+               //字段值优先
+               el.on('change',  ':checkbox[name=value]' , function(){
+                   var checkbox = $(this),
+                           index = checkbox.data('index');
+
+                   getColumn(index)._chk = checkbox.prop('checked');
+                   scope.options.change = !scope.options.change;
+
+                   scope.$apply();
+               });
+
+               //数据有效性
+               el.on('change',  ':checkbox[name=availability]' , function(){
+                   var checkbox = $(this),
+                       index = checkbox.data('index');
+
+                   getColumn(index)._availability = checkbox.prop('checked');
+                   scope.options.change = !scope.options.change;
+
+                   scope.$apply();
+               });
+
+               //取消合并
+               el.on('click' , 'a[name=cancel]' , function(){
+                   var a = $(this),
+                       index = a.data('index');
+                   var column = getColumn(index);
+
+                   column._chk = column._merge._chk = null;//取消选中
+                   column._merge._mgCls = column._mgCls = '';//样式取消
+                   column._merge = column._merge._merge = null;//取消关联
+
+                   scope.options.change = !scope.options.change;
+
+                   scope.$apply();
+               });
+
+               //得到当前操作列
+               function getColumn(index){
+                   return scope.options.columns[index];
+               }
+
+               //格式化列
+               function buildData(){
+                   var columns = [],
+                       columns1 = scope.options.dbAColumns,
+                       columns2 = scope.options.dbBColumns;
+                   clsHashMap = {};
+
+                   columns1.forEach(function(column){
+                       //如果是整合依据
+                       if(column._rule){
+                           //记录处理
+                           columns.push(column._rule.a , column._rule.b);
+                       }
+                       if(column._merge){
+                           if(!column._chk && !column._merge._chk){//如果都没有呗选中
+                               column._chk = true;
+                           }
+                       }
+                   });
+
+                   columns1.forEach(function(column){
+                       //如果是合并
+                       if(column._merge){
+                           //记录处理
+                           column._merge._merge = column;
+                           columns.push(column , column._merge);
+                       }
+                   });
+
+                   columns1.forEach(function(column){
+                       //other
+                       if(!column._merge && !column._rule){
+                           //记录处理
+                           columns.push(column);
+                       }
+                   });
+
+                   columns2.forEach(function(column){
+                       //other
+                       if(!column._merge && !column._rule){
+                           //记录处理
+                           columns.push(column);
+                       }
+                   });
+
+                   scope.options.columns = columns;
+
+                   var prev;
+                   columns.forEach(function(column){
+                       column.mgCls = '';
+                       column._prev = null;
+                       if (prev && column._rule && (column._rule.a == prev || column._rule.b == prev)) {//如果是整合依据
+                           prev._colspan += 1;
+                           column._prev = prev;
+                       }else if(prev && prev._merge == column){//下一个合并
+                           prev._colspan += 1;
+                           column._mgCls = 'success';
+                           column._prev = prev;
+                       } else if (column._merge) {//如果是合并
+                           column._colspan = 1;
+                           column._mgCls = 'success';
+                           prev = column;
+                       } else {//第一次，合并 or 依据 统一处理
+                           column._colspan = 1;
+                           prev = column;
+                       }
+                       column._class = (column._ruCls || column._mgCls || column._cls) + " " + (!column._availability ? 'no-availability' : '');
+                       if(!column._rule && !column._merge){
+                           column.mergeKeys = getMergeKey(column , column._key);
+                       }else{
+                           column.mergeKeys = null;
+                       }
+                   });
+               }
+
+               function getMergeKey(self , key){
+                   return key.filter(function(item){
+                       //筛选，类型必须一致
+                       //过滤，已经属于整合依据的不许再次合并
+                       //过滤，已经合并的也不许再次合并
+                       //过滤，不合并的不许出现
+                       return item.dataType == self.dataType && !item._rule && !item._merge && item._availability;
+                   });
+               }
+
+           }
+       }
+    });
+
+    app.controller('TestCtrl', function ($scope , $filter) {
+
+        $scope.view = 0;//视图，0：选择数据集，1：数据整合
+        $scope.showView = function (view) {
+            $scope.view = view;
+        };
+
+        $scope.viewMode = 0;
+        $scope.toggleViewMode = function(){
+            $scope.viewMode = $scope.viewMode == 0 ? 1 : 0;
+        };
+
+        $scope.integrationTypes = ['A为主数据集' , 'B为主数据集' , '交集'];
+
+        $scope.integrationType = '0';//连接类型 [0 : 'A为主数据集' , 1 : 'B为主数据集' , 2 : '交集']
+
+        $scope.roles = [
+            {}
+        ];//整合依据
+
+        //开始整合，做校验，必须有一条以上完整的依据
+        $scope.startIntegration = function () {
+            var pass = !!$scope.roles.length,//默认通过状态，整合规则必须1条以上
+                errs = [];
+
+            !pass && errs.push({msg : '整合依据是必须的'});
+
+            $scope.roles.forEach(function (item, index) {
+                if (!item.a || !item.b || item.a.dataType !== item.b.dataType) {//必须有的完整的规则
+                    pass = false;//有任何一个不完整，则不许通过
+                    errs.push({
+                        msg : '',
+                        index: index
+                    });
+                }
+            });
+
+            if (!pass) return alert('数据整合依据不完整,不允许出现的字段匹配或空的依据');
+
+            if(pass){
+
+                $scope.options = {
+                    columns : [],
+                    tr : $scope.dbA,
+                    dbA : $scope.dbA,
+                    dbB : $scope.dbB,
+                    dbAColumns : $scope.dbAColumns,
+                    dbBColumns : $scope.dbBColumns
+                };
+
+                $scope.reset(true);
+
+                //初始化整合依据数据
+                $scope.roles.forEach(function(item){
+                    item.a._rule = item;
+                    item.b._rule = item;
+                    item.a._ruCls = item.b._ruCls = 'active';//整合依据样式
+                });
+                $scope.showView(1);//可以开始整合
+            }
+        };
+
+        $scope.getBRoleKeys = function(a){
+            if(!a)return [];
+            return $scope.dbBColumns.filter(function(b){
+                return a.dataType == b.dataType;
+            });
+        };
+
+        $scope.reset = function(all){
+            dataInit('(B)' , 'danger' , $scope.dbBColumns , $scope.dbAColumns , $scope.dbB , $scope.dbA , all);
+            dataInit('(A)' , 'warning' , $scope.dbAColumns , $scope.dbBColumns , $scope.dbA , $scope.dbB , all);
+            $scope.options.change = !$scope.options.change;
+        };
+
+        //数据初始化
+        function dataInit(selfDbName , selfCls , selfColumns  , dbColumns2 , selfDb , db , all){
+            selfColumns.forEach(function (item) {
+                item._dbName = selfDbName;//标识是那个数据集
+                item._meDb = selfDb;//自己的数据集
+                item._pDb = db;//对应的数据集
+                item._key = dbColumns2;//标识对应的字段
+                item._self = selfColumns;//自己的字段
+                item._merge = null;//合并清空
+                item._availability = true;//是否有效整合
+                item._mgCls = '';//清空样式
+                item._cls = selfCls;//自己默认的样式
+                if(all){
+                    item._ruCls = '';
+                    item._rule = null;//默认清空整合依据
+                }
+            });
+        }
+
+        //数据源A字段
+        $scope.dbAColumns = [];
+        makeData($scope.dbAColumns , 10 , function(i){
+            return {
+                _makeId : 'a' + i,
+                columnName : 'a-column' + i,
+                dataType : 'string',
+                columnDesc : 'a-column' + i ,
+                size : 10
+            }
+        });
+
+        //数据源B字段
+        $scope.dbBColumns = [];
+        makeData($scope.dbBColumns , 10 , function(i){
+            return {
+                _makeId : 'b' + i,
+                columnName : 'b-column' + i,
+                dataType : 'string',
+                columnDesc : 'b-column' + i ,
+                size : 10
+            }
+        });
+
+        //左数据集 数据源A数据
+        $scope.dbA = [];
+        makeData($scope.dbA , 5 , function(i){
+            var map = {};
+            makeData2(map , 10 , function(i){
+                return "a-column" + i;
+            });
+            return map;
+        });
+
+        //右数据集 数据源B数据
+        $scope.dbB = [];
+        makeData($scope.dbB , 5 , function(i){
+            var map = {};
+            makeData2(map , 10 , function(i){
+                return "b-column" + i;
+            });
+            return map;
+        });
+
+        function makeData(list , num , callback){
+            for (var i = 0; i < num; i++) {
+                list.push(callback(i));
+            }
+        }
+        function makeData2(map , num , callback){
+            for (var i = 0; i < num; i++) {
+                map[callback(i)] = callback(i) + " -- val" + (i);
+            }
+        }
+
+    });
+
+    angular.bootstrap(document, ['app']);
+
+</script>
+</body>
+</html>

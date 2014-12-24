@@ -1,0 +1,318 @@
+  <div class="col-sm-12 col-md-12">
+
+    <div class="row">                               
+     	<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix   ">
+		
+        <div class="col-sm-2 col-md-2">
+            <label>知识名称</label>
+            <input class="form-control" type="text"  ng-model="params.knowledgeName" />
+        </div> 
+       <div class="col-sm-2 col-md-2">   
+             <label>标签</label>
+             <input class="form-control" type="text"  ng-model="params.labellibLabelName"/>          
+	   </div>                            
+	                    
+       <div class="col-sm-2 col-md-2">       
+           <label>类型</label>          
+           <select class="form-control"  select2 multiple    ng-model="params.typelist"   ng-options="item for item in ['案例','经验','基础信息']">
+           </select>                  
+       </div>          
+       <div   class="col-sm-2 col-md-2">          
+           <label> 案例分类 </label>          
+           <select   class="form-control"  select2 multiple  ng-model="params.sonTypelist" ng-options="item for item in ['需求','报告','脚本','应用报告' ]">
+           </select>                  
+       </div>      
+       <div class="col-sm-2 col-md-2">
+	            <label> 专业</label>          
+	            <select class="form-control" select2 multiple  ng-model="params.professionallist"    
+	            ng-options="item for item in ['报刊','集邮','网运','投递','电商','金融','函件','速递物流','跨专业','其他'] ">
+	            </select>                  
+	   </div>         
+       <div class="col-sm-2 col-md-2">
+	            <label> 业务方向</label>          
+	            <select class="form-control" select2 multiple  ng-model="params.busiDirectionlist"    ng-options="item for item in ['决策支持','服务支撑','风险管控','流程优化','交叉营销','产品创新','其他'] ">
+	            </select>                  
+	   </div>                      
+                 
+       <div class="col-sm-2 col-md-2">   
+	             <label>作者 </label>
+	             <input class="form-control" type="text"  ng-model="params.authors"/>          
+	   </div>                          
+       <div class="col-sm-3 col-md-3">
+                 <label>创建日期 </label>
+                 <div data-datetimepicker range start="params.startTime" end="params.endTime"></div>
+       </div>                                               
+        <div class="col-sm-4 col-md-4   pull-right">
+            <label>&nbsp;</label> 
+              <button class="btn btn-custom" type="button" ng-click="refresh('first', true)">查询</button>
+              <button class="btn btn-custom" type="button" ng-click="reset();">重置</button>  
+            
+                       
+        </div>
+           
+        
+        </form>
+      </div>   
+  </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center    table-costom">  
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th   style="width:96px;">知识名称</th>
+            <th>标签</th>
+            <th>类型</th> 
+            <th>专业</th> 
+            <th>业务方向</th> 
+          
+            <th>作者  </th>          
+            <th style="width:95px;"> 创建日期</th>  
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>                 
+        <tr   ng-if="item.userId==USER_INFO.id"      class="rowlink" ng-repeat="item in limitArr">                  
+            <td  ng-if="item.approvalStats=='待审核' "   >{{$index+1+current*limit}}</td>
+            <td  ng-if="item.approvalStats=='待审核' "   >{{item.knowledgeName}}</td>
+            <td  ng-if="item.approvalStats=='待审核'  "  >{{item.labellibLabelName}}</td>
+            <td  ng-if="item.approvalStats=='待审核' " >{{item.knowledgeType}}</td>
+            <td  ng-if="item.approvalStats=='待审核' " >{{item.professional  }}</td> 
+            <td  ng-if="item.approvalStats=='待审核' " >{{item.busiDirection   }}</td>       
+                                          
+              
+            <td  ng-if="item.approvalStats=='待审核' " >{{item.authors}}</td>
+                 
+            <td  ng-if="item.approvalStats=='待审核' " >{{item.applyDate  | date : 'yyyy-MM-dd' }}</td>    
+               
+            <td  ng-if="item.approvalStats=='待审核' " >          
+                <a href="javascript:"  ng-if="item.approvalStats=='待审核' " data-toggle="modal" data-target="#eapDialog"   ng-click="examine(item)">审核</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+     
+    <div 
+		data-remote-paging="pager" 
+		data-refresh="refresh" 
+		data-current="current" 
+		data-total="total" 
+		data-data="limitArr"
+		data-limit="limit"
+		data-params="params"
+		>
+	</div>
+                                            
+</div>
+    
+<!-- 审核对话框 -->
+<div class="modal fade" id="eapDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">审核</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                   <div class="col-sm-12 col-md-12">      
+                       <form  name="extamdia" class="form-custom  form-horizontal"  novalidate="novalidate"  >
+                                                                                         
+		                <h4 class="heading">              
+		                  	  知识名称: {{share.knowledgeName}}     
+		                    <font size="1px" class="pull-right" style="margin-top:3px;">                    
+		                     	   创建人：{{share.applyUser}} &nbsp;&nbsp;|  &nbsp;&nbsp;
+		                    	   创建时间 ：{{share.applyDate | date :'yyyy-MM-dd'}}
+		                    </font>               
+		                </h4>   
+		                       
+                        <div class="clearfix"    style="margin-top:-11px; ">
+	                        <div class="col-lg-4">                                          
+	                           <p class="text-muted">     
+	                           		<font color='376660'>状态： </font>  &nbsp;{{share.approvalStats}}       
+	                           </p>
+	                        </div>
+	                    </div>    
+	                    <div class="form-group"> 
+		                      &nbsp;                                                                        
+		       			</div>      
+	                                                                                                  
+                       	<style type="text/css">
+                        	.float-img{                                               
+                        		display:  visible;
+                        		position: absolute;
+                        		margin-top:-5px;                                  
+                        		width: 172px;
+                        		height:170px;                
+                        	    right:35px;    
+                        		overflow:auto;
+                        		background-color: #ff;                
+                        		z-index:1;
+                        		border:1px solid #f2f2f2;
+                        	}
+		              	</style>                                               
+	                  <div  ng-if="share.knowledgeType=='案例' ||  share.knowledgeType=='需求' || share.knowledgeType=='报告'||  share.knowledgeType=='脚本' || share.knowledgeType=='应用报告' "  
+	               			   ng-repeat="caseEl in attachmentNameList" >               
+	                       <div  ng-if="caseEl.picFlag=='true' "  class="float-img"   >    
+	                          <img class="img-thumbnail"  ng-src="{{ imgSrc( caseEl.fileDir,caseEl.fileType,caseEl.id ) }}"  style="width: 169px; height:167px;"/>            
+	                       </div>   
+	                  </div>                              
+	                   	<div class="form-group"> 
+	                         <div ng-if="share.knowledgeType=='案例' ||  share.knowledgeType=='需求' || share.knowledgeType=='报告'||  share.knowledgeType=='脚本' || share.knowledgeType=='应用报告' ">
+	                            <label class="col-lg-2 control-label">标签:</label>
+		                         <div class="col-lg-2  break-all">
+		                              <p class="form-control-static">   {{share.labellibLabelName}}   </p>
+		                          </div>
+		                         <label class="col-lg-2 control-label">  <font color='376660'>类型 : </font> </label>
+		                         <div class="col-lg-3">
+		                             <p class="form-control-static">       {{share.knowledgeType}}   </p>  
+		                         </div>               
+	                            <div class="col-lg-1">          
+	                        		<p class="form-control-static"  ></p>
+	                      		</div>   
+	                        </div>   
+	                     	<div ng-if="share.knowledgeType=='经验'|| share.knowledgeType=='基础信息'">
+	                            <label class="col-lg-2 control-label">标签:</label>
+	                                <div class="col-lg-3  break-all">
+	                                    <p class="form-control-static"> {{share.labellibLabelName}}   </p>
+	                                </div>
+	                     
+	                            <label class="col-lg-2 control-label">类型:</label>
+	                               <div class="col-lg-4">
+	                                   <p class="form-control-static">  {{share.knowledgeType}}   </p>  
+	                               </div>
+	                     
+	                     	</div>  
+	                  	</div>     
+		                  	         
+	                    <div class="form-group">      
+		                    <div ng-if="share.knowledgeType=='案例' ||  share.knowledgeType=='需求' || share.knowledgeType=='报告'||  share.knowledgeType=='脚本' || share.knowledgeType=='应用报告' ">
+		                          <label class="col-lg-2 control-label">作者:</label>     
+		                          <div class="col-lg-2">     
+		                              <p class="form-control-static"  >{{ share.authors}}</p> 
+		                          </div>                    
+		                          <label class="col-lg-2 control-label">作者所在单位:</label>
+		                             <div class="col-lg-3">
+		                                 <p class="form-control-static">  {{ share.authorsCompany}}  </p>  
+		                             </div> 
+		                          <div class="col-lg-1">              
+		                            <p class="form-control-static"  ></p>
+		                          </div>          
+		                    </div>  
+		                    <div ng-if="share.knowledgeType=='经验'|| share.knowledgeType=='基础信息'">
+		                           <label class="col-lg-2 control-label">作者:</label>     
+		                           <div class="col-lg-3">     
+		                               <p class="form-control-static"  >{{ share.authors}}</p> 
+		                              </div>  
+		                           <label class="col-lg-2 control-label">作者所在单位:</label>
+		                               <div class="col-lg-3">
+		                                   <p class="form-control-static"> {{ share.authorsCompany}}  </p>  
+		                               </div> 
+		                    </div>     
+		               </div>                                
+                                                                                
+                      <div class="form-group">  
+		                <div ng-if="share.knowledgeType=='案例' ||  share.knowledgeType=='需求' || share.knowledgeType=='报告'||  share.knowledgeType=='脚本' || share.knowledgeType=='应用报告' ">
+	                        <label class="col-lg-2 control-label">专业:       </label>         
+	                        <div class="col-lg-2">   
+				              <p class="form-control-static" >{{share.professional}}</p>
+			                </div>  
+	                        <label class="col-lg-2 control-label">业务方向:  </label>
+	                           <div class="col-lg-3">
+	                               <p class="form-control-static">  {{share.busiDirection   }}  </p>  
+	                           </div>                     
+	                        <div class="col-lg-1">              
+	                           <p class="form-control-static"  ></p>
+	                        </div>          
+	                     </div>  
+	                     <div ng-if="share.knowledgeType=='经验'|| share.knowledgeType=='基础信息'">
+			                     <label class="col-lg-2 control-label">专业:       </label>         
+	                                <div class="col-lg-3">   
+					              <p class="form-control-static"    >{{share.professional}}</p>
+				                 </div> 
+	                             <label class="col-lg-2 control-label">业务方向:  :</label>
+	                             <div class="col-lg-4">
+	                                <p class="form-control-static">{{share.busiDirection   }} </p>  
+	                             </div> 
+	                     </div>                       
+	                 </div>   
+                               
+                               
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">知识描述:</label>
+                                <div class="col-lg-10"> 
+                                    <p class="form-control-static"ng-model="share.knowledgeDesc" >{{share.knowledgeDesc}}</p>                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">知识内容:</label>
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{share.content}}</p>   
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">备注</label>
+                                <div class="col-lg-9">         
+                                   <p class="form-control-static"  ng-model="share.remarks"    >  {{share.remarks}}</p> 
+                                     
+                                </div>
+                            </div>
+                                                                                                                                                                 
+                            
+                            <style type="text/css">
+		                        	.float-attachmentN{
+		                        		display:none; 
+		                        		width: 50px; 
+		                        		overflow:auto;
+		                        		background-color: #fff;
+		                        		z-index: 10001;
+		                        		border:1px solid #f2f2f2;
+		                        	}
+		                     	</style>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">附件列表:</label>
+                                <div class="col-lg-10">                       
+				                       <ul>                      
+				                           <li  ng-repeat="el in attachmentNameList">	
+				                           {{ el.oldFileName }} &nbsp;       &nbsp; &nbsp; &nbsp;  
+							                
+		                                   <a href="javascript:" ng-click="download(el.fileDir,el.fileType,el.id ) "> 下载 </a>
+                                                               
+							              </li>  
+				                       </ul>                              
+                                </div>
+                                 
+                            </div>
+                            <div class="form-group">                      
+                                <label class="col-lg-2 control-label">审核意见:</label>
+                                <div class="col-lg-9">                               
+                                    <textarea class="form-control" rows="2"   name="Opin" ng-model="share.approvalOpin"
+                                     required       valid-tip="{required:'字段是必填的',maxlength:'最大长度不能超过2000个字符'}"     valid-pos="bottom"
+                                      ng-maxlength="2000"> {{share.approvalOpin}}
+                                    </textarea>
+                                </div>
+                                <div  class="pull-left">  
+                                      <label id="msg" style="color:red;font-size:15pt;">* </label> 
+                                </div> 
+                            </div>                 
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">               
+                <button type="button" class="btn btn-primary" data-dismiss="modal"  ng-disabled="extamdia.$invalid "  ng-click="agree(share)" >同意</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"  ng-disabled="extamdia.$invalid "  ng-click="refuse(share)">驳回</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>                        
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->          
+
+<!-- 下载连接 -->
+<a id="download-link" target="_blank"></a>    
+                                

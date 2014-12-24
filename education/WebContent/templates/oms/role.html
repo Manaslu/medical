@@ -1,0 +1,223 @@
+<div class="col-sm-12 col-md-12">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                 <div class="col-sm-2 col-md-2">
+                    <label>角色名称:</label>
+                    <input class="form-control" ng-model="params.roleName" type="text"/>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>角色状态:</label>
+	                    <select id="state" select2 ng-model="params.state" class="form-control">
+	                        <option value="">- 请选择 -</option>
+	                        <option value="1">启用</option>
+	                        <option value="2">禁用</option>
+	                    </select>
+                </div>
+                 <div class="col-sm-4 col-md-4">
+                 
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+                    <span ng-show="USER_INFO.inRoleId=='admin'">
+                    	<button class="btn btn-custom" type="submit" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate()">新增角色</button>
+                    </span>
+                    <button class="btn btn-custom" type="reset" ng-click="reset(params)">重置</button>
+                   	
+                </div>
+                <div class="col-sm-4 col-md-4" align="right">
+                	<label>&nbsp;</label><font color="red">温馨提示：修改角色状态后才能删除角色。</font>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>角色名称</th>
+            <th>角色描述</th>
+            <th>角色状态</th>
+            <!-- <th>所属业务</th> -->
+            <th>创建日期</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1+current*limit}}</td>
+            <td align="center">{{item.roleName}}</td>
+            <td align="center">{{item.roleDesc}}</td>
+            <td align="center">
+				<span ng-show="{{item.state == '1'}}">启用</span>
+            	<span ng-show="{{item.state == '2'}}">禁用</span>
+			</td>
+            <!-- <td>{{item.roleDefault}}</td> -->
+            <td align="center">{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>
+            	<a href="javascript:" data-toggle="modal" data-target="#configDialog1" ng-click="toConfig1(item,1)">查看</a>
+             	<span>
+             			<a href="javascript:" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate(item)">修改</a>
+             		<span ng-show="item.state!=1">
+		                <a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toDelete(item)">删除</a>
+            		</span>
+            		<span ng-show="item.state==1">
+		                <a href="javascript:" data-toggle="modal" data-target="#configDialog" ng-click="toConfig(item)">配置</a>
+            		</span>
+            	</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+   	<div 
+		data-remote-paging="pager" 
+		data-refresh="refresh" 
+		data-current="current" 
+		data-total="total" 
+		data-data="limitArr"
+		data-limit="limit"
+		data-params="params"
+	>
+	</div>
+</div>
+
+
+<!-- 新增/修改对话框 -->
+<div class="modal fade" id="pushDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span ng-show="!role.roleId">新增</span><span ng-show="role.roleId">修改</span>角色</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form class="form-horizontal" name="mm"  novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">角色名称:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="角色名称" required ng-model="role.roleName" id="roleName" class="form-control"
+                            			maxlength="20"
+                            			remote-valid="{server : 'Role' , valid : 'valid' , params : 'getParams' , name : 'roleName' , fn : 'query'}"
+                                     	my-valid="{valid:'myValid'}"
+                                    	valid-tip="{required:'这个是必填的', roleName :'角色名称不能重复，请重新设置'}"
+                            			valid-pos="bottom"
+                                    />
+                                </div><font color="red">*</font>
+                            </div>
+                            <div class="form-group" ng-show="role.roleId">
+                                <label class="col-lg-2 control-label">角色状态:</label>
+                                <div class="col-lg-9">
+		                            <select id="state" ng-model="role.state" class="form-control">
+				                        <option value="1">启用</option>
+				                        <option value="2">禁用</option>
+			                    	</select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">角色描述:</label>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control" required ng-model="role.roleDesc" id="roleDesc" rows="3"
+                                    	maxlength="20"
+                            			my-valid="{valid:'myValid'}"
+                                    	valid-tip="{required:'这个是必填的',maxlength : '长度最长为20'}"
+                            			valid-pos="bottom"
+                                    ></textarea>
+                                </div><font color="red">*</font>
+                            </div>
+                            
+						</form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <span ng-show="!role.roleId">
+            	<button type="button" class="btn btn-primary" ng-click="create(role)" data-dismiss="modal" ng-disabled="mm.$invalid">保存</button>
+            </span>
+            <span ng-show="role.roleId">
+				<button type="button" class="btn btn-primary" ng-click="modify(role)" data-dismiss="modal" ng-disabled="mm.$invalid">修改</button>
+			</span>
+                
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="resets()">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除角色</h4>
+            </div>
+            <div class="modal-body" ng-if="$validate!=null">
+                	{{$validate}}
+            </div>
+            <div class="modal-body" ng-if="$validate==''">
+                	 确认要删除此角色？
+            </div>
+            <div class="modal-footer">
+            	<span ng-show="$validate==''">
+	             	<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove(role)">确认删除</button>
+	            </span>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 权限配置 -->
+<div class="modal fade" id="configDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">权限配置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="ztree" data-ztree="zTreeApi" data-setting="settings" data-data="data"></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer"">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="setAuthority(role)">修改</button>
+            	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+             
+        </div>
+    </div>
+</div>
+
+<!-- 查看权限配置 -->
+<div class="modal fade" id="configDialog1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">权限配置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="ztree" data-ztree="zTreeApi2" data-setting="settings2" data-data="data2"></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-body" ng-show="data2.length==0 && seeDetail==1">
+            	没有给该角色配置菜单。
+            </div>
+            <div class="modal-footer" ng-show="seeDetail==1">
+            	<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

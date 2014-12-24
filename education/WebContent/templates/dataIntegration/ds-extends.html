@@ -1,0 +1,222 @@
+<div ng-controller="DataIntegrationDsDetailsCtrl" ng-show="$parent.current == 1">
+	<div class="col-sm-12 col-md-12">
+		<h3 class="heading" style="text-indent: 0.5em; font-size: 16px">数据详情: {{data.dataSetName}}</h3>
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<form class="form-custom clearfix">
+					<div class="col-sm-4 col-md-4">
+						<label>字段名</label>
+						<select class="form-control" select2 data-live-search="true" ng-model="colItemInfo"
+							ng-change="colChg(colItemInfo)" ng-options="item as item.columnDesc for item in colinfo">
+							<option value="">请选择</option>
+						</select>
+					</div>
+					<div class="col-sm-4 col-md-4">
+						<label>包含</label>
+						<input class="form-control" type="text" ng-model="params1.likeContent" />
+					</div>
+					<div class="col-sm-4 col-md-4">
+						<label>&nbsp;</label>
+						<button class="btn btn-info" type="button" ng-click="refresh1('first' , true)">查询</button>
+						<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#edit1" ng-click="edit({},true)">新增</button>
+						<button class="btn btn-primary" type="button" ng-click="ok()">返回</button>
+						<label>&nbsp;</label>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="table-scroll">
+			<table class="table table-striped table-bordered table-condensed index-center table-costom">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th ng-repeat="item in titleList" ng-if="$index>0">{{item.columnDesc}}</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="rowlink" ng-repeat="item in limitArr1">
+						<td>{{current1*limit1+$index+1}}</td>
+						<td ng-repeat="content in item" ng-if="$index>0">{{item[$index]}}</td>
+						<td><a href="javascript:" data-toggle="modal" data-target="#remove1" ng-click="toRemoveItem(item)">删除</a> <a
+								href="javascript:" data-toggle="modal" data-target="#edit1" ng-click="edit(item)">修改</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div data-remote-paging="detailPager" data-params="params1" data-refresh="refresh1" data-current="current1"
+			data-total="total1" data-data="limitArr1" data-limit="limit1"></div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-sm-5 col-md-5"></div>
+		<div class="col-sm-7 col-md-7">
+			
+		</div>
+	</div>
+
+
+
+	<!-- 删除对话框 -->
+	<div class="modal fade" id="remove1" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">删除数据</h4>
+				</div>
+				<div class="modal-body">确认要删除此数据么？</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeItemDS()">确认删除</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!-- 修改对话框 -->
+	<div class="modal fade" id="edit1" tabindex="-1" role="dialog" aria-hidden="true">
+	<form role="form" class="form-horizontal" name="editForm" novalidate="novalidate">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">字段信息</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12 col-md-12 form-horizontal">
+							<div class="form-group" ng-repeat="item in modColumnsMap" ng-if="$index>0">
+								<label class="col-lg-4 control-label">{{item.columnDesc}}</label>
+
+<!-- 								<div class="col-lg-7" ng-if="item.dataType=='DATETIME'"> -->
+<!-- 										<div data-datetimepicker ng-model="item.editVal" ></div> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-lg-7" ng-if="item.dataType=='NUMBER'"> -->
+<!-- 										<div data-datetimepicker ng-model="item.editVal" ></div> -->
+<!-- 								</div> -->
+								<div class="col-lg-7" ng-if="item.dataType=='DATE'">
+										<div data-datetimepicker="$parent.item.editVal"></div>
+								</div>
+								<div class="col-lg-7" ng-if="item.dataType=='VARCHAR2'">
+									<input type="{{item.inputType}}"  ng-model="item.editVal" ng-trim name="{{item.columnName}}"
+										ng-value="item.editVal" class="form-control" value="{{item.editVal}}" maxlength="{{item.length}}">
+								</div>
+								<div class="col-lg-7" ng-if="item.dataType=='NUMBER'">
+									<input type="{{item.inputType}}"  ng-model="item.editVal" ng-trim name="{{item.columnName}}" ng-pattern="/^[+|-]?\d+[\.]{0,1}\d*$/" 
+										data-valid-tip="{ pattern : '只可输入数值'}"
+										data-valid-pos="bottom"
+										ng-value="item.editVal" class="form-control" value="{{item.editVal}}" maxlength="38">
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click="saveEdit()">保存</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancelEdit()">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+		</form>
+	</div>
+	<!-- /.modal -->
+
+</div>
+
+
+
+<div ng-controller="DataIntegrationDsAppendCtrl" ng-show="$parent.current == 2">
+	<div class="col-sm-12 col-md-12">
+		<h3 class="heading">数据追加</h3>
+		<form role="form" class="form-horizontal" name="upForm" novalidate="novalidate">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<div class="form-group">
+						<label class="col-lg-2 control-label">数据名称</label>
+						<div class="col-lg-10">
+							<p class="form-control-static">{{dataSet.dataSetName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">导入文件</label>
+						<div class="col-lg-10">
+							<div 
+									uploader="uploader" 
+									required 
+									ng-model="data.uploaderFile"
+									files="files" 
+									name="uploadfile"
+									server="upload.shtml"
+									data="data"
+									finished="singleupsuccess()"
+									extensions="txt,xls,xlsx,et"
+									file-queued="changeFile($file)" 
+									file-queued-error="uperror($file,$type,$ext)"
+									class="span96"
+								></div>
+								<span class="mustItem">*</span>
+						</div>
+					</div>
+					<div class="form-group" ng-show="sepShow">
+						<label class="col-lg-2 control-label">请选择分隔符</label>
+						<div class="col-lg-10">
+							<label class="radio-inline">
+								<input type="radio" ng-checked="true" value="tab" name="separate" data-ng-model="data.separate"
+									ng-click="showOtherSeq=false" />
+								制表符
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="semicolon" name="separate" data-ng-model="data.separate"
+									ng-click="showOtherSeq=false" />
+								分号
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="comma" name="separate" data-ng-model="data.separate" ng-click="showOtherSeq=false" />
+								逗号
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="space" name="separate" data-ng-model="data.separate" ng-click="showOtherSeq=false" />
+								空格
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="other" name="separate" data-ng-model="data.separate" ng-click="showOtherSeq=true" />
+								其它
+							</label>
+							<input type="text" ng-show="showOtherSeq" ng-model="data.otherSeparate">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">第一行</label>
+						<div class="col-lg-10">
+							<label class="radio-inline">
+								<input type="radio" value="1" name="firstIsTitle" ng-model="data.firstIsTitle">
+								包含标题
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="0" name="firstIsTitle" ng-model="data.firstIsTitle">
+								不包含标题
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button ng-click="toPage(0)" type="button" class="btn btn-default">返回</button>
+							<button ng-click="toUpAddData()" type="button" class="btn btn-success" ng-disabled="upForm.$invalid" >追加</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>

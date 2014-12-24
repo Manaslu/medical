@@ -1,0 +1,17 @@
+#Mon Nov 03 17:48:32 CST 2014
+eclipse.preferences.version=1
+encoding//src/com/idp/pub/dao/impl/DefaultBaseDao.java=UTF-8
+encoding//src/com/idp/pub/dao/impl/SmartBaseDao.java=UTF-8
+encoding//src/com/idp/pub/entity/utils/SqlBuilder.java=UTF-8
+encoding//src/com/idp/pub/serverlocker/dao/LockerDaoStrategyFactory.java=UTF-8
+encoding//src/com/idp/pub/serverlocker/service/impl/ExclusiveLockerServicesImpl.java=UTF-8
+encoding//src/com/idp/pub/timechecker/dao/VersionValidatorDao.java=UTF-8
+encoding//src/com/idp/pub/utils/DateUtil.java=UTF-8
+encoding//src/com/idp/pub/utils/GetCh2Spell.java=UTF-8
+encoding//src/com/idp/pub/web/context/RootContextLoaderListener.java=UTF-8
+encoding//src/com/idp/security/usersmonitor/service/impl/UserMonitorServiceImpl.java=UTF-8
+encoding//src/com/idp/workflow/impl/cmd/activiti/NewExecutionCreateCmd.java=UTF-8
+encoding//src/com/idp/workflow/impl/metadata/activiti/SpringActivitiMetaData.java=UTF-8
+encoding//src/com/idp/workflow/impl/service/DefaultWorkFlowProxy.java=UTF-8
+encoding//src/resources/config/appcontext.properties=UTF-8
+encoding//src/resources/config/application.properties=UTF-8

@@ -1,0 +1,9 @@
+<script language="Javascript"type="text/javascript">   
+	var fso=new ActiveXObject("Scripting.FileSystemObject");   
+	var folder=fso.GetFolder("H:\Music");   
+	alert("ÎÄ¼þÊý:"+folder.Files.Count);   
+	var filesEnum=new Enumerator(folder.Files);   
+	for(;!filesEnum.atEnd();filesEnum.moveNext())  
+	{   document.write(filesEnum.item().Name+"<br />");  
+	}
+</script>

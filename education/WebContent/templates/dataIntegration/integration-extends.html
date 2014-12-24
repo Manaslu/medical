@@ -1,0 +1,353 @@
+<div class="col-sm-12 col-md-12 form-horizontal" ng-if="view == 1" help="选择数据集，选择链接类型，输入新数据名称">
+ <h3 class="heading">
+        数据整合  
+    </h3>
+    <div class="form-group">
+        <label class="col-lg-2 control-label">源数据A</label>
+
+        <div class="col-lg-10">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="merge.dbA" readonly="readonly">
+
+                <div class="input-group-btn">
+                    <button class="btn btn-default" data-toggle="modal" data-target="#select" ng-click="sel('dbA' , 'dbB')">选择
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">源数据B</label>
+
+        <div class="col-lg-10">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="merge.dbB" readonly="readonly">
+
+                <div class="input-group-btn">
+                    <button class="btn btn-default" data-toggle="modal" data-target="#select" ng-click="sel('dbB' , 'dbA')">选择
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">合并后数据名称</label>
+
+        <div class="col-lg-10">
+            <input class="form-control" ng-model="merge.name" type="text"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">连接方式</label>
+
+        <div class="col-lg-10">
+            <select ng-model="merge.joinType" class="form-control" ng-options="item.id as item.name for item in joinType"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <button type="button" class="btn btn-primary" ng-click="setMergeRule()">设置整合依据</button>
+        </div>
+    </div>
+
+    <div ng-show="setRule">
+        <h4>
+            一 ： 设置整合依据
+            <div class="pull-right">
+                <button class="btn btn-default" ng-click="rules.push({})">添加整合依据</button>
+            </div>
+        </h4>
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>数据集A</th>
+                <th>数据集B</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="rowlink" ng-repeat="rule in rules">
+                <td>{{$index + 1}}</td>
+                <td>
+                    <select ng-model="rule.a" style="width: 150px;" ng-options="item as item.columnDesc for item in dbAColumns"></select>
+                </td>
+                <td>
+                    <select ng-model="rule.b" style="width: 150px;" ng-options="item as item.columnDesc for item in getBRoleKeys(rule.a)"></select>
+                </td>
+                <td>
+                    <a href="javascript:" ng-click="rules.splice($index , 1)">取消</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="row text-center">
+            <button class="btn btn-primary" ng-click="startIntegration()">开始设置整合规则</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ;集 -->
+<div class="modal fade" id="select" tabindex="-1" rule="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择数据</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <label>数据名称</label>
+                        <input class="form-control" type="text" ng-model="dbParams.dataSetName"/>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label> 数据结构定义</label>
+                        <select class="form-control" ng-model="dbParams.dataDefId"
+                                ng-options="item.dataDefId  as item.dataDefName  for item in dataDefNameList">
+                            <option value="">请选择数据</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-default" type="submit" ng-click="dbRefresh('first', true)">查询</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center table-costom">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>数据集名称</th>
+                                <th>数据结构定义</th>
+                                <th>数据量</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in filterList(dbList)" ng-click="selected(item)" data-dismiss="modal" title="点击即选择">
+                                <td> {{$index+1+dbCurrent*dbLimit}}</td>
+                                <td>{{item.dataSetName}}</td>
+                                <td>{{item.dataDefName}}</td>
+                                <td>{{item.dataAmount}}</td>
+                                <td>
+                                    <a href="javascript:">选择</a>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+<div
+                                    data-remote-paging="dbPager"
+                                    data-refresh="dbRefresh"
+                                    data-current="dbCurrent"
+                                    data-total="dbTotal"
+                                    data-data="dbList"
+                                    data-limit="dbLimit"
+                                    data-params="dbParams"
+                                    ></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="col-sm-12 col-md-12" ng-if="view == 2">
+    <style type="text/css">
+        .no-availability{
+            color: #949494 !important;
+            background-color: #F7F7F7 !important;
+            border-color: #dedede !important;
+        }
+        th.active, td.active{
+            background-color: #D6E6FF !important;
+            border-color: #c8d6ee !important;
+            color: #666;
+        }
+    </style>
+     <h3 class="heading">
+        数据整合
+    </h3>
+    <h4>
+        二 ： 设置整合字段规则
+    </h4>
+
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <td colspan="5">颜色示例</td>
+        </tr>
+        <tr>
+            <td class="active">整合依据</td>
+            <td class="warning">数据集A</td>
+            <td class="danger">数据集B</td>
+            <td class="success">合并颜色</td>
+            <td class="no-availability">不合并颜色</td>
+        </tr>
+    </table>
+
+    <div class="col-sm-12 col-md-12 clearfix" style="margin-bottom: 10px;">
+        <div class="pull-right">
+            <button class="btn btn-xs btn-primary" ng-click="toggleViewMode()">切换整合视图</button>
+        </div>
+    </div>
+
+    <div ng-if="viewMode==0" class="table-auto-scroll" data-integration-view="options" data-view-mode="1">
+    </div>
+    
+    <div ng-if="viewMode==1" data-integration-view="options" data-view-mode="2">
+    </div>
+
+    <div class="row text-center">
+        <button class="btn btn-primary" ng-click="toView(1);">重选整合依据</button>
+        <button class="btn btn-primary" ng-click="resetData();">重置</button>
+        <button class="btn btn-primary" ng-click="run();">执行</button>
+    </div>
+</div>
+
+<script type="text/ejs" id="integration-table1">
+    <table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr help="所有的字段">
+            <% for(var i= 0,ii=data.columns.length,column; i<ii; i++){column = data.columns[i]; %>
+                <th class="<%=column._class%>"
+                    title="
+    名称(name) : <%= column.columnName %>
+    描述(columnDesc) : <%= column.columnDesc %>
+    类型(type) : <%= column.dataType %>
+    长度(size) : <%= column.size %>
+            ">
+                    <% if(column._merge){ %>
+                        <input type="checkbox" name="value" title="选择将会将此值合并" <%=column._chk ? 'checked' : ''%> data-index="<%=i%>" data-type="<%=column._dbName%>"/>
+                    <% } %>
+
+                    <%= column._dbName + ' ' + column.columnDesc %>
+
+                    <% if(column.mergeKeys && column.mergeKeys.length){ %>
+
+                        <select <%= !column._availability ? 'disabled' : '' %> data-index="<%=i%>" data-type="<%=column._dbName%>">
+                            <option value="">--</option>
+                            <% if(column._availability){ %>
+                                <% for(var s = 0,ss = column.mergeKeys.length,merge; s < ss; s ++ ){merge = column.mergeKeys[s]; %>
+                                    <option value="<%=s%>"><%=merge.columnDesc%></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+
+                    <% } %>
+                </th>
+            <% } %>
+        </tr>
+        <tr help="整合规则">
+            <% for(i= 0,ii=data.columns.length; i<ii; i++){column = data.columns[i]; %>
+                <% if(column._prev){continue;} %>
+                <th colspan="<%=column._colspan%>" class="<%=column._class%>">
+                    <%= column._dbName + ' ' + column.columnDesc %>
+
+                    <% if(column._merge){ %>
+                        <a href="javascript:" title="取消此合并" name="cancel" data-index="<%=i%>">cancel</a>
+                    <% } %>
+                    <% if(!column._merge && !column._rule){ %>
+                        <input type="checkbox" name="availability" data-index="<%=i%>" title="是否有效合并" <%=column._availability ? 'checked' : ''%>/>
+                    <% } %>
+                </th>
+            <% } %>
+        </tr>
+
+    </thead>
+    <tbody>
+        <% for(i= 0,ii=data.tr.length; i<ii; i++){ %>
+        <tr>
+            <% for(s= 0,ss=data.columns.length; s<ss; s++){column=data.columns[s]; %>
+
+            <% if(column._prev){continue;} %>
+
+            <td class="<%= column._class %>"
+                colspan="<%= column._colspan %>">
+                <%= data.getVal(column , column._merge , i) %>
+            </td>
+
+            <% } %>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+</script>
+<script type="text/ejs" id="integration-table2">
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+    <thead>
+    <tr>
+        <th>有效合并</th>
+        <th colspan="2">数据集字段名</th>
+        <th>整合结果预览</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        <% for(var i= 0,ii=data.columns.length , column; i<ii; i++){column = data.columns[i]; %>
+            <% if(column._prev)continue; %>
+            <tr>
+
+                <td class="<%=column._class%>">
+                    <% if(!column._merge && !column._rule){ %>
+                        <input type="checkbox" name="availability" data-index="<%=i%>" title="是否有效合并" <%=column._availability ? 'checked' : ''%>/>
+                    <% } %>
+                </td>
+
+                <td class="<%=column._class%>" colspan="<%=column._colspan == 2 ? 1 : 2%>">
+
+                    <% if(column._merge){ %>
+                        <input type="checkbox" name="value" title="选择将会将此值合并" <%=column._chk ? 'checked' : ''%> data-index="<%=i%>" data-type="<%=column._dbName%>"/>
+                    <% } %>
+
+                    <%=data.getName(column)%>
+
+                    <% if(column.mergeKeys && column.mergeKeys.length){ %>
+
+                        <select <%= !column._availability ? 'disabled' : '' %> data-index="<%=i%>" data-type="<%=column._dbName%>">
+                            <option value="">--</option>
+                            <% if(column._availability){ %>
+                                <% for(var s = 0,ss = column.mergeKeys.length,merge; s < ss; s ++ ){merge = column.mergeKeys[s]; %>
+                                    <option value="<%=s%>"><%=merge.columnDesc%></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+
+                    <% } %>
+
+                </td>
+
+                <% if(column._colspan == 2){ %>
+                    <td class="<%=column._class%>">
+                        <% if(column._merge){ %>
+                            <input type="checkbox" name="value" title="选择将会将此值合并" <%=column._merge._chk ? 'checked' : ''%> data-index="<%=i + 1%>" data-type="<%=column._dbName%>"/>
+                        <% } %>
+                        <%=data.getName(column , true)%>
+                    </td>
+                <% } %>
+
+                <td class="<%=column._class%>"><%= data.getVal(column , column._merge , 0) %></td>
+                <td class="<%=column._class%>">
+                    <% if(column._merge){ %>
+                        <a href="javascript:" title="取消此合并" name="cancel" data-index="<%=i%>">cancel</a>
+                    <% } %>
+                </td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+</script>

@@ -1,0 +1,63 @@
+<div class="col-sm-12 col-md-12" ng-show="viewIndex== 1" ng-controller="DataIntegrationDataCleanFilterManageEditCtrl">
+    <h3 class="heading">
+        数据排重
+    </h3>
+	<div class="row">
+		<div class="col-sm-4 col-md-4">
+			<label>数据</label>
+			<div class="input-group"> 
+				<input type="text" class="form-control" ng-model="currDs.dataSetName" readonly="readonly">
+				<div class="input-group-btn">
+					<button class="btn btn-default" type="button" data-toggle="modal" data-target="#select1" ng-click="openDialog()">选择</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<label>排重后数据</label>
+			<input class="form-control" type="text" ng-model="resultDataSetName" maxlength="50" ng-trim />
+			<label>&nbsp;</label>
+		</div>
+	</div>
+	<div ng-show="currDs">
+		<h4 class="heading">排重依据</h4>
+		<div>
+			<table class="table table-striped table-bordered table-condensed">
+				<tr>
+					<td width="80px">字段列表</td>
+					<td><label class="checkbox-inline" ng-repeat="item in colinfo" style="margin-left: 0; margin-right: 10px;">
+							<input type="checkbox" ng-value="item.columnName" value-list="$parent.uniqueColumns" />
+							{{item.columnDesc}}
+						</label></td>
+				</tr>
+			</table>
+		</div>
+		
+		<h4 class="heading" ng-show="!isCheckedAll">源数据信息</h4>
+		<table class="table table-striped table-bordered table-condensed table-costom"  ng-show="!isCheckedAll">
+			<thead>
+				<tr>
+					<th>字段名</th>
+					<th>排重规则</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="rowlink" ng-repeat="item in colinfo|filter:listFilter">
+					<td>{{item.columnDesc}}</td>
+					<td><select class="form-control" ng-model="item.scriptId"
+							ng-options="ruleItem.scriptId as ruleItem.scriptName for ruleItem in $parent.uniqueTypes | dateNoMerge:item">
+						</select></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<div class="row">
+			<div class="col-sm-5 col-md-5"></div>
+			<div class="col-sm-7 col-md-7">
+				<button class="btn btn-default btn-success" type="button" ng-click="save()">排重</button>
+				<button class="btn btn-default btn-success" type="button" ng-click="toView(0)">返回</button>
+			</div>
+		</div>
+	</div>
+	
+</div>

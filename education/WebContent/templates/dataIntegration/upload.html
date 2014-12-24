@@ -1,0 +1,110 @@
+<div class="col-sm-12 col-md-12" ng-show="current == 0">
+ <h3 class="heading">
+{{userCase.userCaseName}}
+    </h3>
+	<div class="row">
+		<div class="alert alert-danger alert-dismissable" ng-if="!data.dataDefId" style="padding-left:80px">
+		<a data-dismiss="alert" class="close">×</a>
+		<strong>友情提示：</strong> 如果未选择数据结构定义，系统将根据当前上传文件自动生成对应的数据结构定义。否则，上传文件与数据结构定义的结构必须一致。
+	</div>
+		<form role="form" class="form-horizontal" name="upForm" novalidate="novalidate">
+<!-- 		 auto-file-upload ng-submit="upsuccessnew(data.uploaderFile)"  -->
+			<div class="col-sm-12 col-md-12 form-horizontal">
+				<div class="form-group">
+					<label class="col-lg-2 control-label">选择文件</label>
+					<div class="col-lg-10">
+						<div 
+						uploader="uploader" 
+						required 
+						ng-model="data.uploaderFile"
+						files="files" 
+						server="/upload.shtml"
+						data="data"
+						extensions="txt,xls,xlsx,et"
+						file-queued="changeFile($file)" 
+						finished="singleupsuccess()"
+						file-queued-error="uperror($file,$type,$ext)"
+						class="span96"
+							></div>
+						<span class="mustItem">*</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 control-label"> 数据结构定义</label>
+					<div class="col-lg-10 " data-tip="b" 
+								title="">
+						<div class="span96">
+							<select class="form-control span96" select2 data-live-search="true" ng-model="data.dataDefId"  
+								ng-options="item.dataDefId as item.dataDefName for item in defs" >
+								<option value="">--请选择--</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 control-label">数据名称</label>
+					<div class="col-lg-10">
+						<input class="form-control span96" type="text" ng-model="data.dataSetName" required name="dataSetName" maxlength="20"
+						ng-trim= ”true” ng-maxlength="20" data-valid-tip="{maxlength:'最大长度为20',required:'请输入数据名称'}" data-valid-pos ="bottom" />
+						<span class="mustItem">*</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 control-label">数据描述</label>
+					<div class="col-lg-10">
+						<textarea class="form-control span96" rows="3" ng-model="data.dataDesc" maxlength="100"></textarea>
+					</div>
+				</div>
+				<div class="form-group" ng-show="sepShow">
+					<label class="col-lg-2 control-label">请选择分隔符</label>
+					<div class="col-lg-10">
+						<label class="radio-inline">
+							<input type="radio" ng-checked="true" value="tab" name="separate" data-ng-model="data.separate"
+								ng-click="showOtherSeq=false" />
+							制表符
+						</label>
+						<label class="radio-inline">
+							<input type="radio" value="semicolon" name="separate" data-ng-model="data.separate" ng-click="showOtherSeq=false" />
+							分号
+						</label>
+						<label class="radio-inline">
+							<input type="radio" value="comma" name="separate" data-ng-model="data.separate" ng-click="showOtherSeq=false" />
+							逗号
+						</label>
+						<label class="radio-inline">
+							<input type="radio" value="space" name="separate" data-ng-model="data.separate" ng-click="showOtherSeq=false" />
+							空格
+						</label>
+						<label class="radio-inline">
+							<input type="radio" value="other" name="separate" data-ng-model="data.separate" ng-click="showOtherSeq=true" />
+							其它
+						</label>
+						<input type="text" ng-show="showOtherSeq" ng-model="data.otherSeparate">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 control-label">第一行</label>
+					<div class="col-lg-10">
+						<label class="radio-inline">
+							<input type="radio" value="1" name="firstIsTitle" ng-model="data.firstIsTitle">
+							包含标题
+						</label>
+						<label class="radio-inline">
+							<input type="radio" value="0" name="firstIsTitle" ng-model="data.firstIsTitle">
+							不包含标题
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="button" class="btn btn-primary" ng-disabled="upForm.$invalid" ng-click="uploadFile()" >开始上传</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div ng-show="false" style="display: none">
+<!-- 	<iframe src="{{errorFilePath}}" width="200" height="500"></iframe> -->
+</div>
+<div ng-include="'templates/dataIntegration/upload-extends.html'"></div>

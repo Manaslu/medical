@@ -1,0 +1,70 @@
+<div class="col-sm-12 col-md-12">
+
+	<div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-3 col-md-3">
+                    <label>需求名称</label>
+                    <input class="form-control" type="text" ng-model="params.requName"/>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>申请时间</label>
+                   	<div datetimepicker range start="params.applDate" end="params.applDate_"></div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>流程类型</label>
+                    <select ng-model="params.flowType" select2  ng-options="item.flowType as item.Name for item in flowTypeList"></select>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+	<table class="table table-striped table-bordered table-condensed index-center  table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>需求编号</th>
+            <th>流程类型</th>
+            <th>需求名称</th>
+            <th>需求类型</th>
+            <th>申请人部门</th>
+            <th>申请人</th>
+            <th>申请时间</th>
+            <th>状态</th>
+            <th>是否补录</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1}}</td>
+            <td>{{item.requCode}}</td>
+            <td>{{item.flowType | DM_flow_type}}</td>
+            <td>{{item.requName}}</td>
+            <td>{{item.requType | DM_requ_type}}</td>
+            <td>{{item.applDept}}</td>
+            <td>{{item.applPer}}</td>
+            <td>{{item.applDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{item.approState | DM_appro_state}}</td>
+            <td>{{item.addRecord | DM_app_record}}</td>
+            <td>
+                <a href="javascript:"  data-toggle="modal" data-target="#stepDialog" ng-click="toFollow(copy(item))">跟踪</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+           <div data-remote-paging="pager" 
+				data-refresh="refresh" 
+				data-current="current" 
+				data-total="total" 
+				data-data="limitArr"
+				data-limit="limit"
+				data-params="params"
+		></div>
+    </div>
+<div ng-include="'templates/technologicalProcess/steps-extends.html'"></div>
+<div ng-include="'templates/technologicalProcess/details-extends.html'"></div>

@@ -1,0 +1,545 @@
+@import url(lib.less);
+
+.empty{empty:true}
+
+body{
+  font-family: "微软雅黑" !important;
+  background-color: #fff;
+}
+
+.modal{
+  background-color: rgba(0,0,0,.3);
+}
+
+.my-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 137px;
+  min-width: 1100px;
+  z-index: 100;
+}
+
+.my-content{
+  padding-top: 137px;
+  .view{
+    padding: 0 30px 30px;
+  }
+
+  .bc-d{
+    padding: 1.3em 2em;
+    color: #9A9A9A;
+    span{
+      margin-left: 5px;
+    }
+    span:before{
+      content : ">";
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+}
+
+.toggle-sub-menu{
+  position: fixed;
+  width: 6px;
+  top: 137px;
+  left: 0;
+  bottom: 0;
+  a{
+    width: 18px;
+    height: 39px;
+    background: url("bg/icon2-r.png") no-repeat;
+    position: absolute;
+    top: 50%;
+    margin-top: -19px;
+  }
+}
+
+.slider-show{
+  .my-content{
+    padding-left: 178px;
+  }
+  .toggle-sub-menu{
+    left : 186px;
+    a{
+      background-image: url("bg/icon1-l.png");
+    }
+  }
+}
+
+.sub-menu{
+  width: 186px;
+  position: fixed;
+  top: 127px;
+  left: 0;
+  bottom: 0;
+  background-color: #EAEAEA;
+  border-right: 1px solid #8D9BA6;
+  overflow: hidden;
+  .topMenu{
+    &,ul,li{
+      list-style: none;
+      text-align: left;
+      margin: 0;
+      padding: 0;
+    }
+    a{
+      text-decoration: none;
+    }
+    >li>a{
+      color: #FFFFFF;
+      display: block;
+      font-size: 12px;
+      height: 31px;
+      line-height: 31px;
+      padding-left: 30px;
+      background-color: #A7A7A7;
+      border-bottom: 1px solid #3F5165;
+      position: relative;
+      &:before{
+        position: absolute;
+        content: "";
+        width: 8px;
+        height: 10px;
+        background: url("bg2/menu_r.png") no-repeat top left;
+        top: 11px;
+        left: 15px;
+      }
+      &:hover{
+        background-color: #868686;
+        color: #fff;
+        border-color: #022451;
+      }
+      &.active-menu{
+        background-color: #FFCC19;
+        border-color: #F09608;
+        color: #000000;
+      }
+    }
+
+    >li>ul{
+      padding: 0 10px;
+      >li>a{
+        background: url("bg2/t1.gif") no-repeat 10px center #E7E3E7;
+        border-top: 1px solid #B8C2CB;
+        color: #42556B;
+        display: block;
+        height: 26px;
+        line-height: 26px;
+        overflow: hidden;
+        padding-left: 25px;
+        &:hover,&.active-menu{
+          background: url("bg2/t2.gif") no-repeat 10px center #F6F6F6;
+        }
+      }
+    }
+  }
+  /*.topMenu{
+    &,ul,li{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    &,& a{
+      font-size: 12px;
+    }
+    a:hover,a:focus,a:active{
+      text-decoration: none;
+    }
+    &>li>a,&>li>ul>li>a{
+      height: 30px;
+      line-height: 30px;
+      color: #656565;
+      display: block;
+      font-weight: bold;
+      overflow: hidden;
+      &:hover{
+        background-color: #E3E3E3;
+      }
+    }
+    &>li>a{
+      padding-left: 1.2em;
+    }
+    &>li>a.active{
+      color: #fff;
+      background: #007447;
+    }
+    &>li>ul>li{
+      height: 30px;
+      line-height: 30px;
+    }
+    &>li>ul>li>a:before{
+      content: "·";
+      font-size: 3em;
+      font-weight: bold;
+      vertical-align: -8px;
+    }
+    &>li>ul>li>a{
+      padding-left: 2em;
+      display: block;
+      color: #666666;
+      font-size: 12px;
+      strong{
+        color: red;
+        margin-left: 10px;
+      }
+    }
+    &>li>ul>li>a.active{
+      color: #fff;
+      background: url("bg/menu-active.png") no-repeat 19px 3px;
+    }
+  }*/
+
+}
+
+.my-nav{
+  background: #0A2A25;
+  height: 36px;
+  a{
+    display: block;
+    float: left;
+    height: 36px;
+    line-height: 35px;
+    padding: 0 25px;
+    font-size: 14px;
+    color: #fff;
+  }
+  a:hover,a.active,a:focus{
+    background: url("bg/nav-dq.png") repeat-x;
+    text-decoration: none;
+  }
+}
+
+.my-head{
+  height: 91px;
+  background: url("bg2/head-1.jpg") no-repeat top center #097941;
+  .logo{
+    display: block;
+    background: url("bg/logo-bj.png") no-repeat;
+    width: 500px;
+    height: 91px;
+    float: left;
+  }
+  .user-info{
+    float: right;
+    padding: 22px 18px 0 0;
+    font-size: 12px;
+    color: #fff;
+    .email{
+      display: inline-block;
+      background: url("bg/mail.png") no-repeat;
+      width: 17px;
+      height: 13px;
+      position: relative;
+      top: 2px;
+    }
+    div:first-child{
+      margin-bottom: 10px;
+    }
+    strong{
+      color: #FFCE1C;
+    }
+    a,span{
+      color: #fff;
+      margin: 0 5px;
+    }
+  }
+}
+
+.index-body{
+  width: 751px;
+  height: 500px;
+  background: url("bg/20140529151357.jpg") no-repeat;
+  margin: 0 auto;
+}
+
+.form-custom{
+  margin-bottom: 10px;
+  border: 1px solid #CFCFCF;
+  padding: 7px 10px;
+  .gradient-def(#fff , #ECEFEE);
+  .rounded-corners(5px);
+  .btn-custom{
+    background-color: #FFCC19;
+    border-color: #FFAC04;
+    color: #000000;
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+}
+.form-inline{
+  input,select{
+    width : auto;
+    margin-right: 15px;
+  }
+  .form-group label{
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+}
+
+.table-costom{
+  thead>tr>th{
+    color: #000;
+    background-color: #EDEDED;
+    padding: 4px 5px;
+    font-size: 14px;
+    text-shadow: none;
+    text-align: center;
+    border-color: #dcdcdc;
+  }
+
+  tbody > tr:nth-child(2n+1) > td {
+    background-color: #F4F4F4;
+  }
+  tbody > tr > td{
+    padding: 5px;
+  }
+}
+
+.my-box{
+  li>.pull-right{
+    color: #999;
+  }
+  li{
+    line-height: 1.7em;
+  }
+  li>a{
+    color: #484848;
+  }
+  .w-box-header{
+    font-size: 14px;
+    color: #666;
+    .gradient-def(#FBF3E2 , #fff);
+    height: auto;
+    padding: 5px 10px;
+  }
+  .w-box-header,.w-box-footer,.w-box-content{
+    border-color:#EFCF8F;
+  }
+  .w-box-footer {
+    background: url("bg/box-bg.png") repeat-x;
+    line-height: 16px;
+    a{
+      color: #666;
+    }
+  }
+
+  .w-box-content{
+    min-height: 20px;
+    padding-bottom: 30px;
+  }
+
+  .icon{
+    display: inline-block;
+    width: 34px;
+    height: 30px;
+    vertical-align: -9px;
+    &.def{
+      background: url("bg/icon-3.png") no-repeat;
+    }
+    &.bro{
+      background: url("bg/icon-2.png") no-repeat;
+    }
+  }
+  
+  strong{
+    color: #F46600;
+  }
+}
+
+.my-box-flat{
+  position: fixed;
+  top: 147px;
+  left: 20px;
+  width: 210px;
+  ul,li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.date .form-control{
+  display: block;//fix ie9 bug
+}
+
+.defer_box_bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000000;
+  z-index: 99998;
+  .opacity(20);
+}
+.defer_box{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  .progress{
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    margin: -7px 0 0 -200px;
+  }
+}
+
+.paging-select{
+  display: inline;
+  width: auto;
+  height: 26px !important;
+  line-height: 26px !important;
+  padding: 3px 6px;
+  .rounded-corners-custom(0 , 3px , 3px , 0);
+  border-left: none;
+}
+
+.bootstrap-select{
+  width : 100%;
+}
+
+.form-inline {
+  .bootstrap-select{
+    margin-right: 10px;
+  }
+}
+
+
+.help-tips{
+  position: fixed;
+  top: 91px;
+  right: 10px;
+  width: 145px;
+  z-index: 101;
+  .head{
+    height: 39px;
+    .gradient-def(#146B40 , #059861);
+    font-size: 18px;
+    line-height: 39px;
+    font-weight: bold;
+    font-family: "宋体";
+    color: #fff;
+    &:before{
+      content: "";
+      display: inline-block;
+      width: 29px;
+      height: 29px;
+      background-image: url(bg2/icon-7.png);
+      background-repeat: no-repeat;
+      vertical-align: -8px;
+      margin-left: 5px;
+      margin-right: -5px;
+    }
+    cursor: pointer;
+  }
+  .body{
+    background-color: #F1F8F0;
+    border-color: #059861;
+    border-style: solid;
+    border-width: 0 2px 2px;
+    padding: 10px 0;
+    ul{
+      list-style-type: square;
+      padding-left: 27px;
+      margin-bottom: 0;
+      li{
+        line-height: 27px;
+        cursor: pointer;
+        strong{
+          color: red;
+        }
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.table-auto-scroll {
+  width: 100%;
+  margin-bottom: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid #dddddd;
+  //-ms-overflow-style: -ms-autohiding-scrollbar;
+  //-webkit-overflow-scrolling: touch;
+  > .table {
+    margin-bottom: 0;
+    table-layout: auto;
+    > thead,> tbody,> tfoot{
+      >tr{
+        >th , >td{
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+  > .table-bordered {
+    border: 0;
+    > thead,> tbody,> tfoot{
+      >tr{
+        > th:last-child, > td:last-child{
+          border-right: 0;
+        }
+        > th:first-child, > td:first-child{
+          border-left: 0;
+        }
+      }
+      > tr:last-child{
+        > th , > td{
+          border-bottom: 0;
+        }
+      }
+    }
+
+  }
+}
+
+.form-inline{
+  .my-datepicker{
+    &[range]{
+      width: 250px;
+    }
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+//只读和禁用的输入框，背景色和鼠标手势保持默认即可，不用变成bootstrap指定的鼠标禁用图表和灰色
+input[readonly],input[disabled]{
+  background: #fff !important;
+  cursor: default !important;
+}
+
+.no-wrap{
+  margin: 0;
+  padding: 0;
+}
+
+.checkbox-limit{
+  .checkbox{
+    width: 45%;
+    float: left;
+    margin-left: 5%;
+  }
+  position: relative;
+  .check-all{
+    position: absolute;
+    right: 3%;
+    text-align: right;
+    top: 3%;
+    width: auto;
+
+  }
+}

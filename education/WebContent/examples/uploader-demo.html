@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>文件上传测试例子</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../base/web-uploader/dist/webuploader.css"/>
+</head>
+<body ng-controller="TestCtrl">
+
+<div class="container">
+
+    <div class="row" style="padding-top: 50px;">
+        <form class="form-horizontal" name="valid" auto-file-upload ng-submit="doFn(formDataMap)" novalidate="novalidate">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-10">
+                    <input type="email" name="email" ng-model="formDataMap.username" class="form-control" placeholder="请输入用户名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                    <input type="password" name="pwd" ng-model="formDataMap.pwd" class="form-control" placeholder="请输入密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="formDataMap.checkbox" value="remember"> 记住我
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">多文件上传(带缩略图)</label>
+                <div class="col-sm-10">
+                    <div uploader thumb multiple ng-model="formDataMap.thumbFileResponseList" server="../upload.shtml"></div>
+                    thumbFileResponseList = {{formDataMap.thumbFileResponseList}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">单文件上传(带缩略图)</label>
+                <div class="col-sm-10">
+                    <div uploader thumb ng-model="formDataMap.thumbFileResponse" server="../upload.shtml"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">多文件上传(普通)</label>
+                <div class="col-sm-10">
+                    <div uploader multiple ng-model="formDataMap.fileResponseList" server="../upload.shtml" files="files"></div>
+                    files = {{files}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">单文件上传(普通)</label>
+                <div class="col-sm-10">
+                    <div uploader ng-model="formDataMap.fileResponse" server="../upload.shtml"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">单文件上传(校验)</label>
+                <div class="col-sm-10">
+                    <div uploader ng-model="formDataMap.fileResponse" name="test" required  server="../upload.shtml"></div>
+                    <span class="help-block" style="color:red" ng-show="valid.test.$invalid">请选择上传文件</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="reset" class="btn btn-default">重置</button>
+                    <button type="submit" class="btn btn-default" ng-disabled="valid.$invalid">提交</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <button class="btn" type="button" data-toggle="modal" data-target="#dialog" upload-refresh="true"> open dialog </button>
+
+    <div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="width: 900px;">
+            <div class="modal-content">
+                <form auto-file-upload ng-submit="save(data)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">
+                              提交对话框
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">多文件上传(带缩略图)</label>
+                            <div class="col-sm-10">
+                                <div uploader thumb multiple ng-model="data.list" server="../upload.shtml"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default">提交</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+<pre>
+/*
+ * @examples 样例代码
+ *   &lt;div
+ *       uploader="api"
+ *       upload-before-send="fn($file,$data)"
+ *       upload-success="fn($file,$data)"
+ *       upload-error="fn($error)"
+ *       finished="fn()"
+ *       file-queued="fn($file)"
+ *       file-queued-error="fn($file,$type,$ext)"
+ *       file-single-size-limit="1024*1024*10"
+ *       extensions="jpg,exe,rar"
+ *       data="{key:'val'}"
+ *       server="post-server.action"
+ *       ng-model="responseList"
+ *       required
+ *       ngRequired="isRequired"
+ *       files="fileList"
+ *       multiple
+ *       thumb
+ *   >&lt;/div>
+*
+*   @deps 依赖
+*       ^?autoFileUpload   是否随表单自动提交，并且可以支持校验，ngModel绑定等操作，在父标签form上加上此指令即可激活
+*       ^?ngModel  是否开启响应绑定，ngModel绑定到文件上传后的响应
+*
+*   @AttrDesc 属性作用描述
+*       multiple
+*           multiple 多文件上传开启
+*
+*       uploader
+*           必须，但是值为可选，如果有值model，将绑定一个控制接口给model
+*
+*       thumb
+*           可选，是否显示缩略图配置，无参数
+*
+*       files
+*           可选，是否绑定选中文件列表，参数为绑定model files="files"
+*
+*       server
+*           可选，上传处理服务器，默认空 server="post.do"
+*
+*       ng-model
+*           可选，如果有，将可以处理表单校验，响应数据绑定操作 ng-model="responseList"
+*
+*       required
+*           可选，如果有，此文件上传必须有文件存在
+*
+*       ng-required
+*           可选，根据条件确定此上传器是否必选 ng-required="isRequired"
+*
+*       data
+*           可选，服务器发送数据类似json数据或者一个model变量都可以 data="{'id':123,name:'xxx'}"
+*          或者 写成变量类型 data="postData"
+*          $scope.postData = {id : 1 , age : 2};
+*
+*       extensions
+*           可选，文件类型限制，文件扩展名不家点，用英文逗号隔开即可 extensions="jpg,png,txt,exe"
+*
+*       upload-before-send
+*           可选。每一个文件上传发送前执行，可以用来修改此文件上传附带数据 uploader-before-send="fn($file,$data)";
+*           $scope.fn = function(file , data){
+*                //file = 上传的文件
+*                //data = 上送的数据
+*                data.id = 1;//可以修改data的属性，将会在上传的时候一并发送到服务器
+*           }
+*
+*       upload-success
+*           可选，每一个文件上传完成后都会触发 uploader-success="fn($file , $data)"
+*           $scope.fn = function(file , responseData){
+*               //file = 上传的文件
+*               //responseData = 服务器的返回数据
+*           }
+*
+*       upload-error
+*           可选，当任何一个文件上传出错时会触发 upload-error="fn($file)"
+*          $scope.fn = function(file){
+*              //file = 上传的文件
+*          }
+*
+*       finished
+*           可选，当上传队列全部上传完成后触发 finished="fn()" 无参数传递，只是一个通知作用
+*           $scope.finished = function(){
+*               Logger.log('文件已经全部上传完成');
+*           }
+*
+*       file-queued
+*           可选，文件加入队列成功时触发 file-queued="fn($file)"
+*           $scope.fn = function(file){
+*               //file = 当前加入队列的文件
+*           }
+*
+*       file-queued-error
+*           可选，文件加入失败时触发 file-queued-error="fn($file,$type,$ext)"
+*           $scope.fn = function(file , type , ext){
+*               //file = 发生错误的文件
+*               //type = 'extensions' or 'fileSingleSizeLimit' or 'emptyFile'
+*               //ext 当type = 'extensions' 文件现在类型错误时会传递次参数
+*           }
+*
+*       file-single-size-limit
+*           可选，单文件大小限制,可以是一个直接量也可以是一个表达式
+*               file-single-size-limit="1024 * 1024 * 10"  10MB
+*               file-single-size-limit="sizeLimit"  变量
+*               sizeLimit = 100;
+*
+*   @warn 警告
+*       当上传组件出现在一个弹出对话框里面的时候，因为初始化的时候，对话框是隐藏的，所以上传组件
+*       无法读取到位置信息，无法正确生成点击区域所以需要在触发对话框的按钮上添加下面的属性，
+*       来让上传组件可以重新调整位置信息
+*       upload-refresh
+*       &lt;button type="button" upload-refresh  data-toggle="modal" data-target="#xxxBox"> open modal&lt;/button> 做属性
+*       传值为true，(或者任意值，不要为空即可)即可对上传插件做reset操作，清空已选择的文件等
+*       &lt;button type="button" upload-refresh="true"> open modal&lt;/button> 做属性
+*
+* */
+</pre>
+
+</div>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/underscore/underscore.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../base/web-uploader/dist/webuploader.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.config({
+        base : '../application'
+    });
+    seajs.use(['base/directive','base/uploader'] , function(){
+        var app = angular.module('app' , ['ngResource' ,'directive']);
+
+        app.controller('TestCtrl' , function($scope , $filter , Logger){
+            $scope.doFn = function(){
+                //在这里操作formDataMap是安全的，里面已经存放了文件上传的响应信息
+                Logger.log('doFn' , $scope.formDataMap);
+            }
+
+            $scope.save = function(data){
+                console.log('save' , data);
+                $('#dialog').modal('hide');
+            }
+        });
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

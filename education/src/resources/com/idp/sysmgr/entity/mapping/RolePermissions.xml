@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：t02_function_role -->
+<mapper namespace="com.idp.sysmgr.role.entity.RolePermissions">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="rolePermissionsMap" type="com.idp.sysmgr.role.entity.RolePermissions">
+		<result property="roleId" column="ROLE_ID" jdbcType="INTEGER" />
+		<result property="menuId" column="MENU_ID" jdbcType="INTEGER" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="DATE" />
+		<result property="updateTime" column="UPDATE_TIME" jdbcType="DATE" />
+		<result property="state" column="STATE" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<insert id="insert" parameterType="com.idp.sysmgr.role.entity.RolePermissions">
+		INSERT INTO 
+	    t02_function_role (ROLE_ID,MENU_ID,CREATE_TIME,UPDATE_TIME,STATE) 
+	    			values(
+	    			#{roleId,jdbcType=INTEGER},
+	    			#{menuId,jdbcType=INTEGER},
+	    			#{createTime,jdbcType=DATE},
+	    			#{updateTime,jdbcType=DATE},
+	    			#{state,jdbcType=VARCHAR}
+	    			)
+	</insert>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="rolePermissionsMap">
+		select t.role_id,t.menu_id,t.create_time,t.update_time,t.state from t02_function_role t
+		<include refid="dynamicWhere" />
+	</select>
+	
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="rolePermissionsMap">
+		select t.role_id,t.menu_id,t.create_time,t.update_time,t.state from
+        	(select s.* , ROWNUM AS rowno from t02_function_role s
+                 where ROWNUM <![CDATA[<=]]>${eno}) t 
+		<include refid="dynamicWhere" />
+	</select>
+	
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+		select
+		count(1)
+		from
+		t02_function_role t
+		<include refid="dynamicWhere" />
+	</select>
+
+	
+	
+	<!-- 4.删除 -->
+	<delete id="delete" parameterType="com.idp.sysmgr.role.entity.RolePermissions">
+		DELETE FROM t02_function_role t
+		<include refid="dynamicWhere" />
+	</delete>
+	
+	
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="roleId!=null">
+				AND t.ROLE_ID=#{roleId,jdbcType=INTEGER} 
+			</if>
+			
+			<if test="sno!=null and eno!=null">
+				AND t.rowno <![CDATA[>=]]> ${sno}
+			</if>
+			
+		</trim>
+
+	</sql>
+	
+	<update id="update" parameterType="java.util.Map">
+		update t02_function_role t 
+		<include refid="dynamicSet"/>
+		where t.ROLE_ID=#{roleId,jdbcType=INTEGER}
+	</update>
+	
+	<!-- update:set 动态生成可更新字段 -->
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			
+			<if test="state!=null">
+				,t.STATE=#{state,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="updateTime!=null">
+				,t.UPDATE_TIME=#{updateTime,jdbcType=DATE}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

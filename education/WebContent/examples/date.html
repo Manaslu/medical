@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap-datepicker-master/_build/datepicker.css"/>
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="../css/ie8.css"/>
+    <![endif]-->
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl">
+
+<div class="row">
+    <div class="col-sm-2 col-md-2 col-lg-offset-2">
+        <form name="t" novalidate="novalidate">
+            <div datepicker="date" ng-model="date" required name="test"></div>
+            <pre>
+                t.test.$valid = {{t.test.$valid}}
+                t.test.$invalid = {{t.test.$invalid}}
+                t.test.$error.required = {{t.test.$error.required}}
+            </pre>
+        </form>
+    </div>
+</div>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/bootstrap-datepicker.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+
+    var app = angular.module('app' , []);
+    app.controller('TestCtrl' , function($scope ){
+        $scope.test = '1998-12-12'
+    });
+
+    app.directive('datepicker' , function(){
+        return {
+            require : '?ngModel',
+            scope : {
+                dates: '=datepicker',//任何时候生效
+                start : '=', //range 时生效
+                end : '=' //range 时生效
+            },
+            link : function(scope , el , attr , ctrl){
+                var isRange = scope.isRange = angular.isDefined(attr.range),
+                        isModel = !!attr.datetimepicker,
+                        isStart = isRange && !!attr.start,
+                        isEnd = isRange && !!attr.end,
+                        now = new Date,
+                        viewMode = angular.isDefined(attr.viewMode),
+                        startDate = angular.isDefined(attr.startDate),
+                        endDate = angular.isDefined(attr.endDate),
+                        format = attr.format || 'yyyy-mm-dd',
+                        lan = 'zh-CN',
+                        required = angular.isDefined(attr.required) || scope.$eval(attr.ngRequired || ''),
+                        $el , inputs , picker;
+
+                function getNow(date){
+                    if(date){
+                        return $.fn.datepicker.DPGlobal.parseDate(date , getFormat(format) , lan)
+                    }
+                    return now;
+                }
+                function getFormat(fm){
+                    var match = (fm || format).match(/yy+|mm|dd/ig);
+                    if(match){
+                        return match.join('-');
+                    }
+                    return "";
+                }
+
+                setTimeout(function(){
+                    $el = el.find(isRange ? '.input-daterange' : 'input').datepicker({
+                        format : format,
+                        autoclose: true,//自动关闭
+                        language: lan,//中文
+                        clearBtn : true,//打开清除按钮
+                        startDate : startDate ? getNow(attr.startDate) : void 0,
+                        endDate : endDate ? getNow(attr.endDate) : void 0,
+                        minViewMode : viewMode ? attr.viewMode : 0,//0 = days = 最小显示到日 ， 1 = months = 最小显示到月 ， 2 = years = 最小显示到年
+                        todayHighlight: true//今天高亮
+                    });
+                    inputs = isRange ? el.find('input') : $el;
+                    picker = $el.data('datepicker');
+                    isRange && (picker = picker.pickers);
+
+                    if(ctrl && required){
+                        $el.on('changeDate' , function(){
+                            var val = vals();
+                            ctrl.$setValidity('required' , isRange ? !!val[0] && !!val[1] : !!val[0]);
+                        });
+                    }
+
+                    $el.on('changeDate' , function(){
+                        var val = vals();
+                        isModel && (scope.dates = val.join(','));
+                        isStart && (scope.start = val[0]);
+                        isEnd && (scope.end = val[1]);
+                        scope.$apply();
+                    });
+
+                    if(isRange){
+                        if(isStart && picker[0]){
+                            inputs.eq(0).val(scope.start);
+                            picker[0].update()
+                        }
+                        if(isEnd && picker[1]){
+                            inputs.eq(1).val(scope.end);
+                            picker[1].update()
+                        }
+                    }else{
+                        inputs.val(scope.dates);
+                        picker.update();
+                    }
+                } , 1);
+
+                function vals(){
+                    return inputs.map(function(){
+                        return this.value
+                    }).toArray()
+                }
+
+                scope.$on('$destroy' , function(){
+                    if(isRange){
+                        picker[0].remove();
+                        picker[1].remove();
+                    }else{
+                        picker.remove();
+                    }
+                    $el = inputs = picker = null;
+                });
+            },
+            template : '\
+                <div class="input-daterange input-group" ng-if="isRange">\
+                    <input type="text" readonly class="input-sm form-control date-left" />\
+                    <span class="input-group-addon">至</span>\
+                    <input type="text" readonly class="input-sm form-control date-right" />\
+                </div>\
+                <div class="input-group" ng-if="!isRange">\
+                    <input type="text" readonly class="input-sm form-control"/>\
+                </div>'
+        }
+    });
+
+    angular.bootstrap(document , ['app']);
+
+</script>
+</body>
+</html>

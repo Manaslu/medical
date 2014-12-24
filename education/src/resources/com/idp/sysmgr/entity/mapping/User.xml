@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：T02_USER_BASE -->
+<mapper namespace="com.idp.sysmgr.user.entity.User">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="userMap" type="com.idp.sysmgr.user.entity.User">
+		<result property="id" column="USER_ID" jdbcType="INTEGER" />
+		<result property="logName" column="LOG_NAME" jdbcType="VARCHAR" />
+		<result property="userName" column="USR_NAME" jdbcType="VARCHAR" />
+		<result property="password" column="PASSWD" jdbcType="VARCHAR" />
+		<result property="phone" column="PHONE" jdbcType="VARCHAR" />
+		<result property="remark" column="REMARKS" jdbcType="VARCHAR" />
+		<result property="email" column="EMAIL" jdbcType="VARCHAR" />
+		<result property="state" column="STATE" jdbcType="CHAR" />
+		<result property="pwdDate" column="PASSWD_END" jdbcType="TIMESTAMP" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="orgCd" column="ORG_CD" jdbcType="VARCHAR" />
+		<result property="provCode" column="PROV_CODE" jdbcType="VARCHAR" />
+		<result property="provName" column="PROV_NAME" jdbcType="VARCHAR" />
+		
+		<result property="inRoleId" column="IN_ROLE_ID" jdbcType="VARCHAR" />
+		<result property="roleId" column="ROLE_ID" jdbcType="INTEGER" />
+		<result property="orgName" column="ORG_NAME" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--================= 动态内容部分 ================= -->
+	<!-- where：动态生成部分 -->
+	<sql id="dynamicWhere">
+		<!-- LIKE 样例： SYSTEM_NAME like '%'||#{systemName}||'%' -->
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="logName!=null">
+				AND u.LOG_NAME = #{logName}
+			</if>
+			<if test="inRoleId!=null">
+				AND u.IN_ROLE_ID = #{inRoleId}
+			</if>
+			<if test="orgCd!=null">
+				AND u.ORG_CD  in ( 
+				
+				SELECT t.org_cd
+					FROM T02_INT_ORG t
+					WHERE t.org_cd = #{orgCd}
+					UNION
+					SELECT t.org_cd
+					FROM T02_INT_ORG t
+					WHERE t.PARENT_ORG_CD IN
+					        (SELECT t.org_cd
+					         FROM T02_INT_ORG t
+					         WHERE t.org_cd = #{orgCd} )
+					UNION
+					SELECT t3.org_cd
+					FROM T02_INT_ORG t3
+					WHERE t3.PARENT_ORG_CD IN
+					        ( SELECT t.org_cd
+					         FROM T02_INT_ORG t
+					         WHERE t.PARENT_ORG_CD IN
+					                 (SELECT t.org_cd
+					                  FROM T02_INT_ORG t
+					                  WHERE t.org_cd = #{orgCd} ) )
+					ORDER BY org_cd
+
+			 
+                    
+                    )  
+			</if>
+			<if test="id!=null">
+				AND u.USER_ID=#{id}
+			</if>
+			<if test="userName!=null">
+				AND (u.USR_NAME like '%'||#{userName}||'%' OR
+				u.LOG_NAME like '%'||#{userName}||'%')
+			</if>
+			<if test="state!=null">
+				AND u.STATE=#{state}
+			</if>
+
+			<if test="createTime!=null">
+				AND u.CREATE_TIME <![CDATA[>=]]>to_date('${createTime}',
+				'yyyy-mm-dd')
+			</if>
+			<if test="createTime!=null">
+				AND u.CREATE_TIME <![CDATA[<=]]>to_date('${createTime}',
+				'yyyy-mm-dd')
+			</if>
+			<if test="ids!=null and ids.length>0">
+				AND u.USER_ID in
+				<foreach item="id" index="index" collection="ids" open="("
+					separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			 
+		</trim>
+	</sql>
+
+	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+
+	<!-- group by 分组 -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			group by ${groupBy}
+		</if>
+	</sql>
+
+	<!-- update:set 动态生成可更新字段 -->
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="logName!=null">
+				,u.LOG_NAME=#{logName,jdbcType=VARCHAR}
+			</if>
+			<if test="userName!=null">
+				,u.USR_NAME=#{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="orgCd!=null">
+				,u.ORG_CD=#{orgCd,jdbcType=VARCHAR}
+			</if>
+			<if test="provCode!=null">
+				,u.PROV_CODE=#{provCode,jdbcType=VARCHAR}
+			</if>
+			<if test="password!=null and password!=''">
+				,u.PASSWD=#{password,jdbcType=VARCHAR}
+			</if>
+			<if test="remark!=null">
+				,u.REMARKS=#{remark,jdbcType=VARCHAR}
+			</if>
+			<if test="email!=null">
+				,u.EMAIL=#{email,jdbcType=VARCHAR}
+			</if>
+			<if test="state!=null">
+				,u.STATE=#{state,jdbcType=VARCHAR}
+			</if>
+			<if test="phone!=null">
+				,u.PHONE=#{phone,jdbcType=VARCHAR}
+			</if>
+			<if test="updateTime!=null">
+				,u.UPDATE_TIME=#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 表所有的字段：insert 的表、字段 部分 -->
+	<sql id="allColumn">
+		pageTab.USER_ID,
+       pageTab.LOG_NAME,
+       pageTab.USR_NAME,
+       pageTab.EMAIL,
+       pageTab.PHONE,
+       pageTab.PASSWD,
+       pageTab.STATE,
+       pageTab.PASSWD_END,
+       pageTab.CREATE_TIME,
+       pageTab.UPDATE_TIME,
+       pageTab.REMARKS,
+       pageTab.ORG_CD,
+       pageTab.PROV_CODE,
+       (SELECT NAME
+          FROM T99_PROV_CODE
+         WHERE ID = pageTab.PROV_CODE
+           limit 1) PROV_NAME,
+       pageTab.ORG_NAME
+	</sql>
+	
+	<sql id="addColumn">
+		u.USER_ID,
+		u.LOG_NAME,
+		u.USR_NAME,
+		u.EMAIL,
+		u.PHONE,
+		u.PASSWD,
+		u.STATE,
+		u.PASSWD_END,
+		u.CREATE_TIME,
+		u.UPDATE_TIME,
+		u.REMARKS,
+		u.ORG_CD,
+		u.PROV_CODE
+	</sql>
+
+	<!-- 单条插入：动态生成可插入字段 对应的变量列表 -->
+	<sql id="allColumnVar">
+		values(
+		null,
+		#{logName,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		'1',
+		#{pwdDate,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{remark,jdbcType=VARCHAR},
+		#{orgCd,jdbcType=VARCHAR},
+		#{provCode,jdbcType=VARCHAR}
+		)
+	</sql>
+
+
+
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			   pageTab.USER_ID,
+		       pageTab.LOG_NAME,
+		       pageTab.USR_NAME,
+		       pageTab.EMAIL,
+		       pageTab.PHONE,
+		       pageTab.PASSWD,
+		       pageTab.STATE,
+		       pageTab.PASSWD_END,
+		       pageTab.CREATE_TIME,
+		       pageTab.UPDATE_TIME,
+		       pageTab.REMARKS,
+		       pageTab.ORG_CD,
+		       pageTab.PROV_CODE,
+		       (SELECT NAME
+		          FROM T99_PROV_CODE
+		         WHERE ID = pageTab.PROV_CODE
+		           limit 1) PROV_NAME,
+		       t.ORG_NAME
+			from
+			(
+			select orderContentTab.* 
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			 
+		</if>
+					   u.USER_ID,
+                       u.LOG_NAME,
+                       u.USR_NAME,
+                       u.EMAIL,
+                       u.PHONE,
+                       u.PASSWD,
+                       u.STATE,
+                       u.PASSWD_END,
+                       u.CREATE_TIME,
+                       u.UPDATE_TIME,
+                       u.REMARKS,
+                       u.ORG_CD,
+                       u.PROV_CODE,
+                       (SELECT NAME
+                          FROM T99_PROV_CODE
+                         WHERE ID = u.PROV_CODE
+                           limit 1) PROV_NAME,
+                       t.ORG_NAME
+		from
+		T02_USER_BASE u 
+		left join t02_int_org t on t.org_cd = u.org_cd
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab 
+			left join t02_int_org t on t.org_cd = pageTab.org_cd
+		 
+			<if test="byOrgCd==null">
+			pageTab.CREATE_TIME desc 
+			</if>
+			<if test="byOrgCd!=null">
+			pageTab.ORG_CD desc 
+			</if> 
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			 
+			) pageTab 
+			left join t02_int_org t on t.org_cd = pageTab.org_cd
+			 order by pageTab.CREATE_TIME desc
+		</if>
+	</sql>
+
+
+	<!-- ================================================= -->
+	<!-- 1.1根据id查询对像 -->
+	<select id="getById" parameterType="String" resultMap="userMap">
+		select
+		u.USER_ID,
+                       u.LOG_NAME,
+                       u.USR_NAME,
+                       u.EMAIL,
+                       u.PHONE,
+                       u.PASSWD,
+                       u.STATE,
+                       u.PASSWD_END,
+                       u.CREATE_TIME,
+                       u.UPDATE_TIME,
+                       u.REMARKS,
+                       u.ORG_CD,
+                       u.PROV_CODE,
+                       (SELECT NAME
+                          FROM T99_PROV_CODE
+                         WHERE ID = u.PROV_CODE
+                           limit 1) PROV_NAME,
+                       t.ORG_NAME
+		from T02_USER_BASE u 
+		left join t02_int_org t on t.org_cd = u.org_cd
+		 where u.USER_ID=#{value}
+	</select>
+	<!-- 查询下一个用户 -->
+	<select id="getByIds" parameterType="String" resultMap="userMap">
+		SELECT u.* 
+  				FROM T02_USER_BASE u
+ 				WHERE u.USER_ID IN
+       				(SELECT r.USER_ID
+          				FROM T02_USER_ROLE_RELA r
+         					WHERE r.ROLE_ID =
+               			(SELECT s.ROLE_ID FROM T02_SYS_ROLE s WHERE s.IN_ROLE_ID = #{inRoleId,jdbcType=VARCHAR}))
+   					AND u.PROV_CODE =  (SELECT b.PROV_CODE FROM T02_USER_BASE b WHERE b.USER_ID = #{id,jdbcType=VARCHAR})
+	</select>
+
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map"
+		resultMap="userMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="userMap">
+		<include refid="queryBody" />
+	</select>
+
+	<select id="unique" parameterType="java.util.Map" resultMap="userMap">
+		<include refid="queryBody" />
+	</select>
+
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		count(1)
+		from
+		T02_USER_BASE u 
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 4.删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM T02_USER_BASE u
+		<include refid="dynamicWhere" />
+	</delete>
+
+
+	<!-- 5.1对像插入 -->
+	<insert id="insert" parameterType="com.idp.sysmgr.user.entity.User">
+		INSERT INTO
+		T02_USER_BASE u(
+		<include refid="addColumn" />
+		)
+		<include refid="allColumnVar" />
+	</insert>
+
+	<update id="update" parameterType="com.idp.sysmgr.user.entity.User">
+		update T02_USER_BASE u
+		<include refid="dynamicSet"/>
+		where u.user_id=#{id,jdbcType=INTEGER}
+	</update>
+	<!-- 查询技术联系人 -->
+	<select id="queryTechContact" parameterType="java.util.Map" resultMap="userMap">
+		SELECT 		
+			T.USER_ID,
+			T.LOG_NAME,
+			T.USR_NAME,
+			T.EMAIL,
+			T.PHONE,
+			T.PASSWD,
+			T.STATE,
+			T.PASSWD_END,
+			T.CREATE_TIME,
+			T.UPDATE_TIME,
+			T.REMARKS,
+			T.ORG_CD,
+			T.PROV_CODE,
+			B.ORG_NAME
+		  FROM T02_USER_ROLE_RELA A, T02_USER_BASE T, T02_SYS_ROLE S,T02_INT_ORG B
+		 WHERE
+		 	<if test="provCode!=null">
+		 		T.PROV_CODE = #{provCode}
+			</if> 
+		   AND S.IN_ROLE_ID = #{inRoleId}
+		   AND A.USER_ID = T.USER_ID
+		   AND A.ROLE_ID = S.ROLE_ID
+		   AND T.ORG_CD = B.ORG_CD
+		   <if test="userName!=null">
+		   	   AND T.USR_NAME LIKE '%${userName}%'
+		   </if>
+		   
+	</select>
+	<!-- 查询用户申请的权限 -->
+	<select id="getFlowType" resultMap="userMap" parameterType="java.lang.String">
+			select b.in_role_id,t.prov_code
+			  from t02_user_base t, t02_user_role_rela a, t02_sys_role b
+			 where 
+			    t.user_id = a.user_id
+				   and a.role_id = b.role_id
+				   and t.user_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<!-- =========================自定义操作======================== -->
+
+</mapper>

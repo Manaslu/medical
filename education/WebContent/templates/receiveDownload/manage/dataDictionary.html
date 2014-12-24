@@ -1,0 +1,208 @@
+<div class="col-sm-12 col-md-12">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix form-inline">
+				<div class="form-group">
+					<label>
+						业务名称
+					</label>
+					<select class="form-control" select2 data-live-search="true"
+						ng-model="params.sourceSystem"
+						ng-options="item.name as item.name for item in busiList">
+						<option value="">
+							请选择
+						</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>
+						表中文名
+					</label>
+					<input class="form-control" ng-model="params.tableName" type="text" />
+				</div>
+
+				<div class="form-group">
+					<label>
+						数据表类型
+					</label>
+					<select class="form-control" select2 ng-model="params.tableType"
+						ng-options="item as item for item in ['客户信息','交易明细','基础信息','报表']">
+						<option value="">
+							请选择
+						</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label>
+						&nbsp;
+					</label>
+					<button class="btn btn-custom" type="submit"
+						ng-click="refresh('first',true)">
+						查询
+					</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+	<div class="table-responsive">
+
+	</div>
+	<table
+		class="table table-striped table-bordered table-condensed index-center table-costom">
+		<thead>
+			<tr>
+				<th>
+					序号
+				</th>
+				<th style="width: 104px;">
+					业务名称
+				</th>
+				<th>
+					表中文名
+				</th>
+				<th>
+					表英文名
+				</th>
+				<th>
+					接口编码
+				</th>
+				<th style="width: 100px;">
+					数据表类型
+				</th>
+				<th>
+					表作用描述
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td>
+					{{$index+1+current*limit}}
+				</td>
+				<td>
+					{{item.sourceSystem}}
+				</td>
+				<td>
+					<a href="javascript:" data-toggle="modal" data-target="#seeDialog"
+						ng-click="queryColumn(item)">{{item.tableName}}</a>
+				</td>
+				<td>
+					{{item.tableNameEn}}
+				</td>
+				<td>
+					{{item.portCode}}
+				</td>
+				<td>
+					{{item.tableType}}
+				</td>
+				<td>
+					{{item.tableDesc}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div data-remote-paging="pager" data-refresh="refresh"
+		data-current="current" data-total="total" data-data="limitArr"
+		data-limit="limit" data-params="params"></div>
+</div>
+<!-- 查看表 -->
+<div class="modal fade" id="seeDialog" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog" style="width: 900px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					{{tableName}}
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<table
+							class="table table-striped table-bordered table-condensed index-center">
+							<thead>
+								<tr>
+									<th>
+										序号
+									</th>
+									<th>
+										字段英文名
+									</th>
+									<th>
+										字段中文名
+									</th>
+									<th style="width: 80px;">
+										字段类型
+									</th>
+									<th style="width: 70px;">
+										字段长度
+									</th>
+									<th>
+										字段说明
+									</th>
+									<th style="width: 70px;">
+										是否主键
+									</th>
+									<th style="width: 70px;">
+										是否外键
+									</th>
+									<th style="width: 70px;">
+										是否为空
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr class="rowlink" ng-repeat="item in columnList">
+									<td>
+										{{$index+1}}
+									</td>
+									<td>
+										{{item.colName}}
+									</td>
+									<td>
+										{{item.colDesc}}
+									</td>
+									<td>
+										{{item.colType}}
+									</td>
+									<td>
+										{{item.length}}
+									</td>
+									<td>
+										{{item.colAttr}}
+									</td>
+									<td>
+										{{item.primaryKeyFlag}}
+									</td>
+									<td>
+										{{item.foreignKeyFlag}}
+									</td>
+									<td>
+										{{item.isNull}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					关闭
+				</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

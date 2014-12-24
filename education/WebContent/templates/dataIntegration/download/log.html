@@ -1,0 +1,62 @@
+<div class="col-sm-12 col-md-12">
+
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+<!-- 				<div class="col-sm-3 col-md-3"> -->
+<!-- 					<label> 数据结构定义</label> -->
+<!-- 					<select class="form-control" select2 data-live-search="true" ng-model="params.dataDefId" -->
+<!-- 						ng-options="item.dataDefId as item.dataDefName for item in defs"> -->
+<!-- 						<option value="">请选择</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
+				<div class="col-sm-3 col-md-3">
+					<label>数据名称</label>
+					<input class="form-control" type="text" ng-model="params.dataSetName" />
+				</div>
+				<div class="col-sm-3 col-md-3">
+					<label>下载日期</label>
+					<div data-datetimepicker="range" range start="params.startTime" end="params.endTime"></div>
+				</div>
+				<div class="col-sm-2 col-md-2">
+					<label>&nbsp;</label>
+					<button class="btn btn-info btn-custom" type="button" ng-click="refresh('first' , true)">查询</button>
+					<button class="btn btn-info btn-custom" type="button" ng-click="resetQuery()">重置</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+	<table class="table table-striped table-bordered table-condensed index-center table-costom">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>数据名称</th>
+<!-- 				<th>数据结构定义</th> -->
+				<th>数据量</th>
+<!-- 				<th>下载人</th> -->
+				<th class="col-datetime-1">下载时间</th>
+				<th class="col-opt-1">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td>{{current*limit+$index+1}}</td>
+				<td>{{item.dataSetName}}</td>
+<!-- 				<td>{{item.dataDefName}}</td> -->
+				<td>{{item.dataCount}}</td>
+<!-- 				<td>{{item.opUserName}}</td> -->
+				<td>{{item.opStartDate|date:'yyyy-MM-dd HH:mm'}}</td>
+
+				<td><a href="javascript:"   ng-click="download(item)" >下载</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<div data-remote-paging="pager" data-params="params" data-refresh="refresh" data-current="current" data-total="total"
+		data-data="limitArr" data-limit="limit"></div>
+</div>
+<a id="downloadLink" target="_blank"></a>
+

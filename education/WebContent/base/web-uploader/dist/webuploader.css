@@ -1,0 +1,120 @@
+.webuploader-container {
+	position: relative;
+}
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px,1px,1px,1px);
+}
+
+/*.webuploader-pick {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	background: #00b7ee;
+	padding: 10px 15px;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	overflow: hidden;
+}
+.webuploader-pick-hover {
+	background: #00a2d4;
+}
+
+.webuploader-pick-disable {
+	opacity: 0.6;
+	pointer-events:none;
+}*/
+
+
+/* 单图片上传 */
+.webuploader .thumbnail{
+    width: 160px;
+    height: 160px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.webuploader .thumbnail .fileErr{
+    position: absolute;
+    left: 5px;
+    bottom: 0;
+    right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 多图片上传 */
+.webuploader .multiple .thumbnail{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.webuploader .multiple.image{
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.webuploader .thumbnail .icon{
+    position: absolute;
+    background: #fff;
+    right: 0;
+    top: 0;
+    box-shadow: none;
+}
+
+.webuploader .thumbnail .progress{
+    position: absolute;
+    height: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 4px;
+    margin-bottom: 0;
+}
+
+.webuploader .list-group li{
+    position: relative;
+}
+
+.webuploader .list-group .icon{
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+.webuploader .list-group .progress{
+    position: absolute;
+    height: 3px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 0;
+}
+
+.webuploader .input-group{
+    position: relative;
+}
+
+.webuploader .input-group .progress{
+    position: absolute;
+    height: 3px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 0;
+    z-index: 5;
+}
+
+.webuploader .input-group .icon-success{
+    right: 138px;
+}
+
+.webuploader .multiple.image{
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

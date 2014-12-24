@@ -1,0 +1,35 @@
+@charset "UTF-8";
+@import url(lib.less);
+
+.empty{empty:true}
+
+//日期插件的范围选择器在ie9以下出现了奇怪的bug
+//table-cell这个属性ie支持的不是特别好
+//这个样式用来修复这个bug
+.input-daterange{
+  display: block;
+  height: 30px;
+  span,input{
+    position: absolute;
+  }
+  input{
+    text-align: left;
+  }
+  span{
+    width: auto;
+    left: 50%;
+    margin-left: -16px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    z-index: +1;
+  }
+  .date-left{
+    left: 1px;
+    width: 50%;
+  }
+  .date-right{
+    right: 1px;
+    width: 50%;
+    padding-left: 25px;
+  }
+}

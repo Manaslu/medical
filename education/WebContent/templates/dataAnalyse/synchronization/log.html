@@ -1,0 +1,63 @@
+<div class="col-sm-12 col-md-12">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                 <div class="col-sm-3 col-md-3">
+                    <label>表名</label>
+                    <input type="text" class="form-control" placeholder="源表名或者同步表名" ng-model="params.tablename">
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>同步时间</label>
+                    <div data-datetimepicker="range" range start="params.opDate1" end="params.opDate2"></div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+                     
+                </div>
+            </form>
+        </div>
+    </div>
+
+   <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr> 
+            <th>序号</th>
+            <th>开始时间</th>
+            <th>完成时间</th>
+            <th style="width:80px">记录数</th>
+            <th>源表名</th>
+            <th>同步表名</th>
+            <th style="width:90px">同步状态</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1}}</td>
+            <td>{{item.startDate  |date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{item.endDate  |date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{item.rowCount}}</td>
+            <td>{{item.sourceTablename}}</td>
+            <td>{{item.targetTablename}}</td>
+            <td>{{item.syncStats}}</td>
+             
+        </tr>
+        </tbody>
+    </table>
+
+			<div class="col-sm-12 col-md-12">
+				<div data-remote-paging="pager" 
+				     data-params="params" 
+				     data-refresh="refresh" 
+				     data-current="pageNo" 
+				     data-total="total"
+					 data-data="limitArr" 
+					 data-limit="limit"></div>
+			</div>
+    
+</div>
+
+  
+

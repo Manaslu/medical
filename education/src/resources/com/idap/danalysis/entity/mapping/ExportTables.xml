@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.ExportTables" >
+	
+    <resultMap id="exportTables" type="com.idap.danalysis.entity.ExportTables">
+		<result property="name" column="A1" jdbcType="VARCHAR" />
+		<result property="value" column="A2" jdbcType="NUMERIC" />
+	</resultMap>
+ 
+	<sql id="queryBody">
+			select
+			<include refid="allColumn" />
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+		  
+	</sql>
+	
+	   <sql id="allColumn">
+			       T.A1,
+			       T.A2 
+	   </sql>
+		<sql id="bodyfrom">
+                 FROM t07_rpt_detail T
+	    </sql>
+	
+		<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="exportTables">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="exportTablesquery" parameterType="java.util.Map" resultMap="exportTables">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="exportTables">
+		<include refid="queryBody" />
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+       <sql id="dynamicWhere">
+			 
+		where	t.show_id='gnxb1' and t.day_id = ( select max(tt.day_id)  from t07_rpt_detail tt)
+			
+       </sql>
+	
+	
+	
+     
+	
+
+</mapper>
+
+
+
+

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>angular-bootstrap-select2</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl as t">
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-6">
+            <select ng-model="sel" select2 ng-options="item.id as item.name for item in list"></select>
+        </div>
+        <div class="col-sm-6">
+            <pre>
+sel = {{sel}}
+            </pre>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="../base/es5-shim/es5-shim.min.js"></script>
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/jquery-mousewheel/jquery.mousewheel.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+
+var app = angular.module('app', []);
+app.controller('TestCtrl', function ($scope) {
+    $scope.list = [
+        {name : 'aaa' , id : 123},
+        {name : 'bbb' , id : 222},
+        {name : 'ccc' , id : 333},
+        {name : 'ddd' , id : 444},
+        {name : 'eee' , id : 555},
+        {name : 'fff' , id : 666}
+    ];
+});
+
+app.directive('select2' , function($compile , $parse){
+    var temp = '<div class="dropdown ">\
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">\
+                        {{selectText}}\
+                        <span class="caret"></span>\
+                    </button>\
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">\
+                        <li ng-repeat="item in list" ng-click="select(item)"><a tabindex="-1" href="#">{{item.name}}</a></li>\
+                    </ul>\
+                </div>';
+    var link = $compile(temp);
+    return {
+        scope : {},
+        compile : function(el , attr){
+            return function(scope , el , attr){
+                if(!el.is('select'))return;
+
+                el.hide();
+
+                var pubScope = el.scope();
+                var ngModel = $parse(attr.ngModel);
+                var ngOptions = attr.ngOptions || "";
+                            //000011111111110000000000022222222220000000000000000000003333333333000000000000004444444444444440000000005555555555555550000000666666666666666000000000000000777777777700000000000000000008888888888
+                var reg = /^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?(?:\s+group\s+by\s+([\s\S]+?))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?$/;
+                var
+                        displayFn = $parse(match[2] || match[1]),
+                        valueFn = $parse(match[2] ? match[1] : valueName),
+
+                        valuesFn = $parse(match[7]),
+
+                        valueName = match[4] || match[6],
+
+                        keyName = match[5],
+                        groupByFn = match[3] ? $parse(match[3]) : null,
+
+                        track = match[8],
+                        trackFn = track ? $parse(track) : null;
+
+                var match = ngOptions.match(reg);
+
+                console.log('displayFn' , match[2] || match[1]);
+                console.log('valueName' , match[4] || match[6]);
+                console.log('keyName' , match[5]);
+                console.log('groupByFn' , match[3]);
+                console.log('valueFn' , match[2] ? match[1] : valueName);
+                console.log('valuesFn' , match[7]);
+                console.log('track' , track);
+
+                scope.selectText = '请选择';
+
+                scope.select = function(item){
+
+                };
+
+                link(scope , function(dropmenu , scope){
+                   console.log('link : ' , dropmenu);
+                   console.log('link : ' , dropmenu.html());
+                    el.after(dropmenu);
+                });
+
+            };
+        }
+    }
+});
+angular.bootstrap(document, ['app']);
+
+</script>
+</body>
+</html>

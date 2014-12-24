@@ -1,0 +1,75 @@
+.rounded-corners (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.rounded-corners-custom (@topleft:5px,@topright:5px,@bottomright:5px,@bottomleft:5px) {
+  -webkit-border-radius: @topleft @topright @bottomright @bottomleft;
+  -moz-border-radius: @topleft @topright @bottomright @bottomleft;
+  -ms-border-radius: @topleft @topright @bottomright @bottomleft;
+  -o-border-radius: @topleft @topright @bottomright @bottomleft;
+  border-radius: @topleft @topright @bottomright @bottomleft;
+}
+
+.box-shadow (@x: 0px, @y: 3px, @blur: 5px, @alpha: 0.5) {
+  -webkit-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+  -moz-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+  box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+}
+
+.transition (@prop: all, @time: 1s, @ease: linear) {
+  -webkit-transition: @prop @time @ease;
+  -moz-transition: @prop @time @ease;
+  -o-transition: @prop @time @ease;
+  -ms-transition: @prop @time @ease;
+  transition: @prop @time @ease;
+}
+
+.transform (@rotate: 90deg, @scale: 1, @skew: 1deg, @translate: 10px) {
+  -webkit-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -moz-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -o-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -ms-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+}
+
+.gradient ( @start, @stop , @origin) {
+  background-color: @start;
+  background-image: -webkit-linear-gradient(@origin, @start, @stop);
+  background-image: -moz-linear-gradient(@origin, @start, @stop);
+  background-image: -o-linear-gradient(@origin, @start, @stop);
+  background-image: -ms-linear-gradient(@origin, @start, @stop);
+  background-image: linear-gradient(@origin, @start, @stop);
+}
+
+.gradient-ad(@start : #fff , @stop : #000 , @origin : left) {
+  .gradient(@start, @stop, @origin);
+  filter: e(%("progid:DXImageTransform.Microsoft.Gradient(gradientType=1,startColorstr='%a', endColorstr='%d')" , @start , @stop)); /* IE8 */
+}
+
+.gradient-def(@start : #fff , @stop : #000 , @origin : top) {
+  .gradient(@start, @stop, @origin);
+  filter: e(%("progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorstr='%a', endColorstr='%d')" , @start , @stop)); /* IE8 */
+}
+
+.quick-gradient (@alpha: 0.2 , @origin: left) {
+  background-image: -webkit-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: -moz-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: -o-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: -ms-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+}
+
+.reflect (@length: 50%, @opacity: 0.2) {
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(@length, transparent), to(rgba(255, 255, 255,@opacity)));
+}
+
+.opacity(@opacity) {
+  filter:alpha(opacity=@opacity);
+  -moz-opacity:@opacity / 100;
+  -khtml-opacity: @opacity / 100;
+  opacity: @opacity / 100;
+}

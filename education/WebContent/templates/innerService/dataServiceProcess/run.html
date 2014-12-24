@@ -1,0 +1,516 @@
+<div class="col-sm-12 col-md-12">
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix form-inline">
+                <div class="form-group">
+                    <label>流程运行名称:</label>
+                    <input class="form-control" ng-model="params.runProcName" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label>流程运行状态:</label>
+                    <select id="runState" select2 ng-model="params.runState" class="form-control">
+	                        <option value="">- 请选择 -</option>
+	                        <option value="1">未执行</option>
+	                        <option value="2">成功</option>
+	                        <option value="3">失败</option>
+	                </select>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#editDialog" ng-click="toSetRunPro()">配置流程</button>
+                	<button class="btn btn-custom" type="reset" ng-click="reset(params)">重置</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>流程名称</th>
+            <th>规则名称</th>
+            <th>处理的数据</th>
+            <th>结果数据</th>
+            <!-- <th width="80">执行人</th> -->
+            <th width="150">创建时间</th>
+            <th width="150">执行时间</th>
+            <th width="80">运行状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1+current*limit}}</td>
+            <td align="center">{{item.runProcName}}</td>
+            <td align="center">{{item.flowRuleCustName}}
+           		<span ng-show="!item.flowRuleCustName"><font color="red">该流程规则已删除</font></span>
+           	</td>
+            <td align="center">{{item.dataSetName}}</td>
+            <td align="center">
+            	<span ng-show="item.resultDataSetName!=null">
+            		{{item.resultDataSetName}}
+            	</span>
+            	<span ng-show="item.resultDataSetName==null">
+            		---
+            	</span>
+            </td>
+          	<!-- <td align="center">{{item.userName}}</td> -->
+            <td align="center">{{item.startTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td align="center">{{item.overTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td align="center">
+            	<span ng-show="item.runState == 1">未执行</span>
+            	<span ng-show="item.runState == 2">成功</span>
+            	<span ng-show="item.runState == 3">失败</span>
+            </td>
+            <td>
+            	<span ng-show="item.runState == 1 || item.runState == 3">
+	           		<a href="javascript:" data-toggle="modal" data-target="#runFlowRuleDialog" ng-click="toRunFlowRuleCsut(item)">运行</a>
+               	</span>
+               	<span ng-show="item.runState == 2">
+	            	 <a href="javascript:" data-toggle="modal" data-target="#seeDialog" ng-click="queryDetail(item)">查看报告</a>
+	            </span>
+               	<a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toUpdate(item)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div 
+		data-remote-paging="pager" 
+		data-refresh="refresh" 
+		data-current="current" 
+		data-total="total" 
+		data-data="limitArr"
+		data-limit="limit"
+		data-params="params"
+		></div>
+</div>
+
+<!-- 配置运行流程 -->
+<div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">配置运行流程</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 col-md-12">
+                    <form role="form" class="form-horizontal" name="mm" novalidate="novalidate">
+                    	<div class="form-group">
+                            <label class="col-lg-2 control-label">运行流程名称:</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" placeholder="运行流程名称" required ng-model="runProcess.runProcName" type="text"/>
+                            </div><span style="color:red">*</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">数据服务名称:</label>
+                            <div class="col-lg-9">
+                                <select name="dataServiceId" ng-model="runProcess.dataServiceId"  required ng-options="c.dataServiceId as (c.dataServiceName) for c in dataServiceList" class="form-control">
+	                 				<option value="">-----请选择数据服务名称------</option>
+	            				</select>
+                            </div><span style="color:red">*</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">数据服务描述:</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" placeholder="数据服务描述"  ng-model="runProcess.dataServiceDesc" type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">流程规则模板:</label>
+                            <div class="col-lg-9">
+                                <select name="" ng-model="runProcess.item" required ng-change="selectDataSets(runProcess)" ng-options="c as (c.flowRuleCustName) for c in flowRuleCustList" class="form-control">
+	                 				<option value="">-----请选择流程规则------</option>
+	            				</select>
+                            </div><span style="color:red">*</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">处理的数据集:</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" required ng-model="dataSet.dataSetName" readonly="readonly">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select" ng-click="queryDataSet()">选择</button>
+                                    </div>
+                                </div>
+                            </div><span style="color:red">*</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">结果数据名称:</label>
+                            <div class="col-lg-9">
+                                <input type="text" placeholder="结果数据名称" required ng-model="runProcess.resultDataSetName" class="form-control">
+                            </div><span style="color:red">*</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled='!mm.$valid' ng-click="runPro(runProcess,dataSet)">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 选择数据集 -->
+<div class="modal fade" id="select" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择数据集</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 col-md-12">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3">
+                            <label>数据名称</label>
+                            <input class="form-control" ng-model="params2.dataSetName" type="text"/>
+                        </div>
+                        <div class="col-sm-2 col-md-2">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-custom" type="button" ng-click="refresh2('first',true)">查询</button>
+                            <label>&nbsp;</label>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>数据名称</th>
+                           <!--  <th>数据定义</th> -->
+                            <th>创建人</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                       <tr class="rowlink" ng-repeat="item in dataSetList">
+                           	<td>{{$index+1+current2*limit2}}</td>
+                            <td>{{item.dataSetName}}</td>
+                           <!-- 	<td>{{item.dataDefId}}</td> -->
+                            <td>{{item.createUserName}}</td>
+                            <td>{{item.createDate  | date:'yyyy-MM-dd'}}</td>
+                            <td>
+                                <a href="javascript:" data-dismiss="modal" ng-click="slectDataSet(item)">选择</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div 
+						data-remote-paging="pager2" 
+						data-refresh="refresh2" 
+						data-current="current2" 
+						data-total="total2" 
+						data-data="dataSetList"
+						data-limit="limit2"
+						data-params="params2"
+					></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除运行流程</h4>
+            </div>
+            <div class="modal-body">
+                确认要删除此运行流程？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove(runProcess)">确认删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 执行运行流程对话框 -->
+<div class="modal fade" id="runFlowRuleDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">执行运行流程</h4>
+            </div>
+            <div class="modal-body">
+                确认要执行此运行流程？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="runFlowRuleCsut(runPro)">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 查看报告 -->
+<div class="modal fade" id="seeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width:800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" align="center">查看报告</h4>
+            </div>
+            <div class="modal-body">
+            
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                    	<style type="text/css">
+                    		.split{
+                    			width : 50%;
+                    			float:left;
+                    		}
+                    	</style>
+                        <form class="form-horizontal" novalidate="novalidate">
+                        	<div class="form-group split">
+                        		<label class="col-lg-4 control-label">流程名称:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{runProVo.runProcName}}</p> </div>
+                            </div>
+                        	<div class="form-group split">
+                        		<label class="col-lg-4 control-label">规则名称:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{runProVo.flowRuleCustName}}</p> </div>
+                            </div>
+                        	<div class="form-group split">
+                        		<label class="col-lg-4 control-label">源数据集:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{runProVo.dataSetName}}</p> </div>
+                            </div>
+                        	<div class="form-group split">
+                        		<label class="col-lg-4 control-label">目标数据集:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{runProVo.resultDataSetName}}</p> </div>
+                            </div>
+                        	<div class="form-group split">
+                        		<label class="col-lg-4 control-label">执行状态:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">成功</p> </div>
+                            </div>
+                        	<div class="form-group split">
+                        		<label class="col-lg-4 control-label">执行人:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{runProVo.userName}}</p> </div>
+                            </div>
+						</form>
+                    </div>
+                </div><!-- row -->
+                
+                
+             <div class="panel-group" id="accordion">
+	                <!--数据清洗 -->
+				<div class="panel panel-default"  ng-if="cleanList.length">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+					          	数据清洗
+					        </a>	
+					      </h4>
+					    </div>
+					    <div id="collapseOne" class="panel-collapse collapse in">
+					      <div class="panel-body">
+					        <table class="table table-striped table-bordered table-condensed index-center">
+			                    <thead>
+			                     <tr>
+			                     	<th>序号</th>
+			                        <th>处理字段</th>
+			                        <th>运用规则</th>
+			                        <th>源数据集条数</th>
+			                        <th>结果数据集条数</th>
+			                     </tr>
+			                    </thead>
+			                    <tbody>
+			                       <tr class="rowlink" ng-repeat="item in cleanList">
+	           							<td>{{$index+1}}</td>
+			                            <td>
+			                            	<div ng-repeat="items in (item.inteRule.columnRules)">
+			                            		{{items.dataSet1Col}},
+			                            	</div>
+			                            </td>
+			                            <td>{{item.inteRule.columnRules[0].ruleDesc}}</td>
+			                            <td>{{item.dataSet1RowCnt}}</td>
+			                            <td>{{item.resultDateSetRowCnt}}</td>
+			                        </tr>
+			                    </tbody>
+			                </table>
+					      </div>
+					    </div>
+				  </div>
+				  
+					<!-- 数据排重 -->
+				<div class="panel panel-default" ng-if="uniqueList.length">
+				    <div class="panel-heading">
+				      <h4 class="panel-title">
+				        <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+				         	 数据排重
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="collapseTwo" class="panel-collapse collapse">
+				      <div class="panel-body">
+				        <table class="table table-striped table-bordered table-condensed index-center">
+		                    <thead>
+		                    <tr>
+		                    	<th>序号</th>
+		                       <!--  <th>排重依据</th> -->
+		                        <th>处理字段</th>
+		                        <th>排重规则</th>
+		                        <th>源数据集条数</th>
+			                    <th>结果数据集条数</th>
+		                    </tr>
+		                    </thead>
+		                    <tbody>
+		                   <tr class="rowlink" ng-repeat="item in uniqueList">
+           						<td>{{$index+1}}</td>
+           						<!-- <td>{{item.inteRule.ruleDesc}}</td> -->
+		                       	<td>
+	                            	<div ng-repeat="items in (item.inteRule.columnRules)">
+	                            		{{items.dataSet1Col}},
+	                            	</div>
+	                            </td>
+	                            <td>
+	                            		{{item.inteRule.columnRules[0].ruleDesc}}
+	                            </td>
+	                            <td>{{item.dataSet1RowCnt}}</td>
+	                            <td>{{item.resultDateSetRowCnt}}</td>
+		                    </tr>
+		                    </tbody>
+		                </table>
+				      </div>
+				    </div>
+			  	</div>
+				  
+				  	<!-- 数据重构 -->
+				<div class="panel panel-default" ng-if="rebuildList.length">
+				    <div class="panel-heading">
+				      <h4 class="panel-title">
+				        <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+				         	 数据重构
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="collapseThree" class="panel-collapse collapse">
+				      <div class="panel-body">
+				        <table class="table table-striped table-bordered table-condensed index-center">
+		                    <thead>
+			                    <tr>
+			                        <th>序号</th>
+			                        <th>处理字段</th>
+			                        <th>运用规则</th>
+			                        <th>源数据集条数</th>
+			                        <th>结果数据集条数</th>
+			                    </tr>
+		                    </thead>
+		                    <tbody>
+			                   <tr  class="rowlink" ng-repeat="item in rebuildList">
+           							<td>{{$index+1}}</td>
+			                       	<td>
+		                            	<div ng-repeat="items in (item.inteRule.columnRules)">
+		                            		{{items.dataSet1Col}},
+		                            	</div>
+		                            </td>
+		                            <td>{{item.inteRule.columnRules[0].ruleDesc}}</td>
+		                            <td>{{item.dataSet1RowCnt}}</td>
+	                            	<td>{{item.resultDateSetRowCnt}}</td>
+			                    </tr>
+			                    
+		                    </tbody>
+                		</table>
+				      </div>
+				    </div>
+			  </div>
+					
+					<!-- 地址匹配 -->
+				<div class="panel panel-default" ng-if="addressList.length">
+				    <div class="panel-heading">
+				      <h4 class="panel-title">
+				        <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+				         	地址匹配
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="collapseFour" class="panel-collapse collapse">
+				      <div class="panel-body">
+				        <table class="table table-striped table-bordered table-condensed index-center">
+		                    <thead>
+			                    <tr>
+			                        <th>序号</th>
+			                       	<th>处理字段</th>
+			                        <th>运用规则</th>
+			                        <th>源数据集条数</th>
+			                        <th>结果数据集条数</th>
+			                    </tr>
+		                    </thead>
+		                    <tbody>
+			                   <tr class="rowlink" ng-repeat="item in addressList">
+       								<td>{{$index+1}}</td>
+			                       	<td>
+		                            	<div ng-repeat="items in (item.inteRule.columnRules)">
+		                            		{{items.dataSet1Col}},
+		                            	</div>
+		                            </td>
+		                            <td>{{item.inteRule.columnRules[0].ruleDesc}}</td>
+		                            <td>{{item.dataSet1RowCnt}}</td>
+	                            	<td>{{item.resultDateSetRowCnt}}</td>
+			                    </tr>
+			                    
+		                    </tbody>
+                		</table>
+				      </div>
+				    </div>
+			  </div>
+					
+					<!-- 邮编匹配 -->
+				<div class="panel panel-default" ng-if="postList.length">
+				    <div class="panel-heading">
+				      <h4 class="panel-title">
+				        <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+				         	 邮编匹配
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="collapseFive" class="panel-collapse collapse">
+				      <div class="panel-body">
+					   <table class="table table-striped table-bordered table-condensed index-center">
+		                    <thead>
+		                    <tr>
+		                        <th>序号</th>
+		                        <th>处理字段</th>
+		                        <th>运用规则</th>
+		                        <th>源数据集条数</th>
+		                        <th>结果数据集条数</th>
+		                    </tr>
+		                    </thead>
+		                    <tbody>
+		                   	<tr class="rowlink" ng-repeat="item in postList">
+       							<td>{{$index+1}}</td>
+								<td>
+									<div ng-repeat="items in (item.inteRule.columnRules)">
+										{{items.dataSet1Col}},</div>
+								</td>
+								<td>{{item.inteRule.columnRules[0].ruleDesc}}</td>
+								<td>{{item.dataSet1RowCnt}}</td>
+	                            <td>{{item.resultDateSetRowCnt}}</td>
+							</tr>
+		                    </tbody>
+                		</table>
+				      </div>
+				    </div>
+			  </div>
+			</div>
+                
+            </div><!-- modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,523 @@
+<!-- 订阅信息列表 -->
+<div class="col-sm-12 col-md-12">
+
+    <!-- 订阅信息查询/新增 -->
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+				<div class="row">
+					<div class="col-sm-2 col-md-2">
+						<label>报表名称</label> 
+				            <select name="anaThemeRepId" select2 data-live-search="true" ng-model="params.anaThemeRepId" required ng-options="c.anaThemeRepId as c.repName for c in themeNameList" class="form-control">
+				                 <option value="">-----请选择报表名称------</option>
+				            </select>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>订阅名称</label> 
+						<input ng-model="params.subscribeName" id="subscribeName" class="form-control" type="text" />
+					</div>
+					<div class="col-sm-3 col-md-3">
+						<label>创建日期</label>
+						<div data-datetimepicker range start="params.startTime" end="params.endTime"></div>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>状态</label> 
+						<select class="form-control" ng-model="params.subscribeStats">
+							<option value="">请选择</option>
+							<option value="0">未发布</option>
+							<option value="1">已发布</option>
+							<option value="2">已下线</option>
+						</select>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>订阅类型</label> 
+						<select class="form-control" ng-model="params.subscribeMethod">
+							<option value="">请选择</option>
+							<option value="1">邮件</option>
+							<option value="2">短信</option>
+						</select>
+					</div>
+				</div>
+				<div class="row text-center">
+					<button class="btn btn-info btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+					<button class="btn btn-primary btn-custom" type="button" data-toggle="modal" data-target="#editDialog" ng-click="toAdd()">新增</button>
+					<button class="btn btn-info btn-custom" type="reset" ng-click="reset(params)">重置</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+    <!-- 订阅信息数据展示 -->
+	<table class="table table-striped table-bordered table-condensed index-center table-costom">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>报表名称</th>
+				<th>订阅名称</th>
+				<th width="90">订阅类型</th>
+				<th width="90">推送方式</th>
+				<th width="90">状态</th>
+				<th>创建人</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td align="center">{{$index+1+current*limit}}</td>
+				<td align="center">{{item.repName}}</td>
+				<td align="center">{{item.subscribeName}}</td>
+				<td align="center">{{ item.subscribeMethod | RSM_subscribeMethod}}</td>
+				<td align="center">{{ item.pushMethod | RSM_pushMethod}}</td>
+				<td align="center">{{ item.subscribeStats | RSM_subscribeStats}}</td>
+				<td align="center">{{item.createName}}</td>
+				<td align="center">{{item.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>
+				<a href="javascript:" data-toggle="modal" data-target="#queryDialog" ng-click="toUpdate(item)">查看</a>
+				<span ng-show="{{item.subscribeStats == '0'}}"> 
+				<a href="javascript:" data-toggle="modal" data-target="#empowerDialog" ng-click="toConfig(item)">授权</a> 
+				<a href="javascript:" data-toggle="modal" data-target="#publishDialog" ng-click="toUpdate(item)">发布</a> 
+				<a href="javascript:" data-toggle="modal" data-target="#editDialog" ng-click="toUpdate(item)">修改</a> 
+				<a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toUpdate(item)">删除</a>
+				</span> 
+				<span ng-show="{{item.subscribeStats == '1'}}"> 
+				<span ng-show="{{item.pushMethod == '1'}}"> 
+				<a href="javascript:" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate(item)">推送</a> 
+				</span>
+				<a href="javascript:" data-toggle="modal" data-target="#pushoutDialog" ng-click="toUpdate(item)">下线</a>
+				</span> 
+				<span ng-show="{{item.subscribeStats == '2'}}">
+				<a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toUpdate(item)">删除</a>
+				</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+    <!-- 订阅信息分页数据 -->
+	<div data-remote-paging="pager" 
+	     data-refresh="refresh"
+		 data-current="current" 
+		 data-total="total" 
+		 data-data="limitArr"
+		 data-limit="limit" 
+		 data-params="params">
+    </div>
+</div>
+
+<!--订阅信息新增/修改-->
+<div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">
+				{{subscribe.subscribeId ? '修改' : '新增'}}订阅信息
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="col-sm-12 col-md-12">
+					<form role="form" class="form-horizontal" name="mm" novalidate="novalidate">
+						<div class="form-group">
+							<label class="col-lg-2 control-label">报表主题</label>
+							<div class="col-lg-8">
+				                <select name="anaThemeId" ng-model="subscribe.anaThemeId" required ng-change="selectTheme(subscribe)" ng-options="c.anaThemeId as c.anaThemeName for c in ThemeList" class="form-control">
+					                 <option value="">-----请选择报表主题------</option>
+					            </select>
+				            </div><span style="color:red">*</span>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">报表名称</label> 
+							<div class="col-lg-8" >
+					            <select name="anaThemeRepId"  ng-model="subscribe.anaThemeRepId" required ng-options="c.anaThemeRepId as c.repName for c in themeSetList" class="form-control">
+					                 <option value="">-----请选择报表名称------</option>
+					            </select>
+				            </div><font color="red">*</font>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅名称</label>
+							<div class="col-lg-8">
+								<input ng-model="subscribe.subscribeName" class="form-control" type="text" 
+								maxlength="10"
+                                my-valid="{valid:'validName', name:'reg'}"
+                                valid-tip="{required:'这个是必填的'}"
+                        		valid-pos="bottom"
+								/>
+							</div><font color="red">*</font>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅类型</label>
+							<div class="col-lg-8">
+								<select class="form-control" ng-model="subscribe.subscribeMethod" required>
+									<option value="1">邮件</option>
+									<option value="2">短信</option>
+								</select>
+							</div><font color="red">*</font>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">推送方式</label>
+							<div class="col-lg-8">
+								<label class="radio-inline">
+								<input ng-model="subscribe.pushMethod" type="radio" name="c2" value="1" required/> 手工</label> 
+								<label class="radio-inline">
+								<input ng-model="subscribe.pushMethod" type="radio" name="c2" value="2" required/> 系统周期型(<strong>系统根据报表生成周期自动更新</strong>)
+								</label>
+							</div><font color="red">*</font>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">描述</label>
+							<div class="col-lg-8">
+								<textarea ng-model="subscribe.subscribeDesc" class="form-control" rows="3"></textarea>
+							</div>
+						</div>
+						<input ng-model="subscribe.createUser" class="form-control" type="hidden"/>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-show="!subscribe.subscribeId" ng-disabled='!mm.$valid' ng-click="create(subscribe)" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-primary" ng-show="subscribe.subscribeId" ng-disabled='!mm.$valid' ng-click="modify(subscribe)" data-dismiss="modal">修改</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!--推送-->
+<div class="modal fade" id="pushDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">推送</h4>
+			</div>
+			<div class="modal-body">
+				<div class="col-sm-12 col-md-12">
+					<form role="form" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-lg-2 control-label">报表名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">报表1</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.subscribeName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅类型</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ subscribe.subscribeMethod | RSM_subscribeMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">推送方式</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ subscribe.pushMethod | RSM_pushMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">描述</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.subscribeDesc}}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="emailpush(subscribe)">推送</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="emaillook(subscribe)">预览</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!--授权-->
+<div class="modal fade" id="empowerDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">授权</h4>
+			</div>
+			<div class="modal-body">
+				<div class="col-sm-12 col-md-12">
+					<form role="form" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-lg-2 control-label">报表名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.reportName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.subscribeName}}</p>
+							</div>
+						</div>
+						<!--  
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅类型</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ subscribe.subscribeMethod | RSM_subscribeMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">推送方式</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ subscribe.pushMethod | RSM_pushMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">描述</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.subscribeDesc}}</p>
+							</div>
+						</div>
+						-->
+						<div class="form-group">
+							<label class="col-lg-2 control-label">授权</label>
+						</div>
+					</form>
+					
+					<!-- 机构树样式 -->
+					<style type="text/css">
+                       	.float-box{
+                       		display:none;
+                       		position: absolute;
+                       		width: 200px;
+                       		height:200px;
+                       		overflow:auto;
+                       		background-color: #fff;
+                       		z-index: 10001;
+                       		border:1px solid #f2f2f2;
+                       	}
+                       </style>
+					<!-- 用户查询条件 -->
+					<div class="row">
+						 <div class="col-sm-2 col-md-2">
+						    <label>用户名称</label>
+						    <input class="form-control" ng-model="params2.userName" type="text"/>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<label>所属机构</label>
+							<div class="input-group">     
+								<input type="text" ng-model="params2.orgName" readonly="readonly" class="form-control">
+								<div class="input-group-btn">   
+									<button class="btn btn-default" ng-click="showTree($event.target , params2)">选择</button>
+								</div>
+								<div id="ztree-box2" class="float-box">
+									<ul class="ztree" data-ztree="zTreeApi2" id="ztree-ui2" data-setting="settings" data-data="data"></ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-6">
+						    <label>&nbsp;</label>
+						    <button class="btn btn-info" type="submit" ng-click="refresh2('first',true)">查询</button>
+						    <button class="btn btn-primary" type="reset" ng-click="reset(params2)">重置</button>
+						    <label>&nbsp;</label>
+						</div>
+                   </div>
+                   <!-- 用户列表 -->
+					<table class="table table-striped table-bordered table-condensed index-center table-costom">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>
+								<input type="checkbox" ng-model="all">  用户名称
+								</th>
+								<th>所属机构</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="rowlink" ng-repeat="item in limitArr2">
+								<td>{{$index+1+current*limit}}</td>
+								<td>
+								     <label class="checkbox-inline">
+									 	<input type="checkbox" ng-value="item.id" ng-checked="all" value-list="subscribe.selected"/>{{item.userName}}
+									 </label>
+							     </td>
+								<td>{{item.orgName}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- 用户数据分页 -->
+					 <div  data-remote-paging="pager2" 
+						   data-refresh="refresh2" 
+						   data-current="current2" 
+						   data-total="total2" 
+						   data-data="limitArr2"
+						   data-limit="limit2"
+						   data-params="params2"
+					  ></div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="saveEmpower(subscribe)" data-dismiss="modal">授权</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!--发布-->
+<div class="modal fade" id="publishDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">订阅管理发布</h4>
+			</div>
+			<div class="modal-body">确认要发布此数据？</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="modifyStats(subscribe)">确认发布</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">删除</h4>
+			</div>
+			<div class="modal-body">确认要删除此数据？</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove(subscribe)">确认删除</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!-- 下线 -->
+<div class="modal fade" id="pushoutDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">下线</h4>
+			</div>
+			<div class="modal-body">确认要下线此数据？</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="modifyStats(subscribe)">确认下线</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!--查看详细信息-->
+<div class="modal fade" id="queryDialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">订阅详细信息</h4>
+			</div>
+			<div class="modal-body">
+				<div class="col-sm-12 col-md-12">
+					<form role="form" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-lg-2 control-label">报表名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.repName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.subscribeName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">订阅类型</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ subscribe.subscribeMethod | RSM_subscribeMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">推送方式</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">
+								{{ subscribe.pushMethod | RSM_pushMethod}}
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">状态</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{ subscribe.subscribeStats | RSM_subscribeStats}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">创建人</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.createName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">创建时间</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">描述</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{subscribe.subscribeDesc}}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+	
+</div>
+<!-- /.modal -->
+
+<a id="toReport" target="_blank"></a>

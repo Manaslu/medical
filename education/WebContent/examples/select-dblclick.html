@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>数据重构测试demo</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap-datepicker-master/_build/datepicker.css"/>
+    <link rel="stylesheet" href="../css/newIndex.css"/>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../css/ie8.css"/>
+    <![endif]-->
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl">
+
+<ul>
+    <li ng-repeat="item in list"><a href="#{{item.xxx}}"></a></li>
+</ul>
+
+<script src="../base/es5-shim/es5-shim.min.js"></script>
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/bootstrap-datepicker.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+
+var app = angular.module('app', []);
+app.controller('TestCtrl', function ($scope) {
+    $scope.list = [{id : 1 , name : 'aaa'} , {id : 2 , name : 'bbb'}];
+
+    $scope.testFn = function(el){
+        if($scope.selected){
+            console.log('selected' , $scope.selected);
+        }
+    };
+
+});
+
+angular.bootstrap(document, ['app']);
+
+</script>
+</body>
+</html>

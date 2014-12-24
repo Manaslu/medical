@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../base/zTree_v3/css/zTreeStyle/zTreeStyle.css"/>
+    <style type="text/css">
+        .ztree-ui li a {width:100%;padding-top: 0; display: inline-block;text-indent: .5em;position: relative;}
+        .ztree-ui li a:hover{
+            background-color: #D4FFE7;
+            border: 1px solid #7FE8B8;
+        }
+        .ztree li a.curSelectedNode {
+            background-color: #D4FFE7;
+            border: 1px solid #097941;
+        }
+        .ztree-ui .pull-right{
+            position: absolute;
+            top: -1px;
+            right: 5px;
+        }
+    </style>
+</head>
+<body ng-controller="TestCtrl">
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="container">
+    <div class="row" style="padding-top: 50px;">
+        <div class="col-sm-6 col-md-6">
+            <ul class="ztree" id="ztree-ui" data-ztree="api" data-data="data"></ul>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <ul class="ztree ztree-ui showIcon" id="ztree-ui2" data-ztree="api2" data-data="data" data-setting="setting"></ul>
+        </div>
+    </div>
+
+</div>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script>
+
+</script>
+<script src="../base/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['ngResource' ,'directive']);
+
+        app.controller('TestCtrl' , function($scope , $http){
+
+            $http.get('../application/data/menu.json').success(function(data){
+                $scope.data = data;
+            });
+
+            $scope.setting = {
+                view : {
+                    selectedMulti: false,
+                    dblClickExpand: false,
+                    addHoverDom : addHoverDom,
+                    removeHoverDom : removeHoverDom
+                }
+            };
+
+            var IDMark_A = "_a";
+
+            //动态添加自定义dom按钮，创建，修改，删除
+            function addHoverDom(treeId, treeNode) {
+                var nodeObj = $("#" + treeNode.tId + IDMark_A);
+                if (treeNode._btn) {
+                    return;
+                }
+                var btnDom = $(
+                        '<div class="pull-right"><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editDialog" style="margin-left: 10px;" name="edit">修改</button>\
+                         <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#removeDialog" name="del">删除</button>\
+                         <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editDialog" name="create" siblings="true">创建同级机构</button>\
+                         <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editDialog" name="create">创建子机构</button></div>');
+                nodeObj.append(btnDom);
+                btnDom.on("click", function () {
+                });
+                treeNode._btn = btnDom;
+            }
+
+            //移除动态创建的按钮
+            function removeHoverDom(treeId, treeNode) {
+                treeNode._btn && treeNode._btn.remove();
+                treeNode._btn = null;
+            }
+        });
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

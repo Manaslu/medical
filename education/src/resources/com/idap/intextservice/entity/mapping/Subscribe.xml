@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：t06_report_subscribe_rec -->
+<mapper namespace="com.idap.intextservice.result.subscriptions.entity.Subscribe">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="subscribeMap"
+		type="com.idap.intextservice.result.subscriptions.entity.Subscribe">
+		<result property="subscribeId" column="SUBSCRIBE_ID" jdbcType="VARCHAR" />
+		<result property="subscribeName" column="SUBSCRIBE_NAME" jdbcType="VARCHAR" />
+		<result property="subscribeMethod" column="SUBSCRIBE_METHOD" jdbcType="VARCHAR" />
+		<result property="pushMethod" column="PUSH_METHOD" jdbcType="VARCHAR" />
+		<result property="subscribeDesc" column="SUBSCRIBE_DESC" jdbcType="VARCHAR" />
+		<result property="subscribeStats" column="SUBSCRIBE_STATS" jdbcType="VARCHAR" />
+		<result property="reportName" column="REPORT_NAME" jdbcType="VARCHAR" />
+		<result property="createUser" column="CREATE_USER" jdbcType="VARCHAR" />
+		<result property="createName" column="CREATE_NAME" jdbcType="VARCHAR" />
+		<result property="isDel" column="IS_DEL" jdbcType="VARCHAR" />
+		<result property="userId" column="USER_ID" jdbcType="VARCHAR" />
+		<result property="subscribeType" column="SUBSCRIBE_TYPE" jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP" />
+		<result property="Id" column="ID" jdbcType="VARCHAR" />
+		<result property="anaThemeName" column="ANA_THEME_NAME" jdbcType="VARCHAR" />
+		<result property="repName" column="REP_NAME" jdbcType="VARCHAR" />
+		<result property="anaThemeRepId" column="ANA_THEME_REP_ID" jdbcType="VARCHAR" />
+		<result property="anaThemeId" column="ANA_THEME_ID" jdbcType="VARCHAR" />
+		<result property="empowerId" column="EMPOWER_ID" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 订阅信息查询 -->
+	<select id="query" parameterType="java.util.Map" resultMap="subscribeMap">
+		select * from t06_report_subscribe_rec t
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map"
+		resultMap="subscribeMap">
+		select 
+			subscribe_id,
+			subscribe_name,
+			subscribe_method,
+			push_method,
+			subscribe_desc,
+			staer_date,
+			end_date,
+			subscribe_stats,
+			create_user,
+			create_date,
+			ana_theme_name,
+            rep_name,
+			id,
+			ana_theme_id,
+            ana_theme_rep_id,
+			usr_name as CREATE_NAME
+			
+			<if test="userId!=null">
+				,SUBSCRIBE_TYPE
+				,empower_id
+			</if>
+				from (select t.*, ROWNUM AS rowno
+					from (select t.subscribe_id,
+					t.subscribe_name,
+					t.subscribe_method,
+					t.push_method,
+					t.subscribe_desc,
+					t.staer_date,
+					t.end_date,
+					t.subscribe_stats,
+					t.create_user,
+					t.create_date,
+					t.is_del,
+					usr.usr_name,
+					t1.id,
+					t2.ana_theme_name,
+					t2.ana_theme_id,
+                    thr.ana_theme_rep_id,
+                    thr.rep_name
+                    
+					<if test="userId!=null">
+						,t3.SUBSCRIBE_TYPE
+						,t3.id as empower_id
+					</if>
+					from t06_report_subscribe_rec t
+					left join t02_user_base usr
+					on t.create_user = usr.user_id
+					left join t06_subscribe_content_dtl t1
+					on t.subscribe_id = t1.subscribe_id
+					left join T08_RESULT_ANA_THEME t2
+                    on t1.ana_theme_id=t2.ana_theme_id
+                    left join T08_RESULT_ANA_THEME_REP thr
+                    on t1.ana_theme_rep_id=thr.ana_theme_rep_id
+					<if test="userId!=null">
+						left join t06_subscribe_empower_dtl t3
+						on t.subscribe_id=t3.subscribe_id
+					</if>
+					<include refid="dynamicWhere" />
+					order by t.create_date desc) t
+					where ROWNUM <![CDATA[<=]]> ${eno}) t
+					<if test="sno!=null and eno!=null">
+						where t.rowno <![CDATA[>=]]> ${sno}
+					</if>
+    </select>
+
+	<!-- 根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		count(1)
+		from
+		t06_report_subscribe_rec t
+		left join t02_user_base usr
+		on t.create_user=usr.user_id
+		left join t06_subscribe_content_dtl t1
+		on t.subscribe_id=t1.subscribe_id
+		left join T08_RESULT_ANA_THEME t2
+        on t1.ana_theme_id=t2.ana_theme_id
+        left join T08_RESULT_ANA_THEME_REP thr
+        on t1.ana_theme_rep_id=thr.ana_theme_rep_id
+		<if test="userId!=null">
+		left join t06_subscribe_empower_dtl t3
+		on t.subscribe_id=t3.subscribe_id
+		</if>
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 新增订阅信息 -->
+	<insert id="insert"
+		parameterType="com.idap.intextservice.result.subscriptions.entity.Subscribe">
+		INSERT INTO
+		t06_report_subscribe_rec
+		(SUBSCRIBE_ID,SUBSCRIBE_NAME,SUBSCRIBE_METHOD,PUSH_METHOD,SUBSCRIBE_DESC,SUBSCRIBE_STATS,CREATE_USER,CREATE_DATE,IS_DEL)
+		values(
+		#{subscribeId,jdbcType=VARCHAR},
+		#{subscribeName,jdbcType=VARCHAR},
+		#{subscribeMethod,jdbcType=VARCHAR},
+		#{pushMethod,jdbcType=VARCHAR},
+		#{subscribeDesc,jdbcType=VARCHAR},
+		'0',
+		#{createUser,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		'1'
+		)
+	</insert>
+
+	<!-- 修改订阅信息 -->
+	<update id="update" parameterType="java.util.Map">
+		update t06_report_subscribe_rec t
+		<include refid="dynamicSet" />
+		where t.SUBSCRIBE_ID=#{subscribeId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.idap.intextservice.result.subscriptions.entity.Subscribe">
+		DELETE FROM t06_report_subscribe_rec t
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- update:set 动态生成可更新字段 -->
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="subscribeName!=null">
+				,t.SUBSCRIBE_NAME=#{subscribeName,jdbcType=VARCHAR}
+			</if>
+			<if test="subscribeMethod!=null">
+				,t.SUBSCRIBE_METHOD=#{subscribeMethod,jdbcType=VARCHAR}
+			</if>
+			<if test="pushMethod!=null">
+				,t.PUSH_METHOD=#{pushMethod,jdbcType=VARCHAR}
+			</if>
+			<if test="subscribeDesc!=null">
+				,t.SUBSCRIBE_DESC=#{subscribeDesc,jdbcType=VARCHAR}
+			</if>
+			<if test="subscribeStats!=null">
+				,t.SUBSCRIBE_STATS=#{subscribeStats,jdbcType=VARCHAR}
+			</if>
+			<if test="isDel!=null">
+				,t.IS_DEL=#{isDel,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- where:and 动态生成可筛选字段 -->
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		        AND t.IS_DEL=1
+		    <if test="subscribeName!=null">
+				AND t.SUBSCRIBE_NAME like '%'||#{subscribeName}||'%'
+			</if>
+			<if test="startTime!=null">
+				AND t.CREATE_DATE <![CDATA[>=]]>to_date('${startTime}', 'yyyy-mm-dd')
+			</if>
+			<if test="endTime!=null">
+				AND t.CREATE_DATE <![CDATA[<=]]>to_date('${endTime}', 'yyyy-mm-dd')
+			</if>
+			<if test="subscribeStats!=null">
+				AND t.SUBSCRIBE_STATS =#{subscribeStats,jdbcType=VARCHAR}
+			</if>
+			<if test="subscribeMethod!=null">
+				AND t.SUBSCRIBE_METHOD =#{subscribeMethod,jdbcType=VARCHAR}
+			</if>
+			<if test="subscribeId!=null">
+				AND t.SUBSCRIBE_ID=#{subscribeId,jdbcType=VARCHAR}
+			</if>
+			<if test="userId!=null">
+				AND t3.USER_ID =#{userId,jdbcType=VARCHAR}
+			</if>
+			<if test="subscribeType!=null">
+				AND t3.SUBSCRIBE_TYPE=#{subscribeType,jdbcType=VARCHAR}
+			</if>
+			<if test="anaThemeRepId!=null">
+				AND thr.ANA_THEME_REP_ID=#{anaThemeRepId,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+</mapper>

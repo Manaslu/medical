@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.ParaYearList" >
+	 
+    <resultMap id="paraYearList" type="com.idap.danalysis.entity.ParaYearList">
+		<result property="paraYear" column="PARA_YEAR" jdbcType="VARCHAR" />
+	</resultMap>
+ 	 
+	<select id="query" parameterType="String"  resultMap="paraYearList" >
+          SELECT DISTINCT T.ND PARA_YEAR FROM  TB_CDE_PAPER_LIST T ORDER BY T.ND DESC  
+	</select>
+
+</mapper>
+
+
+
+

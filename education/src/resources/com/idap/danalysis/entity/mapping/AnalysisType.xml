@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.AnalysisType" >
+    <resultMap id="analysisType" type="com.idap.danalysis.entity.AnalysisType">
+		<result property="anaMethodId" column="ANA_METHOD_ID" jdbcType="VARCHAR" />
+		<result property="anaMethodName" column="ANA_METHOD_NAME" jdbcType="VARCHAR" />
+
+	 	 
+	</resultMap>
+	 
+	
+ 
+	<sql id="queryBody">
+			select
+			<include refid="allColumn" />
+			<include refid="bodyfrom" />
+			where fail_flag ='0'
+	</sql>
+	
+	   <sql id="allColumn">
+	           T.ANA_METHOD_ID,
+		       T.ANA_METHOD_NAME 
+	   </sql>
+		<sql id="bodyfrom">
+                 FROM t04_analysis_method T
+	    </sql>
+	
+		<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="analysisType">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="demandAvailablequery" parameterType="java.util.Map" resultMap="analysisType">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="analysisType">
+		<include refid="queryBody" />
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+			<include refid="bodyfrom" />
+	</select>
+	 
+ 
+	
+	
+	
+     
+	
+
+</mapper>
+
+
+
+

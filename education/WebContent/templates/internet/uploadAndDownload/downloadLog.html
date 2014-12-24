@@ -1,0 +1,56 @@
+<div class="col-sm-12 col-md-12">
+
+
+	<div class="row">
+		<div class="col-sm-3 col-md-3">
+			<label>数据定义</label>
+			<select class="form-control"></select>
+		</div>
+		<div class="col-sm-3 col-md-3">
+			<label>数据集</label>
+			<input class="form-control" type="text" />
+		</div>
+		<div class="col-sm-2 col-md-2">
+			<label>下载开始时间</label>
+			<div data-datetimepicker></div>
+		</div>
+		<div class="col-sm-2 col-md-2">
+			<label>下载结束时间</label>
+			<div data-datetimepicker></div>
+		</div>
+		<div class="col-sm-2 col-md-2">
+			<label>&nbsp;</label>
+			<button class="btn btn-info" type="button" ng-click="query()">查询</button>
+			<label>&nbsp;</label>
+		</div>
+	</div>
+
+	<table class="table table-striped table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th>数据集</th>
+				<th>数据量</th>
+				<th>下载人</th>
+				<th>下载时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td>订阅信息</td>
+				<td>100</td>
+				<td>张三</td>
+				<td>2014-03-07 12:12</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="dataTables_info">当前显示 {{current*10+1}} 到 {{current*10+10 > list.length? list.length :
+				current*10+10}} ，总共 {{list.length}} 条数据</div>
+		</div>
+		<div class="col-sm-7">
+			<div data-paging="list" data-limit="10" data-data="limitArr" data-current="current"></div>
+		</div>
+	</div>
+</div>

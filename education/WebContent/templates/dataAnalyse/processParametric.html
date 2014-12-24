@@ -1,0 +1,719 @@
+<div class="col-sm-12 col-md-12">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix form-inline">
+                <div class="form-group">
+                    <label>分析名称</label>
+                    <input type="text" class="form-control" ng-model="params.anaMethodName" >
+                </div>
+                <div class="form-group">
+                    <label>分析类型</label>
+                    <select ng-model="params.anaMethodId" 
+                            data-live-search="false"  
+                            required select2 
+                            ng-options="item.anaMethodId as item.anaMethodName for item in analysisType"  
+			        ></select>
+					 
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#pushDialog">新增</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center  table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th style="width:280px;">分析名称</th>
+            <th style="width:80px;">分析类型</th>
+            <th style="width:80px;">创建人</th>
+            <th style="width:100px;">创建时间</th>
+            <th style="width:100px;">分析完成时间</th>
+            <th style="width:100px;">分析状态</th>
+            <th style="width:50px;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{current*limit+$index+1}}</td>
+            <td>{{item.anaThemeName}}</td>
+            <td>{{item.anaMethodName}}</td>
+            <td>{{item.createUser}}</td>
+            <td>{{item.createDate   |date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{item.finishedDate |date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td><font ng-show="item.anaStatus=='33'" color="#F23E35">{{item.anaStatus | DSL_anaStatus}}</font> <font ng-show="item.anaStatus!='33'" >{{item.anaStatus | DSL_anaStatus}}</font>    </td>
+            <td>
+            
+<!--  	32	已完成	分析状态 -->
+<!--  	33	已失败	分析状态 -->
+<!--  	30	新建	分析状态 -->
+<!--  	31	等待执行	分析状态 -->
+<!--  	44	进行中	分析状态 -->
+
+                <a ng-show="item.anaStatusId!='44' "  href="javascript:" data-toggle="modal" ng-click="toRemove(item.anaThemeId)" data-target="#removeDialog">删除</a>
+<!--                 <a data-tip="b" title="提交给系统,系统根据自身计算压力安排进行分析" ng-show="item.anaStatusId=='30'"  href="javascript:" data-toggle="modal" ng-click="toExcute(item.anaThemeId)" data-target="#startDialog">提交</a> -->
+                <a data-tip="b" title="提交给系统,系统根据自身计算压力安排进行分析" ng-show="item.anaStatusId=='30'"  href="javascript:" ng-click="commitToSystem(item.anaThemeId)" >提交</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+   <div 
+	data-remote-paging="pager" 
+	data-refresh="refresh" 
+	data-total="total" 
+	data-data="limitArr"
+	data-limit="limit"
+	data-size="3"
+	data-params="params"
+	data-current="current"
+	></div>
+</div>
+
+
+<!-- 新建/修改对话框 -->
+<div class="modal fade" id="pushDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 850px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">新增/修改</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" class="form-horizontal" name="proccessform" novalidate="novalidate">
+                        
+                           <div class="form-group">
+			                    <label class="col-lg-2 control-label">年份</label>
+			                    <div class="col-lg-3" data-tip="b" title="暂时只支持选择2014">
+				                     <select  
+				                             ng-options="item.paraYear as item.paraYear for item  in paraYearList" 
+				                             class="form-control" 
+				                             select2 
+				                             data-live-search="false" 
+				                             ng-model="formparams.paraYear"  
+				                             name="targetparaYear" 
+				                             required 
+				                             ng-change="getPaperByYear(params.paraYear)" >
+				                    </select>
+			                    </div>
+			                    <span class="mustItem">*</span>
+			                    
+			                   <label class="col-lg-2 control-label" for="pro">分析类型</label>
+
+                                <div class="col-lg-3">
+                                    <select id="pro" ng-init="formparams.anaMethodId = '2001'" select2 data-live-search="false" class="form-control" name="anatype" required ng-model="formparams.anaMethodId" data-valid-tip="{ required : '字段名为必须填项' }" data-valid-pos="bottom">
+                                        <option value="2001">单一报刊</option>
+                                        
+                                    </select>
+                                </div>
+                                <span class="mustItem">*</span>
+			                </div>
+                        
+                       
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">目标品种</label>
+			                    <div class="col-lg-10">
+	                                <div class="input-group">
+	                                    <input type="text" title="{{formparams.targetPapersNames}}" class="form-control"  ng-model="formparams.targetPapersNames" name="targetpaper"   required readonly="readonly" data-valid-tip="{ required : '字段名为必须填项' }" data-valid-pos="bottom">
+	                                    <div class="input-group-btn">
+	                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectPaper" ng-disabled="proccessform.targetparaYear.$invalid" >选择</button>
+	                                    </div>
+	                                </div>
+                               </div>
+                            </div>
+                            <div class="form-group" ng-show="proccessform.targetparaYear.$valid == true && proccessform.targetpaper.$valid== true">
+                                <label class="col-lg-2 control-label">参数值</label>
+                                <div class="col-lg-10">
+                                  
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th style="width:80px;" >参数类别</th>
+                                            <th>参数值   &nbsp;&nbsp;&nbsp; <font id="createErrorMssgDiv" ng-show="createErrorMessage != ''"  class="alert alert-danger alert-dismissable" >{{createErrorMessage}}</font></th>
+                                            <th style="width:30px;"> </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody >
+                                        <!-- 竞争品种 -->
+                                        <tr class="rowlink" >
+                                            <td data-tip="b" title="必须不能超过5个">竞争品种</td>
+                                            <td>
+			                                    <div class="input-group">
+				                                    <input type="text" title="{{formparams.competetorNames}}" class="form-control" ng-model="formparams.competetorNames" name="competetorPaper"  required readonly="readonly" data-valid-tip="{ required : '字段名为必须填项' }" data-valid-pos="bottom">
+				                                    <div class="input-group-btn">
+				                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectMultiPaper"   >选择</button>
+				                                    </div>
+				                                </div>
+				                               
+                                            </td>
+                                            <td>
+                                            <span class="mustItem">*</span>
+                                            </td>
+                                           
+                                             
+                                        </tr>
+
+                                        <!-- 同类市场 -->
+                                        <tr class="rowlink" >
+                                            <td>同类市场</td>
+                                            <td>
+	                                            <div class="input-group">
+				                                  <input type="text" title="{{formparams.samePaperNames}}" class="form-control" ng-model="formparams.samePaperNames" name="sameMarket" required readonly="readonly" data-valid-tip="{ required : '字段名为必须填项' }" data-valid-pos="bottom">
+				                                    <div class="input-group-btn">
+				                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectSameMarket"  >选择</button>
+				                                    </div>
+				                                </div>
+                                            </td>
+                                             <td>
+                                            <span class="mustItem">*</span>
+                                            </td>
+                                             
+                                        </tr>                                        
+                                        <!-- 行业类型 -->
+                                        <tr class="rowlink" >
+                                            <td>行业类型</td>
+                                            <td>
+	                                            <div class="input-group">
+				                                    <input title="{{formparams.industryNames}}" type="text" class="form-control" ng-model="formparams.industryNames" name="industrytype"  readonly="readonly" data-valid-tip="{ required : '字段名为必须填项' }" data-valid-pos="bottom">
+				                                    <div class="input-group-btn">
+				                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectIndustry"  >选择</button>
+				                                    </div>
+				                                </div>
+                                            </td>
+                                             <td>
+                                             
+                                            </td>
+                                             
+                                        </tr> 
+<!--                                          重点客户 -->
+<!--                                         <tr class="rowlink" > -->
+<!--                                             <td data-tip="b" title="文件必须为单列数据并且无特殊符号的txt文档,每个客户单独一行,无需符号结尾" >重点客户</td> -->
+<!--                                             <td > -->
+<!-- 													<div   -->
+<!-- 													     name="importantclient"  -->
+<!-- 													      uploader  -->
+<!-- 													     success="upsuccess($data , $file)"    -->
+<!-- 														 api="uploader"  -->
+<!-- 														 extensions="txt"  -->
+<!-- 														 placeholder="单列数据的txt文档"  -->
+<!-- 														 post-server="/upload.shtml"  -->
+														 
+<!-- 														  > -->
+<!-- 													</div> -->
+												 
+<!--                                             </td> -->
+<!--                                              <td> -->
+                                            
+<!--                                             </td> -->
+                                             
+<!--                                         </tr>                                          -->
+                                         <!-- 定义大客户 selectDefinitionClient-->
+                                        <tr class="rowlink" >
+                                            <td data-tip="b" title="必须至少要填一个条件">定义大客户</td>
+                                            <td  >
+	                                           <div class="input-group">
+				                                    <input title="{{formparams.bigclientsDesc}}" type="text"  class="form-control" ng-model="formparams.bigclientsDesc" name="defibigclient" readonly="readonly" data-valid-tip="{ required : '字段名为必须填项' }" data-valid-pos="bottom">
+				                                    <div class="input-group-btn">
+				                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectDefinitionClient" >选择</button>
+				                                    </div>
+				                                </div>
+                                            </td>
+                                             <td>
+                                            
+                                            </td>
+                                        </tr>  
+                                       <!-- 定义大客户-->
+                                        <tr class="rowlink" >
+                                            <td data-tip="b" title="必须不能超过3个">重点省</td>
+                                            <td >
+                                                <select 
+                                                ng-model="formparams.importantProvince" 
+                                                name="importantprovince" 
+                                                data-live-search="true" multiple select2  required
+                                                ng-options="item.provinceId as item.provinceName for item in provinceList" 
+                                                data-valid-tip="{ required : '字段名为必须填项' }" data-valid-pos="bottom"
+                                                ></select>
+                                            </td>
+                                             <td>
+                                            <span class="mustItem">*</span>
+                                            </td>
+                                        </tr>                                         
+                                        </tbody>
+                                    </table>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="form-group" ng-show="formparams.anaMethodId == 2002">
+                                <label class="col-lg-2 control-label">参数值</label>
+                                <div class="col-lg-10">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>值</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody ng-init="roleList = []">
+                                        <tr class="rowlink" ng-repeat="item in roleList">
+                                            <td><input class="form-control" ng-model="item.src" type="text"/></td>
+                                            <td><input class="form-control" ng-model="item.replace" type="text"/></td>
+                                            <td>
+                                                <a href="javascript:" ng-click="roleList.splice($index,1)">删除</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-default" ng-click="roleList.push({})">添加参数</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" >版本</label>
+                                <div class="col-lg-2">
+                                    <input type="text" number placeholder="请输入数字" id="versionname" ng-model="formparams.version" name="version" ng-maxlength="4" valid-tip="{maxlength:'最大长度不能超过4个字符'}"  valid-pos="bottom" class="form-control">
+                                </div>
+                                
+                                <label class="col-lg-2 control-label" for="name">分析名称</label>
+
+                                <div class="col-lg-5" data-tip="b" title="注意不要和其他分析名称重复" >
+                                    <input type="text" placeholder="分析名称" id="ananame" ng-model="formparams.anaThemeName"  name="anaThemename" required  class="form-control" ng-maxlength="200" ng-trim maxlength="200" ng-pattern="/^((?!<|>|\?).)+$/"
+										data-valid-tip="{ required : '字段名为必须填项' , maxlength:'最大长度为200个字符',pattern:'字段名不允许存在 <、>、? '}" data-valid-pos="bottom"
+                                    />
+                                </div>
+                                 <span class="mustItem">*</span>
+                                
+                               
+                            </div>
+                            
+     
+                                                        
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">分析描述</label>
+
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"   name="anaThenedesc" ng-model="formparams.anaThemeDesc"  ng-pattern="/^((?!<|>|\?).)+$/"
+										data-valid-tip="{ pattern:'字段名不允许存在 <、>、? '}" data-valid-pos="bottom" ></input>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-disabled="proccessform.$invalid" ng-click="saveParameters()" >保存</button>
+                <button type="button" class="btn btn-danger"  ng-click="clearForm()" >重置</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- 报刊选择表 -->
+<div class="modal fade" id="selectPaper" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择报刊</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <label>代号或名称</label>
+                        <input class="form-control" placeholder="报刊代号或名称" type="text" ng-model="params1.codeorname"/>
+                        <label> </label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label> </label>
+                        <button class="btn btn-info" ng-click="getPaperByYearAndKeyword()"  >查询</button>
+                        <label> </label>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label>已选报刊: &nbsp;<font color="#F23E35">{{targetPapersName}}</font></label>
+                         
+                    </div>
+                     
+                </div> 
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+                            <tr>
+                                <th style="width:40px">序号</th>
+                                <th style="width:60px" >代号</th>
+                                <th>报刊名</th>
+                                <th>报刊市场</th>
+                                <th style="width:40px">选择</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in limitArr1">
+                                <td>{{current1*limit1+$index+1}}</td>
+                                <td>{{item.paperCode}}</td>
+                                <td>{{item.paperName}}</td>
+                                <td>{{item.cpfl}}</td>
+
+                                <td>
+                                	<input type="checkbox" ng-value="item.paperName" ng-model="item.chk" value-list="$parent.targetPapersName" />
+                                	<input type="checkbox" class="hide" ng-value="item.paperCode" ng-checked="item.chk" value-list="$parent.targetPapersId"/>
+                                	<input type="checkbox" class="hide" ng-value="item.cpfl" ng-checked="item.chk" value-list="$parent.targetPapersFl"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+					<div 
+						data-remote-paging="pager1" 
+						data-refresh="refresh1" 
+						data-total="total1" 
+						data-data="limitArr1"
+						data-limit="limit1"
+						data-size="3"
+						data-params="params1"
+						data-current="current1"
+					></div>
+			        	
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmTargetPapers()" >确定</button>
+                <button type="button" class="btn btn-default"  ng-click="cancelTargetPapers()" >清除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancelTargetPapers()" >关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!-- 填写大客户参数 -->
+<div class="modal fade" id="selectDefinitionClient" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">定义大客户参数</h4>
+            </div>
+            <div class="modal-body">
+ 
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+                            <tr>
+                                <th style="width:40px">序号</th>
+                                <th style="width:250px" >条件名称</th>
+                                <th>值</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in definitionBigClientList">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.definitionName}}</td>
+                                <td><input ng-model="item.value" class="form-control"  value="" placeholder="数值" type="text" number /></td>
+          
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="createBigClientArray()">确定</button>
+                <button type="button" class="btn btn-default"  ng-click="clearParaBigClientArray()" >清除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearParaBigClientArray()" >关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- 报刊选择表竞争对手 -->
+<div class="modal fade" id="selectMultiPaper" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择报刊</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <label>代号或名称</label>
+                        <input class="form-control" placeholder="报刊代号或名称" type="text" ng-model="params2.codeorname"/>
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-info" ng-click="getPaperByYearAndKeywordm()"  >查询</button>
+                        <label>&nbsp;</label> 
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label>已选报刊:&nbsp;<font color="#F23E35">{{competetorName}}</font></label>
+                    </div>
+                     
+                </div>               
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+                            <tr>
+                                <th style="width:40px">序号</th>
+                                <th style="width:60px" >代号</th>
+                                <th>报刊名</th>
+                                <th>报刊市场</th>
+                                <th style="width:40px">选择</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in limitArr2">
+                                <td>{{current2*limit2+$index+1}}</td>
+                                <td>{{item.paperCode}}</td>
+                                <td>{{item.paperName}}</td>
+                                <td>{{item.cpfl}}</td>
+
+                                <td>
+                                    <input type="checkbox" ng-value="item.paperName" ng-model="item.competetor" value-list="$parent.competetorName" />
+                                	<input type="checkbox" class="hide" ng-value="item.paperCode" ng-checked="item.competetor" value-list="$parent.competetorId"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+			         <div 
+						data-remote-paging="pager2" 
+						data-refresh="refresh2" 
+						data-total="total2" 
+						data-data="limitArr2"
+						data-limit="limit2"
+						data-size="3"
+						data-params="params2"
+						data-current="current2"
+						></div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="confirmCompetetors()" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-default"  ng-click="clearCompetetors()" >清除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearCompetetors()">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- 报刊选择同类市场 -->
+<div class="modal fade" id="selectSameMarket" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择同类市场</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <label>代号或名称</label>
+                        <input class="form-control" placeholder="报刊代号或名称" type="text" ng-model="params4.codeorname"/>
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-info" ng-click="getSamePaperByYearAndKeywordm()"  >查询</button>
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label>已选报刊: &nbsp;<font color="#F23E35">{{samePaperName}}</font></label>
+                    </div>
+                     
+                </div>               
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+                            <tr>
+                                <th style="width:40px">序号</th>
+                                <th style="width:60px" >代号</th>
+                                <th>报刊名</th>
+                                <th>报刊市场</th>
+                                <th style="width:40px">选择</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in limitArr4">
+                                <td>{{current4*limit4+$index+1}}</td>
+                                <td>{{item.paperCode}}</td>
+                                <td>{{item.paperName}}</td>
+                                <td>{{item.cpfl}}</td>
+
+                                <td>
+                                     <input type="checkbox" ng-value="item.paperName" ng-model="item.samem" value-list="$parent.samePaperName" />
+                                	 <input type="checkbox" class="hide" ng-value="item.paperCode" ng-checked="item.samem" value-list="$parent.samePaperId"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+			        <div 
+						data-remote-paging="pager4" 
+						data-refresh="refresh4" 
+						data-total="total4" 
+						data-data="limitArr4"
+						data-limit="limit4"
+						data-size="3"
+						data-params="params4"
+						data-current="current4"
+					></div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="comfirmSameMarkets()">确定</button>
+                <button type="button" class="btn btn-default"  ng-click="clearSameMarkets()" >清除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearSameMarkets()" >关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+<!-- 行业类型 -->
+<div class="modal fade" id="selectIndustry" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择行业类型</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <label>名称</label>
+                        <input class="form-control" placeholder="行业名称" type="text" ng-model="params3.industryName"/>
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-info" ng-click="getIndustryByName()" >查询</button>
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label>已选行业: &nbsp;<font color="#F23E35">{{industryName}}</font></label>
+                    </div>
+                     
+                </div>               
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+                            <tr>
+                                <th style="width:40px">序号</th>
+                                <th>市场名</th>
+                                <th style="width:40px">选择</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in limitArr3">
+                                <td>{{current3*limit3+$index+1}}</td>
+                                <td>{{item.idstryTypeName}}</td>
+                                <td>
+                                     <input type="checkbox" ng-value="item.idstryTypeName" ng-model="item.indust" value-list="$parent.industryName" />
+                                	 <input type="checkbox" class="hide" ng-value="item.industTypeCd" ng-checked="item.indust" value-list="$parent.industryId"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+			        	<div 
+						data-remote-paging="pager3" 
+						data-refresh="refresh3" 
+						data-total="total3" 
+						data-data="limitArr3"
+						data-limit="limit3"
+						data-size="3"
+						data-params="params3"
+						data-current="current3"
+					></div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="comfirmIndustry()">确定</button>
+                <button type="button" class="btn btn-default"  ng-click="clearIndustry()" >清除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearIndustry()">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!-- 启动对话框 -->
+<div class="modal fade" id="startDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">启动分析</h4>
+            </div>
+            <div class="modal-body">
+                确认要启动分析么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="comfirmExcute()" data-dismiss="modal">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除项目</h4>
+            </div>
+            <div class="modal-body">
+                确认要删除此数据么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="comfirmDelete()" data-dismiss="modal">确认删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-sm-12 col-md-12" ng-if="!data.length">
+        <div class="alert"><strong>无数据可以显示,</strong>请更换查询条件!</div>
+    </div>
+    <div ng-show="total">
+        <div class="col-sm-5 col-md-5">
+            <div class="dataTables_info">
+                当前显示 {{getDataRange(current , limit)}} 到 {{getDataRange(current , limit , total , true)}} ，总共 {{total || 0}} 条数据
+            </div>
+        </div>
+        <div class="col-sm-7 col-md-7">
+            <div class="dataTables_paginate">
+                <ul class="pagination pagination-sm">
+                    <li class="prev" ng-class="{disabled:current == 0}"><a href="javascript:" ng-click="goToPage(0)">首页</a></li>
+                    <li class="prev" ng-class="{disabled:current == 0}"><a href="javascript:" ng-click="goToPage(current-1)">上一页</a></li>
+                    <li ng-class="{active:item  == current}" ng-repeat="item in pageList"><a href="javascript:" ng-click="goToPage(item)">{{item + 1}}</a></li>
+                    <li class="next" ng-class="{disabled:current == totalPage - 1}"><a href="javascript:" ng-click="goToPage(current+1)">下一页</a></li>
+                    <li class="next" ng-class="{disabled:current == totalPage - 1}"><a href="javascript:" ng-click="goToPage(totalPage-1)">尾页</a></li>
+                    <li class="next"><select class="form-control input-sm paging-select" ng-model="limit" ng-options="item for item in limits"></select></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

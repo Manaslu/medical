@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>数据重构测试demo</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap-datepicker-master/_build/datepicker.css"/>
+    <link rel="stylesheet" href="../css/newIndex.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../css/ie8.css"/>
+    <![endif]-->
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl as t">
+<div class="container">
+
+    <div ng-show="view == 0" help="选择数据集及连接方式">
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <label>选择数据集A</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <label>选择数据集B</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <label>选择连接方式</label>
+                <select class="form-control" ng-model="integrationType"
+                        ng-options="key as val  for (key,val) in integrationTypes"></select>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <h4>
+                一 ： 设置整合依据
+                <div class="pull-right">
+                    <button class="btn btn-default" ng-click="roles.push({})">添加整合依据</button>
+                </div>
+            </h4>
+            <table class="table table-striped table-bordered table-condensed index-center">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>数据集A</th>
+                    <th>数据集B</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="rowlink" ng-repeat="role in roles">
+                    <td>{{$index + 1}}</td>
+                    <td>
+                        <select ng-model="role.a" ng-options="item as item.columnDesc for item in t.dbAColumns"></select>
+                    </td>
+                    <td>
+                        <select ng-model="role.b" ng-options="item as item.columnDesc for item in getBRoleKeys(role.a)"></select>
+                    </td>
+                    <td>
+                        <a href="javascript:" ng-click="roles.splice($index , 1)">取消</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row text-center">
+            <button class="btn btn-primary" ng-click="startIntegration()">开始整合</button>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .no-availability{
+            color: #949494 !important;
+            background-color: #F7F7F7 !important;
+            border-color: #dedede !important;
+        }
+        th.active, td.active{
+            background-color: #D6E6FF !important;
+            border-color: #c8d6ee !important;
+            color: #666;
+        }
+    </style>
+
+    <div ng-if="view == 1" help="开始数据整合">
+        <div class="row">
+            <h4 style="margin-bottom: 10px;">
+                二 ： 数据整合
+            </h4>
+
+            <table class="table table-striped table-bordered table-condensed">
+                <tr>
+                    <td colspan="5">颜色示例</td>
+                </tr>
+                <tr>
+                    <td class="active">整合依据</td>
+                    <td class="warning">数据集A</td>
+                    <td class="danger">数据集B</td>
+                    <td class="success">合并颜色</td>
+                    <td class="no-availability">不合并颜色</td>
+                </tr>
+            </table>
+
+            <div class="col-sm-12 col-md-12 clearfix" style="margin-bottom: 10px;">
+                <div class="pull-right">
+                    <button class="btn btn-xs btn-primary" ng-click="toogleViewMode()">切换整合视图</button>
+                </div>
+            </div>
+
+            <div ng-if="viewMode==0" class="table-auto-scroll">
+                <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+
+                    <tr help="所有的字段">
+                        <th class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}" ng-repeat="key in getKeys()" title="
+名称(name) : {{key.name}}
+描述(columnDesc) : {{key.columnDesc}}
+类型(type) : {{key.type}}
+长度(size) : {{key.size}}
+                        ">
+                            <input ng-if="key._merge" type="checkbox" ng-model="$parent.key._chk" title="选择将会将此值合并" ng-disabled="disb(key)"/>
+                            {{key._dbName}}{{key.columnDesc}}
+                            <select ng-if="!key._rule" ng-show="!key._merge && getMergeKey(key , key._key , key._self).length" ng-model="$parent.key._merge" ng-options="item as item.columnDesc for item in getMergeKey(key , key._key , key._self)" ng-disabled="!key._availability">
+                                <option value="">--</option>
+                            </select>
+                        </th>
+                    </tr>
+                    <tr help="整合规则">
+                        <th class="{{role._roCls || role._mgCls || role._cls}}" ng-class="{'no-availability' : !role._availability}" ng-repeat="role in getRoles()" colspan="{{role._colspan}}">
+                            {{role.columnDesc}}
+                            <a href="javascript:" ng-show="role._merge" ng-click="cancelMerge(role)" title="取消此合并">cancel</a>
+                            <input type="checkbox" ng-show="!role._merge && !role._rule" ng-model="role._availability" title="是否有效合并"/>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="i in getTrs()">
+                        <td ng-class="{'no-availability' : !item._availability}" ng-repeat="item in getRoles()" class="{{item._roCls || item._mgCls || item._cls}}" colspan="{{item._colspan}}">{{getVal(item , item._merge , $parent.$index)}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table ng-if="viewMode==1" class="table table-striped table-bordered table-condensed index-center">
+                <thead>
+                <tr>
+                    <th>有效合并</th>
+                    <th colspan="2">数据集字段名</th>
+                    <th>整合结果预览</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="key in t.dbAColumns | orderByKey">
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}">
+                        <input type="checkbox" ng-model="key._availability" ng-if="!key._rule && !key._merge"/>
+                    </td>
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}" colspan="{{key._colspan == 2 ? 1 : 2}}">
+                        <input type="checkbox" ng-model="key._chk" ng-if="key._merge"/>
+                        {{key._dbName}}{{key.columnDesc}}
+                        <select
+                                ng-if="!key._rule" ng-show="!key._merge && getMergeKey(key , t.dbBColumns , t.dbAColumns).length"
+                                ng-model="key._merge"
+                                ng-options="item as item.columnDesc for item in getMergeKey(key , t.dbBColumns , t.dbAColumns)"
+                                ng-disabled="!key._availability"
+                                ></select>
+                    </td>
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}" ng-if="key._colspan == 2">
+                        <input type="checkbox" ng-model="key._merge._chk" ng-if="key._merge"/>
+                        {{(key._merge || key._rule)._dbName}}{{(key._merge || key._rule).columnDesc}}
+                    </td>
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}">{{getVal2(key._merge , key)}}</td>
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}">
+                        <a href="javascript:" ng-click="cancelMerge(key)" ng-show="key._merge">cancel</a>
+                    </td>
+                </tr>
+
+                <tr ng-repeat="key in t.dbBColumns" ng-hide="key._merge || key._rule">
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}">
+                        <input type="checkbox" ng-model="key._availability"/>
+                    </td>
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}" colspan="{{key._colspan == 2 ? 1 : 2}}">
+                        {{key._dbName}}{{key.columnDesc}}
+                        <select
+                                ng-if="!key._rule" ng-show="!key._merge && getMergeKey(key , t.dbAColumns , t.dbBColumns).length"
+                                ng-model="key._merge"
+                                ng-options="item as item.columnDesc for item in getMergeKey(key , t.dbAColumns , t.dbBColumns)"
+                                ng-disabled="!key._availability"
+                                ></select>
+                    </td>
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}">{{key.columnDesc}}</td>
+                    <td class="{{key._roCls || key._mgCls || key._cls}}" ng-class="{'no-availability' : !key._availability}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="row text-center">
+            <button class="btn btn-primary" ng-click="showView(0);">重选整合依据</button>
+            <button class="btn btn-primary" ng-click="reset();">重置</button>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="../base/es5-shim/es5-shim.min.js"></script>
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/bootstrap-datepicker.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+
+    var app = angular.module('app', []);
+    app.filter('orderByKey' , function(){
+       return function(arr){
+          var ret = [];
+           var roles = arr.filter(function(item){
+                return item._rule;
+           });
+           var merges = arr.filter(function(item){
+              return item._merge;
+           });
+           var other = arr.filter(function(item){
+              return !item._merge && !item._rule;
+           });
+           return ret.concat(roles , merges , other);
+       };
+    });
+    app.controller('TestCtrl', function ($scope) {
+
+        $scope.view = 0;//视图，0：选择数据集，1：数据整合
+        $scope.showView = function (view) {
+            $scope.view = view;
+        };
+
+        $scope.viewMode = 0;
+        $scope.toogleViewMode = function(){
+            $scope.viewMode = $scope.viewMode == 0 ? 1 : 0;
+        };
+
+        $scope.integrationTypes = ['A为主数据集' , 'B为主数据集' , '交集'];
+
+        $scope.integrationType = '0';//连接类型 [0 : 'A为主数据集' , 1 : 'B为主数据集' , 2 : '交集']
+
+        $scope.roles = [
+            {}
+        ];//整合依据
+
+        var t = this;
+
+        //开始整合，做校验，必须有一条以上完整的依据
+        $scope.startIntegration = function () {
+            var pass = !!$scope.roles.length,//默认通过状态，整合规则必须1条以上
+                errs = [];
+
+            !pass && errs.push({msg : '整合依据是必须的'});
+
+            $scope.roles.forEach(function (item, index) {
+                if (!item.a || !item.b || item.a.dataType !== item.b.dataType) {//必须有的完整的规则
+                    pass = false;//有任何一个不完整，则不许通过
+                    errs.push({
+                        msg : '',
+                        index: index
+                    });
+                }
+            });
+
+            if (!pass) return alert('数据整合依据不完整,不允许出现的字段匹配或空的依据');
+
+            if(pass){
+                $scope.reset(true);
+                //初始化整合依据数据
+                $scope.roles.forEach(function(item){
+                    item.a._rule = item;
+                    item.b._rule = item;
+                    item.a._roCls = item.b._roCls = 'active';//整合依据样式
+                });
+                $scope.showView(1);//是否可以开始整合
+            }
+        };
+
+        $scope.getBRoleKeys = function(a){
+            if(!a)return [];
+            return t.dbBColumns.filter(function(b){
+                return a.dataType == b.dataType;
+            });
+        };
+
+        $scope.reset = function(all){
+            dataInit('(B)' , 'danger' , t.dbBColumns , t.dbAColumns , t.dbB , t.dbA , all);
+            dataInit('(A)' , 'warning' , t.dbAColumns , t.dbBColumns , t.dbA , t.dbB , all);
+        };
+
+        //数据初始化
+        function dataInit(dbName , cls , dbKey  , dbKey2 , meDb , pDb , all){
+            dbKey.forEach(function (item) {
+                item._dbName = dbName;//标识是那个数据集
+                item._meDb = meDb;//自己的数据集
+                item._pDb = pDb;//对应的数据集
+                item._key = dbKey2;//标识对应的字段
+                item._self = dbKey;//自己的字段
+                item._merge = null;//合并清空
+                item._availability = true;//是否有效整合
+                item._mgCls = '';//清空样式
+                item._cls = cls;//自己默认的样式
+                if(all){
+                    item._roCls = '';
+                    item._rule = null;//默认清空整合依据
+                }
+            });
+        }
+
+        //数据源A字段
+        t.dbAColumns = [
+            {columnName: 'name', dataType: 'string', columnDesc: '名字', size: '10'},
+            {columnName: 'tel', dataType: 'string', columnDesc: '手机', size: '11'},
+            {columnName: 'age', dataType: 'number', columnDesc: '年龄', size: '3'},
+            {columnName: 'sex', dataType: 'number', columnDesc: '性别', size: '3'},
+            {columnName: 'post', dataType: 'string', columnDesc: '邮编', size: '3'},
+            {columnName: 'id', dataType: 'string', columnDesc: '身份证', size: '3'}
+        ];
+
+        for (var i = 0; i < 30; i++) {
+            t.dbAColumns.push({
+                columnName : 'Acolumn' + i + 1,
+                dataType : 'string',
+                columnDesc : 'Acolumn' + i + 1,
+                size : 10
+            })
+        }
+
+        //数据源B字段
+        t.dbBColumns = [
+            {columnName: 'name', dataType: 'string', columnDesc: '姓名', size: '20'},
+            {columnName: 'email', dataType: 'string', columnDesc: '邮箱', size: '100'},
+            {columnName: 'addr', dataType: 'string', columnDesc: '地址', size: '200'},
+            {columnName: 'phone', dataType: 'string', columnDesc: '电话', size: '11'},
+            {columnName: 'post', dataType: 'string', columnDesc: '邮编', size: '3'},
+            {columnName: 'num', dataType: 'number', columnDesc: '数字', size: '3'},
+            {columnName: 'id', dataType: 'string', columnDesc: '身份证', size: '3'}
+        ];
+
+        for (var i = 0; i < 30; i++) {
+            t.dbBColumns.push({
+                columnName : 'Bcolumn' + i + 1,
+                dataType : 'string',
+                columnDesc : 'Bcolumn' + i + 1,
+                size : 10
+            });
+        }
+
+        //左数据集 数据源A数据
+        t.dbA = [];
+        for (var i = 0; i < 5; i++) {
+            var map = {name: '小白1', tel: '0106263285', age: 21 , sex : 0 , post : '10001' , id : '2010203010231'};
+            for (var s = 0; s < 30; s++) {
+                map['Acolumn' + s + 1] = "val";
+            }
+            t.dbA.push(map);
+        }
+
+        //右数据集 数据源B数据
+        t.dbB = [];
+
+        for (var i = 0; i < 5; i++) {
+            var map = {name: '小白1',  email: 'bai@hotmail1.com', addr: '北京一号' , num : 1 , phone: '0106263285', post : '111111' , id : '212123355666'};
+            for (var s = 0; s < 30; s++) {
+                map['Bcolumn' + s + 1] = "val";
+            }
+            t.dbB.push(map);
+        }
+
+        //将字段添加到数组中，可以有过滤那些不加入
+        function pushKeys(src , arr){
+            arr.forEach(function(item){
+                !item._merge && !item._rule && src.push(item);//只有不是整合依据和没有呗合并的通过
+            });
+        }
+
+        var has_rule;//整合依据假如列表做记录
+
+        //根据整合依据，拿到表头
+        $scope.getKeys = function () {
+            var columns1 = t.dbAColumns,//数据集A字段
+                columns2 = t.dbBColumns,//数据集B字段
+                has_merge = {},
+                get = 'ab',
+                ret = [];
+
+            console.log('getKeys()');
+
+            has_rule = {};//清空整合依据的处理
+
+            columns1.forEach(function(key){
+                //如果是整合依据
+                if(key._rule){
+                    //记录处理
+                    has_rule[key._rule['$$hashKey']] = key._rule;
+                    ret.push(key._rule[get[0]] , key._rule[get[1]]);
+                }
+            });
+
+            columns2.forEach(function(key){
+                //如果是整合依据,且不能是已经处理过的
+                if(key._rule && !has_rule[key._rule['$$hashKey']]){
+                    has_rule[key._rule['$$hashKey']] = key._rule;
+                    ret.push(key._rule[get[0]] , key._rule[get[1]]);
+                }
+            });
+
+            columns1.forEach(function(key){
+                //如果是合并
+                if(key._merge){
+                    //记录处理
+                    has_merge[key['$$hashKey']] = 1;
+                    key._merge._merge = key;
+                    ret.push(key , key._merge);
+                }
+            });
+
+            columns2.forEach(function(key){
+                //如果是合并且不能是已经处理过的
+                if(key._merge && !has_merge[key._merge['$$hashKey']]){
+                    key._merge._merge = key;
+                    has_merge[key._merge['$$hashKey']] = 1;
+                    ret.push(key._merge , key);
+                }
+            });
+
+            pushKeys(ret , columns1);
+            pushKeys(ret , columns2);
+
+            return ret;
+        };
+
+        //根据数据集优先，生成表格数据
+        $scope.getTrs = function () {
+            console.log('getTrs()');
+            return t.dbB;
+        };
+
+        //根据整合依据，返回整合规则
+        $scope.getRoles = function(){
+            var keys = $scope.getKeys(), ret = [], prev;
+            keys.forEach(function(item){
+                item.mgCls = '';
+                if (prev && item._rule && has_rule[item._rule['$$hashKey']] == prev._rule) {//如果是整合依据
+                    prev._colspan += 1;
+                }else if(prev && prev._merge == item){//下一个合并
+                    prev._colspan += 1;
+                    item._mgCls = 'success';
+                } else if (item._merge) {//如果是合并
+                    item._colspan = 1;
+                    item._mgCls = 'success';
+                    ret.push(prev = item);
+                } else {//第一次，合并 or 依据 统一处理
+                    item._colspan = 1;
+                    ret.push(prev = item);
+                }
+            });
+            return ret;
+        };
+
+        //得到合并列表
+        $scope.getMergeKey = function(self , key , arr){
+            return key.filter(function(item){
+                //筛选，类型必须一致
+                //过滤，已经属于整合依据的不许再次合并
+                //过滤，已经合并的也不许再次合并
+                //过滤，不合并的不许出现
+                return item.dataType == self.dataType && !item._rule && !item._merge && item._availability;
+            });
+        };
+
+        //取消合并
+        $scope.cancelMerge = function(a){
+            a._chk = a._merge._chk = null;//取消选中
+            a._merge._mgCls = a._mgCls = '';//样式取消
+            a._merge = a._merge._merge = null;//取消关联
+        };
+
+        //默认禁用，至少有一个要选中的。。
+        $scope.disb = function(key){
+            var merge = key._merge;
+            if(!key._chk && !merge._chk){//如果俩个都没有选中
+                return key._chk = true;//返回true禁用自己
+            }
+        };
+
+        //得到显示数据
+        $scope.getVal = function(key1/* 当前字段 */ , key2/* 目标字段 */ , index/*第几行的数据*/){
+            var meDb = key1._meDb[index] || {},//字段A
+                pDb = key1._pDb[index] || {};//字段B
+
+            if(key1._rule){//如果是整合规则,默认返回自己数据集的值
+                return meDb[key1.columnName];
+            }
+
+            var ret = [];
+
+            //如果是整合字段，
+            // 则选中A字段
+            // 或者选中B字段，
+            // 或者都没有选中的情况下，必须的，将数据集A的字段做收集
+            if(key1._chk || (!key1._chk && key2 && !key2._chk)){
+                putVal(meDb[key1.columnName]);
+            }
+
+            //如果有选中B字段，则将B字段加入集合
+            if(key2 && key2._chk){
+                putVal(pDb[key2.columnName]);
+            }
+
+            //字段没有任何选中，默认选中字段A
+            if(!ret.length){
+                putVal(meDb[key1.columnName]);
+            }
+
+            //如果是number类型，则相加
+            if(key1 && key2 && key1.dataType == 'number' && key2.dataType == 'number'){
+                return ret.length <= 1 ? ret[0] || '' : ret[0] + ret[1];
+            }
+
+            return ret.join(',');
+
+            function putVal(val){
+                val && ret.push(val);
+            }
+        };
+
+        $scope.getVal2 = function(key1 , key2){
+            if(key1 && key2 && key1._chk && key2._chk){
+                return key1.columnDesc + '+' + key2.columnDesc;
+            }else if(key1 && key1._chk){
+                return key1.columnDesc;
+            }
+            return key2.columnDesc;
+        }
+    });
+
+    angular.bootstrap(document, ['app']);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<div class="col-sm-12 col-md-12">
+
+	
+     <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-3 col-md-3">
+                    <label>需求名称</label>
+                    <input class="form-control" type="text" ng-model="params.requName"/>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>申请时间</label>
+                   	<div datetimepicker range start="params.applDate" end="params.applDate_"></div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>流程类型</label>
+                    <select ng-model="params.flowType" select2 ng-options="item.flowType as item.Name for item in flowTypeList"></select>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center  table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>需求编号</th>
+            <th>流程类型</th>
+            <th>需求名称</th>
+            <th>需求类型</th>
+            <th>申请人部门</th>
+            <th>申请人</th>
+            <th>申请时间</th>
+            <th>状态</th>
+            <th>是否补录</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1}}</td>
+            <td>{{item.requCode}}</td>
+            <td>{{item.flowType | DM_flow_type}}</td>
+            <td>{{item.requName}}</td>
+            <td>{{item.requType | DM_requ_type}}</td>
+            <td>{{item.applDept}}</td>
+            <td>{{item.applPer}}</td>
+            <td>{{item.applDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{item.approState | DM_appro_state}}</td>
+            <td>{{item.addRecord | DM_app_record}}</td>
+            <td>
+                <a href="javascript:"  data-toggle="modal" data-target="#affirm" ng-click="toDetail(copy(item))" >查看需求</a>
+				<!-- <a href="javascript:"  data-toggle="modal" data-target="#stepDialog" ng-click="toFollow(copy(item))" ng-if="item.addRecord == '0'">跟踪</a>-->
+                <a href="javascript:"  data-toggle="modal" data-target="#seeFruit" ng-click="getFruitInfo(copy(item))" ng-if="item.addRecord == '0'">查看成果</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+           <div data-remote-paging="pager" 
+				data-refresh="refresh" 
+				data-current="current" 
+				data-total="total" 
+				data-data="limitArr"
+				data-limit="limit"
+				data-params="params"
+		></div>
+    </div>
+
+<div class="modal fade" id="affirm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 700px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">需求查看</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" class="form-horizontal" novalidate="novalidate">
+							<div class="form-group">
+                                <label class="col-lg-2 control-label">流程类型</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.flowType | DM_flow_type}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">需求编号</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.requCode}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">需求名称</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.requName}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="achievement.requType=='2' || achievement.requType=='3'">
+                                <label class="col-lg-2 control-label">提出部门</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.applDept}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">提出人</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.applPer}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">需求类型</label>
+                                
+                                <div class="col-lg-10">
+                                	<p class="form-control-static">{{achievement.requType | DM_requ_type}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">申请时间</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.applDate | date:'yyyy-MM-dd'}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="achievement.requType =='1'">
+                                <label class="col-lg-2 control-label">安全级别</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.securityLev | DM_security_lev}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="achievement.requType =='1'">
+                                <label class="col-lg-2 control-label">紧急程度</label>
+
+                                <div class="col-lg-10">
+                                	<p class="form-control-static">{{achievement.emergencyLev | DM_emergency_lev}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="achievement.approState == '2' || achievement.approState == '9'" >
+                                <label class="col-lg-2 control-label">技术联系人</label>
+
+                                <div class="col-lg-10">
+                                    <p class="form-control-static">{{achievement.userName}}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">需求附件列表</label>
+                                <div class="col-lg-10">
+                                	<ul>
+                                		<li ng-repeat="item in fileList"><a href="javascript:" ng-click="download(item)">{{item.fileName}}</a></li>
+                                	</ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 查看成果详情 -->
+<div class="modal fade" id="seeFruit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">查看成果详情</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-sm-12 form-horizontal">
+                        <div class="form-group">
+                            <div class="col-lg-10">
+                                <table class="table table-striped table-bordered table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>需求编号</th>
+                                        <th>需求名称</th>
+                                        <th>成果内容</th>
+                                        <th>创建时间</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="rowlink" ng-repeat="fruit in AllFruitList">
+					                 <td>{{$index+1}}</td>
+					                 <td>{{fruit.requCode}}</td>
+					                 <td>{{fruit.requName}}</td>
+					                 <td>{{fruit.fruitCont}}</td>
+					                 <td>{{fruit.createTime | date:'yyyy-MM-dd'}}</td>
+					                 <td>{{fruit.oprId | DM_fruit_opr_id}}</td>
+						            <td>
+						                <a href="javascript:"  data-toggle="modal" data-target="#nodeAnnex" ng-click="getNodeAnnex(copy(fruit))">附件</a>
+						            </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 成果附件列表-->
+<div class="modal fade" id="nodeAnnex" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 700px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">成果附件列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" class="form-horizontal" novalidate="novalidate">
+
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                	<ul>
+                                		<li ng-repeat="item in fruitFileList"><a href="javascript:" ng-click="download(item)">{{item.fileName}}</a></li>
+                                	</ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<a id="downlink" target="_blank"></a>
+<div ng-include="'templates/technologicalProcess/steps-extends.html'"></div>
+<div ng-include="'templates/technologicalProcess/details-extends.html'"></div>

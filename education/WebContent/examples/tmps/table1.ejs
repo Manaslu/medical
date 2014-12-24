@@ -1,0 +1,66 @@
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr help="所有的字段">
+            <% for(var i= 0,ii=data.columns.length,column; i<ii; i++){column = data.columns[i]; %>
+                <th class="<%=column._class%>"
+                    title="
+    名称(name) : <%= column.columnName %>
+    描述(columnDesc) : <%= column.columnDesc %>
+    类型(type) : <%= column.dataType %>
+    长度(size) : <%= column.size %>
+            ">
+                    <% if(column._merge){ %>
+                        <input type="checkbox" name="value" title="选择将会将此值合并" <%=column._chk ? 'checked' : ''%> data-index="<%=i%>" data-type="<%=column._dbName%>"/>
+                    <% } %>
+
+                    <%= column._dbName + ' ' + column.columnDesc %>
+
+                    <% if(column.mergeKeys && column.mergeKeys.length){ %>
+
+                        <select <%= !column._availability ? 'disabled' : '' %> data-index="<%=i%>" data-type="<%=column._dbName%>">
+                            <option value="">--</option>
+                            <% if(column._availability){ %>
+                                <% for(var s = 0,ss = column.mergeKeys.length,merge; s < ss; s ++ ){merge = column.mergeKeys[s]; %>
+                                    <option value="<%=s%>"><%=merge.columnDesc%></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+
+                    <% } %>
+                </th>
+            <% } %>
+        </tr>
+        <tr help="整合规则">
+            <% for(i= 0,ii=data.columns.length; i<ii; i++){column = data.columns[i]; %>
+                <% if(column._prev){continue;} %>
+                <th colspan="<%=column._colspan%>" class="<%=column._class%>">
+                    <%= column._dbName + ' ' + column.columnDesc %>
+
+                    <% if(column._merge){ %>
+                        <a href="javascript:" title="取消此合并" name="cancel" data-index="<%=i%>">cancel</a>
+                    <% } %>
+                    <% if(!column._merge && !column._rule){ %>
+                        <input type="checkbox" name="availability" data-index="<%=i%>" title="是否有效合并" <%=column._availability ? 'checked' : ''%>/>
+                    <% } %>
+                </th>
+            <% } %>
+        </tr>
+
+    </thead>
+    <tbody>
+        <% for(i= 0,ii=data.tr.length; i<ii; i++){ %>
+        <tr>
+            <% for(s= 0,ss=data.columns.length; s<ss; s++){column=data.columns[s]; %>
+
+            <% if(column._prev){continue;} %>
+
+            <td class="<%= column._class %>"
+                colspan="<%= column._colspan %>">
+                <%= data.getVal(column , column._merge , i) %>
+            </td>
+
+            <% } %>
+        </tr>
+        <% } %>
+    </tbody>
+</table>

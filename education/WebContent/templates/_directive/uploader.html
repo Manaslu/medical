@@ -1,0 +1,94 @@
+<div class="webuploader">
+    <div class="input-group has-feedback" ng-if="!multiple && !thumb" help="普通单文件上传">
+        <input type="text" class="form-control" readonly ng-value="fileList[0].name"/>
+        <span class="glyphicon glyphicon-ok form-control-feedback icon-success" ng-show="fileList[0]._success"></span>
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="button" title="取消文件" ng-click="cancel(fileList[0] , 0)" ng-show="fileList.length">清空</button>
+            <span class="btn btn-default select-file">选择文件</span>
+        </div>
+
+        <div class="progress" ng-show="fileList[0]._upload">
+            <div class="progress-bar progress-bar-striped active"  role="progressbar"
+                 aria-valuenow="{{fileList[0]._progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{fileList[0]._progress}}%">
+                <span class="sr-only">{{fileList[0]._progress}}% Complete</span>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!multiple && thumb" help="单文件上传-图片">
+        <a class="thumbnail" ng-class="{active:fileList[0]._success}" ng-show="fileList.length">
+            <img title="{{fileList[0].name}}" ng-src="{{fileList[0]._src}}">
+            <img title="{{fileList[0].name}}" ng-src="{{fileList[0]._errImg}}" ng-show="fileList[0]._error"/>
+            <p title="{{fileList[0].name}}" ng-show="fileList[0]._error" class="fileErr">{{fileList[0].name}}</p>
+
+            <button class="btn btn-link btn-sm icon" ng-show="!fileList[0]._success" ng-click="cancel(fileList[0] , 0)" type="button" title="取消上传">
+                <span class="glyphicon glyphicon-remove text-danger"></span>
+            </button>
+
+            <button class="btn btn-link btn-sm icon" ng-show="fileList[0]._success" type="button" title="上传完成">
+                <span class="glyphicon glyphicon-ok text-success"></span>
+            </button>
+
+            <div class="progress" ng-show="fileList[0]._upload">
+                <div class="progress-bar progress-bar-striped active"  role="progressbar"
+                     aria-valuenow="{{fileList[0]._progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{fileList[0]._progress}}%">
+                    <span class="sr-only">{{fileList[0]._progress}}% Complete</span>
+                </div>
+            </div>
+        </a>
+        <span class="btn btn-default select-file">选择文件</span>
+    </div>
+
+    <div class="multiple" ng-if="multiple" help="多文件上传">
+        <div class="panel panel-default">
+            <ul class="list-group" ng-if="!thumb">
+                <li class="list-group-item" ng-class="{'list-group-item-success':file._success}" ng-repeat="file in fileList">
+                    <span>{{file.name}}</span>
+
+                    <button class="btn btn-link btn-sm icon" ng-show="!file._success" ng-click="cancel(file , $index)" type="button" title="取消上传">
+                        <span class="glyphicon glyphicon-remove text-danger"></span>
+                    </button>
+
+                    <button class="btn btn-link btn-sm icon" ng-show="file._success" type="button" title="上传完成">
+                        <span class="glyphicon glyphicon-ok text-success"></span>
+                    </button>
+
+                    <div class="progress" ng-show="file._upload">
+                        <div class="progress-bar progress-bar-striped active"  role="progressbar"
+                             aria-valuenow="{{file._progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{file._progress}}%">
+                            <span class="sr-only">{{file._progress}}% Complete</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="multiple image" ng-if="thumb" ng-show="fileList.length">
+                <a class="thumbnail" ng-class="{active:file._success}" ng-repeat="file in fileList">
+                    <img title="{{file.name}}" ng-hide="file._error" ng-src="{{file._src}}">
+                    <img title="{{file.name}}" ng-show="file._error" ng-src="{{file._errImg}}"/>
+                    <p title="{{file.name}}" ng-show="file._error" class="fileErr">{{file.name}}</p>
+
+                    <button class="btn btn-link btn-sm icon" ng-show="!file._success" ng-click="cancel(file , $index)" type="button" title="取消上传">
+                        <span class="glyphicon glyphicon-remove text-danger"></span>
+                    </button>
+
+                    <button class="btn btn-link btn-sm icon" ng-show="file._success" type="button" title="上传完成">
+                        <span class="glyphicon glyphicon-ok text-success"></span>
+                    </button>
+
+                    <div class="progress" ng-show="file._upload">
+                        <div class="progress-bar progress-bar-striped active"  role="progressbar"
+                             aria-valuenow="{{file._progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{file._progress}}%">
+                            <span class="sr-only">{{file._progress}}% Complete</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="panel-footer">
+                <span class="btn btn-default select-file">选择文件</span>
+                <div class="pull-right" ng-show="fileList.length">
+                    选中了{{fileList.length}}个文件 <span ng-show="successFile">，{{successFile}} 个文件已经上传完成</span>！
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

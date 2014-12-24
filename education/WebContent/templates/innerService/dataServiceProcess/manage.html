@@ -1,0 +1,232 @@
+<div class="col-sm-12 col-md-12">
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-2 col-md-2">
+                    <label>数据服务名称</label>
+                    <input class="form-control" ng-model="params.dataServiceName" type="text"/>
+                </div>
+                <div class="col-sm-3 col-md-3">
+					<label>创建日期:</label>
+					<div data-datetimepicker="range" range start="params.createTime" end="params.createTimeStr"></div>
+				</div>
+                <div class="col-sm-4 col-md-4">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#editDialog" ng-click="toAdd()">新增</button>
+                	<button class="btn btn-custom" type="reset" ng-click="reset(params)">重置</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+        <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>服务名称</th>
+            <th>客户名称</th>
+            <th>运行流程</th>
+            <th>服务数据</th>
+            <th>结果数据</th>
+            <th>服务描述</th>
+            <th>服务状态</th>
+            <th>创建日期</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1+current*limit}}</td>
+            <td align="center">{{item.dataServiceName}}</td>
+            <td align="center">{{item.custName}}</td>
+            <td align="center">{{item.runProcName}}</td>
+            <td align="center">{{item.dataSetName}}</td>
+            <td align="center">{{item.resultDataSetName}}</td>
+             <td align="center">{{item.dataServiceDesc}}</td>
+            <td align="center">
+            	<span ng-show="{{item.serviceState == 'EXEC'}}">已执行</span>
+            	<span ng-show="{{item.serviceState == 'UNEXEC'}}">未执行</span>
+            </td>
+            <td align="center">{{item.createTime | date:'yyyy-MM-dd'}}</td>
+            <td>
+                <a href="javascript:" ng-show="item.serviceState == 'UNEXEC'" data-toggle="modal" data-target="#editDialog" ng-click="toUpdate(item)">修改</a>
+                <a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toDelete(item)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div 
+		data-remote-paging="pager" 
+		data-refresh="refresh" 
+		data-current="current" 
+		data-total="total" 
+		data-data="limitArr"
+		data-limit="limit"
+		data-params="params"
+	></div>
+
+</div>
+
+<!-- 新增/修改 -->
+<div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span ng-show="!dataServiceProcess.dataServiceId">新增</span><span ng-show="dataServiceProcess.dataServiceId">修改</span>数据服务流程</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 col-md-12">
+                    <form role="form" class="form-horizontal" name="mm"  novalidate="novalidate">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">选择客户:</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" required ng-model="cust.custName" readonly="readonly" >
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select" ng-click="queryCustomers()">选择</button>
+                                    </div>
+                                </div>
+                            </div><span style="color:red">*</span>
+                        </div>
+				        
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">数据服务名称:</label>
+                            <div class="col-lg-9">
+                                <input type="text" placeholder="数据服务名称" required ng-model="dataServiceProcess.dataServiceName" class="form-control">
+                            </div><span style="color:red">*</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">数据服务描述:</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control"  placeholder="数据服务描述" ng-model="dataServiceProcess.dataServiceDesc" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <span ng-show="!dataServiceProcess.dataServiceId">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled='!mm.$valid' ng-click="create(dataServiceProcess,cust)">保存</button>
+			</span>
+            <span ng-show="dataServiceProcess.dataServiceId">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled='!mm.$valid' ng-click="modify(dataServiceProcess,cust)">修改</button>
+			</span>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除数据服务流程</h4>
+            </div>
+            
+            <div class="modal-body" ng-if="$validate!=null">
+                	{{$validate}}
+            </div>
+            <div class="modal-body" ng-if="$validate==''">
+                    	 确认要删除此数据服务流程？
+           	</div>
+            <div class="modal-footer">
+	            <span ng-show="$validate==''">
+	             	<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove(dataServiceProcess)">确认删除</button>
+	            </span>
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 选择客户 -->
+<div class="modal fade" id="select" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择客户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 col-md-12">
+                	<form class="form-custom clearfix">
+	                    <div class="row">
+	                        <div class="col-sm-2 col-md-2">
+			                    <label>客户名称</label>
+			                    <input class="form-control" ng-model="params2.custName" type="text"/>
+	                		</div>
+	                		<div class="col-sm-2 col-md-2">
+			                    <label>客户类型</label>
+			                    <select id="custType" select2 ng-model="params2.custType" class="form-control">
+							        <option value="">- 请选择 -</option>
+							        <option value="1">个人</option>
+							        <option value="2">机构</option>
+						        </select>
+			                </div>
+			                <div class="col-sm-3 col-md-3">
+			                    <label>创建时间</label>
+			                    <div data-datetimepicker='params2.createTime'></div>
+			                </div>
+	                        <div class="col-sm-4 col-md-4">
+	                            <label>&nbsp;</label>
+	                            <button class="btn btn-custom" type="button" ng-click="refresh2('first',true)">查询</button>
+	                            <button class="btn btn-custom" type="reset" ng-click="reset2(params2)">重置</button>
+	                            <label>&nbsp;</label>
+	                        </div>
+	                    </div>
+                    </form>
+                    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>客户名称</th>
+                            <th>客户地址</th>
+                            <th>创建时间</th>
+                            <th>客户类型</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="rowlink" ng-repeat="item in customers">
+                           	<td>{{$index+1+current*limit}}</td>
+                            <td>{{item.custName}}</td>
+                           	<td>{{item.custAddr}}</td>
+                           	<td>{{item.createTime  | date:'yyyy-MM-dd'}}</td>
+                           	<td>
+				            	<span ng-show="{{item.custType == '1'}}">个人</span>
+				            	<span ng-show="{{item.custType == '2'}}">机构</span>
+            				</td>
+                            <td>
+                                <a href="javascript:" data-dismiss="modal" ng-click="toSlectCustomer(item)">选择</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div 
+						data-remote-paging="pager2" 
+						data-refresh="refresh2" 
+						data-current="current2" 
+						data-total="total2" 
+						data-data="customers"
+						data-limit="limit2"
+						data-params="params2"
+					></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,129 @@
+<div class="col-sm-12 col-md-12" ng-show="pageView == 1">
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab1" ng-click="open(1)">质量评估报告</a></li>
+            <li><a data-toggle="tab" href="#tab3" ng-click="open(3)">质量评估情况统计</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab1" class="tab-pane active">
+                <div class="col-sm-12 col-md-12">
+                    <div data-charts="chartsConfig1" style="height: 250px"></div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <table class="table table-striped table-bordered table-condensed   table-costom">
+                        <thead>
+                        <tr>
+                            <th class="col-md-2">数据信息</th>
+                            <th>属性名称</th>
+                            <th>唯一值个数</th>
+                            <th>空值数</th>
+                            <th>空字符数</th>
+                            <th>零值数</th>
+                            <th>字段完整量</th>
+                            <th>属性填充率</th>
+                            <th> 评测结果</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="rowlink" ng-repeat="item in chart1List">
+                            <td ng-if="$first" rowspan="{{chart1List.length}}" >
+                                数据名称：{{data.dataSetName}}<br/>
+                                数据量：{{data.dataTotalCount}}条<br/>
+                                属性个数：{{data.columnSize}}个<br/>
+                                非空值量：{{data.notBlankCount}}个
+                            </td>
+                            <td>{{item.colShowName}}</td>
+                            <td>{{item.uniqueCount}}</td>
+                            <td>{{item.nullCount}}</td>
+                            <td>{{item.noValueCount}}</td>
+                            <td>{{item.zeroCount}}</td>
+                            <td>{{item.rowCount-item.nullCount}}</td>
+                            <td>{{((item.rowCount-item.nullCount)/item.rowCount*100).toFixed(2)}}%</td>
+                             <td>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>95">完整</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>90&&((item.rowCount-item.nullCount)/item.rowCount*100)<=95">基本完整</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>80&&((item.rowCount-item.nullCount)/item.rowCount*100)<=90">可接受完整</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>30&&((item.rowCount-item.nullCount)/item.rowCount*100)<=80">部分缺失</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>0&&((item.rowCount-item.nullCount)/item.rowCount*100)<=30">基本缺失</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)==0">完全缺失</label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+                <div class="col-sm-12 col-md-12">
+                    <div data-charts="chartsConfig2" style="height: 250px"></div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <table class="table table-striped table-bordered table-condensed  index-center  table-costom">
+                        <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th>字段名称</th>
+                            <th>字段类型</th>
+                            <th>字段完整量</th>
+                            <th>字段完整率</th>
+                            <th> 评测结果</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="rowlink" ng-repeat="item in chart1List">
+                            <td>{{$index + 1}}</td>
+                            <td>{{item.colShowName}}</td>
+                            <td>{{item.dataType}}</td>
+                            <td>{{item.rowCount-item.nullCount}}</td>
+                            <td>{{(item.rowCount-item.nullCount)/item.rowCount*100}}%</td>
+                            <td>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>95">完整</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>90&&((item.rowCount-item.nullCount)/item.rowCount*100)<=95">基本完整</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>80&&((item.rowCount-item.nullCount)/item.rowCount*100)<=90">可接受完整</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>30&&((item.rowCount-item.nullCount)/item.rowCount*100)<=80">部分缺失</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)>0&&((item.rowCount-item.nullCount)/item.rowCount*100)<=30">基本缺失</label>
+                            	<label ng-if="((item.rowCount-item.nullCount)/item.rowCount*100)==0">完全缺失</label>
+                            	
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="tab3" class="tab-pane">
+                <div class="row">
+                    <div class="col-sm-7 col-md-7">
+                        <table class="table table-striped table-bordered table-condensed    table-costom">
+                            <thead>
+                            <tr>
+                                <th class="col-md-2">字段完整情况</th>
+                                <th>字段(以，分割)</th>
+                                <th class="col-md-2">数量</th>
+                                <th class="col-md-2">占比</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in chart3List">
+                                <td>{{item.completeSituation}}</td>
+                                <td>{{item.columnsName}}</td>
+                                <td>{{item.columnsSize}}</td>
+                                <td>{{item.filterRatio}}%</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-5 col-md-5">
+                        <div data-charts="chartsConfig3" style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-5 col-md-5"></div>
+        <div class="col-sm-7 col-md-7">
+            <button class="btn btn-default btn-primary" type="button" ng-click="toPage(0)">返回</button>
+        </div>
+    </div>
+</div>

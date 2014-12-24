@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl">
+
+<div class="container">
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p>
+        <a class="btn" href="javascript:" popover data-title="popover test" data-content="test popover content">popover toggle</a>
+        <a class="btn" href="javascript:" popover data-title="popover test" data-content="test popover content">popover toggle</a>
+        <a class="btn" href="javascript:" popover data-title="popover test" data-content="test popover content">popover toggle</a>
+    </p>
+
+</div>
+
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+    var app = angular.module('app' , []);
+    app.directive('popover' , function(){
+        var doc = $(document);
+        return function(scope , el){
+            var obj = el.popover().data('bs.popover'),
+                tip , arrow;
+
+            el.on('show.bs.popover' , function(){
+                setTimeout(function(){
+                    tip = obj.$tip[0];
+                    arrow = obj.$arrow[0];
+                    doc.on('click' , docHide);
+                } , 1)
+            });
+            function docHide(e){
+                var target = e.target;
+                if($.contains(tip , target)){
+                    return;
+                }else if(target == el[0]){
+                    doc.off('click' , docHide);
+                    return;
+                }
+                el.popover('toggle');
+                doc.off('click' , docHide);
+            }
+            el.on('$destroy' , function(){
+               el.popover('destroy');
+            });
+        }
+    });
+    app.controller('TestCtrl' , function($scope ){
+
+    });
+</script>
+</body>
+</html>

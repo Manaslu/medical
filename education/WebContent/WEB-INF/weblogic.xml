@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app>
+    <session-descriptor> 
+		<!-- replicated , memory -->
+		
+		<persistent-store-type>memory</persistent-store-type>
+		<sharing-enabled>true</sharing-enabled>
+	</session-descriptor>
+	<charset-params>
+		<input-charset>
+			<resource-path>/*</resource-path>
+			<java-charset-name>UTF-8</java-charset-name>
+		</input-charset>
+	</charset-params>
+	<virtual-directory-mapping>
+        <local-path>/media/hbpost/flash/</local-path>
+        <url-pattern>/*</url-pattern>
+  	</virtual-directory-mapping>
+    <context-root>/</context-root>
+</weblogic-web-app>

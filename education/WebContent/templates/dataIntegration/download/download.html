@@ -1,0 +1,159 @@
+<div class="col-sm-12 col-md-12">
+
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+				<div class="col-sm-3 col-md-3">
+					<label>数据名称</label>
+					<input class="form-control" type="text" ng-model="params.dataSetName" />
+				</div>
+				<div class="col-sm-3 col-md-3">
+					<label> 数据结构定义</label>
+					<select class="form-control" select2 data-live-search="true" ng-model="params.dataDefId"
+						ng-options="item.dataDefId as item.dataDefName for item in defs">
+						<option value="">请选择</option>
+					</select>
+				</div>
+				<div class="col-sm-3 col-md-3">
+					<label>入库日期</label>
+					<div data-datetimepicker="range" range start="params.startTime" end="params.endTime"></div>
+				</div>
+				<div class="col-sm-2 col-md-2">
+					<label>&nbsp;</label>
+					<button class="btn btn-info btn-custom" type="button" ng-click="refresh('first' , true)">查询</button>
+					<button class="btn btn-info btn-custom" type="button" ng-click="resetQuery()">重置</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<table class="table table-striped table-bordered table-condensed index-center table-costom">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>数据名称</th>
+				<th>数据结构定义</th>
+				<th>数据量</th>
+<!-- 				<th>上传人</th> -->
+				<th class="col-datetime-1">入库时间</th>
+				<th class="col-opt-1">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td>{{current*limit+$index+1}}</td>
+				<td>{{item.dataSetName}}</td>
+				<td>{{item.dataDefName}}</td>
+				<td>{{item.dataAmount}}</td>
+<!-- 				<td>{{item.createUserName}}</td> -->
+				<td>{{item.createDate|date:'yyyy-MM-dd HH:mm'}}</td>
+				<td><a href="javascript:" data-toggle="modal" data-target="#download" ng-click="toDownload(item)">下载</a> <a
+						href="javascript:" ng-if="item.errorLogCount>0" ng-click="errDownload(item)">错误数据下载</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div data-remote-paging="pager" data-params="params" data-refresh="refresh" data-current="current" data-total="total"
+		data-data="limitArr" data-limit="limit"></div>
+</div>
+
+<!-- 下载对话框 -->
+<div class="modal fade" id="download" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">数据导出</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12 col-md-12 form-horizontal">
+						<div class="form-group formSep">
+							<label class="col-lg-2 control-label">数据名称</label>
+							<div class="col-lg-10">
+								<p class="form-control-static">{{downDsName}}</p>
+							</div>
+						</div>
+						<div class="form-group formSep">
+							<label class="col-lg-2 control-label">选择导出格式</label>
+							<div class="col-lg-10">
+								<label class="radio-inline">
+									<input type="radio" name="class" ng-value="txt" ng-model="down.fileType" ng-checked="true">
+									txt
+								</label>
+							</div>
+						</div>
+                        <div class="form-group formSep">
+                            <label class="col-lg-2 control-label">
+                                导出字段选择
+                            </label>
+                            <div class="col-lg-10">
+                                <div class="checkbox-limit clearfix">
+                                    <label class="checkbox" ng-repeat="col in columns">
+                                        <input type="checkbox" ng-value="col.id" value-list="$parent.down.columns" ng-click="isChecked()">{{col.columnDesc}}
+                                    </label>
+                                    <label class="checkbox check-all">
+                                        <input type="checkbox" ng-click="checkedAll()"> 全选
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" ng-click="dsDownload()">导出</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- 错误文件下载对话框 -->
+<div class="modal fade" id="errdownload" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">错误文件下载</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12 col-md-12 form-horizontal">
+                        <table class="table table-striped table-bordered table-condensed index-center table-costom">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>文件名</th>
+                                    <th>数据量</th>
+                                    <th>生成时间</th>
+                                    <th class="col-opt-1">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="rowlink" ng-repeat="item in erroFiles">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.sourFileNameNoType}}</td>
+                                    <td>{{item.failDataCnt}}</td>
+                                    <td>{{item.opStartDate|date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td><a href="javascript:" data-dismiss="modal" ng-click="errDownload(item)">下载</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<a id="downloadLink" target="_blank"></a>

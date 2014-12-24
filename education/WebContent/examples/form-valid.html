@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../base/bootstrap-select/bootstrap-select.css"/>
+    <link rel="stylesheet" href="../base/bootstrap-datepicker/build/datepicker.min.css"/>
+    <style>
+        body *{
+            font-size : 1.1em;
+        }
+    </style>
+</head>
+<body ng-controller="TestCtrl">
+
+<div class="container">
+
+    <div class="row" style="padding-top: 50px;">
+        <form class="form-horizontal" name="FM">
+
+
+            <div class="form-group">
+                <label>测试校验字段(必填校验)</label>
+                <input class="form-control" name="name" type="text" ng-model="group.name" required
+                       valid-tip="{required:'字段是必填的'}"
+                       valid-pos="bottom"
+                        />
+                FM.name.$error = {{FM.name.$error}}<br/>
+                FM.name.$valid = {{FM.name.$valid}}<br/>
+                FM.name.$invalid = {{FM.name.$invalid}}
+            </div>
+
+
+
+            <div class="form-group">
+                <label>测试校验字段(最大长度校验)</label>
+                <input class="form-control" name="maxsize" type="text" ng-model="group.maxsize" ng-maxlength="5"
+                       valid-tip="{maxlength:'最大长度不能超过5个字符'}"
+                       valid-pos="bottom"
+                        />
+                FM.maxsize.$error = {{FM.maxsize.$error}}<br/>
+                FM.maxsize.$valid = {{FM.maxsize.$valid}}<br/>
+                FM.maxsize.$invalid = {{FM.maxsize.$invalid}}
+            </div>
+
+
+            <div class="form-group">
+                <label>测试校验字段(最小长度校验)</label>
+                <input class="form-control" name="minsize" type="text" ng-model="group.minsize" ng-minlength="5"
+                       valid-tip="{minlength:'最小长度5个字符'}"
+                       valid-pos="bottom"
+                        />
+                FM.minsize.$error = {{FM.minsize.$error}}<br/>
+                FM.minsize.$valid = {{FM.minsize.$valid}}<br/>
+                FM.minsize.$invalid = {{FM.minsize.$invalid}}
+            </div>
+
+
+            <div class="form-group">
+                <label>测试校验字段(邮箱)</label>
+                <input class="form-control" name="email" type="email" ng-model="group.minsize"
+                       valid-tip="{email:'邮箱格式不正确'}"
+                       valid-pos="bottom"
+                        />
+                FM.email.$error = {{FM.email.$error}}<br/>
+                FM.email.$valid = {{FM.email.$valid}}<br/>
+                FM.email.$invalid = {{FM.email.$invalid}}
+            </div>
+
+            <div class="form-group">
+                <label>测试校验字段(地址)</label>
+                <input class="form-control" name="url" type="url" ng-model="group.url"
+                       valid-tip="{url:'资源地址不正确'}"
+                       valid-pos="bottom"
+                        />
+                FM.url.$error = {{FM.url.$error}}<br/>
+                FM.url.$valid = {{FM.url.$valid}}<br/>
+                FM.url.$invalid = {{FM.url.$invalid}}
+            </div>
+
+            <div class="form-group">
+                <label>日期时间(只有必填可以校验)</label>
+                <div datetimepicker="group.date" ng-model="group.date" name="date" required
+                     valid-tip="{required:'日期是必须选择的'}"
+                     valid-pos="bottom"
+                        ></div>
+                FM.date.$error = {{FM.date.$error}}<br/>
+                FM.date.$valid = {{FM.date.$valid}}<br/>
+                FM.date.$invalid = {{FM.date.$invalid}}
+            </div>
+
+
+            <div class="form-group">
+                <label>混合校验(最大15，最小5，必填)</label>
+                <input class="form-control" type="text" name="val" ng-model="group.val"
+                       required ng-maxlength="15" ng-minlength="5"
+                       valid-tip="{required:'这个字段必填的' , minlength : '请最小不能少于5个字符' , maxlength:'请最大不要超过15个字符'}"
+                       valid-pos="bottom"
+                        />
+                FM.val.$error = {{FM.val.$error}}<br/>
+                FM.val.$valid = {{FM.val.$valid}}<br/>
+                FM.val.$invalid = {{FM.val.$invalid}}
+            </div>
+
+
+            <div class="form-group">
+                <label>只能输入数字</label>
+                <input class="form-control" type="number" name="number" ng-model="group.number"
+                       valid-tip="{number:'请输入一个数字' , max : '最大不能超过100' ,min : '必须大于5'}"
+                       valid-pos="bottom"
+                        />
+                FM.number.$error = {{FM.number.$error}}<br/>
+                FM.number.$valid = {{FM.number.$valid}}<br/>
+                FM.number.$invalid = {{FM.number.$invalid}}
+            </div>
+
+
+            <div class="form-group">
+                <label>自定义校验(正则 /^\d+$/ 只能输入数字) 规则可以自己定</label>
+                <input class="form-control" type="text" name="num" ng-model="group.num"
+                       valid-tip="{numValid:'请输入一个数字'}"
+                       valid-pos="bottom"
+                       my-valid="{valid:'isNumber',name:'numValid'}"
+                        />
+                FM.num.$error = {{FM.num.$error}}<br/>
+                FM.num.$valid = {{FM.num.$valid}}<br/>
+                FM.num.$invalid = {{FM.num.$invalid}}
+            </div>
+
+
+
+
+            <div class="form-group">
+                表单校验<br/>
+                FM.$valid = {{FM.$valid}}<br/>
+                FM.$invalid = {{FM.$invalid}}
+            </div>
+
+            <div  class="form-group text-center">
+                <button class="btn btn-primary" ng-disabled="FM.$invalid">提交</button>
+            </div>
+
+
+        </form>
+    </div>
+
+</div>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/bootstrap-select/bootstrap-select.js"></script>
+<script src="../base/bootstrap-datepicker/build/bootstrap-datepicker.min.js"></script>
+<script src="../base/bootstrap-datepicker/build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['ngResource' ,'directive']);
+
+        app.factory('HasName' , function(){
+            return function(){
+                var names = '小白,小黑,安古拉,比尔盖茨'.split(',');
+                return {
+                    get : function(data , callback){
+                        callback(names.indexOf(data.name) > -1);
+                    }
+                }
+            };
+        });
+
+        app.controller('TestCtrl' , function($scope , HasName){
+
+            //一个纯粹的数字
+            $scope.isNumber = function(num){
+                return /^\d+$/.test(num);//number
+            };
+
+            //校验name是否存在
+            $scope.hasName = function(data){
+                console.log(data);
+                return data;
+            };
+
+            //返回发送给服务器的数据
+            $scope.getHasNameParams = function(val){
+                return {name : val};
+            };
+
+            //校验的server
+            $scope.HasNameResource = HasName;
+
+
+
+        });
+
+
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

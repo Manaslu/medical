@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：T06_DATA_SET_CONTOUR -->
+<!-- <typeAlias type="com.idap.dataprocess.assess.entity.DataSetContour" alias="DataSetContour"/> -->
+<mapper namespace="com.idap.dataprocess.assess.entity.DataSetContour">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="dataSetContourMap" type="com.idap.dataprocess.assess.entity.DataSetContour">
+		<result property="dataSetId" column="DATA_SET_ID" jdbcType="VARCHAR" />
+		<result property="colName" column="COL_NAME" jdbcType="VARCHAR" />
+		<result property="dataType" column="DATA_TYPE" jdbcType="VARCHAR" />
+		<result property="rowCount" column="ROW_COUNT" jdbcType="NUMERIC" />
+		<result property="uniqueCount" column="UNIQUE_COUNT" jdbcType="NUMERIC" />
+		<result property="nullCount" column="NULL_COUNT" jdbcType="NUMERIC" />
+		<result property="noValueCount" column="NO_VALUE_COUNT" jdbcType="NUMERIC" />
+		<result property="zeroCount" column="ZERO_COUNT" jdbcType="NUMERIC" />
+		<result property="positiveCount" column="POSITIVE_COUNT" jdbcType="NUMERIC" />
+		<result property="negativeCount" column="NEGATIVE_COUNT" jdbcType="NUMERIC" />
+		<result property="statDate" column="STAT_DATE" jdbcType="DATE" />
+	</resultMap>
+
+	<!--================= 动态内容部分 ================= -->
+	<!-- where：动态生成部分 -->
+	<sql id="dynamicWhere">
+		<!-- LIKE 样例： SYSTEM_NAME like '%'||#{systemName}||'%' -->
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="dataSetId!=null">
+				AND DATA_SET_ID=#{dataSetId}
+			</if>
+			<if test="colName!=null">
+				AND UPPER(COL_NAME)=UPPER(#{colName})
+			</if>
+			<if test="rowCount!=null">
+				AND ROW_COUNT=#{rowCount}
+			</if>
+			<if test="uniqueCount!=null">
+				AND UNIQUE_COUNT=#{uniqueCount}
+			</if>
+			<if test="nullCount!=null">
+				AND NULL_COUNT=#{nullCount}
+			</if>
+			<if test="noValueCount!=null">
+				AND NO_VALUE_COUNT=#{noValueCount}
+			</if>
+			<if test="zeroCount!=null">
+				AND ZERO_COUNT=#{zeroCount}
+			</if>
+			<if test="positiveCount!=null">
+				AND POSITIVE_COUNT=#{positiveCount}
+			</if>
+			<if test="negativeCount!=null">
+				AND NEGATIVE_COUNT=#{negativeCount}
+			</if>
+			<if test="noColName!=null">
+				AND COL_NAME!=#{noColName}
+			</if>
+
+			<if test="startTime!=null">
+				AND STAT_DATE <![CDATA[>=]]>to_date('${startTime}',
+				'yyyy-mm-dd')
+			</if>
+			<if test="endTime!=null">
+				AND STAT_DATE <![CDATA[<=]]>to_date('${endTime}
+				23:59:59', 'yyyy-mm-dd hh24:mi:ss')
+			</if>
+			<if test="sno!=null and eno!=null and orderBy==null">
+				AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+			</if>
+		</if>
+	</sql>
+
+	<!-- group by 分组 -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			group by ${groupBy}
+		</if>
+	</sql>
+
+	<!-- 表所有的字段：insert 的表、字段 部分 -->
+	<sql id="allColumn">
+		DATA_SET_ID,
+		COL_NAME,
+		ROW_COUNT,
+		UNIQUE_COUNT,
+		NULL_COUNT,
+		NO_VALUE_COUNT,
+		ZERO_COUNT,
+		POSITIVE_COUNT,
+		NEGATIVE_COUNT,
+		STAT_DATE,
+		DATA_TYPE
+	</sql>
+
+	<!-- 单条插入：动态生成可插入字段 对应的变量列表 -->
+	<sql id="allColumnVar">
+		values(
+		#{dataSetId,jdbcType=VARCHAR},
+		#{colName,jdbcType=VARCHAR},
+		#{rowCount,jdbcType=NUMERIC},
+		#{uniqueCount,jdbcType=NUMERIC},
+		#{nullCount,jdbcType=NUMERIC},
+		#{noValueCount,jdbcType=NUMERIC},
+		#{zeroCount,jdbcType=NUMERIC},
+		#{positiveCount,jdbcType=NUMERIC},
+		#{negativeCount,jdbcType=NUMERIC},
+		#{statDate,jdbcType=DATE},
+		#{dataType,jdbcType=VARCHAR}
+		)
+	</sql>
+
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			*
+			from
+			(
+			select orderContentTab.*,ROWNUM AS rowno
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			*
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumn" />
+		from
+		T06_DATA_SET_CONTOUR
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>
+			${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+		</if>
+	</sql>
+
+
+	<!-- ================================================= -->
+	<!-- 1.1根据id查询对像 -->
+	<select id="getById" parameterType="String" resultMap="dataSetContourMap">
+		select
+		<include refid="allColumn" />
+		from T06_DATA_SET_CONTOUR where id=#{value}
+	</select>
+
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="dataSetContourMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="dataSetContourMap">
+		<include refid="queryBody" />
+	</select>
+
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+		select
+		count(1)
+		from
+		T06_DATA_SET_CONTOUR
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 4.删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM T06_DATA_SET_CONTOUR
+		<include refid="dynamicWhere" />
+	</delete>
+
+
+	<!-- 5.1对像插入 -->
+	<insert id="insert" parameterType="com.idap.dataprocess.assess.entity.DataSetContour">
+		INSERT INTO
+		T06_DATA_SET_CONTOUR(
+		<include refid="allColumn" />
+		)
+		<include refid="allColumnVar" />
+	</insert>
+
+	<update id="update" parameterType="com.idap.dataprocess.assess.entity.DataSetContour">
+		update T06_DATA_SET_CONTOUR
+		<trim prefix=" SET " prefixOverrides=",">
+			<if test="dataSetId!=null">
+				,DATA_SET_ID=#{dataSetId,jdbcType=VARCHAR}
+			</if>
+			<if test="colName!=null">
+				,COL_NAME=#{colName,jdbcType=VARCHAR}
+			</if>
+			<if test="rowCount!=null">
+				,ROW_COUNT=#{rowCount,jdbcType=NUMERIC}
+			</if>
+			<if test="uniqueCount!=null">
+				,UNIQUE_COUNT=#{uniqueCount,jdbcType=NUMERIC}
+			</if>
+			<if test="nullCount!=null">
+				,NULL_COUNT=#{nullCount,jdbcType=NUMERIC}
+			</if>
+			<if test="noValueCount!=null">
+				,NO_VALUE_COUNT=#{noValueCount,jdbcType=NUMERIC}
+			</if>
+			<if test="zeroCount!=null">
+				,ZERO_COUNT=#{zeroCount,jdbcType=NUMERIC}
+			</if>
+			<if test="positiveCount!=null">
+				,POSITIVE_COUNT=#{positiveCount,jdbcType=NUMERIC}
+			</if>
+			<if test="negativeCount!=null">
+				,NEGATIVE_COUNT=#{negativeCount,jdbcType=NUMERIC}
+			</if>
+			<if test="statDate!=null">
+				,STAT_DATE=#{statDate,jdbcType=DATE}
+			</if>
+			<if test="dataType!=null">
+				,STAT_DATE=#{dataType,jdbcType=VARCHAR}
+			</if>
+		</trim>
+		WHERE
+		<!-- ID=#{id} -->
+	</update>
+
+	<!-- =========================自定义操作======================== -->
+	<select id="executeAssess" parameterType="java.util.Map" statementType="CALLABLE">
+	<![CDATA[
+		{call
+		P06_DATA_EVALUATE(
+		#{dataSetId,jdbcType=VARCHAR,mode=IN},
+		#{executeState,jdbcType=NUMERIC,mode=OUT},
+		#{executeStep,jdbcType=VARCHAR,mode=OUT}
+		)}
+		]]>
+	</select>
+
+</mapper>
+
+
+
+

@@ -1,0 +1,33 @@
+[
+    {
+        "name": "首页1",
+        "action": "index",
+        "template": "templates/index/index.html",
+        "children": []
+    },
+    {
+        "name": "首页2",
+        "action": "index",
+        "template": "templates/index/index.html",
+        "children": []
+    },
+    {
+        "name": "首页3",
+        "action": "index",
+        "template": "templates/index/index.html",
+        "children": []
+    },
+    {
+        "name": "首页4",
+        "action": "index",
+        "template": "templates/index/index.html",
+        "children": []
+    },
+    {
+        "name": "首页5",
+        "action": "index",
+        "template": "templates/index/index.html",
+        "children": []
+    }
+
+]

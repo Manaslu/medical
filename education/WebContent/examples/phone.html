@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body ng-controller="TestCtrl">
+
+<form name="test" novalidate="novalidate">
+    <input type="text" name="phone" ng-model="p" phone valid-tip="非法操作" valid-pos="bottom"/>
+    {{test.phone.$valid}}
+</form>
+{{p}}
+
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['ngResource' , 'directive']);
+
+        app.controller('TestCtrl' , function($scope ){
+            $scope.p = '15210865686'
+        });
+
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

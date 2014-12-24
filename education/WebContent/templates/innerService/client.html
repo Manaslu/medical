@@ -1,0 +1,325 @@
+<div class="col-sm-12 col-md-12">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-2 col-md-2">
+                    <label>客户名称</label>
+                    <input class="form-control" ng-model="params.custName" type="text"/>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>客户类型</label>
+                    <select id="custType" select2 ng-model="params.custType" class="form-control">
+				        <option value="">- 请选择 -</option>
+				        <option value="1">个人</option>
+				        <option value="2">机构</option>
+			        </select>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>客户状态</label>
+                    <select id="custStats" select2 ng-model="params.custStats" class="form-control">
+	                        <option value="">- 请选择 -</option>
+	                        <option value="1">启用</option>
+	                        <option value="2">禁用</option>
+	                </select>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>创建日期</label>
+                    <div data-datetimepicker='params.createTime'></div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#editDialog" ng-click="toUpdate()">新增</button>
+                    <button class="btn btn-custom" type="reset" ng-click="reset(params)">重置</button>
+                    <span><font color="red">温馨提示： 注销后删除客户。</font></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th  width="120">客户名称</th>
+            <th>客户地址</th>
+            <th width="80">客户类型</th>
+            <th width="80" >客户状态</th>
+            <th width="150">创建日期</th>
+            <th width="130">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+       <tr class="rowlink" ng-repeat="item in limitArr">
+            <td align="center">{{$index+1+current*limit}}</td>
+            <td align="center">{{item.custName}}</td>
+            <td align="center">{{item.custAddr}}</td>
+            <td align="center">
+            	<span ng-show="{{item.custType == '1'}}">个人</span>
+            	<span ng-show="{{item.custType == '2'}}">机构</span>
+            </td>
+            <td align="center">
+            	<span ng-show="{{item.custStats == '1'}}">启用</span>
+            	<span ng-show="{{item.custStats == '2'}}">禁用</span>
+            </td>
+            <td align="center">{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>
+                	<a href="javascript:" data-toggle="modal" data-target="#editDialog" ng-click="toUpdate(item)">修改</a>
+                <span ng-show="{{item.custStats == '1'}}">
+               		<a href="javascript:" data-toggle="modal" data-target="#logoutDialog1" ng-click="toUpdate(item)">注销</a>
+               	</span>
+               	<span ng-show="{{item.custStats == '2'}}">
+	                	<a href="javascript:" data-toggle="modal" data-target="#focusDialog1" ng-click="toUpdate(item)">激活</a>
+	                	<a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toDelete(item)">删除</a>
+                </span>
+            		<a href="javascript:" data-toggle="modal" data-target="#seeDialog" ng-click="toUpdate(item)">查看</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div 
+		data-remote-paging="pager" 
+		data-refresh="refresh" 
+		data-current="current" 
+		data-total="total" 
+		data-data="limitArr"
+		data-limit="limit"
+		data-params="params"
+	></div>
+</div>
+
+<!-- 新增/修改 -->
+<div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span ng-show="!customer.custMamId">新增</span><span ng-show="customer.custMamId">修改</span>客户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" class="form-horizontal"  name="mm" novalidate="novalidate">
+                           	<div class="form-group">
+                                <label class="col-lg-2 control-label">客户名称:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="客户名称" ng-model="customer.custName" required class="form-control"
+                                    maxlength="10"
+                                    my-valid="{valid:'validName', name:'reg'}"
+                                    valid-tip="{required:'这个是必填的'}"
+                            		valid-pos="bottom"
+                                    >
+                                </div><font color="red">*</font>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">客户类型:</label>
+                                <div class="col-lg-9">
+		                            <select id="custType" select2 ng-model="customer.custType" required class="form-control">
+				                        <option value="">- 请选择 -</option>
+				                        <option value="1">个人</option>
+				                        <option value="2">机构</option>
+			                    	</select>
+                                </div><font color="red">*</font>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">客户地址:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="客户地址" maxlength="100" ng-model="customer.custAddr" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">手机号:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="手机号" ng-model="customer.tel" class="form-control"
+                                    maxlength="11"
+                                    my-valid="{valid:'validPhone' , name:'reg'}"
+                                    valid-tip="{reg : '不是正确的11位手机号'}"
+                            		valid-pos="bottom"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">postcode编码:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="postcode编码" ng-model="customer.post" class="form-control"
+                                    maxlength="6"
+                                    my-valid="{valid:'validPost', name:'reg'}"
+                                    valid-tip="{reg : 'postcode编码只能输入数字'}"
+                            		valid-pos="bottom"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">电子邮箱:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="电子邮箱" ng-model="customer.eMail" class="form-control"
+                                    my-valid="{valid:'validEmail' , name:'reg'}"
+                                    valid-tip="{reg : '邮箱格式不正确，请重新填写'}"
+                            		valid-pos="bottom"
+                                    >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span ng-show="!customer.custMamId">
+            		<button type="button" class="btn btn-primary" ng-disabled='!mm.$valid' ng-click="create(customer)" data-dismiss="modal">保存</button>
+            		<button class="btn btn-custom" type="reset" ng-click="resetCustomer(customer)">重置</button>
+            	</span>
+            	<span ng-show="customer.custMamId">
+					<button type="button" class="btn btn-primary" ng-disabled='!mm.$valid' ng-click="modify(customer)" data-dismiss="modal">修改</button>
+				</span>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+<!-- 查看对话框 -->
+<div class="modal fade" id="seeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">查看</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 col-md-12">
+                    <form role="form" class="form-horizontal" novalidate="novalidate">
+                        <div class="form-group">
+                                <div class="col-lg-2" align="right">客户名称:</div>
+                                <div class="col-lg-9">
+                                	{{customer.custName}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">客户类型:</div>
+                                <div class="col-lg-9">
+	                                <span ng-show="customer.custType == '1'">
+		                                                                个人
+	                                </span>
+	                                <span ng-show="customer.custType == '2'">
+	                                	机构
+	                                </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">客户地址:</div>
+                                <div class="col-lg-9">
+                                	{{customer.custAddr}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">手机号:</div>
+                                <div class="col-lg-9">
+                                	{{customer.tel}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">邮政编码:</div>
+                                <div class="col-lg-9">
+                                	{{customer.post}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">电子邮箱:</div>
+                                <div class="col-lg-9">
+                                	{{customer.eMail}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">客户状态:</div>
+                                <div class="col-lg-9">
+                                	<span ng-show="customer.custStats == '1'">
+		                                                                启用
+	                                </span>
+	                                <span ng-show="customer.custStats == '2'">
+	                                	禁用
+	                                </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">创建日期:</div>
+                                <div class="col-lg-9">
+                                	{{customer.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">修改日期:</div>
+                                <div class="col-lg-9">
+                                	{{customer.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除客户</h4>
+            </div>
+            <div class="modal-body" ng-if="$validate!=null">
+                	{{$validate}}
+            </div>
+            <div class="modal-body" ng-if="$validate==''">
+                    	确认要删除此客户吗？
+           	</div>
+            <div class="modal-footer">
+	            <span ng-show="$validate==''">
+	             	<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove(customer)">确认删除</button>
+	            </span>
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+<!-- 注销客户 -->
+<div class="modal fade" id="logoutDialog1" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">注销客户</h4>
+            </div>
+            <div class="modal-body">
+                确认要注销此客户？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="logout(customer)">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 激活客户 -->
+<div class="modal fade" id="focusDialog1" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">激活客户</h4>
+            </div>
+            <div class="modal-body">
+                确认要激活此客户？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="focus(customer)">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

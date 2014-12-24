@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>自适应表单样式</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../base/bootstrap-select/bootstrap-select.css"/>
+    <link rel="stylesheet" href="lib/bootstrap-datepicker-master/_build/datepicker.css"/>
+    <link rel="stylesheet" href="../css/newIndex.css"/>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../css/ie8.css"/>
+    <![endif]-->
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl">
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom form-inline clearfix">
+                <div class="form-group">
+                    <label>目标数据名称</label>
+                    <input class="form-control" type="text" ng-model="params.dataSetName" />
+                </div>
+                <div class="form-group">
+                    <label> 数据结构定义</label>
+                    <select class="form-control" select2 data-live-search="true" ng-model="params.dataDefId"
+                            ng-options="item.dataDefId as item.dataDefName for item in defs">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label> 操作日期 </label>
+                    <div data-datetimepicker="range"></div>
+                </div>
+                <div class="form-group">
+                    <label> 操作日期 </label>
+                    <div data-datetimepicker="range" range></div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../base/es5-shim/es5-shim.min.js"></script>
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/bootstrap-datepicker.min.js"></script>
+<script src="../base/bootstrap-select/bootstrap-select.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../seajs/2.2.0/seajs/sea.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['directive']);
+
+        app.controller('TestCtrl' , function($scope){
+
+        });
+
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

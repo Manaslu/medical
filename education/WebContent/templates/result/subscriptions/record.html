@@ -1,0 +1,82 @@
+<div class="col-sm-12 col-md-12">
+
+     <!-- 订阅订阅日志信息查询 -->
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+				<div class="row">
+					<div class="col-sm-2 col-md-2">
+						<label>报表名称</label> 
+				            <select name="reportName"  select2 data-live-search="true" ng-model="params.reportName" required ng-options="c.repName as c.repName for c in themeNameList" class="form-control">
+				                 <option value="">-----请选择报表名称------</option>
+				            </select>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>订阅名称</label> 
+						<input ng-model="params.subscribeName" class="form-control" type="text" />
+					</div>
+					<div class="col-sm-3 col-md-3">
+						<label>退订日期</label>
+						<div data-datetimepicker range start="params.startTime" end="params.endTime"></div>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>订阅状态</label> 
+						<select class="form-control" ng-model="params.subscribeState">
+							<option value="">请选择</option>
+							<option value="1">退订</option>
+							<option value="2">订阅</option>
+						</select>
+					</div>
+					<div class="col-sm-2 col-md-2">
+						<label>订阅类型</label> 
+						<select class="form-control" ng-model="params.subscribeType">
+							<option value="">请选择</option>
+							<option value="1">邮件</option>
+							<option value="2">短信</option>
+						</select>
+					</div>
+				</div>
+				<div class="row text-center">
+					<button class="btn btn-info btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+					<button class="btn btn-primary btn-custom" type="reset" ng-click="reset(params)">重置</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>报表名称</th>
+            <th>订阅名称</th>
+            <th>订阅类型</th>
+            <th>订阅状态</th>
+            <th>用户名称</th>
+            <th>退订日期</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1+current*limit}}</td>
+            <td align="center">{{item.reportName}}</td>
+            <td align="center">{{item.subscribeName}}</td>
+            <td align="center">{{item.subscribeType | RSM_subscribeMethod}}</td>
+            <td align="center">{{item.subscribeState | RSR_subscribeState}}</td>
+            <td align="center">{{item.userName}}</td>
+            <td align="center">{{item.pushDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+     <!-- 订阅信息分页数据 -->
+	<div data-remote-paging="pager" 
+	     data-refresh="refresh"
+		 data-current="current" 
+		 data-total="total" 
+		 data-data="limitArr"
+		 data-limit="limit" 
+		 data-params="params">
+    </div>
+</div>

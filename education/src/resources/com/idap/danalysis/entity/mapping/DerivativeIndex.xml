@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.DerivativeIndex" >
+	 
+ 
+	
+	
+    <resultMap id="derivativeIndex" type="com.idap.danalysis.entity.DerivativeIndex">
+		<result property="indexId" column="INDEX_ID" jdbcType="VARCHAR" />
+		<result property="calMethod" column="CAL_METHOD" jdbcType="VARCHAR" />
+		<result property="createUser" column="CREATE_USER" jdbcType="VARCHAR" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="DATE" />
+		<result property="indexVersion" column="INDEX_VERSION" jdbcType="VARCHAR" />
+		<result property="calMethodDesc" column="CAL_METHOD_DESC" jdbcType="VARCHAR" />
+		<result property="indexDirectionId" column="INDEX_DIRECTION" jdbcType="DATE" />
+		
+ 
+	</resultMap>
+	 
+	
+ 
+ <insert id="insert" parameterType="com.idap.danalysis.entity.DerivativeIndex" >
+	    INSERT INTO 
+	    t04_derivative_index(<include refid="allColumn"/>	)
+		<include refid="allColumnVar"/>
+ 
+	</insert>
+	
+	<sql id="allColumn">
+	 INDEX_ID,
+	 CAL_METHOD,
+	 CREATE_USER,
+	 CREATE_TIME,
+	 INDEX_VERSION,
+	 CAL_METHOD_DESC,
+	 INDEX_DIRECTION_ID 
+ 
+	
+	</sql>
+	
+	 
+	
+	<sql id="allColumnVar">
+		values(
+ 
+			#{indexId,jdbcType=VARCHAR},
+			#{calMethod,jdbcType=VARCHAR},
+			#{createUser,jdbcType=DATE},
+			#{createTime,jdbcType=VARCHAR},
+			#{indexVersion,jdbcType=VARCHAR},
+			#{calMethodDesc,jdbcType=VARCHAR},
+			#{indexDirectionId,jdbcType=VARCHAR}   
+			 
+	 
+ 
+		)
+	</sql>
+	
+<update id="update" parameterType="com.idap.danalysis.entity.DerivativeIndex">
+		update t04_derivative_index
+		<trim prefix=" SET " prefixOverrides=",">
+		<if test="calMethod!=null">
+			  ,CAL_METHOD=#{calMethod,jdbcType=VARCHAR}
+		</if>
+		<if test="createUser!=null">
+			  ,CREATE_USER=#{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime!=null">
+			  ,CREATE_TIME=#{createTime,jdbcType=VARCHAR}
+		</if>
+		<if test="indexVersion!=null">
+			  ,INDEX_VERSION=#{indexVersion,jdbcType=VARCHAR}
+		</if>
+ 
+		 
+		</trim>
+		WHERE 
+			INDEX_ID=#{indexId}
+</update>
+	
+
+</mapper>
+
+
+
+

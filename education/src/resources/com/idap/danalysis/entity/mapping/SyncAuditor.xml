@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.SyncAuditor" >
+
+    <resultMap id="syncAuditor" type="com.idap.danalysis.entity.SyncAuditor">
+		<result property="userId" column="USER_ID" jdbcType="VARCHAR" />
+		<result property="usrName" column="USR_NAME" jdbcType="VARCHAR" />
+		 
+		 
+	</resultMap>
+
+	<select id="query" parameterType="String"  resultMap="syncAuditor" >
+				 
+			 SELECT U.USER_ID, U.USR_NAME
+		  FROM T02_USER_BASE U,T02_USER_ROLE_RELA UR, T02_SYS_ROLE R
+		 WHERE U.USER_ID = UR.USER_ID
+		      AND UR.ROLE_ID= R.ROLE_ID
+		   AND R.IN_ROLE_ID = 'SJSH'
+	</select>
+
+</mapper>
+
+
+
+

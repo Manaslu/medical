@@ -1,0 +1,2 @@
+util.print: Use console.log instead
+@charset "UTF-8";.empty{empty:true}.input-daterange{display:block;height:30px}.input-daterange span,.input-daterange input{position:absolute}.input-daterange input{text-align:left}.input-daterange span{width:auto;left:50%;margin-left:-16px;padding-top:7px;padding-bottom:7px;z-index:1}.input-daterange .date-left{left:1px;width:50%}.input-daterange .date-right{right:1px;width:50%;padding-left:25px}

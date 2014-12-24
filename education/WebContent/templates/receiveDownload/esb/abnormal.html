@@ -1,0 +1,256 @@
+<div class="col-sm-12 col-md-12">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-2 col-md-2">
+                    <label>业务名称</label>
+                    <select class="form-control" select2 data-live-search="true" ng-model="params.systemName" ng-options="item.name as item.name for item in busiList">
+                        <option value="" >请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>处理状态</label>
+                    <select class="form-control" select2 ng-model="params.state" ng-options="item.id as item.name for item in [{id:1,name:'未处理'},{id:2,name:'已处理'}]">
+                    	<option value="" >请选择</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2 col-md-2" ng-show="USER_INFO.provCode=='99'">
+                    <label>省份</label>
+                    <select class="form-control"  select2 data-live-search="true"  ng-model="params.dateProvinceNo" ng-options="item.name as item.name for item in provList">
+						<option value="">请选择</option>
+					</select>
+                </div>
+                <div class="col-sm-3 col-md-3" >
+                    <label>异常日期</label>
+                    <div data-datetimepicker range start="params.startTime" end="params.endTime"></div>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first' , true)">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  		<style type="text/css">
+        	table.table-costom tbody tr td.danger{
+        		background-color: #CD853F!important;
+        		color: #FFFFFF!important;
+        	}
+        </style>
+    <table class="table table-striped table-bordered table-condensed index-center table-costom" >
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th style="width:65px;" ng-show="USER_INFO.provCode=='99'">省份</th>
+            <th style="width:72px;">业务名称</th>
+            <th>表中文名</th>
+            <th>表英文名</th>
+            <th style="width:41px;">频度</th>
+            <th style="width:125px;">异常时间</th>
+            <th style="width:130px;">处理时间</th>
+            <th style="width:72px;">处理状态</th>
+            <th style="width:172px;">操作</th>
+        </tr>
+        </thead>
+      
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1+(current)*limit}}</td>
+            <td ng-show="USER_INFO.provCode=='99'">{{item.dateProvinceNo}}</td>
+            <td>{{item.systemName}}</td>
+            <td>{{item.tableNameCh}}</td>
+            <td>{{item.tableNameEn}}</td>
+            <td>{{item.dataSentFreq}}</td>
+            <td>{{item.excpTime|date:'yyyy-MM-dd'}}</td>
+            <td>{{item.modifyDate}}</td>
+            <td ng-class="{danger:item.state==1}">{{item.state | ESB_abnormal}}</td>
+            <td>
+            <a  href="javascript:" data-toggle="modal" data-target="#seedialog" ng-click="toUpdate(item)" >查看</a>
+            <a ng-if="item.state==1" href="javascript:" data-toggle="modal" data-target="#abnormal" ng-click="toUpdate(item)" >处理</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div 
+	data-remote-paging="pager" 
+	data-refresh="refresh" 
+	data-current="current" 
+	data-total="total" 
+	data-data="limitArr"
+	data-limit="limit"
+	data-params="params"
+	></div>
+</div>
+
+<!-- 新建/修改对话框 -->
+<div class="modal fade" id="desc" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">查看异常描述</h4>
+            </div>
+            <div class="modal-body">
+                {{descObj.excpType}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- abnormal -->
+<div class="modal fade" id="abnormal" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">异常处理</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form user="form" class="form-horizontal" name="mm" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">业务名称</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.systemName}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">省份</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.dateProvinceNo}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">异常位置</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.excpLocation}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">异常描述</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.excpType}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">异常时间</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.excpTime|date:'yyyy-MM-dd'}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">处理人姓名</label>
+                                <div class="col-lg-9">
+                                    <input type="text" 
+                                    placeholder="处理人姓名" 
+                                    ng-model="portExcp.userName" 
+                                    required ng-value="portExcp.userName" 
+                                    name="userName" 
+                                    valid-tip="处理人姓名不允许为空或超过20个字符"
+                                    ng-maxlength="20"
+                                    valid-pos="bottom"
+                                    class="form-control">
+	                            </div><font color="red">*</font>
+	                        </div>
+                            
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">处理意见</label>
+                                <div class="col-lg-9">
+                                    <textarea  cols="3" placeholder="处理意见" 
+                                     valid-tip="处理意见不允许为空或超过260个字符"
+                                     ng-maxlength="260"
+                                     valid-pos="bottom"
+                                     ng-model="portExcp.remark" required name="remark" class="form-control"></textarea>
+                                    
+                                </div><font color="red">*</font>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click="updateExcp()" ng-disabled="mm.$invalid" data-dismiss="modal">处理</button>
+					 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- abnormal -->
+<div class="modal fade" id="seedialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">查看异常详细信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form user="form" class="form-horizontal" name="mmd" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">业务名称：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.systemName}}</p>
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label class="col-lg-2 control-label">省份：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.dateProvinceNo}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">异常位置：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.excpLocation}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">异常描述：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.excpType}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">异常时间：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.excpTime|date:'yyyy-MM-dd'}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">处理时间：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.modifyDate}}</p>
+	                        </div>
+                              </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">处理人姓名：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.userName}}</p>
+	                        </div>
+                              </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">处理意见：</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{excp.remark}}</p>
+                            </div>
+                              </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

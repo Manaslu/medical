@@ -1,0 +1,313 @@
+<div class="col-sm-12 col-md-12">
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-2 col-md-2">
+                    <label>公告名称:</label>
+                    <input class="form-control" ng-model="params.annoName" type="text"/>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>公告状态:</label>
+                    <select id="state" select2 ng-model="params.annoState" class="form-control">
+                        <option value="">-----请选择-----</option>
+                        <option value="5">草稿</option>
+                        <option value="1">待审核</option>
+                        <option value="2">发布</option>
+                        <option value="3">驳回</option>
+                        <option value="4">下线</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-3">
+					<label>发布日期:</label>
+					<div data-datetimepicker="range" range start="params.annoDate" end="params.annoValidDate"></div>
+				</div>
+                <div class="col-sm-4 col-md-4">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+                    <button class="btn btn-custom" type="submit" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate()">新增公告</button>
+                	<button class="btn btn-custom" type="reset" ng-click="reset(params)">重置</button>
+                </div>
+            </form>
+        </div>
+     </div>
+
+
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>公告名称</th>
+            <th>发布机构</th>
+            <th width="120">发布人</th>
+            <th>发布日期</th>
+            <th>最后有效期</th>
+            <th width="80">公告状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1+current*limit}}</td>
+            <td align="center">{{item.annoName}}</td>
+            <td align="center">{{item.orgName}}</td>
+            <td align="center">{{item.userName}}</td>
+            <td align="center">{{item.annoDate | date:'yyyy-MM-dd'}}</td>
+            <td align="center">{{item.annoValidDate | date:'yyyy-MM-dd'}}</td>
+            <td align="center">
+           	 	<span ng-show="item.annoState==5"><font color="red">草稿</font></span>
+            	<span ng-show="item.annoState==1"><font color="blue">待审核</font></span>
+            	<span ng-show="item.annoState==2"><font color="green">发布</font></span>
+            	<span ng-show="item.annoState==3">驳回</span>
+            	<span ng-show="item.annoState==4">下线</span>
+            </td>
+            <td>
+            	<span ng-show="item.annoState!=2 && item.annoState!=1 && USER_INFO.userName==item.userName">
+	                <a href="javascript:" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate(item)">修改</a>
+	                <a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toDelete(item)">删除</a>
+                </span>
+                <span ng-show="item.annoState==5 && USER_INFO.userName==item.userName">
+                	<a href="javascript:" data-toggle="modal" data-target="#publishDialog" ng-click="toUpdate(item)">提交审核</a>
+            	</span>
+            	<span ng-show="item.annoState==2 && USER_INFO.userName==item.userName">
+            		<a href="javascript:" data-toggle="modal" data-target="#setDownDialog" ng-click="toDelete(item)">下线</a>
+            	</span>
+            		<a href="javascript:" data-toggle="modal" data-target="#seeDialog" ng-click="toUpdate(item)">查看</a>
+            </td>
+        </tr>
+        </tbody> 
+    </table>
+
+    <div 
+		data-remote-paging="pager" 
+		data-refresh="refresh" 
+		data-current="current" 
+		data-total="total" 
+		data-data="limitArr"
+		data-limit="limit"
+		data-params="params"
+	></div>
+</div>
+<div class="modal fade" id="seeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width:800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">详细列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" class="form-horizontal" novalidate="novalidate">
+                            <div class="form-group">
+                                <div class="col-lg-2 control-label">公告名称:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static">{{announcement.annoName}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2 control-label">发布机构:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static">{{announcement.orgName}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2 control-label">发布人:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static">{{announcement.userName}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2 control-label">发布日期:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static">{{announcement.annoDate | date:'yyyy-MM-dd'}}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="col-lg-2 control-label">有效日期:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static">{{announcement.annoValidDate}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2 control-label">公告描述:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static break-all">{{announcement.annoDesc}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2  control-label">备注:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static break-all" >{{announcement.remards}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2 control-label">审批意见:</div>
+                                <div class="col-lg-9">
+                                	<p class="form-control-static  break-all">{{announcement.apprComment}}</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!-- 新增/修改对话框 -->
+<div class="modal fade" id="pushDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span ng-show="!announcement.annoId">新增</span><span ng-show="announcement.annoId">修改</span>公告</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" name="mm" class="form-horizontal" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">公告名称:</label>
+                                <div class="col-lg-8">
+                                    <input type="text" placeholder="公告名称" required ng-model="announcement.annoName" class="form-control"
+                            		maxlength="25"
+                                   	my-valid="{valid:'myValid'}"
+                                   	valid-tip="{required:'这个是必填的'}"
+                           			valid-pos="bottom"
+                                    />
+                                </div><font color='red'>*</font>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">最后有效日期:</label>
+                                <div class="col-lg-8">
+                                    <div data-datetimepicker="announcement.annoValidDate" ng-model="announcement.annoValidDate" required start-date="today"></div>
+                                </div><font color='red'>*</font>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">公告描述:</label>
+                                <div class="col-lg-8">
+                                    <textarea class="form-control" rows="3" required placeholder="公告描述" ng-model="announcement.annoDesc"
+                                    maxlength="200"
+                                    my-valid="{valid:'myValid'}"
+                                   	valid-tip="{required:'这个是必填的'}"
+                           			valid-pos="bottom"
+                                    ></textarea>
+                                </div><font color='red'>*</font>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+				<button ng-show="!announcement.annoDate" type="button" class="btn btn-primary" ng-click="create(announcement)" data-dismiss="modal" ng-disabled="mm.$invalid">保存</button>
+				<button ng-show="announcement.annoDate" type="button" class="btn btn-primary" ng-click="modify(announcement)" data-dismiss="modal" ng-disabled="mm.$invalid">修改</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- 提交审核对话框 -->
+<div class="modal fade" id="publishDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">提交审核</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" class="form-horizontal" novalidate="novalidate">
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">公告名称:</div>
+                                <div class="col-lg-9">
+                                	{{announcement.annoName}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">机构名称:</div>
+                                <div class="col-lg-9">
+                                	{{announcement.orgName}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">最后有效日期</div>
+                                <div class="col-lg-9">
+                                	{{announcement.annoValidDate}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">公告描述:</div>
+                                <div class="col-lg-9  break-all">
+                                	{{announcement.annoDesc}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2" align="right">备注:</div>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control  break-all" rows="3" ng-model="announcement.remards"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitAudit(announcement)">提交审核</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除公告</h4>
+            </div>
+            <div class="modal-body">
+                确认要删除此公告？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove(announcement)">确认删除</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 公告下线 -->
+<div class="modal fade" id="setDownDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">公告下线</h4>
+            </div>
+            <div class="modal-body">
+                确认要下线公告吗？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="setDown(announcement)">确认</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,256 @@
+<div class="col-sm-12 col-md-12" ng-show="viewIndex== 1" ng-controller="DataIntegrationDataCleanManageEditCtrl">
+ <h3 class="heading">
+        数据清洗 
+    </h3>
+	<div class="row">
+		<div class="col-sm-4 col-md-4">
+			<label>数据</label>
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="currDs.dataSetName" readonly="readonly">
+				<div class="input-group-btn">
+					<button class="btn btn-default" type="button" data-toggle="modal" data-target="#select1" ng-click="openDialog()">选择</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<label>清洗后数据</label>
+			<input class="form-control" type="text" ng-model="resultDataSetName" />
+			<label>&nbsp;</label>
+		</div>
+	</div>
+
+<div ng-show="currDs">
+	<h4 class="heading">
+		数据名称：{{currDs.dataSetName}}
+		<div class="pull-right">
+			<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#put1" ng-disabled="!currDs" ng-click="initEdit()">添加规则</button>
+		</div>
+	</h4>
+
+		<table class="table table-striped table-bordered table-condensed  table-costom">
+			<thead>
+				<tr>
+					<th class="">清洗方式</th>
+					<th class="col-span-p40">字段</th>
+					<th class="col-span-p30">详情</th>
+					<th class="col-opt-0">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="rowlink" ng-repeat="item in rules">
+					<td>{{item.type.scriptName}}</td>
+					<td>{{item.columnNames.join(',')}}</td>
+					<td>
+						<div ng-if="item.chdRule">
+							<div ng-if="item.type.scriptId == 6">
+								<div ng-repeat="comRule in item.chdRule.commonRules">
+										<b>{{comRule.src}}</b>&nbsp;{{comRule.optName}}&nbsp;<b>{{comRule.to}}</b>
+								</div>
+							</div>
+							<div ng-if="item.type.scriptId == 13">
+								从&nbsp;<b>{{item.chdRule.startIndex}}</b>&nbsp;截取&nbsp;<b>{{item.chdRule.strLength}}</b>&nbsp;个字符
+							</div>
+							<div ng-if="item.type.scriptId == 12">
+							剔除&nbsp; <b>{{item.chdRule.keyword}}</b> &nbsp;及以后字符
+<!-- 								<b>剔除关键字及以后字符：</b> -->
+							</div>
+						</div>
+					</td>
+					<td><a href="javascript:" data-toggle="modal" data-target="#remove1" ng-click="setRemove(item , $index)">删除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="row">
+			<div class="col-sm-5 col-md-5"></div>
+			<div class="col-sm-7 col-md-7">
+				<button class="btn btn-default btn-success" type="button" ng-click="save()">清洗</button>
+				<button class="btn btn-default btn-success" type="button" ng-click="toView(0)">返回</button>
+			</div>
+		</div>
+	</div>
+	<!-- 添加规则 -->
+	<div class="modal fade" id="put1" tabindex="-1" role="dialog" aria-hidden="true">
+	<form role="form" class="form-horizontal" name="validForm" novalidate="novalidate">
+		<div class="modal-dialog" style="width: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">添加规则</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-danger alert-dismissable">
+						<a data-dismiss="alert" class="close">×</a>
+						<strong>操作说明：</strong> 只可选择“字符型”字段进行清洗
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-12 form-horizontal">
+						<div class="form-group">
+								<label class="col-lg-3 control-label">字段</label>
+								<div class="col-lg-9">
+									<label class="checkbox-inline" ng-repeat="item in colinfo" style="margin-left: 0; margin-right: 10px;">
+										<input type="checkbox" ng-value="item.columnName" value-list="$parent.clean.columns"  ng-disabled="item.dataType!='VARCHAR2'"/>
+										{{item.columnDesc}}
+									</label>
+<!-- 									<div data-check-list data-model="clean.columns" data-data="colinfo" data-name="columnDesc" data-disabled="item.dataType!='VARCHAR2'" -->
+<!-- 										data-key="columnName"></div> -->
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">清洗方式</label>
+								<div class="col-lg-9">
+									<select  class="form-control" ng-model="clean.type" ng-options="item as item.scriptName for item in cleanTypes"
+										name="cleantype" required data-valid-tip="{required:'请选择清洗方式'}" data-valid-pos ="bottom">
+										<option value="">请选择</option>
+									</select>
+									<span class="help-block" ng-show="clean.type.ruleDesc" style="padding:6px 12px;margin-bottom:0px"><b>说明：</b>{{clean.type.ruleDesc}}</span>
+								</div>
+							</div>
+                            <!--
+								6 = 通用去除规则
+                                13 = 按起始位置和长度截取
+                                12= 剔除关键字及以后字符
+                            -->
+                            <div class="form-group" ng-if="clean.type.scriptId == 6">
+                                <div class="col-lg-9 col-lg-offset-3">
+                                    <div class="clearfix">
+                                        <div class="pull-right">
+                                            <button class="btn btn-xs" ng-click="clean.chdRule.commonRules.push({'optType':39})">添加</button>
+                                        </div>
+                                    </div>
+                                    <table ng-init="clean.chdRule.commonRules = [{'optType':39}]" class="form-inline">
+                                        <tbody>
+                                        <tr ng-repeat="item in clean.chdRule.commonRules track by $index">
+                                            <td>
+                                                <select style="width: 100px;" class="form-control" ng-model="item.optType" ng-options="ctype.optType as ctype.optName for ctype in commonTypeList"></select>
+                                            </td>
+                                            <td>
+                                                原有字符 <input class="form-control" type="text" ng-model="item.src" style="width: 100px;" maxlength="25"
+                                                	name="itemsrc{{$index}}" required data-valid-tip="{required:'请输入原有字符'}" data-valid-pos ="bottom"/>
+                                            </td>
+                                            <td>
+                                                替换为 <input class="form-control" type="text" ng-model="item.to" style="width: 100px;" maxlength="25"
+													name="itemto{{$index}}" required data-valid-tip="{required:'请输入替换为字符'}" data-valid-pos ="bottom"/>
+                                            </td>
+                                            <td><a href="javascript:" ng-show="clean.chdRule.commonRules.length > 1" ng-click="clean.chdRule.commonRules.splice($index , 1)">删除</a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div ng-if="clean.type.scriptId == 13">
+                                <div class="form-group" ng-init="clean.chdRule = {'startIndex':'','strLength':''}">
+                                    <label class="col-lg-3 control-label">起始位置</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" ng-model="clean.chdRule.startIndex"  maxlength="4"
+                                        	name="startIndex" required ng-pattern="/^[1-9][0-9]*$/"  data-valid-tip="{required:'请输入起始位置',pattern:'只可以输入整数'}" data-valid-pos ="bottom"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" >截取长度</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" ng-model="clean.chdRule.strLength" maxlength="4"
+												name="strLength" required ng-pattern="/^[1-9][0-9]*$/"  data-valid-tip="{required:'请输入截取长度',pattern:'只可以输入整数'}" data-valid-pos ="bottom"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="clean.type.scriptId == 12">
+                                <label class="col-lg-3 control-label">关键字</label>
+                                <div class="col-lg-9" ng-init="clean.chdRule = {'keyword':''}">
+                                    <input type="text" class="form-control" ng-model="clean.chdRule.keyword" maxlength="25"
+										name="keyword" required  data-valid-tip="{required:'请输入关键字'}" data-valid-pos ="bottom"/>
+                                </div>
+                            </div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click="addRule(clean,$event.target)" >确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="role=null">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+		</form>
+	</div>
+
+	<!-- 删除对话框 -->
+	<div class="modal fade" id="remove1" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">删除数据</h4>
+				</div>
+				<div class="modal-body">确认要删除此数据么？</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeAct();">确认删除</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+</div>
+
+
+<div class="col-sm-12 col-md-12" ng-show="viewIndex== 2" ng-controller="DataIntegrationDataCleanManageReportCtrl">
+	<h3 class="heading">清洗报告</h3>
+
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">源数据:</label>
+			<div class="col-lg-2">
+				<p class="form-control-static">{{data.set1Name}}</p>
+			</div>
+
+			<label class="col-lg-2 control-label">清洗后数据:</label>
+			<div class="col-lg-2">
+				<p class="form-control-static">{{data.resultSetName}}</p>
+			</div>
+
+			<label class="col-lg-2 control-label">清洗后数据量:</label>
+			<div class="col-lg-2">
+				<p class="form-control-static">{{data.resultDateSetRowCnt}}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="table-scroll">
+		<table class="table table-striped table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th ng-repeat="(key,val) in rules">{{val}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="rowlink" ng-repeat="item in cleanState">
+					<td ng-repeat="cl in item">
+						<div ng-if="$first">{{cl}}</div>
+						<div ng-if="!$first && !checkNull(cl)">
+							处理条数：[<font color="red">{{cl.totalCount}}</font>]<br /> 成功条数：[<font color="red">{{cl.successCount}}</font>]<br />
+							所占比例：{{cl.rate + '%'}}
+							<div class="sepH_b progress ms">
+								<div class="progress-bar progress-bar-info" ng-style="{width:cl.rate + '%'}"></div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-5 col-md-5"></div>
+		<div class="col-sm-7 col-md-7">
+			<button class="btn btn-default btn-success" type="button" ng-click="toView(0)">返回</button>
+		</div>
+	</div>
+</div>

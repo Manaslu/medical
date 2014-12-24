@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T99_PROV_CODE  -->
+
+    <!-- <typeAlias type="com.idap.drad.entity.ProvCode" alias="ProvCode"/>  -->
+<mapper namespace="com.idap.drad.entity.SystemCode" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="provCodeMap" type="com.idap.drad.entity.SystemCode">
+	 		<id property="portcode" column="SYSTEM_CODE" jdbcType="VARCHAR" />
+			<result property="name" column="SYSTEM_NAME" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 无orderby -->
+	<sql id="queryList"> 
+	    select *
+	    from T01_SYSTEM_CODE ORDER BY SYSTEM_NAME
+	</sql>	
+	<select id="query" parameterType="java.util.Map" resultMap="provCodeMap">
+		<include refid="queryList" />
+	</select>
+</mapper>
+
+
+
+

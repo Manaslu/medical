@@ -1,0 +1,249 @@
+<div class="col-sm-12 col-md-12" ng-show="view == 0">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-3 col-md-3">  
+                    <label>数据集名称</label>
+                    <input class="form-control" type="text" ng-model="params.dataSetName " placeholder="请输入源数据、目标数据名称"/>   
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>重构状态</label>
+                     <select select2 class="form-control" ng-model="params.opStats" ng-options="item.id as item.name for item in stateType">
+                    	<option value="">请选择</option>
+                    </select>
+                </div>
+                                   
+                 <div class="col-sm-3 col-md-3">
+                    <label>操作日期</label>
+                    <div data-datetimepicker range start="params.startTime" end="params.endTime"></div>
+                </div>  
+                <div class="col-sm-4 col-md-4">
+					<label>&nbsp;</label>           
+					<button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+					<button class="btn btn-custom" type="button" ng-click="edit()">设置重构</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center  table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>源数据名称</th>
+            <th>结果数据名称</th>
+            <th>数据定义</th>
+            <th style="width:80px;">重构状态</th>
+            <!--th>操作人</th>-->
+            <th style="width:120px;">操作时间</th>
+            <th style="width:86px;">操作</th>
+        </tr>
+        </thead>
+        <tbody>                                         
+         <tr class="rowlink" ng-repeat="item in limitArr">          
+            <td>{{$index+1+pageCurrent*limit}}</td>                   
+	            <td>{{item.set1Name  }}</td>       
+	            <td>{{item.resultSetName}}</td>                          
+	            <td>{{item.resultDataDefName}}</td>
+				<td>{{item.opStats|DP_rebuild}}</td>	                                 
+	            <!--<td>{{item.userName}}</td>-->
+	            <td>{{item.createDate | date : 'yyyy-MM-dd HH:mm'  }}</td>   
+            <td>  
+                <a href="javascript:" ng-show="item.opStats=='finished'"  ng-click="openDetail(item)">查看</a>
+                 
+            </td>
+        </tr>
+        </tbody>
+    </table>
+   
+   <div 
+	data-remote-paging="pager" 
+	data-refresh="refresh" 
+	data-current="pageCurrent" 
+	data-total="total" 
+	data-data="limitArr"
+	data-limit="limit"
+	data-params="params"
+	>
+	</div>
+
+      
+    
+    <!-- 删除对话框 -->
+    <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">删除数据</h4>
+                </div>
+                <div class="modal-body">
+                    	确认要删除此数据么？ 
+                </div>
+                <div class="modal-footer">                              
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"   ng-click="confirmRemove()"  >确认删除</button>              
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+</div>
+              
+<div class="col-sm-12 col-md-12" ng-show="view == 1">
+    <h3 class="heading">
+        数据重构
+    </h3>
+             
+    <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <label>选择重构数据集</label>                                              
+            <div class="input-group"> 
+                <input class="form-control" ng-model="rebuild.dataSetName" type="text"   readonly="readonly"	>    
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select1">选择</button>
+                </div>
+            </div>
+        </div>
+                        
+   
+        <div class="col-sm-4 col-md-4">  
+            <label>重构后数据名称</label>
+            <input class="form-control" ng-model="rebuild.resultSetName" disabled/>
+        </div>                       
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <label>重构规则 </label>                                           
+            <select select2 class="form-control" ng-model="rebuild.ruleScript" ng-options="item as item.scriptName  for item in ruleScriptList">
+                <option value="">请选择    </option>
+            </select>
+        </div>        
+        
+        <div class="col-sm-4 col-md-4">
+            <label>选择字段 </label>                                           
+            <select  select2 class="form-control" ng-model="rebuild.column" ng-options="item as item.columnDesc  for item in  dbAColumns">
+                <option value="">请选择    </option>
+            </select>
+          
+        </div>        
+        <div class="col-sm-4 col-md-4">
+            <label>&nbsp;</label>
+            	<button class="btn btn-info" ng-click="addColumnRule();">添加规则</button>
+            <label>&nbsp;</label>
+        </div>  
+    </div>             
+                          
+    <h4 class="heading">数据重构预览</h4>
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>规则</th>
+            <th>字段</th>
+            <th>操作</th>
+        </tr>
+        </thead>                 
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in rules">
+            <td>{{$index + 1}}</td>
+            <td>{{item.ruleScript.scriptName}}</td>
+            <td>{{item.column.columnDesc }}</td>
+            <td>
+                <a href="javascript:" ng-click="rules.splice($index,1)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="row">   
+        <div class="col-sm-5 col-md-5"></div>
+        <div class="col-sm-7 col-md-7">    
+            <button class="btn btn-default btn-success" type="button" ng-click="resetObj(0)">重置 </button>  
+             	   
+             	                     
+             
+            <button class="btn btn-default btn-success" type="button" ng-disabled="!rules.length" ng-click="executeRun(0)">执行重构 </button>
+                         
+                         
+        </div>
+    </div>
+
+    <!-- 选择数据 -->
+    <div class="modal fade" id="select1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="width: 900px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">选择数据集</h4>
+                </div>                                                                     
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4">
+                            <label>数据集名称</label>   
+                            <input class="form-control" type="text"  ng-model="DataSetParams.dataSetName" />
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <label>数据定义</label>                                                       
+		                     <select select2 data-live-search="true"   class="form-control" ng-model="DataSetParams.dataDefName" ng-options="item.dataDefName as item.dataDefName  for item in dataDefList">
+				                 <option value="">请选择</option>
+				             </select>                       
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-default"  type="submit" ng-click="refresh2('first', true)">查询</button>
+                               
+                            <label>&nbsp;</label>
+                        </div>
+                    </div>
+                       
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <table class="table table-striped table-bordered table-condensed index-center table-costom">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>数据</th>
+                                    <th>数据定义</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>               
+                                <tbody>
+                                <tr class="rowlink" ng-repeat="item in limitArr2" ng-click="selectDA(item)">
+                                      <td> {{$index+1+pageCurrent2*limit}}  </td> 
+								       <td>{{item.dataSetName}}</td>                          
+								       <td>{{item.dataDefName}}</td> 
+                                    <td>
+                                        <a href="javascript:">选择</a>
+                                    </td>
+                                </tr>
+                                </tbody> 
+                            </table>
+                        </div>
+                      
+                    </div>
+                       
+                     <div 
+						data-remote-paging="DataSetPager" 
+						data-refresh="refresh2" 
+						data-current="pageCurrent2" 
+						data-total="total2" 
+						data-data="limitArr2"
+						data-limit="limit2"
+						data-params="DataSetParams"
+						></div>
+                     
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<div view-data-set="detail"></div>
+</div>

@@ -1,0 +1,32 @@
+<div ng-controller="DataIntegrationDataCleanContentCtrl" ng-show="viewIndex == 100">
+	<div class="col-sm-12 col-md-12">
+		<div class="table-scroll">
+			<table class="table table-striped table-bordered table-condensed index-center">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th ng-repeat="item in titleList" ng-if="$index>0">{{item.columnDesc}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="rowlink" ng-repeat="item in limitArr1">
+						<td>{{$index + 1}}</td>
+						<td ng-repeat="content in item" ng-if="$index>0">{{item[$index]}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div data-remote-paging="detailPager" data-params="contentParams" data-refresh="refresh1" data-current="current1"
+			data-total="total1" data-data="limitArr1" data-limit="limit1"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-5 col-md-5"></div>
+		<div class="col-sm-7 col-md-7">
+			<button class="btn btn-primary" type="button" ng-click="toBack()">返回</button>
+		</div>
+	</div>
+</div>
+
+

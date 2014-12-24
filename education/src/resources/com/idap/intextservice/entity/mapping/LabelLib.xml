@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T06_LABEL_LIB  -->
+    <!-- <typeAlias type="com.idap.intextservice.repository.entity.LabelLib" alias="LabelLib"/>  -->
+<mapper namespace="com.idap.intextservice.repository.entity.LabelLib" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="labelLibMap" type="com.idap.intextservice.repository.entity.LabelLib">
+			<result property="labelId" column="LABEL_ID" jdbcType="VARCHAR" />
+			<result property="labelName" column="LABEL_NAME" jdbcType="VARCHAR" />
+			<result property="labelDesc" column="LABEL_DESC" jdbcType="VARCHAR" />
+			<result property="createUser" column="CREATE_USER" jdbcType="VARCHAR" />
+			<result property="createDate" column="CREATE_DATE" jdbcType="DATE" />
+		 
+			<result property="userId" column="USER_ID" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<!--=================    动态内容部分           =================-->
+	<!-- where：动态生成部分  -->
+	<sql id="dynamicWhere">
+	<!-- 	LIKE 样例：   SYSTEM_NAME like '%'||#{systemName}||'%'    -->
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="labelId!=null">
+				AND LABEL_ID=#{labelId}
+			</if>
+			<if test="labelName!=null">
+				AND LABEL_NAME   like '%'||#{labelName}||'%'  
+			</if> 	  
+			<if test="labelDesc!=null">
+				AND LABEL_DESC   like '%'||#{labelDesc}||'%' 
+			</if>
+			
+			<if test="userId !=null">
+				AND  USER_ID=#{userId,jdbcType=VARCHAR}               
+			</if>   
+			<if test="createUser!=null">
+				AND CREATE_USER  like '%'||#{createUser}||'%'  
+			</if>
+			<if test="createDate!=null">
+				AND CREATE_DATE=to_date('${createDate}', 'yyyy-mm-dd')
+			</if>
+	  
+	  
+			<if test="startTime!=null">
+				AND  to_date(to_char(CREATE_DATE))      <![CDATA[>=]]>to_date('${startTime}', 'yyyy-mm-dd')
+			</if>
+			<if test="endTime!=null">
+				AND  to_date(to_char(CREATE_DATE))     <![CDATA[<=]]>to_date('${endTime}', 'yyyy-mm-dd')
+			</if>
+			<if test="ids!=null and ids.length>0">
+				AND  id in
+				<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			<if test="sno!=null and eno!=null and orderBy==null">
+						AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+		</trim>
+		
+	</sql>
+	
+	<!-- order by 排序   -->
+	<sql id="dynamicOrderBy">
+	<if test="orderBy!=null">
+		order by ${orderBy}  desc                 
+		<if test="order!=null">
+			 ${order}
+		</if>
+	</if>
+	</sql>
+	
+	<!-- group by 分组   -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			 group by ${groupBy}
+		</if>
+	</sql>
+	
+	<!-- update:set 动态生成可更新字段    -->
+	<sql id="dynamicSet">
+	<trim prefix="SET" prefixOverrides=",">
+		<if test="v_labelId!=null">
+			  ,LABEL_ID=#{v_labelId,jdbcType=VARCHAR}
+		</if>
+		<if test="v_labelName!=null">
+			  ,LABEL_NAME=#{v_labelName,jdbcType=VARCHAR}
+		</if>
+		<if test="v_labelDesc!=null">
+			  ,LABEL_DESC=#{v_labelDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="v_createUser!=null">
+			  ,CREATE_USER=#{v_createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="v_createDate!=null">
+			  ,CREATE_DATE=#{v_createDate,jdbcType=DATE}
+		</if>
+		               
+		<if test="v_userId!=null">
+			  ,USER_ID=#{v_userId,jdbcType=VARCHAR}
+		</if>
+		
+    </trim>
+	</sql>
+	
+	<!-- 表所有的字段：insert 的表、字段 部分    -->
+	<sql id="allColumn">
+			LABEL_ID,
+			LABEL_NAME,
+			LABEL_DESC,
+			CREATE_USER,
+			CREATE_DATE,
+			USER_ID  
+	</sql>
+	
+	<!-- 单条插入：动态生成可插入字段 对应的变量列表    -->
+	<sql id="allColumnVar">
+		values(
+			#{labelId,jdbcType=VARCHAR},
+			#{labelName,jdbcType=VARCHAR},
+			#{labelDesc,jdbcType=VARCHAR},
+			#{createUser,jdbcType=VARCHAR},
+			#{createDate,jdbcType=DATE},
+			#{userId,jdbcType=VARCHAR}
+		)
+	</sql>
+	
+	<!-- 表所有的字段values：批量插入    -->
+	<sql id="allValues">
+		<if test="list!=null and list.size()>0">
+			<foreach item="value" index="index" collection="list" open="select " separator="from dual union select "	close="from dual">
+			#{value.labelId,jdbcType=VARCHAR},
+			#{value.labelName,jdbcType=VARCHAR},
+			#{value.labelDesc,jdbcType=VARCHAR},
+			#{value.createUser,jdbcType=VARCHAR},
+			#{value.createDate,jdbcType=DATE},
+			#{value.userId,jdbcType=VARCHAR}
+			
+			</foreach>
+		</if>
+	</sql>
+	
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+			select orderContentTab.*,ROWNUM AS rowno
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumn" />
+		from
+		T06_LABEL_LIB
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>	${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+		</if>
+	</sql>
+	
+	
+	<!-- =================================================  -->
+	<!-- 1.1根据id查询对像  -->
+	<select id="getById" parameterType="String"  resultMap="labelLibMap" >
+		select 
+			<include refid="allColumn"/>
+		from T06_LABEL_LIB where id=#{value}
+	</select>
+	
+	<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="labelLibMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="labelLibMap">
+		<include refid="queryBody" />
+	</select>
+	
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+		from 
+			T06_LABEL_LIB
+		<include refid="dynamicWhere"/>
+	</select>
+	
+	<!-- 4.删除  -->
+	<delete id="delete" parameterType="java.util.Map" >
+		DELETE FROM  T06_LABEL_LIB  
+		<include refid="dynamicWhere"/>
+	</delete>
+
+	
+	<!-- 5.1对像插入    -->
+	<insert id="insert" parameterType="com.idap.intextservice.repository.entity.LabelLib" >
+	    INSERT INTO 
+	    T06_LABEL_LIB(<include refid="allColumn"/>	)
+		<include refid="allColumnVar"/>
+		
+				<!-- MySql主键 -->
+		<!-- <selectKey resultType="String" keyProperty="id"> -->
+		<!-- <![CDATA[SELECT LAST_INSERT_ID() AS ID ]]> -->
+		<!-- </selectKey> -->
+		<!-- Oracle主键 -->
+		<!-- <selectKey resultType="java.lang.Short" order="BEFORE" keyProperty="id"> -->
+		<!-- SELECT SEQ_TEST.NEXTVAL FROM DUAL -->
+		<!-- </selectKey> -->
+	</insert>
+	
+	<!-- 5.2 批量插入 扩   -->
+	<insert id="insertBatch" parameterType="java.util.List">
+	    INSERT INTO 
+		  T06_LABEL_LIB(<include refid="allColumn"/>	)
+		<include refid="allValues"/>
+	</insert>
+	
+	<!-- 6.1批量更新  扩 -->
+	<update id="updateBatch" parameterType="java.util.Map">
+	     update T06_LABEL_LIB
+	     <include refid="dynamicSet"/>
+	     <include refid="dynamicWhere"/>
+	</update>
+	
+	<update id="update" parameterType="com.idap.intextservice.repository.entity.LabelLib">
+		update T06_LABEL_LIB
+		<trim prefix=" SET " prefixOverrides=",">
+		<if test="labelId!=null">
+			  ,LABEL_ID=#{labelId,jdbcType=VARCHAR}
+		</if>
+		<if test="labelName!=null">
+			  ,LABEL_NAME=#{labelName,jdbcType=VARCHAR}
+		</if>
+		<if test="labelDesc!=null">
+			  ,LABEL_DESC=#{labelDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="createUser!=null">
+			  ,CREATE_USER=#{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="createDate!=null">
+			  ,CREATE_DATE=#{createDate,jdbcType=DATE}
+		</if>
+		                            
+		<if test="userId !=null">              
+			  ,USER_ID=#{userId,jdbcType=VARCHAR}   
+		</if>
+		</trim>        
+		   WHERE  LABEL_ID=#{labelId,jdbcType=VARCHAR}   
+		         
+	</update>                                                                    
+	<!-- =========================自定义操作========================  -->
+	
+	 <!-- 1.1根据id查询对像  -->
+	<select id="getByName" parameterType="String"  resultMap="labelLibMap" >
+		select 
+			<include refid="allColumn"/>
+		from T06_LABEL_LIB where     LABEL_NAME=#{value}
+	</select>
+	
+	
+                           
+</mapper>
+
+
+  

@@ -1,0 +1,173 @@
+<div ng-controller="DataIntegrationDefinedEditCtrl">
+	<div class="col-sm-12 col-md-12" ng-show="current == 1">
+ <h3 class="heading">
+        数据结构定义
+    </h3>
+		<form role="form" class="form-horizontal" name="defForm" novalidate="novalidate">
+			<div class="form-group">
+				<label class="col-lg-2 control-label"> 名称</label>
+				<div class="col-lg-10">
+					<input type="text" name="dataDefName" ng-trim=”true” required ng-model="data.dataDefName" placeholder=" 数据结构定义名称" class="form-control span96"
+					ng-maxlength="20" data-valid-tip="{maxlength:'最大长度为20',required:'请输入名称'}" maxlength="20"
+					data-valid-pos="bottom" 
+					>
+					<span class="mustItem">*</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">描述</label>
+				<div class="col-lg-10">
+					<textarea class="form-control span96" ng-trim=”true” ng-model="data.dataDefDesc" rows="3"
+					ng-maxlength="1000" data-valid-tip="{maxlength:'最大长度为1000'}"
+					data-valid-pos="bottom"
+					maxlength="1000"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<button class="btn btn-primary" style="margin-right: 15px;" type="button" ng-click="toNextPage(0)">返回</button>
+					<button class="btn btn-primary" type="button" ng-disabled="defForm.$invalid" ng-click="saveDef()" >下一步</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+	<div class="col-sm-12 col-md-12" ng-show="current == 2">
+		<h3 class="heading">
+			数据字段信息
+			<div class="pull-right">
+				<button class="btn btn-primary"  type="button" ng-click="toNextPage(1)">返回</button>
+				<button class="btn btn-success" type="button" ng-click="saveAll()">完成</button>
+				<button class="btn btn-primary" data-toggle="modal" ng-click="isShowLength= true;editItem=undefined;key={dataType:'VARCHAR2'};s_key=undefined" data-target="#push1">新增字段</button>
+			</div>
+		</h3>
+
+		<table class="table table-striped table-bordered table-condensed table-costom">
+			<thead>
+				<tr>
+					<th>序号</th>
+<!-- 					<th>列名</th> -->
+					<th>字段名</th>
+					<th>数据类型</th>
+					<th>字段长度</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="rowlink" ng-repeat="item in dataList">
+					<td>{{$index+1}}</td>
+<!-- 					<td>{{item.columnName}}</td> -->
+					<td>{{item.columnDesc}}</td>
+					<td>{{item.dataType}}</td>
+					<td>{{item.length}}</td>
+					<td><a href="javascript:" data-toggle="modal" data-target="#remove1" ng-click="setRemove(item , $index )">删除</a>
+						<a href="javascript:" data-toggle="modal" data-target="#push1" ng-click="editAttr(item)">修改</a></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+	</div>
+
+	<!-- 新增/修改 -->
+	<div class="modal fade" id="push1" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<form role="form" class="form-horizontal" name="editForm" novalidate="novalidate">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">字段信息</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-sm-12 col-md-12">
+								<div class="form-group">
+									<label class="col-lg-2 control-label" for="type">概念类型</label>
+									<div class="col-lg-10">
+										<select id="type" class="form-control span96" ng-model="s_key" ng-change="conceptModelDicInit(s_key)"
+											ng-options="item.conceptModelId as item.conceptModelDesc for item in cls">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+<!-- 								<div class="form-group"> -->
+<!-- 									<label class="col-lg-2 control-label" for="labelName">列名</label> -->
+<!-- 									<div class="col-lg-10"> -->
+<!-- 										<input type="text" placeholder="列名" ng-model="key.columnName" id="labelName" name="columnName" maxlength="30" -->
+<!-- 											class="form-control span96" ng-readonly="s_key" ng-trim required ng-maxlength="30" ng-pattern="/^[A-Za-z_]+[A-Za-z0-9_]*$/" -->
+<!-- 											data-valid-tip="{ required : '列名为必须填项' , maxlength:'最大长度为30个字符',pattern:'列名由字母、下划线开头，由字母、数字、下划线组成'}" -->
+<!-- 											data-valid-pos="bottom"> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+								<div class="form-group">
+									<label class="col-lg-2 control-label" for="labelDesc">字段名</label>
+									<div class="col-lg-10">
+										<input type="text" placeholder="字段名" ng-model="key.columnDesc" id="labelDesc" class="form-control span96" 
+										required ng-maxlength="20" ng-trim maxlength="20" ng-pattern="/^((?!<|>|\?).)+$/" ng-disabled="s_key"
+										data-valid-tip="{ required : '字段名为必须填项' , maxlength:'最大长度为20个字符',pattern:'字段名不允许存在 <、>、? '}"
+										data-valid-pos="bottom"
+										name="columnDesc">
+										<span class="mustItem">*</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label" for="dataType">数据类型</label>
+									<div class="col-lg-10">
+										<select id="dataType" class="form-control span96" ng-model="key.dataType"  name="dataType"
+										required ng-disabled="s_key"
+										ng-options="item.dataTypeId as item.dataTypeName for item in types"
+										ng-change="initLength(key)"
+										>
+										</select>
+										<span class="mustItem">*</span>
+									</div>
+								</div>
+								<div class="form-group" ng-if="isShowLength">
+									<label class="col-lg-2 control-label" for="length">数据长度</label>
+									<div class="col-lg-10">
+										<input type="text" placeholder="数据长度" ng-model="key.length" id="length" name="length" class="form-control span96"
+											my-valid="customeValid()"  maxlength="4" ng-pattern="/^[1-9][0-9]*$/" 
+											data-valid-tip="{ pattern : '数据长度只可输入大于0的整数' ,numValid:'数据长度 最大值为2000',floatValid:'数据长度最大值为38'}"
+											data-valid-pos="bottom"
+											maxlength="4"/>
+											<span class="mustItem">*</span>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" ng-disabled="editForm.$invalid" ng-click="save(key,$event.target)">保存</button>
+						<button type="button" class="btn btn-warning" ng-click="reset()">重置</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="key = null;s_key = null">取消</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</form>
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!-- 删除对话框 -->
+	<div class="modal fade" id="remove1" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">删除数据</h4>
+				</div>
+				<div class="modal-body">确认要删除此数据么？</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="remove()">确认删除</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+</div>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：t06_data_report_form -->
+<mapper namespace="com.idap.intextservice.result.subscriptions.entity.DataRepor">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="dataReporMap" type="com.idap.intextservice.result.subscriptions.entity.DataRepor">
+		<result property="reportId" column="REPORT_ID" jdbcType="VARCHAR" />
+		<result property="reportName" column="REPORT_NAME" jdbcType="VARCHAR" />
+		<result property="reportDesc" column="REPORT_DESC" jdbcType="VARCHAR" />
+		<result property="reportTheme" column="REPORT_THEME" jdbcType="VARCHAR" />
+		<result property="businessType" column="BUSINESS_TYPE" jdbcType="VARCHAR" />
+		<result property="tableName" column="TABLE_NAME" jdbcType="VARCHAR" />
+		<result property="createUser" column="CREATE_USER" jdbcType="VARCHAR" />
+		<result property="sourceDataSetId" column="SOURCE_DATA_SET_ID" jdbcType="VARCHAR" />
+		<result property="anaMethod" column="ANA_METHOD" jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP" />
+		<result property="businessDate" column="BUSINESS_DATE" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 查询订阅主题 -->
+	<select id="query" parameterType="java.util.Map" resultMap="dataReporMap">
+		select REPORT_ID,REPORT_NAME,REPORT_THEME from t06_data_report_form 
+		<include refid="dynamicWhere" />
+	</select>
+	
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		    <if test="reportId!=null">
+		        AND REPORT_ID =#{reportId,jdbcType=VARCHAR}
+		    </if>
+		</trim>
+	</sql>
+	
+</mapper>

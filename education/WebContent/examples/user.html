@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='userModule'>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><!-- ie8及以下安装 Chrome Frame 即可正常显示 -->
+    <title>test</title>
+
+    <!-- Bootstrap framework -->
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+</head>
+
+<body ng-controller="UserCtrl">
+<div class="col-sm-12 col-md-12">
+	<input ng-model="hello">
+	{{hello}},world
+    <h3 class="heading">
+        用户管理
+    </h3>
+
+    <div class="row">
+        <div class="col-sm-3 col-md-3">
+            <label>用户名</label>
+            <input class="form-control" ng-model="params.username" type="text"/>
+        </div>
+        <div class="col-sm-3 col-md-3">
+            <label>姓名</label>
+            <input class="form-control" ng-model="params.name" type="text"/>
+        </div>
+        <div class="col-sm-3 col-md-3">
+            <label>所属机构</label>
+            <input class="form-control"  ng-model="params.jigou" type="text"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 col-md-3">
+            <label>用户状态</label>
+            <select class="form-control" ng-model="params.state">
+                <option value="1">初始化</option>
+            </select>
+        </div>
+        <div class="col-sm-3 col-md-3">
+            <label>开始日期</label>
+            <div data-datetimepicker></div>
+        </div>
+        <div class="col-sm-3 col-md-3">
+            <label>结束日期</label>
+            <div data-datetimepicker></div>
+        </div>
+        <div class="col-sm-3 col-md-3">
+            <label>&nbsp;</label>
+            <button class="btn btn-default" type="submit" ng-click="refresh('first')">查询</button>
+            <button class="btn btn-default" type="submit" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate()">新增用户</button>
+            <label>&nbsp;</label>
+        </div>
+        {{params}}
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th>序号</th>
+			<th>ID</th>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>邮箱</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="user in limitArr">
+            <td>{{$index+1+current*2}}</td>
+            <td>{{user.userId}}</td>
+            <td>{{user.userName}}</td>
+            <td></td>
+            <td>{{user.email}}</td>
+            <td>
+                <a href="javascript:" data-toggle="modal" data-target="#resetPWDDialog">重置密码</a>
+                <a href="javascript:" data-toggle="modal" data-target="#configDialog">配置角色</a>
+                <a href="javascript:" data-toggle="modal" data-target="#logoutDialog">注销</a>
+                <a href="javascript:" data-toggle="modal" data-target="#focusDialog">激活</a>
+                <a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toDelete(user)">删除</a>
+                <a href="javascript:" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate(user)">修改</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+	
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<div 
+			data-remote-paging="User" 
+			data-size="10" 
+			data-limit="3"
+			data-refresh="refresh" 
+			data-current="current" 
+			data-total="total" 
+			data-data="limitArr"
+			data-params="params"
+			></div>
+		</div>
+	</div>
+	
+</div>
+
+
+<!-- 新增/修改对话框 -->
+<div class="modal fade" id="pushDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span ng-show="!user.userId">新增</span><span ng-show="user.userId">修改</span>用户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" class="form-horizontal" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="userName">用户名</label>
+                                <div class="col-lg-10">
+                                    <input type="text" placeholder="用户名" ng-model="user.userName" id="userName" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="email">email</label>
+                                <div class="col-lg-10">
+                                    <input type="text" placeholder="email" ng-model="user.email"  id="email" class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="saveUser(user)">保存</button>
+                
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除用户</h4>
+            </div>
+            <div class="modal-body">
+                	确认要删除此用户？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="userRemove()">确认删除
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 重置密码 -->
+<div class="modal fade" id="resetPWDDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                确认要重置此用户的密码？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 注销用户 -->
+<div class="modal fade" id="logoutDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">注销用户</h4>
+            </div>
+            <div class="modal-body">
+                确认要注销此用户？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 激活用户 -->
+<div class="modal fade" id="focusDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">激活用户</h4>
+            </div>
+            <div class="modal-body">
+                确认要激活此用户？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 角色配置 -->
+<div class="modal fade" id="configDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">角色配置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed">
+                            <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th>角色名称</th>
+                                <th>所属机构</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink">
+                                <td><input type="checkbox"></td>
+                                <td>数据分析人员</td>
+                                <td>系统超级管理员</td>
+                            </tr>
+                            <tr class="rowlink">
+                                <td><input type="checkbox"></td>
+                                <td>数据分析人员</td>
+                                <td>系统超级管理员</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">修改</button>
+                <button type="button" class="btn btn-default">重置</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.min.js"></script>
+<script>
+   //初始化模块
+   var userModule=angular.module("userModule",["ngResource"]);
+   
+   userModule.directive('remotePaging', function () {
+        return {
+            scope: {
+                paging: "=remotePaging",//源数据
+                limit: '=',//每页多少条
+                data: '=',//当前页数的数据
+                current: '=',//当前第几页
+                refresh: '=',//刷新
+                size: '=',//出现多少个分页
+                params: '=',//查询条件
+                total: '='//总共有多少条
+            },
+            link: function (scope, el, attr) {
+
+                var limit = scope.$eval('limit') || 10;
+                var size = scope.$eval('size') || 10;
+                
+                scope.$watch('limit' , function(newVal , oldVal){
+                	if(newVal != oldVal){
+                		limit = scope.limit = newVal;
+                		scope.refresh('first',true);
+                	}
+                });
+                
+                scope.$watch('size' , function(newVal , oldVal){
+                	if(newVal != oldVal){
+                		size = scope.size = newVal;
+                		scope.refresh('first',true);
+                	}
+                });
+                
+                function initPageList(totalPage) {
+                    scope.pageList = function (num) {
+                        var ret = [];
+                        for (var i = 0; i < num; i++) ret.push(i);
+                        return ret;
+                    }(totalPage);
+                }
+                
+                scope.checkShow = function(index){
+                	return true;
+                };
+
+                scope.goToPage = function (page , all) {//to page data
+                    if (page < 0 || (scope.total && page >= scope.totalPage)) {
+                        return;
+                    }
+                    
+                    var config = {
+                    	paging : true,
+                    	current : page,
+                    	limit : limit,
+                    	reload : !!all,
+                    	total : scope.total,
+                    	params : angular.toJson(scope.$eval('params') || {})
+                    };
+                    scope.paging.get(config, function (result) {
+                        /**
+                         * result : {
+                         *      total : 999,//数据
+                         *      totalPage : 10,//碎片数量
+                         *      current : 1,//当前碎片
+                         *      limit : 15,//限制碎片大小
+                         *      data : []//数据碎片
+                         * }
+                         */
+                        scope.current = result.current;
+                        scope.data = result.data || [];
+                        scope.data = $.map(scope.data , function(item){
+                        	return new scope.paging(item);
+                        });
+                        scope.total = result.total;
+                        if (all){
+                        	initPageList(result.totalPage)
+                        }
+                    });
+                };
+                scope.refresh = function(index , all){
+                	switch(index){
+                		case "first" : 
+                			scope.goToPage(0 , all);
+                		   break;
+                		case "last" : 
+                			scope.goToPage(scope.totalPage , all);
+                		   break;
+                		default:
+                			scope.goToPage(scope.current , all);
+                	}
+                }
+                scope.$watch('paging' , function(){
+                	scope.paging && scope.goToPage(0,true);
+                	console.log('paging')
+                });
+            },
+            template: '<div class="dataTables_paginate paging_bootstrap">\
+                           <ul class="pagination pagination">\
+                               <li class="prev" ng-class="{disabled:current == 0}"><a href="javascript:" ng-click="goToPage(current-1)">上一页</a></li>\
+                               <li ng-class="{active:$index == current}" ng-show="checkShow($index)" ng-repeat="item in pageList"><a href="javascript:" ng-click="goToPage($index)">{{$index+1}}</a></li>\
+                               <li class="next" ng-class="{disabled:current == pageList.length-1}"><a href="javascript:" ng-click="goToPage(current+1)">下一页</a></li>\
+                           </ul>\
+                        </div>',
+            //replace: true,
+            restrict: 'A'
+        }
+    });
+   
+   userModule.config(['$httpProvider', function ($httpProvider) {
+        var defaults = $httpProvider.defaults,
+            headers = defaults.headers;
+
+        //格式化上传参数，默认json
+        defaults.transformRequest = function (data) {
+            if (data === undefined) {
+                return data;
+            }
+            return $.param(angular.fromJson(angular.toJson(data)));
+        };
+
+        //设置上传头文字
+        var value = 'application/x-www-form-urlencoded; charset=UTF-8',
+            key = 'Content-Type';
+        headers.post[key] = value;
+        headers.put[key] = value;
+        headers.patch[key] = value;
+    }]);
+   
+   //为当前模块注入相应的访问资源
+   userModule.factory("User",function($resource){
+   		return $resource("/user.shtml" );
+   });
+   
+   //为当前模块绑定控制器
+   userModule.controller("UserCtrl",function($scope,User){
+   		$scope.User = User;
+   		
+   		//初始化修改/新增
+   		$scope.toUpdate = function(user){
+   			$scope.user = user || new User;
+   			
+   			
+   		}
+   		$scope.saveUser = function(user){
+   			if(!user.userId){
+   				//user._method = 'put';
+   				user.$put($scope.refresh.bind(null , 'first',true));
+   			}else{
+   				user.$save($scope.refresh.bind(null , 'current',true));
+   			}
+   		}
+   		
+   		$scope.toDelete=function(user){
+   			$scope.user=user;
+   		}
+   		$scope.userRemove=function(){
+   			//$scope.user.$remove(getList);
+   			//user.shmtl?method=delete&userId=&userName=
+   			
+   			User.remove($scope.user , $scope.refresh.bind(null , 'current',true));
+   		}
+   });
+</script>
+</body>

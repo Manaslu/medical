@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：t06_subs_push_log -->
+<mapper namespace="com.idap.intextservice.result.subscriptions.entity.EmailPush">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="emailPushMap" type="com.idap.intextservice.result.subscriptions.entity.EmailPush">
+		<result property="Id" column="ID" jdbcType="VARCHAR" />
+		<result property="reportName" column="REPORT_NAME" jdbcType="VARCHAR" />
+		<result property="pushStats" column="PUSH_STATS" jdbcType="VARCHAR" />
+		<result property="subsName" column="SUBS_NAME" jdbcType="VARCHAR" />
+		<result property="subsType" column="SUBS_TYPE" jdbcType="VARCHAR" />
+		<result property="userName" column="USER_NAME" jdbcType="VARCHAR" />
+		<result property="pushDate" column="PUSH_DATE" jdbcType="TIMESTAMP" />
+		
+		<result property="usrName" column="USR_NAME" jdbcType="VARCHAR" />
+		<result property="email" column="EMAIL" jdbcType="VARCHAR" />
+		<result property="subscribeId" column="SUBSCRIBE_ID" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<!-- 查询email -->
+	<select id="query" parameterType="java.util.Map" resultMap="emailPushMap">
+		select u.usr_name,u.email from t06_subscribe_empower_dtl t
+        left join t02_user_base u
+        on t.user_id=u.user_id 
+		<include refid="dynamicWhere" />
+		and t.subscribe_type='2'
+	</select>
+	
+	<!-- 根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="emailPushMap">
+	    select 
+		   ID,
+           REPORT_NAME,
+           PUSH_STATS,
+           SUBS_NAME,
+           SUBS_TYPE,
+           USER_NAME,
+           PUSH_DATE
+			  from (select t.*, ROWNUM AS rowno
+			          from (select ID,
+			                       REPORT_NAME,
+			                       PUSH_STATS,
+			                       SUBS_NAME,
+			                       SUBS_TYPE,
+			                       USER_NAME,
+			                       PUSH_DATE
+				                  from t06_subs_push_log t
+				                    <include refid="dynamicWhere" />
+				                    order by PUSH_DATE desc) t
+				                    where ROWNUM <![CDATA[<=]]> ${eno}) t
+         <if test="sno!=null and eno!=null">
+			where t.rowno <![CDATA[>=]]> ${sno}
+		</if>
+		
+		
+	</select>
+	
+	<!-- 根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+		select
+		count(1)
+		from
+		t06_subs_push_log t
+		
+		<include refid="dynamicWhere" />
+	</select>
+	
+	<!-- 新增订阅信息 -->
+	<insert id="insert" parameterType="com.idap.intextservice.result.subscriptions.entity.EmailPush">
+		INSERT INTO 
+	    t06_subs_push_log (ID,REPORT_NAME,PUSH_STATS,SUBS_NAME,SUBS_TYPE,USER_NAME,PUSH_DATE) 
+	    			values(
+	    			#{Id,jdbcType=VARCHAR},
+	    			#{reportName,jdbcType=VARCHAR},
+	    			#{pushStats,jdbcType=VARCHAR},
+	    			#{subsName,jdbcType=VARCHAR},
+	    			#{subsType,jdbcType=VARCHAR},
+	    			#{userName,jdbcType=VARCHAR},
+	    			#{pushDate,jdbcType=TIMESTAMP}
+	    			)
+	</insert>
+	
+	
+	<!-- where:and 动态生成可筛选字段 -->
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		    <if test="reportName!=null">
+				AND t.REPORT_NAME=#{reportName,jdbcType=VARCHAR}
+			</if>
+		    <if test="subsName!=null">
+				AND t.SUBS_NAME like '%'||#{subsName}||'%'
+			</if>
+			<if test="startTime!=null">
+				AND t.PUSH_DATE <![CDATA[>=]]>to_date('${startTime}', 'yyyy-mm-dd')
+			</if>
+			<if test="endTime!=null">
+				AND t.PUSH_DATE <![CDATA[<=]]>to_date('${endTime}', 'yyyy-mm-dd')
+			</if>
+			<if test="pushStats!=null">
+				AND t.PUSH_STATS =#{pushStats,jdbcType=VARCHAR}
+			</if>
+			<if test="subsType!=null">
+			    AND t.SUBS_TYPE  =#{subsType,jdbcType=VARCHAR}
+			</if>
+			<if test="subscribeId!=null">
+				AND t.SUBSCRIBE_ID=#{subscribeId,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+</mapper>

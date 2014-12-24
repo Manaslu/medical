@@ -1,0 +1,83 @@
+<div class="col-sm-12 col-md-12" ng-show="current == 0">
+
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+				<div class="col-sm-2 col-md-2">
+					<label>数据名称</label>
+					<input class="form-control" type="text" ng-model="params.dataSetName" />
+				</div>
+				<div class="col-sm-2 col-md-2">
+					<label> 数据结构定义</label>
+					<select class="form-control" select2 data-live-search="true" ng-model="params.dataDefId"
+						ng-options="item.dataDefId as item.dataDefName for item in defs">
+						<option value="">请选择</option>
+					</select>
+				</div>
+				<div class="col-sm-3 col-md-3">
+					<label>上传日期</label>
+					<div data-datetimepicker="range" range start="params.startTime" end="params.endTime"></div>
+				</div>
+				<div class="col-sm-2 col-md-2">
+					<label>&nbsp;</label>
+					<button class="btn btn-custom" type="button" ng-click="refresh('first' , true)">查询</button>
+					<button class="btn btn-info btn-custom" type="button" ng-click="resetQuery()">重置</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<table class="table table-striped table-bordered table-condensed index-center table-costom">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>数据名称</th>
+				<th>数据结构定义</th>
+				<th>数据量</th>
+				<th>数据描述</th>
+<!-- 				<th>创建人</th> -->
+				<th  class="col-datetime-1">上传时间</th>
+				<th  class="col-opt-1">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td>{{pageNo*limit+$index+1}}</td>
+				<td>{{item.dataSetName}}</td>
+				<td>{{item.dataDefName}}</td>
+				<td>{{item.dataAmount}}</td>
+				<td>{{item.dataDesc}}</td>
+<!-- 				<td>{{item.createUserName}}</td> -->
+				<td>{{item.createDate|date:'yyyy-MM-dd HH:mm'}}</td>
+
+				<td><a ng-click="toRemove(item)" href="javascript:" data-toggle="modal" data-target="#remove">删除</a> <a
+						href="javascript:" ng-click="detail(item)">详情</a> <a href="javascript:" ng-click="append(item)" upload-refresh="true">追加</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div data-remote-paging="pager" data-params="params" data-refresh="refresh" data-current="pageNo" data-total="total"
+		data-data="limitArr" data-limit="limit"></div>
+</div>
+
+</div>
+<!-- 删除对话框 -->
+<div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">删除数据</h4>
+			</div>
+			<div class="modal-body">确认要删除此数据么？</div>
+			<div class="modal-footer">
+				<button ng-click="remove()" type="button" class="btn btn-danger" data-dismiss="modal">确认删除</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div ng-include="'templates/dataIntegration/ds-extends.html'"></div>

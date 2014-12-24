@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<input type="text"
+       remote-validate="valid.do"
+       remote-validate-send="blur"
+       valid-tip="{
+            email : 'xxxxx',
+            url : '',
+            required : '',
+            remoteValid : ''
+       }"
+       success="success($data)"/>
+$error.remoteValidate
+
+
+
+
+<script>
+
+    success = function(data){
+        if(data.valid =='false'){
+            alert('不符合规范')
+        }
+    };
+
+    var obj = {};
+
+    Object.defineProperty(obj , "test" ,  {
+         get : function(){
+             return 'test str + ' + this._test;
+         },
+         set : function(test){
+             this._test = test;
+         }
+    });
+
+    obj.test = 'xiaobai';
+    document.writeln('set obj.test = xiaobai<br/>');
+    document.writeln('get obj.test : ' + obj.test);
+</script>
+</body>
+</html>

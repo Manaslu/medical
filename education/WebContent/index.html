@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<!-- 360render -->
+<meta name="renderer" content="webkit">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+<meta charset="UTF-8">
+<title>medicial system</title>
+<!-- favicon -->
+<link rel="icon" href="favicon.ico" mce_href="favicon.ico"
+	type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico"
+	type="image/x-icon">
+<link rel="icon" href="favicon.gif" type="image/gif">
+
+<link rel="stylesheet" href="base/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="base/bootstrap-select/bootstrap-select.min.css" />
+<link rel="stylesheet" href="base/web-uploader/dist/webuploader.css" />
+<link rel="stylesheet" href="base/qtip2/jquery.qtip.min.css" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="img/splashy/splashy.css" />
+<link rel="stylesheet" href="base/stepy/css/jquery.stepy.css" />
+<link rel="stylesheet"
+	href="base/zTree_v3/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet"
+	href="base/bootstrap-datepicker/build/datepicker.min.css" />
+<link rel="stylesheet" href="css/newIndex.css" />
+<script src="base/ie/html5.js"></script>
+<script src="base/ie/respond.min.js"></script>
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="css/ie8.css"/>
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <link rel="stylesheet" href="css/lt-ie9.css"/>
+    <![endif]-->
+</head>
+<body class="slider-show" ng-class="{'slider-show' : !isHideSidebar()}">
+
+	<!-- 加载遮罩层 -->
+	<div defer-box="deferApi"></div>
+
+
+
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="my-nav clearfix">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div >
+          <ul class="nav navbar-nav">
+          
+             <li ng-repeat="item in menu">  
+                 <a ng-href="{{showRoute(item)}}"	ng-class="{active:checkActive(item , 0)}">{{item.name}}
+                 </a>
+            </li>
+
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="javascript:"	data-toggle="modal" data-target="#editUserInfo">{{USER_INFO.userName}}</a> </li>
+            <li><a href="javascript:" data-toggle="modal" data-target="#editUserPwd">修改密码</a></li>
+            <li><a href="javascript:" ng-click="logout()">退出</a></li>
+            <li>3</li>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+
+
+
+	<!-- 左侧菜单 开关 -->
+	<div class="toggle-sub-menu" ng-hide="path == '/at/index'">
+		<a href="javascript:" ng-click="toggleSidebar()"></a>
+	</div>
+	<!-- 左侧菜单 -->
+	<div class="sub-menu" ng-hide="isHideSidebar()" sliderbar nav-list>
+        <ul class="topMenu">
+            <li ng-repeat="lm in subMenu.children">
+                <a href="{{lm.route}}" ng-class="{'active-menu':checkActive(lm , 1)}" title="{{lm.name}}">{{lm.name}}</a>
+                <ul>
+                    <li ng-repeat="item in lm.children">
+                        <a href="{{item.route}}" ng-class="{'active-menu':checkActive(item , 2)}" title="{{item.name}}">{{item.name}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+	</div>
+
+	<!-- 内容区域 -->
+	<div class="my-content clearfix">
+		<div class="view">
+			<div class="row">
+				<div ng-view="" autoscroll></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 我的邮件 -->
+	<div class="modal fade" id="myMail">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h3 class="modal-title">最新公告</h3>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-info">In this table jquery plugin
+						turns a table row into a clickable link.</div>
+					<table class="table table-condensed table-striped"
+						data-provides="rowlink">
+						<thead>
+							<tr>
+								<th>Sender</th>
+								<th>Subject</th>
+								<th>Date</th>
+								<th>Size</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Declan Pamphlett</td>
+								<td><a href="javascript:void(0)">Lorem ipsum dolor sit
+										amet</a></td>
+								<td>23/05/2012</td>
+								<td>25KB</td>
+							</tr>
+							<tr>
+								<td>Erin Church</td>
+								<td><a href="javascript:void(0)">Lorem ipsum dolor sit
+										amet</a></td>
+								<td>24/05/2012</td>
+								<td>15KB</td>
+							</tr>
+							<tr>
+								<td>Koby Auld</td>
+								<td><a href="javascript:void(0)">Lorem ipsum dolor sit
+										amet</a></td>
+								<td>25/05/2012</td>
+								<td>28KB</td>
+							</tr>
+							<tr>
+								<td>Anthony Pound</td>
+								<td><a href="javascript:void(0)">Lorem ipsum dolor sit
+										amet</a></td>
+								<td>25/05/2012</td>
+								<td>33KB</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default">Go to
+						mailbox</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 我的任务 -->
+	<div class="modal fade" id="myTasks">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h3 class="modal-title">最新任务</h3>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-info">In this table jquery plugin
+						turns a table row into a clickable link.</div>
+					<table class="table table-condensed table-striped"
+						data-provides="rowlink">
+						<thead>
+							<tr>
+								<th>id</th>
+								<th>Summary</th>
+								<th>Updated</th>
+								<th>Priority</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>P-23</td>
+								<td><a href="javascript:void(0)">Admin should not break
+										if URL…</a></td>
+								<td>23/05/2012</td>
+								<td><span class="label label-danger">High</span></td>
+								<td>Open</td>
+							</tr>
+							<tr>
+								<td>P-18</td>
+								<td><a href="javascript:void(0)">Displaying submenus in
+										custom…</a></td>
+								<td>22/05/2012</td>
+								<td><span class="label label-warning">Medium</span></td>
+								<td>Reopen</td>
+							</tr>
+							<tr>
+								<td>P-25</td>
+								<td><a href="javascript:void(0)">Featured image on post
+										types…</a></td>
+								<td>22/05/2012</td>
+								<td><span class="label label-success">Low</span></td>
+								<td>Updated</td>
+							</tr>
+							<tr>
+								<td>P-10</td>
+								<td><a href="javascript:void(0)">Multiple feed fixes
+										and…</a></td>
+								<td>17/05/2012</td>
+								<td><span class="label label-warning">Medium</span></td>
+								<td>Open</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default">Go to task
+						manager</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 编辑用户信息 -->
+	<div class="modal fade" id="editUserInfo" tabindex="-1" role="dialog"
+		aria-hidden="true" ng-controller="UpdateUserCtrl">
+		<div class="modal-dialog" style="width: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">个人信息修改</h4>
+				</div>
+				<form role="form" name="myUserInfo" novalidate="novalidate">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 form-horizontal">
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">用户名</label>
+                                    <div class="col-lg-10">
+                                        <p class="form-control-static">{{USER_INFO.logName}}</p>
+                                    </div>
+                                </div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">姓名</label>
+									<div class="col-lg-10">
+										<input type="text" name="name" placeholder="姓名"
+											class="form-control" ng-model="user.userName"
+											valid-pos="bottom" required
+											data-valid-tip="姓名不允许为空，或超过20个中文字符">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">手机号</label>
+									<div class="col-lg-10">
+										<input type="text" name="phone" placeholder="手机号"
+											class="form-control" phone ng-model="user.phone"
+											valid-tip="手机号非法" valid-pos="bottom">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">email</label>
+									<div class="col-lg-10">
+										<input type="email" name="email" placeholder="email"
+											class="form-control" ng-model="user.email" maxlength="40"
+											valid-pos="bottom" data-valid-tip="email地址非法">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">所属机构</label>
+									<div class="col-lg-10">
+										<p class="form-control-static"
+											ng-show="USER_INFO.provCode=='99'">
+											<span>信息技术局</span> | <span>技术推进部</span>
+										</p>
+										<p class="form-control-static"
+											ng-show="USER_INFO.provCode=='44'">
+											 <span>信息技术局</span>
+										</p>
+										<p class="form-control-static"
+											ng-show="USER_INFO.provCode=='50'">
+											 <span>信息技术局</span>
+										</p>
+
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">注册时间</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{USER_INFO.createTime|date:'yyyy-MM-dd
+											HH:mm:ss'}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							ng-click="updateUser()" ng-disabled="myUserInfo.$invalid">保存</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</form>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<!-- 修改密码对话框 -->
+	<div class="modal fade" id="editUserPwd" tabindex="-1" role="dialog"
+		aria-hidden="true" ng-controller="RePasswordCtrl">
+		<div class="modal-dialog" style="width: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">用户密码修改</h4>
+				</div>
+				<form role="form" name="modpwd" novalidate="novalidate">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 form-horizontal">
+								<div class="form-group">
+									<label class="col-lg-2 control-label">用户原密码</label>
+									<div class="col-lg-10">
+										<input type="password" placeholder="用户原密码" ng-model="oldpwd"
+											class="form-control" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">输入新密码</label>
+									<div class="col-lg-10">
+										<input type="password" placeholder="输入新密码,最大长度为20"
+											name="newpwd" class="form-control" equals="agnewpwd"
+											maxlength="20" ng-model="newpwd" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">再次输入新密码</label>
+									<div class="col-lg-10">
+										<input type="password" ng-model="agnewpwd" name="agnewpwd"
+											equals="newpwd" placeholder="再次输入新密码,最大长度为20" maxlength="20"
+											valid-tip="两次密码输入不正确,且最大长度为20" valid-pos="bottom"
+											class="form-control" required>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							ng-click="send()" ng-disabled="modpwd.$invalid">确认修改</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</form>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+ 
+
+	<!-- 查看详情 -->
+	<div class="modal fade" id="noReadAnnounce" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 900px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">公告详细信息</h4>
+				</div>
+				<div class="modal-body">
+					<table
+						class="table table-striped table-bordered table-condensed index-center table-costom">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>公告名称</th>
+								<th>发布机构</th>
+								<th>发布日期</th>
+								<th>最后有效期</th>
+								<th width="90">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="rowlink" ng-repeat="item in announceList">
+								<td>{{$index+1}}</td>
+								<td align="center">{{item.annoName}}</td>
+								<td align="center">{{item.orgName}}</td>
+								<td align="center">{{item.annoDate | date:'yyyy-MM-dd'}}</td>
+								<td align="center">{{item.annoValidDate |
+									date:'yyyy-MM-dd'}}</td>
+								<td align="center"><a href="javascript:"
+									data-toggle="modal" data-target="#seeAnnounceMent"
+									ng-click="toDetail(item)">查看详情</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div data-remote-paging="pagerAnnounce" data-refresh="refreshAnnounce"
+						data-current="currentAnnounce" data-total="totalAnnounce" data-data="announceList"
+						data-limit="limitAnnounce" data-params="paramsAnnounce"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!-- 专题流程管理 -->
+	<div class="modal fade" id="noReadDemand" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 900px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">专题流程管理的待办任务</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-custom clearfix">
+						<div class="row">
+							<div class="col-sm-2 col-md-2">
+								<label>需求名称：</label> <input class="form-control"
+									ng-model="params2.requName" type="text" />
+							</div>
+							<div class="col-sm-4 col-md-4">
+								<label>申请日期：</label>
+								<div datetimepicker range start="params2.applDate"
+									end="params2.applDate_"></div>
+							</div>
+							<div class="col-sm-2 col-md-2">
+								<label>&nbsp;</label>
+								<button class="btn btn-info" type="button"
+									ng-click="refresh2('first',true)">查询</button>
+								<label>&nbsp;</label>
+							</div>
+						</div>
+					</form>
+					<table
+						class="table table-striped table-bordered table-condensed index-center  table-costom">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>需求名称</th>
+								<th>需求类型</th>
+								<th>提出人</th>
+								<th>申请时间</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="rowlink" ng-repeat="item in demandList">
+								<td>{{$index+1}}</td>
+								<td>{{item.requName}}</td>
+								<td>{{item.requType | DM_requ_type}}</td>
+								<td>{{item.applPer}}</td>
+								<td>{{item.applDate | date:'yyyy-MM-dd'}}</td>
+								<td>{{item.approState | DM_appro_state}}</td>
+								<td><a href="javascript:" data-dismiss="modal"
+									ng-click="toSeeDetail(copy(item))">处理</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div data-remote-paging="pager3" data-refresh="refresh3"
+						data-current="current3" data-total="total3" data-data="demandList"
+						data-limit="limit3" data-params="params3"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal -->
+
+	<!--公告详细信息  -->
+	<div class="modal fade" id="seeAnnounceMent" tabindex="-1"
+		role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">公告描述</h4>
+				</div>
+				<div class="modal-body">
+					<pre class="no-pre">{{announcement.annoDesc}}</pre>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<!-- 查看待办任务详细信息 -->
+	<div class="modal fade" id="seeDemand" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">待办任务详细信息</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12 col-md-12">
+							<form role="form" class="form-horizontal" novalidate="novalidate">
+								<div class="form-group">
+									<label class="col-lg-3 control-label">需求名称：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.requName}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">流程类型：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.flowType |
+											DM_flow_type}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">状态：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.approState |
+											DM_appro_state}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">提出人：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.applPer_}}</p>
+									</div>
+								</div>
+								<div class="form-group" ng-if="see_demand.flowType == 'inside'">
+									<label class="col-lg-3 control-label">技术联系人：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.techContacts_}}</p>
+									</div>
+								</div>
+								<div class="form-group" ng-if="see_demand.flowType == 'outside'">
+									<label class="col-lg-3 control-label">省内专门联系人：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.provContacts_}}</p>
+									</div>
+								</div>
+								<div class="form-group" ng-if="see_demand.flowType == 'outside'">
+									<label class="col-lg-3 control-label">集团技术联系人：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.groupTechContacts_}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">需求编号：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.requCode}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">需求名称：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.requName}}</p>
+									</div>
+								</div>
+								<div class="form-group" ng-if="see_demand.requType == '1'">
+									<label class="col-lg-3 control-label">项目申请单位：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.objApplyOrg}}</p>
+									</div>
+								</div>
+								<div class="form-group"
+									ng-if="see_demand.requType == '2' || see_demand.requType == '3'">
+									<label class="col-lg-3 control-label">提出部门：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.applDept}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">数据申请联系人：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.dataApplContacts_}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">数据申请联系人电话：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.dataApplTel}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">数据申请联系人邮箱：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.dataApplEmail}}</p>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-lg-3 control-label">需求类型：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.requType |
+											DM_requ_type}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">申请时间：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.applDate |
+											date:'yyyy-MM-dd'}}</p>
+									</div>
+								</div>
+								<div class="form-group" ng-if="see_demand.requType == '1'">
+									<label class="col-lg-3 control-label">安全级别：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.securityLev |
+											DM_security_lev}}</p>
+									</div>
+								</div>
+								<div class="form-group" ng-if="see_demand.requType == '1'">
+									<label class="col-lg-3 control-label">紧急程度：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.emergencyLev |
+											DM_emergency_lev}}</p>
+									</div>
+								</div>
+								<div class="form-group"
+									ng-if="see_demand.requType == '2' || see_demand.requType == '3'">
+									<label class="col-lg-3 control-label">数据抽取方式：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.dataExtrType |
+											DM_data_extr_type}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">需求描述：</label>
+									<div class="col-lg-9">
+										<p class="form-control-static">{{see_demand.requDesc}}</p>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	
+	
+	<!--对话框  -->
+	<div class="modal fade dialog-msg" id="dialogMsg" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">{{dialogTitle || '公告'}}</h4>
+				</div>
+				<div class="modal-body">
+					<pre class="no-pre">{{dialogMsg}}</pre>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<script src="base/es5-shim/es5-shim.min.js"></script>
+	<script src="base/underscore/underscore.js"></script>
+	<script src="base/jquery-1.10.1.min.js"></script>
+	<script src="base/bootstrap/js/bootstrap.min.js"></script>
+	<script src="base/jquery-migrate.min.js"></script>
+    <script src="base/jquery.debouncedresize.min.js"></script>
+    <script src="base/jquery-mousewheel/jquery.mousewheel.js"></script>
+	<script
+		src="base/bootstrap-datepicker/build/bootstrap-datepicker.min.js"></script>
+	<script
+		src="base/bootstrap-datepicker/build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<!-- tooltips -->
+	<script src="base/qtip2/jquery.qtip.min.js"></script>
+	<!-- select2 -->
+	<script src="base/bootstrap-select/bootstrap-select.min.js"></script>
+	<!-- custom scrollbar -->
+	<script src="base/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
+	<!-- echarts-map -->
+	<script src="base/echarts-1.4.0/build/echarts-plain-map.js"></script>
+	<script src="base/Highcharts-3.0.10/js/highcharts.js"></script>
+	<script src="base/web-uploader/dist/webuploader.min.js"></script>
+	<!-- my app -->
+	<script src="base/angular-1.2.15/angular.js"></script>
+	<script src="base/angular-1.2.15/angular-route.min.js"></script>
+	<script src="base/angular-1.2.15/angular-resource.min.js"></script>
+	<script src="base/angular-1.2.15/angular-cookies.min.js"></script>
+	<script src="base/angular-1.2.15/angular-sanitize.min.js"></script>
+	<script src="seajs/2.2.0/seajs/sea.js"></script>
+	<script src="seajs/seajs-style/1.0.2/seajs-style.js"></script>
+	<script src="application/config.js"></script>
+	<script>
+        seajs.use('initialize');//初始化
+    </script>
+</body>
+</html>

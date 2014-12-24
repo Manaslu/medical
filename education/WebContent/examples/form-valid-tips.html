@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <!-- hint.css -->
+    <link rel="stylesheet" href="../base/hint_css/hint.min.css"/>
+    <style>
+        .ng-valid:focus {
+            border-color: #4CAE4C;
+        }
+
+        .ng-invalid:focus {
+            border-color: #EEA236;
+        }
+    </style>
+</head>
+<body ng-controller="TestCtrl">
+
+<form name="test" novalidate="novalidate">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" placeholder="Enter email" class="form-control" ng-model="test" name="test"
+                       data-valid-tip="邮箱格式不正确" required data-valid-pos="bottom">
+
+                <input type="email" placeholder="Enter email" class="form-control"
+                       ng-model="ab" name="ab"
+                       required
+                       data-valid-tip="{ required : '邮箱是必须填的' , email:'邮箱格式不正确'}"
+                       data-valid-pos="bottom">
+            </div>
+        </div>
+    </div>
+    <pre>
+        $error = {{test.test.$error}}
+    </pre>
+</form>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.use('application/base/directive', function () {
+        var app = angular.module('app', ['ngResource' , 'directive']);
+
+        app.directive('validTip', function ($timeout , $parse) {
+            return {
+                require: 'ngModel',
+                link: function (scope, el, attr, ctrl) {
+                    var parent = el.closest('.form-group');
+
+                    var content = attr.validTip || "";
+
+                    if(!content){//is empty
+                        return;
+                    }
+
+                    if(content.indexOf('{') != -1 && content.indexOf('}') != -1){
+                        content = scope.$eval(attr.validTip);
+                    }
+
+                    var getContent = angular.isString(content) ? function(){
+                        return content;
+                    } : function(errors){
+                        var ret = [],
+                                locals = errors || content,
+                                key;
+                        for (key in locals) {
+                            locals[key] && ret.push(content[key]);
+                        }
+                        return ret.join('；');
+                    };
+
+                    el.popover({
+                        content: getContent(),
+                        placement: attr.validPos || 'right',
+                        trigger: 'manual'
+                    });
+
+                    var popover = el.data('bs.popover');
+
+                    el.focus(function () {
+                        if (ctrl.$invalid && !ctrl.$isEmpty(ctrl.$viewValue)) {
+                            el.popover('show');
+                        }
+                    }).blur(function(){
+                        el.popover('hide');
+                    });
+
+                    ctrl.$parsers.unshift(function (value) {
+                        $timeout(function () {
+                            if (ctrl.$invalid) {
+                                popover.options.content = getContent(ctrl.$error);
+                                el.popover('show');
+                                parent.addClass('has-error');
+                            } else {
+                                el.popover('hide');
+                                parent.removeClass('has-error');
+                            }
+                        }, 1);
+                        return value;
+                    });
+
+                    scope.$on('$destroy', function () {
+                        el.popover('destroy');
+                        el = parent = popover = null;
+                    });
+                }
+            }
+        });
+
+        app.controller('TestCtrl', function ($scope) {
+
+        });
+
+        angular.bootstrap(document, ['app']);
+    });
+
+</script>
+</body>
+</html>

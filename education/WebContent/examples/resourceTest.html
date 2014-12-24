@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="test">
+<head>
+    <title></title>
+    <style>
+        .current {
+            color: red
+        }
+    </style>
+</head>
+<body ng-controller="testCtrl">
+
+<ul>
+    <li ng-repeat="item in list" ng-show="checkShow($index , current , list)" ng-class="{current : $index == current}">
+        {{item}}
+    </li>
+</ul>
+
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script>
+    var test = angular.module('test', []);
+
+    test.controller('testCtrl', function ($scope) {
+        var list = $scope.list = [];
+        $scope.current = 4;
+        var size = 11;
+        for (var i = 0; i < 20; i++) {
+            list.push(i);
+        }
+
+        var startFix , endFix;
+        startFix = endFix = Math.floor(size / 2);
+        var test = startFix * 2 + 1;
+        if (test > size) startFix -= 1;
+        if (test < size) endFix += 1;
+
+        var makeMap;
+        $scope.toPage = function (current) {
+            makeMap = {};
+            $scope.current = current;
+            var _sf = 0 ,
+                    _ef = 0 ,
+                    start = current - startFix,
+                    end = endFix + current + 1;
+            if (start < 0) {
+                _sf = 0 - start;
+                start = 0;
+            }
+            if (end >= list.length) {
+                _ef = end - list.length;
+                end = list.length;
+            }
+            list.slice(start - _ef, end + _sf).forEach(function(key){
+                makeMap[key] = true;
+            });
+
+
+        };
+
+        $scope.toPage(1);
+
+        console.log('makeMap[1]' , makeMap[1])
+
+
+        $scope.checkShow = function (index, current, list) {
+            if (list.length > size) {
+                return !!makeMap[index];
+            }
+            return true;
+        }
+    });
+</script>
+</body>
+</html>

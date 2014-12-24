@@ -1,0 +1,57 @@
+<div class="col-sm-12 col-md-12">
+    <div class="row" ng-show="params.length">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div ng-repeat="item in params">
+                    <div ng-switch="item.type">
+                        <div class="col-sm-2 col-md-2" ng-switch-when="text">
+                            <label>{{item.name}}</label>
+                            <input type="text" class="form-control" ng-model="item.value">
+                        </div>
+                        <div class="col-sm-2 col-md-2" ng-switch-when="date">
+                            <label>{{item.name}}</label>
+                            <div data-datetimepicker="item.value"></div>
+                        </div>
+                        <div class="col-sm-2 col-md-2" ng-switch-when="select">
+                            <label>{{item.name}}</label>
+                            <select class="form-control" ng-model="item.value" ng-options="me.name as me.name for me in item.data">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-info" type="button" ng-click="query()">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div ng-repeat="data in datas" style="margin-top: 30px;">
+        <div ng-switch="data.type">
+
+            <div data-charts="data.data" ng-switch-when="pie"></div>
+
+            <div data-charts="data.data" ng-switch-when="line"></div>
+
+            <div data-charts="data.data" ng-switch-when="column"></div>
+
+            <table ng-switch-when="table" class="table table-striped table-bordered table-condensed index-center table-costom">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th ng-repeat="item in data.data.title">{{item.name}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="rowlink" ng-repeat="item in data.data.data">
+                    <td>{{$index + 1}}</td>
+                    <td ng-repeat="em in data.data.title">{{item[em.key]}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

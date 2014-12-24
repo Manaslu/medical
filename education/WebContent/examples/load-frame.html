@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap-datepicker-master/_build/datepicker.css"/>
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="../css/ie8.css"/>
+    <![endif]-->
+    <script src="../base/ie/html5.js"></script>
+    <script src="../base/ie/respond.min.js"></script>
+</head>
+<body ng-controller="TestCtrl">
+
+<div class="row">
+    <iframe ng-src="{{src}}"></iframe>
+    <iframe load-frame="{{src}}"></iframe>
+</div>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/bootstrap-datepicker.min.js"></script>
+<script src="lib/bootstrap-datepicker-master/_build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['ngResource' ,'directive']);
+
+        app.controller('TestCtrl' , function($scope , $http){
+            $scope.src = 'http://www.baidu.com';
+        });
+        angular.bootstrap(document , ['app']);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../base/bootstrap-select/bootstrap-select.css"/>
+    <link rel="stylesheet" href="../base/bootstrap-datepicker/build/datepicker.min.css"/>
+</head>
+<body ng-controller="TestCtrl">
+
+<div class="container">
+
+    <div class="row" style="padding-top: 50px;">
+        <div class="col-sm-4 col-md-4">
+            <div datetimepicker range start="g.start" end="g.end"></div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div datetimepicker="g.date"></div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <button class="btn" ng-click="reset()">重置</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/bootstrap-select/bootstrap-select.js"></script>
+<script src="../base/bootstrap-datepicker/build/bootstrap-datepicker.min.js"></script>
+<script src="../base/bootstrap-datepicker/build/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['ngResource' ,'directive']);
+
+        app.controller('TestCtrl' , function($scope , $filter){
+            var dateFormat = $filter('date');
+
+            $scope.g = {
+                start : '2012-12-01',
+                end : '2012-11-02',
+                date : '2012-12-03'
+            };
+
+            $scope.reset = function(){
+                $scope.g = {};
+            }
+        });
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

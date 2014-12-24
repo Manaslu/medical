@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../base/bootstrap-select/bootstrap-select.css"/>
+</head>
+<body ng-controller="TestCtrl">
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+
+            <span ng-init="age = 'Ketchup'"></span>
+            {{age}}
+
+            <select ng-model="age" data-live-search="true" select2 ng-options="item for item in list"></select>
+
+            <button class="btn" ng-click="list.push(123)">add</button>
+
+
+            <select ng-model="menu" multiple data-size="3" data-live-search="true" data-selected-text-format="count>3" ng-options="item.name as item.name for item in list2" select2></select>
+            {{menu}}
+        </div>
+    </div>
+</div>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/bootstrap-select/bootstrap-select.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['ngResource']);
+
+        app.directive('select2' , function(){
+            var opts = $.fn.selectpicker.defaults;
+            opts.noneSelectedText = '请选择';
+            opts.noneResultsText = '无匹配结果';
+            opts.countSelectedText = '已选中{0}个';
+            return {
+                require : '?ngModel',
+                link : function(scope , el , attr , ctrl){
+                    el.selectpicker();
+                    if(ctrl){
+                        var options = (attr.ngOptions || '').match(/in\s+(\w+)/);//get source data
+                        options && options[1] && scope.$watchCollection(options[1] , function(){
+                            setTimeout(function(){
+                                el.selectpicker('refresh');
+                            } , 1);
+                        });
+                        scope.$watch(attr.ngModel , function(){
+                            el.selectpicker('refresh');
+                        });
+                    }
+
+                    scope.$on('$destroy' , function(){
+                        el.selectpicker('destroy');
+                    });
+                }
+            }
+        });
+
+        app.controller('TestCtrl' , function($scope , $resource){
+            $scope.list = ['Mustard' , 'Ketchup' , 'Relish'];//static list
+
+            var RemoteList = $resource('data/menu.json');
+
+            $scope.list2 = RemoteList.query();//remote list
+        });
+
+
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

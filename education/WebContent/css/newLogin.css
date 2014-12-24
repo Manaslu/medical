@@ -1,0 +1,111 @@
+util.print: Use console.log instead
+.empty {
+	empty: true
+}
+
+.header {
+	background-color: #fff;
+	background-image: -webkit-linear-gradient(top, #fff, #d9d9d9);
+	background-image: -moz-linear-gradient(top, #fff, #d9d9d9);
+	background-image: -o-linear-gradient(top, #fff, #d9d9d9);
+	background-image: -ms-linear-gradient(top, #fff, #d9d9d9);
+	background-image: linear-gradient(top, #fff, #d9d9d9);
+	filter: progid : DXImageTransform.Microsoft.Gradient ( gradientType = 0,
+		startColorstr = '#ffffff', endColorstr = '#d9d9d9' );
+	height: 100px;
+	position: relative
+}
+
+.header .logo {
+	width: 220px;
+	height: 60px;
+	position: absolute;
+	bottom: 10px;
+	left: 20px;
+	background: url(bg/login-logo.jpg) no-repeat
+}
+
+.content {
+	height: 550px;
+	background-image: url(bg2/login-bj2.jpg);
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-color: #D9D9D9
+}
+
+.footer {
+	
+	background-color: #d9d9d9;
+	background-image: -webkit-linear-gradient(top, #d9d9d9, #fff);
+	background-image: -moz-linear-gradient(top, #d9d9d9, #fff);
+	background-image: -o-linear-gradient(top, #d9d9d9, #fff);
+	background-image: -ms-linear-gradient(top, #d9d9d9, #fff);
+	background-image: linear-gradient(top, #d9d9d9, #fff);
+	filter: progid : DXImageTransform.Microsoft.Gradient ( gradientType = 0,
+		startColorstr = '#d9d9d9', endColorstr = '#ffffff' )
+}
+
+.footer p {
+	font-size: 12px;
+	margin: 17px 0 0 24px;
+	line-height: 1.5;
+	color: #5B5B5B
+}
+
+.login-box {
+	position: relative;
+	width: 320px;
+	top: 260px;
+	left: 61px;
+	margin: 0 auto
+}
+
+.login-box .group {
+	margin-top: 15px;
+	color: #fff
+}
+
+.login-box .group span {
+	display: block;
+	float: left;
+	width: 80px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 28px
+}
+
+.login-box .group .input {
+	float: left;
+	margin-left: 10px
+}
+
+.login-box .group .input input {
+	color: #666;
+	height: 28px;
+	width: 203px;
+	padding: 0 5px;
+	line-height: 26px;
+	font-size: 12px;
+	background-color: #131313;
+	border-width: 0px;
+	border-color: #131313;
+	 
+}
+
+
+ 
+
+
+      
+      .loginBox{width:320px;height:290px;padding:0 20px;border:1px solid #fff; color:#000; margin-top:40px; border-radius:8px;background: white;box-shadow:0 0 15px #222; background: -moz-linear-gradient(top, #fff, #efefef 8%);background: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f4f4f4));font:11px/1.5em 'Microsoft YaHei' ;position: absolute;left:50%;top:50%;margin-left:-165px;margin-top:-88px;}
+      .loginBox h2{
+      
+      height:45px;font-size:20px;font-weight:normal;
+
+      padding: 6px 100px;
+      
+      }
+      .loginBox .left{border-right:1px solid #ccc;height:100%;padding-right: 20px; }
+      
+      
+      

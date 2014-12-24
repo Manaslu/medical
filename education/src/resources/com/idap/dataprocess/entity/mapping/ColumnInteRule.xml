@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T06_COLUMN_INTE_RULE  -->
+    <!-- <typeAlias type="com.idap.dataprocess.assess.entity.ColumnInteRule" alias="ColumnInteRule"/>  -->
+<mapper namespace="com.idap.dataprocess.rule.entity.ColumnInteRule" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="columnInteRuleMap" type="com.idap.dataprocess.rule.entity.ColumnInteRule">
+			<result property="id" column="ID" jdbcType="VARCHAR" />
+			<result property="ruleId" column="RULE_ID" jdbcType="VARCHAR" />
+			<result property="colRuleType" column="COL_RULE_TYPE" jdbcType="VARCHAR" />
+			<result property="dataSet1Col" column="DATA_SET_1_COL" jdbcType="VARCHAR" />
+			<result property="dataSet2Col" column="DATA_SET_2_COL" jdbcType="VARCHAR" />
+			<result property="ruleDesc" column="RULE_DESC" jdbcType="VARCHAR" />
+			<result property="resultColumnName" column="RESULT_COLUMN_NAME" jdbcType="VARCHAR" />
+			<result property="resultColumnType" column="RESULT_COLUMN_TYPE" jdbcType="VARCHAR" />
+			<result property="resultColumnLength" column="RESULT_COLUMN_LENGTH" jdbcType="NUMERIC" />           
+	        <result property="resultColumnDesc" column="RESULT_COLUMN_DESC" jdbcType="VARCHAR" />
+	        <result property="seqNo" column="SEQ_NO" jdbcType="NUMERIC" />
+			<result property="batchNo" column="BATCH_NO" jdbcType="VARCHAR" />
+	
+			<association property="ruleScript" column="SCRIPT_ID" select="com.idap.dataprocess.rule.entity.RuleScript.getById"></association>
+			<association property="subRuleScript" column="{columnRuleId=ID}"  select="com.idap.dataprocess.rule.entity.SubRuleScript.query"></association>
+			<association property="scriptParams" column="ID" select="com.idap.dataprocess.rule.entity.SubScriptPara.getScriptParams"></association>
+	</resultMap>
+	
+	<!--查询用户设置的规则  -->
+	<resultMap id="columnInteRuleMap1" type="com.idap.dataprocess.rule.entity.ColumnInteRule">
+			<result property="id" column="ID" jdbcType="VARCHAR" />
+			<result property="ruleId" column="RULE_ID" jdbcType="VARCHAR" />
+			<result property="colRuleType" column="COL_RULE_TYPE" jdbcType="VARCHAR" />
+			<result property="dataSet1Col" column="DATA_SET_1_COL" jdbcType="VARCHAR" />
+			<result property="dataSet2Col" column="DATA_SET_2_COL" jdbcType="VARCHAR" />
+			<result property="ruleDesc" column="RULE_DESC" jdbcType="VARCHAR" />
+			<result property="resultColumnName" column="RESULT_COLUMN_NAME" jdbcType="VARCHAR" />
+			<result property="resultColumnType" column="RESULT_COLUMN_TYPE" jdbcType="VARCHAR" />
+			<result property="resultColumnLength" column="RESULT_COLUMN_LENGTH" jdbcType="NUMERIC" />           
+	        <result property="resultColumnDesc" column="RESULT_COLUMN_DESC" jdbcType="VARCHAR" />
+	        <result property="seqNo" column="SEQ_NO" jdbcType="NUMERIC" />
+			<result property="batchNo" column="BATCH_NO" jdbcType="VARCHAR" />
+	
+			<association property="subRuleScript" column="RULE_ID" select="com.idap.dataprocess.rule.entity.SubRuleScript.getSubRuleScript"></association>
+			<association property="scriptParams" column="ID" select="com.idap.dataprocess.rule.entity.SubScriptPara.getScriptParams"></association>
+	</resultMap>
+                                                                                                                                   
+	<!--=================    动态内容部分           =================-->
+	<!-- where：动态生成部分  -->
+	<sql id="dynamicWhere">
+	<!-- 	LIKE 样例：   SYSTEM_NAME like '%'||#{systemName}||'%'    -->
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="ruleId!=null">
+				AND RULE_ID=#{ruleId}
+			</if>
+			<if test="colRuleType!=null">
+				AND COL_RULE_TYPE=#{colRuleType}
+			</if>
+			<if test="dataSet1Col!=null">
+				AND DATA_SET_1_COL=#{dataSet1Col}
+			</if>
+			<if test="dataSet2Col!=null">
+				AND DATA_SET_2_COL=#{dataSet2Col}
+			</if>
+			<if test="ruleDesc!=null">
+				AND RULE_DESC=#{ruleDesc}
+			</if>
+			<if test="resultColumnName!=null">
+				AND RESULT_COLUMN_NAME=#{resultColumnName}
+			</if>
+			<if test="resultColumnType!=null">
+				AND RESULT_COLUMN_TYPE=#{resultColumnType}
+			</if>
+			<if test="resultColumnLength!=null">
+				AND RESULT_COLUMN_LENGTH=#{resultColumnLength}
+			</if>
+			<if test="batchNo!=null">
+				AND BATCH_NO=#{batchNo}
+			</if>
+			 
+			<if test="resultColumnDesc!=null">
+				AND RESULT_COLUMN_DESC=#{resultColumnDesc}
+			</if>
+			<if test="sno!=null and eno!=null and orderBy==null">
+						AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- order by 排序   -->
+	<sql id="dynamicOrderBy">
+	<if test="orderBy!=null">
+		order by ${orderBy}
+		<if test="order!=null">
+			 ${order}
+		</if>
+	</if>
+	</sql>
+	
+	<!-- group by 分组   -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			 group by ${groupBy}
+		</if>
+	</sql>
+	
+	<!-- 表所有的字段：insert 的表、字段 部分    -->
+	<sql id="allColumn">
+			ID,
+			RULE_ID,
+			SCRIPT_ID,
+			COL_RULE_TYPE,
+			DATA_SET_1_COL,
+			DATA_SET_2_COL,
+			RULE_DESC,
+			RESULT_COLUMN_NAME,
+			RESULT_COLUMN_TYPE,
+			RESULT_COLUMN_LENGTH,
+			RESULT_COLUMN_DESC,
+			SEQ_NO,
+			BATCH_NO
+	</sql>
+	
+	<!-- 单条插入：动态生成可插入字段 对应的变量列表    -->
+	<sql id="allColumnVar">
+		values(
+			#{id,jdbcType=VARCHAR},
+			#{ruleId,jdbcType=VARCHAR},
+			#{ruleScript.scriptId,jdbcType=VARCHAR},
+			#{colRuleType,jdbcType=VARCHAR},
+			#{dataSet1Col,jdbcType=VARCHAR},
+			#{dataSet2Col,jdbcType=VARCHAR},
+			#{ruleDesc,jdbcType=VARCHAR},
+			#{resultColumnName,jdbcType=VARCHAR},
+			#{resultColumnType,jdbcType=VARCHAR},
+			#{resultColumnLength,jdbcType=NUMERIC},
+		    #{resultColumnDesc,jdbcType=VARCHAR},
+		    #{seqNo,jdbcType=NUMERIC},
+		    #{batchNo,jdbcType=VARCHAR}
+		)
+	</sql>
+	
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+			select orderContentTab.*,ROWNUM AS rowno
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumn" />
+		from
+		T06_COLUMN_INTE_RULE
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>	${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+		</if>
+	</sql>
+	
+	
+	<!-- =================================================  -->
+	<!-- 1.1根据id查询对像  -->
+	<select id="getById" parameterType="String"  resultMap="columnInteRuleMap" >
+		select 
+			<include refid="allColumn"/>
+		from T06_COLUMN_INTE_RULE where id=#{value}
+	</select>
+	
+	<select id="getByRuleId" parameterType="String"  resultMap="columnInteRuleMap" >
+		select 
+			<include refid="allColumn"/>
+		from T06_COLUMN_INTE_RULE where RULE_ID=#{value}
+	</select>
+	
+	<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="columnInteRuleMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="columnInteRuleMap">
+		<include refid="queryBody" />
+	</select>
+	
+	<!-- (数据服务流程管理)查询用户设置的规则 -->
+	<select id="getRules" parameterType="java.util.Map" resultMap="columnInteRuleMap1">
+		select t.* from T06_COLUMN_INTE_RULE t where t.rule_id in( 
+			select rule_id from t06_data_inte_log where flow_cust_id=#{ruleId,jdbcType=VARCHAR})
+	</select>
+	
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+		from 
+			T06_COLUMN_INTE_RULE
+		<include refid="dynamicWhere"/>
+	</select>
+	
+	<!-- 4.删除  -->
+	<delete id="delete" parameterType="java.util.Map" >
+		DELETE FROM  T06_COLUMN_INTE_RULE  
+		<include refid="dynamicWhere"/>
+	</delete>
+
+	                                                                                                                                                                                                                 
+	<!-- 5.1对像插入    -->
+	<insert id="insert" parameterType="com.idap.dataprocess.rule.entity.ColumnInteRule" >
+	    INSERT INTO 
+	    T06_COLUMN_INTE_RULE(<include refid="allColumn"/>	)
+		<include refid="allColumnVar"/>
+	</insert>
+	
+	<update id="update" parameterType="com.idap.dataprocess.rule.entity.ColumnInteRule">
+		update T06_COLUMN_INTE_RULE
+		<trim prefix=" SET " prefixOverrides=",">
+		<if test="ruleId!=null">
+			  ,RULE_ID=#{ruleId,jdbcType=VARCHAR}
+		</if>
+		<if test="colRuleType!=null">
+			  ,COL_RULE_TYPE=#{colRuleType,jdbcType=VARCHAR}
+		</if>
+		<if test="dataSet1Col!=null">
+			  ,DATA_SET_1_COL=#{dataSet1Col,jdbcType=VARCHAR}
+		</if>
+		<if test="dataSet2Col!=null">
+			  ,DATA_SET_2_COL=#{dataSet2Col,jdbcType=VARCHAR}
+		</if>
+		<if test="ruleDesc!=null">
+			  ,RULE_DESC=#{ruleDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="resultColumnName!=null">
+			  ,RESULT_COLUMN_NAME=#{resultColumnName,jdbcType=VARCHAR}
+		</if>
+		<if test="resultColumnType!=null">
+			  ,RESULT_COLUMN_TYPE=#{resultColumnType,jdbcType=VARCHAR}
+		</if>
+		<if test="resultColumnLength!=null">
+			  ,RESULT_COLUMN_LENGTH=#{resultColumnLength,jdbcType=NUMERIC}
+		</if>  
+		<if test="resultColumnDesc!=null">
+			  ,RESULT_COLUMN_DESC=#{resultColumnDesc,jdbcType=VARCHAR}
+		</if> 
+		<if test="seqNo!=null">
+			  ,SEQ_NO=#{seqNo,jdbcType=NUMERIC}
+		</if>  
+		<if test="batchNo!=null">
+			  ,BATCH_NO=#{batchNo,jdbcType=VARCHAR}
+		</if> 
+		</trim>
+		WHERE 
+		ID=#{id}
+	</update>
+	  
+	<!-- =========================自定义操作========================  -->
+
+</mapper>
+
+
+
+

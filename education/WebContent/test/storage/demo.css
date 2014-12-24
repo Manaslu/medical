@@ -1,0 +1,24 @@
+
+ 
+h1, h2, h5 {
+	 
+	font-size: 56px;
+	color: #444;
+	font-family: "Volkhov", serif;
+	text-align: center;
+	font-weight: 600;
+	text-shadow: 1px 1px 3px #e0d1bc;
+}
+
+h1 span, h5 {
+	font-size: 18px;
+	display: block;
+	font-style: italic;
+	color: #997f5a;
+	font-weight: 400;
+	text-shadow: 0px 1px 1px #fff;
+}
+
+
+ 
+

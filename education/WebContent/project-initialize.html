@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html dir="ltr" lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>project initialize</title>
+<meta name="Language" content="zh-CN" />
+<meta name="Copyright" content="julying.com" />
+<link href="css/login.css" rel="stylesheet" type="text/css" />
+<link href="base/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<!-- favicon -->
+    <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.gif" type="image/gif" >
+</head>
+<body class="green">
+
+<script type="text/javascript" src="base/jquery-1.10.1.min.js"></script>
+
+<!--[if lt IE 8]>
+<script src="lib/PIE.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+    if (window.PIE && ( $.browser.version >= 6 && $.browser.version < 10 )){
+        $('input.text,input.submit').each(function(){
+            PIE.attach(this);
+        });
+    }
+});
+</script>
+<![endif]-->
+
+<!--[if IE 6]>
+<script src="base/DD_belatedPNG.js" type="text/javascript"></script>
+<script>DD_belatedPNG.fix('.png')</script>
+<![endif]-->
+
+<div class="container" ng-controller="Controller">
+
+    <div class="row" style="padding-top: 50px;">
+    	<ul>
+    		<li>init menu <button class="btn btn-default" ng-click="init('menu')">init menu</button></li>
+    		<li>chushihua daohang <button class="btn btn-default">init menu</button></li>
+    		<li>chushihua daohang <button class="btn btn-default">init menu</button></li>
+    		<li>chushihua daohang <button class="btn btn-default">init menu</button></li>
+    		<li>chushihua daohang <button class="btn btn-default">init menu</button></li>
+    	</ul>
+    </div>
+
+</div>
+
+<script src="base/angular-1.2.15/angular.js"></script>
+<script src="base/angular-1.2.15/angular-resource.min.js"></script>
+<script src="seajs/2.2.0/seajs/sea.js"></script>
+<script src="application/config.js"></script>
+<script>
+    seajs.use('~/project-initialize')
+</script>
+
+</body>
+</html>

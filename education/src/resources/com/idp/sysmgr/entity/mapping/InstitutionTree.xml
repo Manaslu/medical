@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 表名称：t02_int_org -->
+
+<mapper namespace="com.idp.sysmgr.institution.entity.InstitutionTree">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="institutionMap" type="com.idp.sysmgr.institution.entity.InstitutionTree">
+		<result property="id" column="ORG_CD" jdbcType="VARCHAR" />
+		<result property="pId" column="PARENT_ORG_CD" jdbcType="VARCHAR" />
+		<result property="name" column="ORG_NAME" jdbcType="VARCHAR" />
+		<result property="orgCd" column="ORG_CD" jdbcType="VARCHAR" />
+		<result property="provCode" column="PROV_CODE" jdbcType="INTEGER" />
+	</resultMap>
+	<!--查询本级及下级机构  -->
+	<select id="query" parameterType="java.util.Map" resultMap="institutionMap">
+		 
+		<choose>
+			<when test="parentOrgCd!=null">
+			
+			 	SELECT t.org_cd,
+		       t.org_name,
+		       t.parent_org_cd,
+		       t.parent_leve_cd,
+		       t.org_id,
+		       t.state,
+		       t.postcode,
+		       t.update_time,
+		       t.org_oname,
+		       t.prov_code 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD = #{parentOrgCd}
+
+	union 
+	
+	SELECT t.org_cd,
+		       t.org_name,
+		       t.parent_org_cd,
+		       t.parent_leve_cd,
+		       t.org_id,
+		       t.state,
+		       t.postcode,
+		       t.update_time,
+		       t.org_oname,
+		       t.prov_code 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD in
+
+		 (SELECT t.org_cd     
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD = #{parentOrgCd}
+		 )
+	union 
+	
+		SELECT t3.org_cd,
+		       t3.org_name,
+		       t3.parent_org_cd,
+		       t3.parent_leve_cd,
+		       t3.org_id,
+		       t3.state,
+		       t3.postcode,
+		       t3.update_time,
+		       t3.org_oname,
+		       t3.prov_code 
+		 FROM T02_INT_ORG t3 
+		 where t3.PARENT_ORG_CD in 
+		 (
+		 	SELECT t.org_cd 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD in
+
+		 (SELECT t.org_cd     
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD = #{parentOrgCd}
+		 )
+		 )
+		 order by org_cd
+	 	 
+			
+					
+			</when>
+			<when test="id!=null">
+			
+			 	SELECT t.org_cd,
+		       t.org_name,
+		       t.parent_org_cd,
+		       t.parent_leve_cd,
+		       t.org_id,
+		       t.state,
+		       t.postcode,
+		       t.update_time,
+		       t.org_oname,
+		       t.prov_code 
+		 FROM T02_INT_ORG t 
+		 where t.org_cd = #{id}
+
+	union 
+	
+	SELECT t.org_cd,
+		       t.org_name,
+		       t.parent_org_cd,
+		       t.parent_leve_cd,
+		       t.org_id,
+		       t.state,
+		       t.postcode,
+		       t.update_time,
+		       t.org_oname,
+		       t.prov_code 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD in
+
+		 (SELECT t.org_cd     
+		 FROM T02_INT_ORG t 
+		 where t.org_cd = #{id}
+		 )
+	union 
+	
+		SELECT t3.org_cd,
+		       t3.org_name,
+		       t3.parent_org_cd,
+		       t3.parent_leve_cd,
+		       t3.org_id,
+		       t3.state,
+		       t3.postcode,
+		       t3.update_time,
+		       t3.org_oname,
+		       t3.prov_code 
+		 FROM T02_INT_ORG t3 
+		 where t3.PARENT_ORG_CD in 
+		 (
+		 	SELECT t.org_cd 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD in
+
+		 (SELECT t.org_cd     
+		 FROM T02_INT_ORG t 
+		 where t.org_cd = #{id}
+		 )
+		 )
+		 order by org_cd
+	 	 
+			
+			
+			
+			</when>
+			<otherwise>
+			
+		SELECT t.org_cd,
+		       t.org_name,
+		       t.parent_org_cd,
+		       t.parent_leve_cd,
+		       t.org_id,
+		       t.state,
+		       t.postcode,
+		       t.update_time,
+		       t.org_oname,
+		       t.prov_code 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD = '99999'
+
+	union 
+	
+	SELECT t.org_cd,
+		       t.org_name,
+		       t.parent_org_cd,
+		       t.parent_leve_cd,
+		       t.org_id,
+		       t.state,
+		       t.postcode,
+		       t.update_time,
+		       t.org_oname,
+		       t.prov_code 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD in
+
+		 (SELECT t.org_cd     
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD = '99999'
+		 )
+	union 
+	
+		SELECT t3.org_cd,
+		       t3.org_name,
+		       t3.parent_org_cd,
+		       t3.parent_leve_cd,
+		       t3.org_id,
+		       t3.state,
+		       t3.postcode,
+		       t3.update_time,
+		       t3.org_oname,
+		       t3.prov_code 
+		 FROM T02_INT_ORG t3 
+		 where t3.PARENT_ORG_CD in 
+		 (
+		 	SELECT t.org_cd 
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD in
+
+		 (SELECT t.org_cd     
+		 FROM T02_INT_ORG t 
+		 where t.PARENT_ORG_CD ='99999'
+		 )
+		 )
+		 order by org_cd
+			
+			
+			</otherwise>
+		</choose>
+		 
+	</select>
+	<!-- 查询下级机构 -->
+	<select id="getNodes" parameterType="java.util.Map" resultMap="institutionMap">
+		SELECT t.org_cd,
+		       t.org_name,
+		       t.parent_org_cd,
+		       t.parent_leve_cd,
+		       t.org_id,
+		       t.state,
+		       t.postcode,
+		       t.update_time,
+		       t.org_oname,
+		       t.prov_code 
+		FROM T02_INT_ORG t where 1=1 
+		<choose>
+		<when test="pId!=null">
+		and  t.PARENT_ORG_CD=#{pId}		
+		</when>
+		<when test="id!=null">
+		and  t.ORG_CD=#{id}	
+		</when>
+		</choose>
+		order by t.ORG_CD asc
+	</select>
+</mapper>

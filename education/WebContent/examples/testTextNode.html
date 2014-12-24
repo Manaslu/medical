@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div class="test"></div>
+
+<button class="btn">click</button>
+<button class="btn2">click</button>
+
+<script>
+
+    function $(selector){
+        return document.querySelectorAll(selector);
+    }
+
+    var div = $('.test')[0],
+        btn = $('.btn')[0],
+        btn2 = $('.btn2')[0],
+        text = document.createTextNode(''),
+        text2 = document.createTextNode('');
+
+    div.appendChild(text);
+    div.appendChild(text2);
+
+    btn.onclick = function(){
+        text.data += 'age';
+    }
+    btn2.onclick = function(){
+        text2.data += 'name';
+    }
+
+</script>
+
+</body>
+</html>

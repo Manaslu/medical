@@ -1,0 +1,63 @@
+<div class="col-sm-12 col-md-12">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-3 col-md-3">
+                    <label>业务名称</label>
+                    <select class="form-control" ng-model="params.systemName" select2 data-live-search="true" ng-options="item.name as item.name for item in busiList" style="width: 120px;">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>省份</label>
+                    <select class="form-control" ng-model="params.provinceName" select2 data-live-search="true"  ng-options="item.name as item.name for item in provList" style="width: 120px;">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>发送方式</label>
+                    <select class="form-control" select2 ng-model="params.sendPattern" ng-options="item for item in ['全国中心发送','省中心发送']" style="width: 120px;">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first' , true)">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed index-center table-costom" >
+        <thead>
+        <tr>
+            <th>序号</th>
+           <th  style="width:150px;">业务名称</th>
+            <th style="width:100px;">省份</th>
+            <th>发送方式</th>
+            <th>下发接口数量</th>
+            <th>初始化日期</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{$index+1+(current)*limit}}</td>
+            <td>{{item.systemName}}</td>
+            <td>{{item.provinceName}}</td>
+            <td>{{item.sendPattern}}</td>
+            <td>{{item.hasDownloadNumber}}</td>
+            <td>{{item.initDate | date:'yyyy-MM-dd'}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div 
+				data-remote-paging="pager" 
+				data-refresh="refresh" 
+				data-current="current" 
+				data-total="total" 
+				data-data="limitArr"
+				data-limit="limit"
+				data-params="params"
+				></div>
+</div>

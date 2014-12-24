@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <style type="text/css">
+        .paging-select{
+            display: inline;
+            width: auto;
+            height: 26px !important;
+            line-height: 26px !important;
+            padding: 3px 6px;
+            border-radius : 0 3px 3px 0;
+            border-left: none;
+        }
+    </style>
+</head>
+<body ng-controller="TestCtrl">
+
+
+<div class="container">
+    <div
+        data-remote-paging="pager"
+        data-refresh="refresh"
+        data-current="current"
+        data-total="total"
+        data-data="limitArr"
+        data-limit="limit"
+        data-params="params"
+    ></div>
+</div>
+
+<button ng-click="refresh('first' , true)">query</button>
+<button  ng-click="refresh('current' , true)">refresh</button>
+<button  ng-click="refresh('first')">first page</button>
+<button  ng-click="refresh('last')">last page</button>
+
+<script src="../base/jquery-1.10.1.min.js"></script>
+<script src="../base/angular-1.2.15/angular.js"></script>
+<script src="../base/angular-1.2.15/angular-resource.js"></script>
+<script src="../seajs/2.2.0/seajs/sea-debug.js"></script>
+<script>
+    seajs.use('application/base/directive' , function(){
+        var app = angular.module('app' , ['ngResource']);
+        app.directive('remotePaging', function () {
+            return {
+                scope: {
+                    paging: "=remotePaging",//源数据
+                    limit: '=',//每页多少条
+                    data: '=',//当前页数的数据
+                    current: '=',//当前第几页
+                    refresh: '=',//刷新
+                    size: '=',//出现多少个分页
+                    params: '=',//查询条件
+                    total: '='//总共有多少条
+                },
+                link: function (scope, el, attr) {
+
+                    var limit = +sessionStorage.limit || 10, size = 8;
+                    if (attr.size) {
+                        size = scope.size || size;
+                        scope.$watch('size', function (newVal, oldVal) {
+                            if (newVal != oldVal) {
+                                size = scope.size;
+                                scope.refresh('first', true);
+                            }
+                        });
+                        scope.size = size;
+                    }
+                    if (attr.limit) {
+                        limit = scope.limit || limit;
+                        scope.$watch('limit', function (newVal, oldVal) {
+                            if (newVal != oldVal) {
+                                limit = scope.limit;
+                                sessionStorage.limit = limit;
+                                scope.refresh('first', true);
+                            }
+                        });
+                        scope.limit = limit;
+                    }
+
+                    scope.limits = [10 , 15, 20, 30, 50, 100];
+
+                    scope.current = 0;
+
+                    var startFix , endFix , makeMap , list = [];
+
+                    function initPageList(totalPage) {//初始化分页器
+                        list = scope.pageList = [];
+
+                        startFix = endFix = Math.floor(size / 2);
+                        var test = startFix * 2 + 1;
+                        if (test > size) startFix -= 1;
+                        if (test < size) endFix += 1;
+
+                        var _sf = 0 ,
+                                _ef = 0 ,
+                                start = scope.current - startFix,
+                                end = endFix + scope.current + 1;
+                        if (start < 0) {
+                            _sf = 0 - start;
+                            start = 0;
+                        }
+
+                        if (end >= totalPage) {
+                            _ef = end - totalPage;
+                            end = totalPage;
+                        }
+
+                        start = start - _ef;
+                        end = end + _sf;
+                        start = start < 0 ? 0 : start;
+                        end = end > totalPage ? totalPage : end;
+
+                        for (; start < end; start++) {
+                            list.push(start);
+                        }
+                    }
+
+                    var params , isLoading;
+
+                    //读取对应页面的数据
+                    scope.goToPage = function (page , reload) {//to page data
+                        if (page < 0 || (scope.totalPage && page >= scope.totalPage) || (page == scope.current && !reload)) {
+                            return;
+                        }
+
+                        if(reload){//是否重新加载参数
+                            params = angular.copy(scope.$eval('params') || {});
+                        }
+
+                        var config = {
+                            paging : true,
+                            current : page,
+                            limit : limit,
+                            reload : !!reload,
+                            total : scope.total,
+                            params : angular.toJson(params)
+                        };
+                        isLoading = true;
+                        scope.paging.get(config, function (result) {
+                            /**
+                             * result : {
+                         *      total : 999,//数据
+                         *      totalPage : 10,//碎片数量
+                         *      current : 1,//当前碎片
+                         *      limit : 15,//限制碎片大小
+                         *      data : []//数据碎片
+                         * }
+                             */
+                            scope.current = result.current;
+                            scope.data = result.data || [];
+                            scope.total = result.total;
+                            scope.totalPage = result.totalPage;
+                            scope.data = $.map(scope.data , function(item){
+                                return new scope.paging(item);
+                            });
+                            initPageList(result.totalPage);
+                            isLoading = false;
+                        } , function(){
+                            isLoading = false;
+                        });
+                    };
+
+                    //刷新数据
+                    scope.refresh = function(page , reload){
+                        if(!scope.paging || isLoading) return;//不要重复加载,跳出方法
+                        switch(page){
+                            case "first" :
+                                scope.goToPage(0 , reload);
+                                break;
+                            case "last" :
+                                scope.goToPage(scope.totalPage - 1 , reload);
+                                break;
+                            default:
+                                scope.goToPage(scope.current , reload);
+                        }
+                    };
+
+                    //监听是否有resource资源准备就绪
+                    scope.$watch('paging' , function(){
+                        scope.paging && scope.goToPage(0,true);
+                    });
+
+                    //读取显示范围
+                    scope.getDataRange = function(current , limit , total , to){
+                        if (to) {
+                            return current * limit + limit > total ? total : current * limit + limit;//结束
+                        } else {
+                            return current * limit + 1;//开始
+                        }
+                    }
+                },
+                template: '\
+                    <div class="row">\
+                        <div class="col-sm-12 col-md-12" ng-if="!data.length">\
+                            <div class="alert"><strong>无数据可以显示,</strong>请更换查询条件!</div>\
+                        </div>\
+                        <div ng-show="total">\
+                            <div class="col-sm-5 col-md-5">\
+                                <div class="dataTables_info">\
+                                    当前显示 {{getDataRange(current , limit)}} 到 {{getDataRange(current , limit , total , true)}} ，总共 {{total || 0}} 条数据\
+                                </div>\
+                            </div>\
+                            <div class="col-sm-7 col-md-7">\
+                                <div class="dataTables_paginate">\
+                                   <ul class="pagination pagination-sm">\
+                                       <li class="prev" ng-class="{disabled:current == 0}"><a href="javascript:" ng-click="goToPage(0)">首页</a></li>\
+                                       <li class="prev" ng-class="{disabled:current == 0}"><a href="javascript:" ng-click="goToPage(current-1)">上一页</a></li>\
+                                       <li ng-class="{active:item  == current}" ng-repeat="item in pageList"><a href="javascript:" ng-click="goToPage(item)">{{item + 1}}</a></li>\
+                                       <li class="next" ng-class="{disabled:current == totalPage - 1}"><a href="javascript:" ng-click="goToPage(current+1)">下一页</a></li>\
+                                       <li class="next" ng-class="{disabled:current == totalPage - 1}"><a href="javascript:" ng-click="goToPage(totalPage-1)">尾页</a></li>\
+                                       <li class="next"><select class="form-control input-sm paging-select" ng-model="limit" ng-options="item for item in limits"></select></li>\
+                                   </ul>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>',
+                //replace: true,
+                restrict: 'A'
+            }
+        });
+
+        app.factory('Res' , function(){
+            function pager(){
+            }
+            pager.get =  function(config , callback){
+                var result = {
+                    totalPage : 10,
+                    total : 100,
+                    data : [],
+                    current : config.current,
+                    limit : config.limit,
+                    reload : config.reload,
+                    params : config.params
+                };
+                callback(result);
+            };
+            return pager;
+        });
+        app.controller('TestCtrl' , function($scope , Res){
+            $scope.pager = Res;
+        });
+
+        angular.bootstrap(document , ['app']);
+    });
+
+</script>
+</body>
+</html>

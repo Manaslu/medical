@@ -1,0 +1,26 @@
+<div class="col-sm-12 col-md-12">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix form-inline">
+                <div ng-switch="type">
+                    <div class="form-group" ng-switch-when="month">
+                        <label>请选择月</label>
+                        <div data-datetimepicker="$parent.month" view-mode="months" format="yyyy-mm" end-date="2014-06"></div>
+                        months = {{month}}
+                    </div>
+                    <div class="form-group" ng-switch-when="pdate">
+                        <label>请选择日期</label>
+                        <div data-datetimepicker="$parent.pdate" format="yyyymmdd"></div>
+                        pdate = {{pdate}}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <iframe load-frame="{{resultPath}}/ThunderReportEZ/RepresentAction?filename={{filename}}&index={{index}}&{{type}}='{{(month || pdate) | dateReplace}}'" frameborder="0" border="0" width="100%" height="3000"></iframe>
+        </div>
+    </div>
+</div>

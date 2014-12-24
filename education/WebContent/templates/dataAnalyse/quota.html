@@ -1,0 +1,272 @@
+<div class="col-sm-12 col-md-12">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-3 col-md-3">
+                    <label>指标名或描述</label>
+                    <input type="text" class="form-control" placeholder="指标名,描述" ng-model="params.name">
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>创建时间</label>
+                    <div data-datetimepicker="range" range start="params.createTime1" end="params.createTime2"></div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+                     <button class="btn btn-custom" data-toggle="modal" ng-click="beforeAdd()" data-target="#pushDialog">新增</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+   <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>指标名称</th>
+            <th>指标描述</th>
+            <th>来源系统</th>
+            <th>专业</th>
+            <th>来源表</th>
+            <th>来源字段</th>
+            <th>创建人</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{pageNo*limit+$index+1}}</td>
+            <td>{{item.indexName}}</td>
+            <td>{{item.indexDesc}}</td>
+            <td>{{item.sourceSystem}}</td>
+            <td>{{item.indexTheme_name}}</td>
+            <td>{{item.sourceTable}}</td>
+            <td>{{item.sourceColumn}}</td>
+            <td>{{item.createUser}}</td>
+            <td>{{item.createTime |date:'yyyy-MM-dd'}}</td>
+            
+            <td>
+
+                <a href="javascript:" data-toggle="modal" data-target="#editDialog" ng-click="preview(item)" >{{item.derIndex_flag=="1"? "查看/维护" :"查看"}}</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+			<div class="col-sm-12 col-md-12">
+				<div data-remote-paging="pager" data-params="params" data-refresh="refresh" data-current="pageNo" data-total="total"
+					data-data="limitArr" data-limit="limit"></div>
+			</div>
+    
+</div>
+
+ <!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog2" tabindex="1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除指标</h4>
+            </div>
+            <div class="modal-body">
+               	 确认要删除此项么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="toDelete(viewindex)" data-dismiss="modal">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<!-- 编辑指标 -->
+<div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">查看维护</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+                            <tr>
+                                 
+					            <th style="width:140px">指标名称</th>
+					           
+					            <th ng-show="viewindex.derIndex_flag!='1'" >来源系统</th>
+					            <th ng-show="viewindex.derIndex_flag!='1'" >来源表</th>
+					            <th ng-show="viewindex.derIndex_flag!='1'" >来源字段</th>
+					            <th ng-show="viewindex.derIndex_flag='1'" >业务方向</th>
+					            <th ng-show="viewindex.derIndex_flag=='1'" >指标算法</th>
+					            <th ng-show="viewindex.derIndex_flag=='1'" >算法描述</th>
+					            <th ng-show="viewindex.derIndex_flag=='1'" >创建人</th>
+					            <th ng-show="viewindex.derIndex_flag=='1'" >创建时间</th>
+					            
+ 
+                            </tr>
+                            </thead>
+                            
+ 
+                            <tbody>
+                            <tr class="rowlink" >
+                                 
+					            <td>{{viewindex.indexName}}</td>
+					            
+					            <td ng-show="viewindex.derIndex_flag!='1'" >{{viewindex.sourceSystem}}</td>
+					            <td ng-show="viewindex.derIndex_flag!='1'" >{{viewindex.sourceTable}}</td>
+					            <td ng-show="viewindex.derIndex_flag!='1'">{{viewindex.sourceColumn}}</td>
+					            <td ng-show="viewindex.derIndex_flag='1'">{{viewindex.indexDirectionId}}</td>
+					            <td ng-show="viewindex.derIndex_flag=='1'" >{{viewindex.calMethod}}</td>
+					            <td ng-show="viewindex.derIndex_flag=='1'" >{{viewindex.calMethodDesc}}</td>
+					            <td ng-show="viewindex.derIndex_flag=='1'" >{{viewindex.createUser}}</td>
+					            <td ng-show="viewindex.derIndex_flag=='1'" >{{viewindex.createTime|date:'yyyy-MM-dd'}}</td>
+ 
+                            </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+                   <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <lable>&nbsp;&nbsp;&nbsp;&nbsp;</lable>
+                        <button class="btn btn-primary" data-dismiss="modal" ng-show="viewindex.derIndex_flag=='1'" ng-click="showEditView(viewindex)" data-toggle="modal" data-target="#pushDialog">  修改</button>
+                        <button class="btn btn-primary" data-dismiss="modal"  ng-show="viewindex.derIndex_flag=='1'" data-toggle="modal" data-target="#removeDialog2">删除</button>
+                        
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 指标新增对话框 -->
+<div class="modal fade" id="pushDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 850px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">新增/修改</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" name="newIndForm" class="form-horizontal">
+                           <div class="form-group">
+                           
+			                <label class="col-lg-2 control-label">专业</label>
+			                <div class="col-lg-3">
+			                    <select class="form-control" ng-model="key.indexTheme_id" name="indexThemeId" required select2 data-live-search="false" ng-change="setIndexList(key.indexTheme_id)" ng-options="item.indexThemeId as item.indexThemeName for item  in themes"></select>
+			                    
+			                </div>
+			                <span class="mustItem">*</span>
+			                
+			                <label class="col-lg-2 control-label">业务方向</label>
+			                <div class="col-lg-3">
+			                    <select class="form-control" ng-model="key.indexDirectionId" name="indexDirectionId" required  select2 data-live-search="false"  ng-options="item.indexDirectionId as item.indexDirectionName for item  in direction">
+			                    </select>
+			                   
+			                </div>
+			                 <span class="mustItem">*</span>
+			                
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">指标名称</label>
+                                <div class="col-lg-3">
+                                    <input type="text" class="form-control" required ng-model="key.indexName" ng-maxlength="50" ng-trim maxlength="50" ng-pattern="/^((?!<|>|\?).)+$/"
+										data-valid-tip="{ required : '字段名为必须填项' , maxlength:'最大长度为50个字符',pattern:'字段名不允许存在 <、>、? '}"
+										data-valid-pos="bottom" />
+                                </div>
+                                <span class="mustItem">*</span>
+                                <label class="col-lg-2 control-label">指标版本</label>
+                                <div class="col-lg-3">
+                                    <input type="text" number ng-model="key.indexVersion"  name="indversion" ng-maxlength="4" valid-tip="{maxlength:'最大长度不能超过4个字符'}"  valid-pos="bottom"  class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">指标描述</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" required ng-model ="key.indexDesc"   ng-maxlength="200" ng-trim maxlength="200" ng-pattern="/^((?!<|>|\?).)+$/"
+										data-valid-tip="{ required : '字段名为必须填项' , maxlength:'最大长度为200个字符',pattern:'字段名不允许存在 <、>、? '}"
+										data-valid-pos="bottom" />
+                                </div>
+                                <span class="mustItem">*</span>
+                            </div>
+                            
+                           <div   class="form-group"  >
+                                <label class="col-lg-2 control-label">指标算法</label>
+                               
+                                <div class="col-lg-9">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th style="width:250px" >指标选择</th>
+                                            <th style="width:120px">运算符</th>
+                                            <th>指标算法</th>
+                                            <th style="width:40px">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody >
+                                        <tr  >
+                                            
+                                            <td>
+                                                <div>&nbsp;</div>
+                                                <select ng-model="key.selectedIndex" data-live-search="true"  ng-change="addMeth()"  select2 ng-options="item as item.indexName for item in indexListArray" ng-disabled="newIndForm.indexThemeId.$invalid"></select>
+                                                <div>&nbsp;</div>
+                                            </td>
+                                            <td>  
+                                                 <button ng-disabled="newIndForm.indexThemeId.$invalid" class="btn btn-info" ng-click="operMeth('+')">+</button>
+                                                 <button ng-disabled="newIndForm.indexThemeId.$invalid" class="btn btn-info" ng-click="operMeth('-')">-</button>
+                                                 <button ng-disabled="newIndForm.indexThemeId.$invalid" class="btn btn-info" ng-click="operMeth('*')">*</button>
+                                                 <div>&nbsp;</div>
+                                                 <button ng-disabled="newIndForm.indexThemeId.$invalid" class="btn btn-info" ng-click="operMeth('/')"> /</button>
+                                                 <button ng-disabled="newIndForm.indexThemeId.$invalid" class="btn btn-info" ng-click="operMeth('(')">(</button>
+                                                 <button ng-disabled="newIndForm.indexThemeId.$invalid" class="btn btn-info" ng-click="operMeth(')')">)</button>
+                                            </td>
+                                            <td>
+                                                 {{methIdString}}
+                                            </td>
+                                            <td>
+                                                <div>&nbsp;</div>
+                                                <button title="清除所选" class="btn btn-primary" ng-click="clearMeth()">X</button>
+                                                <div>&nbsp;</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                              <td>算法解释</td><td colspan="3">  <font color="#F23E35"> {{methNameString}}</font>  </td> 
+                                        </tr>
+                                       
+                                        </tbody>
+                                    </table>
+                                   
+                                    
+                                </div>   
+                                 
+                              </div>                        
+                                
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"   data-dismiss="modal" ng-disabled="newIndForm.$invalid" ng-click="save(key)">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearForm();">关闭</button>
+            </div>
+        </div>
+        
+    </div>
+     
+</div> 
+

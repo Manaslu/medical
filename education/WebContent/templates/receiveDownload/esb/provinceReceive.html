@@ -1,0 +1,131 @@
+<div class="col-sm-12 col-md-12">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+				<div class="col-sm-2 col-md-2">
+					<label>
+						业务名称
+					</label>
+					<select class="form-control" select2 data-live-search="true"
+						ng-model="params.systemName"
+						ng-options="item.name as item.name for item in busiList">
+						<option value="">
+							请选择
+						</option>
+					</select>
+				</div>
+				<div class="col-sm-2 col-md-2">
+					<label>
+						表中文名
+					</label>
+					<input class="form-control" type="text"
+						ng-model="params.tableNameCh" />
+				</div>
+				<div class="col-sm-2 col-md-2" ng-if="USER_INFO.provCode=='99'">
+					<label>
+						省份
+					</label>
+					<select class="form-control" select2 data-live-search="true"
+						ng-model="params.dataProvince"
+						ng-options="item.name as item.name for item in provList">
+						<option value="">
+							请选择
+						</option>
+					</select>
+				</div>
+				<div class="col-sm-3 col-md-3">
+					<label>
+						业务数据日期
+					</label>
+					<div data-datetimepicker range start="params.startTime"
+						end="params.endTime"></div>
+				</div>
+				<div class="col-sm-2 col-md-2">
+					<label>
+						&nbsp;
+					</label>
+					<button class="btn btn-custom" type="submit"
+						ng-click="refresh('first' , true)">
+						查询
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<table
+		class="table table-striped table-bordered table-condensed index-center table-costom">
+		<thead>
+			<tr>
+				<th>
+					序号
+				</th>
+				<th style="width: 72px;">
+					业务名称
+				</th>
+				<th style="width: 65px;" ng-if="USER_INFO.provCode=='99'">
+					省份
+				</th>
+				<th>
+					表中文名
+				</th>
+				<th style="width: 260px;">
+					表英文名
+				</th>
+				<th style="width: 41px;">
+					频度
+				</th>
+				<th style="width: 101px;">
+					业务数据日期
+				</th>
+				<th style="width: 115px;">
+					接收文件时间
+				</th>
+				<th style="width: 125px;">
+					入库时间
+				</th>
+				<th style="width: 90px;">
+					入库数据量
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="rowlink" ng-repeat="item in limitArr">
+				<td>
+					{{$index+1+current*limit}}
+				</td>
+				<td>
+					{{item.systemName}}
+				</td>
+				<td ng-if="USER_INFO.provCode=='99'">
+					{{item.dataProvince}}
+				</td>
+				<td>
+					{{item.tableNameCh}}
+				</td>
+				<td>
+					{{item.tableNameEn}}
+				</td>
+				<td>
+					{{item.dataSentFreq}}
+				</td>
+				<td>
+					{{item.businessDate | date:'yyyy-MM-dd'}}
+				</td>
+				<td>
+					{{item.receiveDate | date:'yyyy-MM-dd'}}
+				</td>
+				<td>
+					{{item.loadingDateStr}}
+				</td>
+				<td>
+					{{item.loadingRowCnt}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div data-remote-paging="pager" data-refresh="refresh"
+		data-current="current" data-total="total" data-data="limitArr"
+		data-limit="limit" data-params="params"></div>
+</div>

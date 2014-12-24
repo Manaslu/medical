@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>icon demo</title>
+    <link rel="stylesheet" href="../base/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body>
+<ul class="icon_list_b clearfix" id="test">
+</ul>
+<script src="../seajs/2.2.0/seajs/sea.js" id="seajsnode"></script>
+<script>
+    var $ = function(selector){
+        return document.querySelector(selector);
+    };
+    seajs.use('examples/data/icons.json' , function(icons){
+        var test = $('#test'),str = '';
+        icons.forEach(function(clas){
+            str += '<li title="Andorra" style="cursor: pointer;" onclick="console.log(\''+clas+'\')"><b class="glyphicon '+ clas +'"></b></li>';
+        });
+        test.innerHTML = str;
+    });
+</script>
+</body>
+</html>

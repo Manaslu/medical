@@ -1,0 +1,58 @@
+<div class="col-sm-12 col-md-12" ng-if="viewIndex == 1">
+	 <h3 class="heading">
+	        地址清洗匹配
+	    </h3>
+	<div class="row">
+	<form role= "form" class ="form-horizontal" name= "validForm" novalidate = "novalidate" >
+		<div class="col-sm-12 col-md-12 form-horizontal">
+			<div class="form-group">
+				<label class="col-lg-2 control-label">数据</label>
+				<div class="col-lg-10">
+					<div class="input-group span96">
+						<input type="text" class="form-control" ng-model="currDs.dataSetName" readonly="readonly">
+						<div class="input-group-btn">
+							<button class="btn btn-default" type="button" data-toggle="modal" data-target="#select1" ng-click="openDialog()">选择</button>
+						</div>
+					</div>
+					<span class="mustItem">*</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">匹配后数据</label>
+				<div class="col-lg-10">
+					<input class="form-control span96" type="text" ng-model="data.resultDataSetName"  maxlength="50"
+					ng-trim=”true” name="resultDataSetName" required ng-maxlength ="50" 
+					data-valid-tip ="{maxlength:'最大输入50个字符',required:'请输入匹配后数据名称'}" data-valid-pos ="bottom" />
+					<span class="mustItem">*</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">地址所在列</label>
+				<div class="col-lg-10">
+					<select class="form-control span96" ng-model="data.addr" ng-options="item.columnName as item.columnDesc  for item in colinfo|columnsRmItem:data.post"
+					name="addr" required data-valid-tip ="{required:'请选择地址所在列'}" data-valid-pos ="bottom" >
+						<option value="">请选择</option>
+					</select>
+					<span class="mustItem">*</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">邮编所在列</label>
+				<div class="col-lg-10">
+					<select class="form-control span96" ng-model="data.post" ng-options="item.columnName as item.columnDesc  for item in colinfo|columnsRmItem:data.addr" >
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<button type="button" class="btn btn-default btn-success" ng-click="save()"  ng-disabled="validForm.$invalid" >匹配</button>
+					<button class="btn btn-primary" type="button" ng-click="toBack()">返回</button>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+
+</div>
+

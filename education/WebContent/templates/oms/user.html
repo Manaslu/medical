@@ -1,0 +1,494 @@
+<div class="col-sm-12 col-md-12">
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <form class="form-custom clearfix">
+            <div class="col-sm-2 col-md-2">
+                <label>用户名/姓名</label>
+                <input class="form-control" ng-model="params.userName" id="userName" type="text"/>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <label>用户状态</label>
+                <select id="state" ng-model="params.state" select2 class="form-control">
+                    <option value="">- 请选择 -</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+            </div>
+            
+            <div class="col-sm-3 col-md-3">
+                <label>所属机构</label>
+                <div class="input-group">     
+					<input type="text" ng-model="params.orgName" readonly="readonly" class="form-control">
+					<div class="input-group-btn">   
+				  		<button class="btn btn-default" ng-click="showTree($event.target , 'params')">选择</button>
+					</div>
+					<div id="ztree-box2" class="float-box">
+						<ul class="ztree" data-ztree="zTreeApi2" id="ztree-ui2" data-setting="settings" data-data="data"></ul>
+					</div>
+   				</div>
+            </div>
+            <div class="col-sm-5 col-md-5">
+               	<label >&nbsp;</label>
+                <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+                <button class="btn btn-custom" type="submit" data-toggle="modal" data-target="#pushDialog" ng-click="toAdd()">新增用户</button>
+                <button class="btn btn-custom" type="reset" ng-click="reset(params)">重置</button>
+                <span><font color="red">温馨提示： 注销后才能删除用户。</font></span>
+            </div>
+        </form>
+    </div>
+</div>
+    <table class="table table-striped table-bordered table-condensed index-center table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th width="140">用户名</th>
+            <th width="120">姓名</th>
+            <th width="80">所属省份</th>
+            <th width="230">所属机构</th>
+            <th width="80">用户状态</th>
+            <th width="120">注册时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+       <tr class="rowlink" ng-repeat="item in limitArr">
+            <td align="center">{{$index+1+current*limit}}</td>
+            <td align="center">{{item.logName}}</td>
+            <td align="center">{{item.userName}}</td>
+            <td align="center">{{item.provName}}</td>
+            <td align="center">{{item.orgName}}</td>
+            <td align="center">
+				<span ng-show="{{item.state == '1'}}">启用</span>
+            	<span ng-show="{{item.state == '2'}}">禁用</span>
+			</td>
+            <td align="center">{{item.createTime | date:'yyyy-MM-dd'}}</td>
+            <td>
+                
+                
+               	<span ng-show="item.id!=1 && item.id!=USER_INFO.id">
+               		<a href="javascript:" data-toggle="modal" data-target="#configDialog" ng-click="toSetUserRole(item)">角色配置</a>
+	               	<span ng-show="{{item.state == '1'}}">
+	               		<a href="javascript:" data-toggle="modal" data-target="#logoutDialog" ng-click="toUpdate(item)">注销</a>
+	               	</span>
+	                <span ng-show="item.id!=1">
+		                <a href="javascript:" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate(item)">修改</a>
+	           		</span>
+	                <span ng-show="{{item.state == '2'}}">
+	                	<a href="javascript:" data-toggle="modal" data-target="#focusDialog" ng-click="toUpdate(item)">激活</a>
+	                	<a href="javascript:" data-toggle="modal" data-target="#removeDialog" ng-click="toDelete(item)">删除</a>
+	                </span>
+	                <span ng-show="USER_INFO.inRoleId=='admin'">
+	               		<a href="javascript:" data-toggle="modal" data-target="#resetPWDDialog" ng-click="toUpdate(item)">密码重置</a>
+                	</span>
+                </span>
+                	<a href="javascript:" data-toggle="modal" data-target="#detailDialog" ng-click="toDetail(item)">查看</a>
+                
+                
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div 
+		data-remote-paging="pager" 
+		data-refresh="refresh" 
+		data-current="current" 
+		data-total="total" 
+		data-data="limitArr"
+		data-limit="limit"
+		data-params="params"
+	>
+	</div>
+</div>
+
+
+<!-- 新增/修改对话框 -->
+<div class="modal fade" id="pushDialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span ng-show="!user.id">新增</span><span ng-show="user.id">修改</span>用户</h4>
+            </div>
+            <form user="form" class="form-horizontal" name="mm" novalidate="novalidate">
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-12 col-md-12">
+	                        
+                            <div class="form-group" ng-if="!user.id">
+                                <label class="col-lg-2 control-label" for="logName">用户名:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="用户名" required name="logName" required  ng-model="user.logName" class="form-control"
+                                    maxlength="20"
+                                    remote-valid="{server : 'User' , valid : 'valid' , params : 'getParams' , name : 'logName' , fn : 'query'}"
+                                    my-valid="{valid:'myLogName', name:'reg'}"
+                                    valid-tip="{reg : '用户名只能输入英文字母和数字',required:'这个是必填的', logName :'用户名不能重复，请更换'}"
+                            		valid-pos="bottom"
+                                    />
+                                </div><font color="red">*</font>
+                            </div>
+                            
+                            <div class="form-group" ng-if="user.id">
+		                        <div class="col-lg-2" align="right">用户名:</div>
+		                        <div class="col-lg-9">
+		                        	{{user.logName}}
+		                        </div>
+                   			</div>
+                   			
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="password">用户密码:</label>
+                                <div class="col-lg-9">
+                                    <input type="password" ng-change="clearPassword()" placeholder="用户密码" required name="password" ng-model="user.password" class="form-control"
+                                    maxlength="20"
+                                    my-valid="{valid:'validPassword', name:'reg'}"
+                                    valid-tip="{required:'这个是必填的'}"
+                            		valid-pos="bottom"
+                                    />
+                                </div><font ng-if="!user.id" color="red">*</font>
+                            </div>
+                           <div class="form-group">
+                                <label class="col-lg-2 control-label" for="reName">重复密码:</label>
+                                <div class="col-lg-9">
+                                    <input type="password" placeholder="重复密码" required name="confirmPassword" ng-model="user.confirmPassword" class="form-control"
+                                    maxlength="20"
+                                    my-valid="{valid:'validConfirmPassword' , name:'reg'}"
+                                    valid-tip="{required:'这个是必填的',reg : '输入的密码和原密码不一致，请重新输入'}"
+                            		valid-pos="bottom"
+                                    />
+                                </div><font ng-if="!user.id" color="red">*</font>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="userName">姓名:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="姓名" required ng-model="user.userName" name="userName" class="form-control"
+                                    maxlength="20"
+                                    my-valid="{valid:'myValid' , name:'reg'}"
+                                    valid-tip="{required:'这个是必填的'}"
+                            		valid-pos="bottom"
+                                    />
+                                </div><font color="red">*</font>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="phone">手机号:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="手机号" ng-model="user.phone" name="phone" class="form-control"
+                                    maxlength="13"
+                                    my-valid="{valid:'validPhone' , name:'reg'}"
+                                    valid-tip="{reg : '不是完整的11位手机号或者正确的手机号前七位'}"
+                            		valid-pos="bottom"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="email">email:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="email" ng-model="user.email" name="email" class="form-control"
+                                    my-valid="{valid:'validEmail' , name:'reg'}"
+                                    valid-tip="{reg : '邮箱格式不正确，请重新填写'}"
+                            		valid-pos="bottom"
+                                    />
+                                </div>
+                            </div>
+	                        <style type="text/css">
+	                        	.float-box{
+	                        		display:none;
+	                        		position: absolute;
+	                        		width: 300px;
+	                        		height:400px;
+	                        		overflow:auto;
+	                        		background-color: #fff;
+	                        		z-index: 10001;
+	                        		border:1px solid #f2f2f2;
+	                        	}
+	                        </style>
+	                        <div class="form-group">
+	                            <label class="col-lg-2 control-label" for="orgCd">所属机构:</label>
+	                            <div class="col-lg-6">
+            						<div class="input-group">     
+						            	<input type="text" ng-model="user.orgName" required readonly="readonly" class="form-control"
+						            	my-valid="{valid:'myValid', name:'reg'}"
+                                    	valid-tip="{required:'这个是必填的'}"
+                            			valid-pos="bottom"
+						            	/>
+										 <div class="input-group-btn">   
+				          				  	<button class="btn btn-default" ng-click="showTree($event.target)">选择</button>
+				       					 </div><font color="red">*</font>
+				       					 <div id="ztree-box" class="float-box">
+				       					 	<ul class="ztree" data-ztree="zTreeApi" id="ztree-ui" data-setting="settings" data-data="data"></ul>
+				       					 </div>
+				               		 </div>
+        						</div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="col-lg-2 control-label">所属省份:</label>
+	                            <div class="col-lg-9" ng-repeat="item in model" ng-show="item.id==user.provCode">
+	                            	{{item.name}}
+	                            </div>
+	                        </div>
+                            
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="remark">备注</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="备注"  ng-model="user.remark" name="remark" class="form-control"
+                                    maxlength="100"
+                                    valid-tip="{maxlength : '长度最长为100'}"
+                            		valid-pos="bottom"
+                                    />
+                                </div>
+                            </div>
+                            
+                        
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="modal-footer">
+					<span ng-show="!user.id">
+						<button type="button" class="btn btn-primary"
+							ng-click="create(user)" ng-disabled='!mm.$valid' data-dismiss="modal">保存</button>
+						<button class="btn btn-custom" type="reset" ng-click="resetUser(user)">重置</button>
+					</span> <span ng-show="user.id">
+						<button type="button" class="btn btn-primary"
+							ng-click="modify(user)" data-dismiss="modal">修改</button>
+					</span>
+	
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除用户</h4>
+            </div>
+            <div class="modal-body" ng-if="$validate!=null">
+                	{{$validate}}
+            </div>
+            <div class="modal-body" ng-if="$validate==''">
+                	确认要删除此用户？
+            </div>
+            <div class="modal-footer">
+            	<span ng-show="$validate==''">
+	             	<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove(user)">确认删除             </button>
+	            </span>
+                
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 重置密码 -->
+<div class="modal fade" id="resetPWDDialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                确认要重置此用户的密码？默认密码为123456。
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="resetPWD(user)">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 注销用户 -->
+<div class="modal fade" id="logoutDialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">注销用户</h4>
+            </div>
+            <div class="modal-body">
+                确认要注销此用户？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="logout(user)">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 激活用户 -->
+<div class="modal fade" id="focusDialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">激活用户</h4>
+            </div>
+            <div class="modal-body">
+                确认要激活此用户？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="focus(user)">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 角色配置 -->
+<div class="modal fade" id="configDialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">角色配置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                	<div class="col-sm-12 col-md-12">
+                		<ul class="nav nav-tabs">
+						  <li class="active"><a href="#sysRule" data-toggle="tab">系统角色</a></li>
+						  <li><a href="#ownRule" data-toggle="tab">内置角色</a></li>
+						</ul>
+						
+						<!-- Tab panes -->
+						<div class="tab-content">
+						  <div class="tab-pane fade in active" id="sysRule">
+							  	<table class="table table-striped table-bordered table-condensed index-center">
+		                            <thead>
+									<tr>
+		                                <th><input type="checkbox" class="select_rows" ng-model="all1"></th>
+		                                <th style="width:40px;">序号</th>
+		                                <th>角色名称</th>
+		                                <th>角色描述</th>
+		                            </tr>
+		                            </thead>
+		                            <tbody>
+			                            <tr class="rowlink" ng-repeat="item in roles1">
+		                            		<td><input type="checkbox" ng-value="item.roleId" ng-checked="all1" value-list="$parent.role_check1"></td>
+											<td>{{$index+1}}</td>
+											<td>{{item.roleName}}</td>
+											<td>{{item.roleDesc}}</td>
+										</tr>
+		                            </tbody>
+		                        </table>
+						  </div>
+						  <div class="tab-pane fade" id="ownRule">
+							  	<table class="table table-striped table-bordered table-condensed index-center">
+		                            <thead>
+									<tr>
+		                                <th><input type="checkbox" class="select_rows" ng-model="all2"></th>
+		                                <th style="width:40px;">序号</th>
+		                                <th>角色名称</th>
+		                                <th>角色描述</th>
+		                            </tr>
+		                            </thead>
+		                            <tbody>
+			                            <tr class="rowlink" ng-repeat="item in roles2">
+		                            		<td><input type="checkbox" ng-value="item.roleId" ng-checked="all2" value-list="$parent.role_check2"></td>
+											<td>{{$index+1}}</td>
+											<td>{{item.roleName}}</td>
+											<td>{{item.roleDesc}}</td>
+										</tr>
+		                            </tbody>
+		                        </table>
+						  </div>
+						</div>
+                	</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="setRole(role_check1,role_check2)">设置</button>
+                <button type="button" class="btn btn-primary" ng-click="toSetUserRole(user)" >重置</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 查看详情 -->
+<div class="modal fade" id="detailDialog" tabindex="-1" user="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">用户详细信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                    	<style type="text/css">
+                    		.split{
+                    			width : 50%;
+                    			float:left;
+                    		}
+                    	</style>
+                        <form class="form-horizontal" novalidate="novalidate">
+                            
+                            <div class="form-group split">
+                        		<label class="col-lg-4 control-label">用户名:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{user.logName}}</p> </div>
+                            </div>
+                   			<div class="form-group split">
+                        		<label class="col-lg-4 control-label">姓名:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{user.userName}}</p> </div>
+                            </div>
+                           	<div class="form-group split">
+                        		<label class="col-lg-4 control-label">手机号:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{user.phone}}</p> </div>
+                            </div>
+                            <div class="form-group split">
+                        		<label class="col-lg-4 control-label">email:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{user.email}}</p> </div>
+                            </div>
+                            <div class="form-group split">
+                        		<label class="col-lg-4 control-label">所属省份:</label>
+                                <div class="col-lg-8"> <p class="form-control-static">{{user.provName}}</p> </div>
+                            </div>
+                            <div class="form-group split">
+                        		<label class="col-lg-4 control-label">备注:</label>
+                                <div class="col-lg-8"> <p class="form-control-static  break-all">{{user.remark}}</p> </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">拥有的角色权限:</div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+							<tr>
+                                <th>序号</th>
+                                <th>角色名称</th>
+                                <th>角色类型</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+	                            <tr class="rowlink" ng-repeat="item in role_check">
+                            		<td>{{$index+1}}</td>
+									<td>{{item.roleName}}</td>
+									<td>
+										<span ng-show="{{item.roleType == '1'}}">系统角色</span>
+										<span ng-show="{{item.roleType == '2'}}">内置角色</span>
+            						</td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+    
+</div>

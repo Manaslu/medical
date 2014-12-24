@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T03_NODE_ANNEX  -->
+<mapper namespace="com.idap.processmgr.special.entity.NodeAnnex" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="nodeAnnexMap" type="com.idap.processmgr.special.entity.NodeAnnex">
+		<result property="fileId" column="FILE_ID" jdbcType="VARCHAR" />
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="fruitCode" column="FRUIT_CODE" jdbcType="VARCHAR" />
+		<result property="fileDir" column="FILE_DIR" jdbcType="VARCHAR" />
+		<result property="fileName" column="FILE_NAME" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="dynamicInsert">
+		<if test="fruitCode!=null">
+				,FRUIT_CODE
+		</if>
+		<if test="id!=null">
+				,ID
+		</if>
+	</sql>
+	<sql id="dynamicInsertParams">
+		<if test="fruitCode!=null">
+				,#{fruitCode,jdbcType=VARCHAR}  
+		</if>
+		<if test="id!=null">
+				,#{id,jdbcType=VARCHAR}  
+		</if>
+	</sql>
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.idap.processmgr.special.entity.NodeAnnex">
+			INSERT INTO T03_NODE_ANNEX (FILE_ID,FILE_DIR,FILE_NAME<include refid="dynamicInsert"/>) VALUES (
+				 #{fileId,jdbcType=VARCHAR}
+				,#{fileDir,jdbcType=VARCHAR}
+				,#{fileName,jdbcType=VARCHAR}
+				<include refid="dynamicInsertParams"/>
+			)
+	</insert>
+	<!--删除 -->
+	<delete id="delete" parameterType="com.idap.processmgr.special.entity.NodeAnnex">
+		DELETE FROM T03_NODE_ANNEX t where 1=1 
+		<if test="fruitCode!=null">
+			and t.FRUIT_CODE=#{fruitCode,jdbcType=VARCHAR}
+		</if> 
+		<if test="id!=null">
+			and t.ID=#{id,jdbcType=VARCHAR}
+		</if> 
+		<if test="fileId!=null">
+			and t.FILE_ID=#{fileId,jdbcType=VARCHAR}
+		</if> 
+	</delete>
+	<select id="query"  parameterType="java.util.Map" resultMap="nodeAnnexMap">
+		SELECT FILE_ID,ID,FRUIT_CODE,FILE_DIR,FILE_NAME FROM T03_NODE_ANNEX WHERE 
+		<if test="id!=null">
+			ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="fruitCode!=null">
+			FRUIT_CODE = #{fruitCode,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>
