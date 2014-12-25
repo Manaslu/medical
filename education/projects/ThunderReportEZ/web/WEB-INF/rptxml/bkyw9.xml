@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyw9" title="订户数TOP10">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>            
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select * from (
+select    
+PAPER_CD             as a1 
+,PAPER_NAME           as a2  
+,INDIV_ID_2012/10000        as a3 
+,SUBS_QTY_2012/10000        as a4 
+,SUBS_SUM_2012/10000        as a5 
+,INDIV_ID_2013/10000        as a6 
+,SUBS_QTY_2013/10000        as a7 
+,SUBS_SUM_2013/10000        as a8 
+,INDIV_ID_2014/10000        as a9 
+,SUBS_QTY_2014/10000        as a10
+,SUBS_SUM_2014/10000        as a11
+,INDIV_ID_2014_RATE   as a12
+,SUBS_QTY_2014_RATE   as a13
+,SUBS_SUM_2014_RATE   as a14  
+from PAPER_LIST_QTYSUM_#org# t 
+where paper_year=#year# 
+order by t.INDIV_ID_#year# desc ) t
+where  rownum &lt; 11
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+                                                 订户数量发展TOP品种
+                                                </ReportHeader>
+<ReportBody>
+                        <FuncTitle outputtype="print">
+
+                          &lt;tr class="tr_head"&gt;
+&lt;td&gt;报刊代号&lt;/td&gt;
+&lt;td&gt;报刊名称&lt;/td&gt;
+&lt;td&gt;2012年订户数(万户)&lt;/td&gt;
+&lt;td&gt;2012年订阅份数（万份）&lt;/td&gt;
+&lt;td&gt;2012年收订规模（万元）&lt;/td&gt;
+&lt;td&gt;2013年订户数(万户)&lt;/td&gt;
+&lt;td&gt;2013年订阅份数（万份）&lt;/td&gt;
+&lt;td&gt;2013年收订规模（万元）&lt;/td&gt;
+&lt;td&gt;2014年订户数(万户)&lt;/td&gt;
+&lt;td&gt;2014年订阅份数（万份）&lt;/td&gt;
+&lt;td&gt;2014年收订规模（万元）&lt;/td&gt;
+&lt;td&gt;2014年订户数增幅&lt;/td&gt;
+&lt;td&gt;2014年订阅份数增幅&lt;/td&gt;
+&lt;td&gt;2014年收订规模增幅&lt;/td&gt;
+        
+                                &lt;/tr&gt;                                                                                                        
+                        </FuncTitle>
+                        <Columns>
+
+
+<Column name="u" group="0" code="a1" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a2" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a3" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a4" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a5" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a6" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a7" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a8" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a9" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a10" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a11" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a12" format="#0.00%" type="measure" ></Column>
+<Column name="u" group="0" code="a13" format="#0.00%" type="measure" ></Column>
+<Column name="u" group="0" code="a14" format="#0.00%" type="measure" ></Column>
+
+
+
+
+                    </Columns>
+        </ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.ParaHistory" >
+	 
+    <resultMap id="paraHistory" type="com.idap.danalysis.entity.ParaHistory">
+			<result property="id" column="ID" jdbcType="VARCHAR" />
+			<result property="anaThemeId" column="ANA_THEME_ID" jdbcType="VARCHAR" />
+			<result property="indexId" column="INDEX_ID" jdbcType="VARCHAR" />
+			<result property="indexFlag" column="INDEX_FLAG" jdbcType="VARCHAR" />
+			<result property="indexVal" column="INDEX_VAL" jdbcType="VARCHAR" />
+  
+	 
+	</resultMap>
+	 
+	
+ 
+ 
+
+
+		<sql id="queryBody">
+				<!-- 有orderby -->
+				<if test="sno!=null and eno!=null and orderBy!=null">
+					select
+					*
+					from
+					(
+					select orderContentTab.*,ROWNUM AS rowno
+					from
+					(
+				</if>
+				<!-- 无orderby -->
+				<if test="sno!=null and eno!=null and orderBy==null">
+					select
+					*
+					from
+					(
+				</if>
+				<!-- 查询的主体内容：start -->
+				select
+				<!-- 无orderby -->
+				<if test="sno!=null and eno!=null and orderBy==null">
+					ROWNUM AS rowno,
+				</if>
+				 
+			<include refid="allColumn" />
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+				 
+				
+				<!-- 查询的主体内容：end -->
+				<!-- 无orderBy -->
+				<if test="sno!=null and eno!=null and orderBy==null">
+					) pageTab
+					WHERE pageTab.rowno <![CDATA[>=]]>	${sno}
+				</if>
+				<!-- 有orderBy -->
+				<if test="sno!=null and eno!=null and orderBy!=null">
+					) orderContentTab
+					WHERE ROWNUM <![CDATA[<=]]>${eno}
+					) pageTab
+					WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+				</if>
+		</sql>	
+
+	
+	   <sql id="allColumn">
+				        T.ID,
+				        T.ANA_THEME_ID,
+				        T.INDEX_ID,
+				        T.INDEX_FLAG,
+				        T.INDEX_VAL
+	   </sql>
+	   
+		<sql id="bodyfrom">
+             FROM T04_PARAMETERS_HIS T
+	    </sql>
+	
+		<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="paraHistory">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="paraHistoryquery" parameterType="java.util.Map" resultMap="paraHistory">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="paraHistory">
+		<include refid="queryBody" />
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+       <sql id="dynamicWhere">
+       <trim prefix="WHERE" prefixOverrides="AND|OR">
+       
+			<if test="anaThemeId!=null">
+				T.ANA_THEME_ID = #{anaThemeId}
+			</if>
+			<if test="anaThemeId!=null">
+			   AND	T.INDEX_ID = #{indexId}
+			</if>
+			<if test="indexFlag!=null">
+			   AND 	T.INDEX_FLAG = #{indexFlag}
+			</if>
+			<if test="sno!=null and eno!=null and orderBy==null">
+				AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+        </trim>
+			
+	</sql>
+	
+	<insert id="insert" parameterType="com.idap.danalysis.entity.ParaHistory" >
+	    INSERT INTO 
+	    T04_PARAMETERS_HIS(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+ 
+	<sql id="allapplColumn">
+					     ID,
+				         ANA_THEME_ID,
+				         INDEX_ID,
+				         INDEX_FLAG,
+				         INDEX_VAL
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+				#{id,jdbcType=NUMERIC},
+				#{anaThemeId,jdbcType=VARCHAR},
+				#{indexId,jdbcType=NUMERIC},
+				#{indexFlag,jdbcType=VARCHAR},
+				#{indexVal,jdbcType=VARCHAR}
+				 
+		)
+	</sql>
+	
+		 
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM T04_PARAMETERS_HIS t
+		where t.ANA_THEME_ID =#{removalThemeid}
+	</delete>	
+ 
+  
+</mapper>
+
+
+
+

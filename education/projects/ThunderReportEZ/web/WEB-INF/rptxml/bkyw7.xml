@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyw7" title="收入增长因素分析">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select * from (
+select 2014 as year ,t.paper_cd a1,t.paper_name a2,t.QKZL_2014 a3,DYCKDJ_2014 a4,SUBS_SUM_2013 a5,SUBS_SUM_2014 a6,BPYL_2013+WPYL_2013 a7
+,BPYL_2014+WPYL_2014 a8
+,BPYL_2014+WPYL_2014-(BPYL_2013+WPYL_2013) a9 
+from  PAPER_LIST_QTYSUM_#org# t )
+where year=#year# and a8&gt;0
+and rownum&lt;11
+order by a8 desc
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+                                                收入增长因素分析
+                                                </ReportHeader>
+<ReportBody>
+                        <FuncTitle outputtype="print">
+
+                          &lt;tr class="tr_head"&gt;
+&lt;td&gt;报刊代号&lt;/td&gt;
+&lt;td&gt;报刊名称&lt;/td&gt;
+&lt;td&gt;报刊期种&lt;/td&gt;
+&lt;td&gt;单价（元）&lt;/td&gt;
+&lt;td&gt;2013流转额（万元）&lt;/td&gt;
+&lt;td&gt;2014流转额（万元）&lt;/td&gt;
+&lt;td&gt;2013年收入（万元）&lt;/td&gt;
+&lt;td&gt;2014年收入（万元）&lt;/td&gt;
+&lt;td&gt;2014年收入增长（万元）&lt;/td&gt;
+        
+                                &lt;/tr&gt;                                                                                                        
+                        </FuncTitle>
+                        <Columns>
+
+
+<Column name="u" group="0" code="a1" type="measure" ></Column>
+<Column name="u" group="0" code="a2" type="measure" ></Column>
+<Column name="u" group="0" code="a3" type="measure" ></Column>
+<Column name="u" group="0" code="a4" type="measure" ></Column>
+<Column name="u" group="0" code="a5" type="measure" ></Column>
+<Column name="u" group="0" code="a6" type="measure" ></Column>
+<Column name="u" group="0" code="a7" type="measure" ></Column>
+<Column name="u" group="0" code="a8" type="measure" ></Column>
+<Column name="u" group="0" code="a9" type="measure" ></Column>
+
+
+
+
+                    </Columns>
+        </ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="comp_simple" title="各省国内小包交寄客户情况表">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="month"/>           
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select sheng, cur_value as col1, cur_value-last_value as col2
+  from (select sheng,
+               count(distinct case
+                       when datetime = #month# then
+                        cno
+                     end) cur_value,
+               count(distinct case
+                       when datetime = to_char(add_months(to_date(#month#,'yyyymm'),-1),'yyyymm') then
+                        cno
+                     end) last_value
+          from tb_gnxb_ls_custom
+         where datetime in (#month#, to_char(add_months(to_date(#month#,'yyyymm'),-1),'yyyymm'))
+           and ywl > 0
+           and ywsr > 0
+         group by sheng)
+ order by cur_value desc
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="function">
+													#month#月份各省国内小包交寄客户情况表
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+				&lt;td&gt;省份&lt;/td&gt;
+				&lt;td&gt;本月交寄客户&lt;/td&gt;			
+				&lt;td&gt;交寄客户环比增长&lt;/td&gt;		
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+			  <Column name="省份" group="1" code="sheng" type="dim" sumname="总计" summary="1"  sumby="" sumpos="after" ></Column>
+				<Column name="本月交寄客户" group="0" code="col1" type="measure" ></Column>
+				<Column name="交寄客户环比增长" group="0" code="col2" type="measure" ></Column>
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

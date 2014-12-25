@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：T06_RUN_PROC -->
+<mapper namespace="com.idap.intextservice.dataServiceProcess.entity.RunProcess">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="runProcessMap" type="com.idap.intextservice.dataServiceProcess.entity.RunProcess">
+		<result property="runProcId" column="RUN_PROC_ID" jdbcType="VARCHAR" />
+		<result property="runProcName" column="RUN_PROC_NAME" jdbcType="VARCHAR" />
+		<result property="procRuleCustId" column="PROC_RULE_CUST_ID" jdbcType="VARCHAR" />
+		<result property="dataServiceDesc" column="DATA_SERVICE_DESC" jdbcType="VARCHAR" />
+		<result property="sourceDataSet" column="SOURCE_DATA_SET" jdbcType="VARCHAR" />
+		<result property="resultDataSet" column="RESULT_DATA_SET" jdbcType="VARCHAR" />
+		<result property="runPer" column="RUN_PER" jdbcType="VARCHAR" />
+		<result property="startTime" column="START_TIME" jdbcType="TIMESTAMP" />
+		<result property="overTime" column="OVER_TIME" jdbcType="TIMESTAMP" />
+		<result property="dataServiceId" column="DATA_SERVICE_ID" jdbcType="VARCHAR" />
+		<result property="runState" column="RUN_STATE" jdbcType="VARCHAR" />
+		<result property="resultDataSetName" column="RESULT_DATA_SET_NAME" jdbcType="VARCHAR" />
+		
+		<result property="flowRuleCustName" column="FLOW_RULE_CUST_NAME" jdbcType="VARCHAR" />
+		<result property="dataSetName" column="DATA_SET_NAME" jdbcType="VARCHAR" />
+		<result property="userName" column="USR_NAME" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<!-- 1.1根据id查询对像 -->
+	<select id="getById" parameterType="String" resultMap="runProcessMap">
+		select t.run_proc_id,
+               t.run_proc_name,
+               t.proc_rule_cust_id,
+               t.data_service_desc,
+               t.source_data_set,
+               t.result_data_set,
+               t.run_per,
+               t.start_time,
+               t.over_time,
+               t.data_service_id,
+               t.run_state,
+               t.result_data_set_name, 
+               d.DATA_SET_NAME
+          from T06_RUN_PROC t left join t06_data_set d on t.SOURCE_DATA_SET = d.DATA_SET_ID where t.RUN_PROC_ID=#{value}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="runProcessMap">
+		select t.run_proc_id,
+               t.run_proc_name,
+               t.proc_rule_cust_id,
+               t.data_service_desc,
+               t.source_data_set,
+               t.result_data_set,
+               t.run_per,
+               t.start_time,
+               t.over_time,
+               t.data_service_id,
+               t.run_state,
+               t.result_data_set_name ,
+               f.FLOW_RULE_CUST_NAME ,
+               d.DATA_SET_NAME as dataSetName ,
+               e.DATA_SET_NAME as resultDataSetName ,
+               u.USR_NAME from T06_RUN_PROC t 
+               		left join t06_flow_rule_cust f on t.PROC_RULE_CUST_ID = f.FLOW_RULE_CUST_ID
+					left join t06_data_set d on t.SOURCE_DATA_SET = d.DATA_SET_ID
+					left join t06_data_set e on t.RESULT_DATA_SET = e.DATA_SET_ID
+					left join t02_user_base u on t.RUN_PER = TO_CHAR(u.USER_ID)
+		<include refid="dynamicWhere" />
+		 order by t.START_TIME desc
+	</select>
+	
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="runProcessMap">
+		select t.run_proc_id,
+               t.run_proc_name,
+               t.proc_rule_cust_id,
+               t.data_service_desc,
+               t.source_data_set,
+               t.result_data_set,
+               t.run_per,
+               t.start_time,
+               t.over_time,
+               t.data_service_id,
+               t.run_state,
+               t.result_data_set_name , 
+               (select f.FLOW_RULE_CUST_NAME from t06_flow_rule_cust f where t.PROC_RULE_CUST_ID = f.FLOW_RULE_CUST_ID) as FLOW_RULE_CUST_NAME,
+               (select d.DATA_SET_NAME from t06_data_set d where t.SOURCE_DATA_SET = d.DATA_SET_ID) as dataSetName,
+               (select e.DATA_SET_NAME from t06_data_set e where t.RESULT_DATA_SET = e.DATA_SET_ID) as resultDataSetName,
+               (select u.USR_NAME from t02_user_base u where t.RUN_PER = TO_CHAR(u.USER_ID)) as USR_NAME from  
+               		(select a.*, ROWNUM AS ROWNO FROM (select s.* 
+               		 	from T06_RUN_PROC s
+                		 <include refid="dynamicWheres" /> order by s.START_TIME desc) a ) t
+		<include refid="dynamicWhere" />
+	</select>
+	
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+		select
+		count(1)
+		from
+		T06_RUN_PROC t left join t06_flow_rule_cust f on t.PROC_RULE_CUST_ID = f.FLOW_RULE_CUST_ID
+					left join t06_data_set d on t.SOURCE_DATA_SET = d.DATA_SET_ID
+					left join t06_data_set e on t.RESULT_DATA_SET = e.DATA_SET_ID
+					left join t02_user_base u on t.RUN_PER = TO_CHAR(u.USER_ID)
+		<include refid="dynamicWhere" />
+		order by t.START_TIME desc
+	</select>
+
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="runProcId!=null">
+				AND t.RUN_PROC_ID=#{runProcId,jdbcType=VARCHAR} 
+			</if>
+			<if test="dataServiceId!=null">
+				AND t.DATA_SERVICE_ID=#{dataServiceId,jdbcType=VARCHAR} 
+			</if>
+			<if test="procRuleCustId!=null">
+				AND t.PROC_RULE_CUST_ID=#{procRuleCustId,jdbcType=VARCHAR} 
+			</if>
+			<if test="runProcName!=null">
+				AND t.RUN_PROC_NAME like '%'||#{runProcName,jdbcType=VARCHAR}||'%' 
+			</if>
+			<if test="runPer!=null">
+				AND t.RUN_PER=#{runPer,jdbcType=VARCHAR} 
+			</if>
+			<if test="runState!=null">
+				AND t.RUN_STATE=#{runState,jdbcType=VARCHAR} 
+			</if>
+			<if test="sno!=null and eno!=null">
+				AND t.rowno <![CDATA[<=]]>${eno}
+				AND t.rowno <![CDATA[>=]]> ${sno}
+			</if>
+		</trim>
+	</sql>
+	<sql id="dynamicWheres">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="runProcId!=null">
+				AND s.RUN_PROC_ID=#{runProcId,jdbcType=VARCHAR} 
+			</if>
+			<if test="dataServiceId!=null">
+				AND s.DATA_SERVICE_ID=#{dataServiceId,jdbcType=VARCHAR} 
+			</if>
+			<if test="procRuleCustId!=null">
+				AND s.PROC_RULE_CUST_ID=#{procRuleCustId,jdbcType=VARCHAR} 
+			</if>
+			<if test="runProcName!=null">
+				AND s.RUN_PROC_NAME like '%'||#{runProcName,jdbcType=VARCHAR}||'%' 
+			</if>
+			<if test="runPer!=null">
+				AND s.RUN_PER=#{runPer,jdbcType=VARCHAR} 
+			</if>
+			<if test="runState!=null">
+				AND s.RUN_STATE=#{runState,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</sql>
+	
+	<insert id="insert" parameterType="com.idap.intextservice.dataServiceProcess.entity.RunProcess">
+		INSERT INTO 
+	    T06_RUN_PROC (RUN_PROC_ID,RUN_PROC_NAME,PROC_RULE_CUST_ID,DATA_SERVICE_DESC,SOURCE_DATA_SET,RESULT_DATA_SET,RUN_PER,START_TIME,OVER_TIME,DATA_SERVICE_ID,RUN_STATE,RESULT_DATA_SET_NAME) 
+	    			values(
+	    			#{runProcId,jdbcType=VARCHAR},
+	    			#{runProcName,jdbcType=VARCHAR},
+	    			#{procRuleCustId,jdbcType=VARCHAR},
+	    			#{dataServiceDesc,jdbcType=VARCHAR},
+	    			#{sourceDataSet,jdbcType=VARCHAR},
+	    			#{resultDataSet,jdbcType=VARCHAR},
+	    			#{runPer,jdbcType=VARCHAR},
+	    			#{startTime,jdbcType=TIMESTAMP},
+	    			#{overTime,jdbcType=TIMESTAMP},
+	    			#{dataServiceId,jdbcType=VARCHAR},
+	    			#{runState,jdbcType=VARCHAR},
+	    			#{resultDataSetName,jdbcType=VARCHAR}
+	    			)
+	</insert>
+	
+	<!-- 4.删除 -->
+	<delete id="delete" parameterType="com.idap.intextservice.dataServiceProcess.entity.RunProcess">
+		DELETE FROM T06_RUN_PROC t
+		<include refid="dynamicWhere" />
+	</delete>
+	
+	<update id="update" parameterType="java.util.Map">
+		update T06_RUN_PROC t 
+		<include refid="dynamicSet"/>
+		where t.RUN_PROC_ID=#{runProcId,jdbcType=VARCHAR}
+	</update>
+	<!-- update:set 动态生成可更新字段 -->
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="resultDataSet!=null">
+				,t.RESULT_DATA_SET=#{resultDataSet,jdbcType=VARCHAR}
+			</if>
+			<if test="runState!=null">
+				,t.RUN_STATE=#{runState,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime!=null">
+				,t.START_TIME=#{startTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="overTime!=null">
+				,t.OVER_TIME=#{overTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

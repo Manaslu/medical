@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idp.security.usersmonitor.entity.UserEntity">
+
+  <resultMap id="userEntityResultMap" type="com.idp.security.usersmonitor.entity.UserEntity">
+    <id property="sessonid" column="SESSION_ID" jdbcType="VARCHAR" />
+    <result property="id" column="USER_ID" jdbcType="INTEGER" />
+    <result property="loginName" column="LOGIN_NAME" jdbcType="VARCHAR" />
+    <result property="userName" column="USR_NAME" jdbcType="VARCHAR" />
+    <result property="ts" column="TS" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <delete id="delete">
+    delete from T02_USER_ONLINE
+  </delete>
+
+  <select id="selectOnLineByUserId" parameterType="long" resultType="int">
+     select count(1) from T02_USER_ONLINE where USER_ID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectOnLineByLogName" parameterType="string" resultType="int">
+     select count(1) from T02_USER_ONLINE where LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+  </select>
+    
+  <select id="select" parameterType="java.util.Map" resultMap="userEntityResultMap">
+    select 
+     <include refid="allColumns"/>
+    from  
+    T02_USER_ONLINE 
+     <include refid="selectWherePart"/>
+  </select>   
+    
+  <select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+     select count(distinct LOGIN_NAME) from T02_USER_ONLINE 
+       <include refid="selectWherePart"/>
+       group by LOGIN_NAME
+  </select>  
+     
+  <select id="findByPager" parameterType="java.util.Map" resultMap="userEntityResultMap">
+    select
+      <include refid="allColumns"/>
+    from T02_USER_ONLINE
+    where SESSION_ID in
+    (
+     select SESSION_ID
+        from
+        (
+        select 
+		     max(SESSION_ID) as SESSION_ID,
+		     LOGIN_NAME as LOGIN_NAME,
+		     count(distinct LOGIN_NAME) as DISCOUNT  
+		     from  
+		     T02_USER_ONLINE 
+		      <include refid="selectWherePart"/>
+		     group by LOGIN_NAME
+		     limit ${sno},${eno-sno}
+        )
+    
+     
+   
+    )
+  </select>
+  
+   
+  <sql id="selectWherePart">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+       <if test="loginName!=null">
+         and LOGIN_NAME=#{loginName,jdbcType=VARCHAR}
+       </if>
+       <if test="userName!=null">
+         and USR_NAME=#{loginName,jdbcType=VARCHAR}
+       </if>
+     </trim>  
+  </sql>
+  
+  <sql id="allColumns">
+			SESSION_ID,
+			USER_ID,
+			LOGIN_NAME,
+			USR_NAME,
+			TS
+  </sql>
+</mapper>
+
+
+
+

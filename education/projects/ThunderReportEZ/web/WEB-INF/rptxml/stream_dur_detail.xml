@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="stream_dur_detail" title="阶段时长明细">
+                <Parameter> 
+			<Cond title="配送单号" id="cond1" paraname="trans_code"/>
+			<Cond title="运输车辆" id="cond2" paraname="truck_code"/>                
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">
+                        
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select ROWNUM,t.trans_code,t.truck_code,t.starttime_a,t.endtime_A,t.starttime_b,t.endtime_b,t.starttime_c,t.endtime_c 
+from LM_TRANS_MONITOR t
+where t.trans_code='#trans_code#'
+and t.truck_code='#truck_code#'
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+                                                阶段时长明细 
+ 
+                                                </ReportHeader>
+<ReportBody>
+                                                        <FuncTitle outputtype="function">
+
+
+&lt;tr class="tr_head"&gt;
+	&lt;td rowspan="2" align="center"&gt;序号&lt;/td&gt;
+	&lt;td rowspan="2" align="center"&gt;配置计划单号&lt;/td&gt;
+	&lt;td rowspan="2" align="center"&gt;运输车辆&lt;/td&gt;
+	&lt;td colspan="2" align="center"&gt;在库状态&lt;/td&gt;
+	&lt;td colspan="2" align="center"&gt;运输状态&lt;/td&gt;
+	&lt;td colspan="2" align="center"&gt;在站状态&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="tr_head"&gt;
+
+	&lt;td&gt;开始时间&lt;/td&gt;
+	&lt;td&gt;结束时间&lt;/td&gt;
+
+	&lt;td&gt;开始时间&lt;/td&gt;
+	&lt;td&gt;结束时间&lt;/td&gt;
+	
+
+	&lt;td&gt;开始时间&lt;/td&gt;
+	&lt;td&gt;结束时间&lt;/td&gt;
+	
+	
+	
+&lt;/tr&gt;
+                                                         
+                                                        </FuncTitle>
+                                                        <Columns> 
+                                                                
+                                                                <Column name="团组类型" group="0" code="rownum"></Column>
+                                                                <Column name="部门" group="0" code="trans_code"></Column>
+                                                                <Column name="部门" group="0" code="truck_code"></Column>
+                                                                <Column name="部门" group="0" code="starttime_a"></Column>
+                                                                <Column name="部门" group="0" code="endtime_A"></Column>
+                                                                <Column name="部门" group="0" code="starttime_b"></Column>
+                                                                <Column name="部门" group="0" code="endtime_b"></Column>
+                                                                <Column name="部门" group="0" code="starttime_c"></Column>
+                                                                <Column name="部门" group="0" code="endtime_c"></Column>
+
+                                                                
+
+                                                                                      
+                                                        </Columns>         
+</ReportBody>
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

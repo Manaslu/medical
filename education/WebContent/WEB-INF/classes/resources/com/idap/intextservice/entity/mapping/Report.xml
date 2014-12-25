@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：t07_rpt_detail -->
+<mapper namespace="com.idap.intextservice.result.subscriptions.entity.Report">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="reportMap" type="com.idap.intextservice.result.subscriptions.entity.Report">
+	    <result property="showId" column="SHOW_ID" jdbcType="VARCHAR" />
+	    <result property="dayId" column="DAY_ID" jdbcType="INTEGER" />
+	    <result property="dim1" column="DIM1" jdbcType="INTEGER" />
+	    <result property="dim2" column="DIM2" jdbcType="INTEGER" />
+	    <result property="dim3" column="DIM3" jdbcType="INTEGER" />
+	    <result property="orderId" column="ORDER_ID" jdbcType="INTEGER" />
+	    <result property="url" column="URL" jdbcType="VARCHAR" />
+	    <result property="A1" column="A1" jdbcType="VARCHAR" />
+	    <result property="A2" column="A2" jdbcType="VARCHAR" />
+	    <result property="A3" column="A3" jdbcType="VARCHAR" />
+	    <result property="A4" column="A4" jdbcType="VARCHAR" />
+	    <result property="A5" column="A5" jdbcType="VARCHAR" />
+	    <result property="A6" column="A6" jdbcType="VARCHAR" />
+	    <result property="A7" column="A7" jdbcType="VARCHAR" />
+	    <result property="A8" column="A8" jdbcType="VARCHAR" />
+	    <result property="A9" column="A9" jdbcType="VARCHAR" />
+	    <result property="A10" column="A10" jdbcType="VARCHAR" />
+	    <result property="A11" column="A11" jdbcType="VARCHAR" />
+	    <result property="A12" column="A12" jdbcType="VARCHAR" />
+	    <result property="A13" column="A13" jdbcType="VARCHAR" />
+	    <result property="A14" column="A14" jdbcType="VARCHAR" />
+	    <result property="A15" column="A15" jdbcType="VARCHAR" />
+	    <result property="A16" column="A16" jdbcType="VARCHAR" />
+	    <result property="A17" column="A17" jdbcType="VARCHAR" />
+	    <result property="A18" column="A18" jdbcType="VARCHAR" />
+	    <result property="A19" column="A19" jdbcType="VARCHAR" />
+	    <result property="A20" column="A20" jdbcType="VARCHAR" />
+	    <result property="A21" column="A21" jdbcType="VARCHAR" />
+	    <result property="A22" column="A22" jdbcType="VARCHAR" />
+	    <result property="A23" column="A23" jdbcType="VARCHAR" />
+	    <result property="A24" column="A24" jdbcType="VARCHAR" />
+	    <result property="A25" column="A25" jdbcType="VARCHAR" />
+	    <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP" />
+	    <result property="B1" column="B1" jdbcType="INTEGER" />
+	    <result property="B2" column="B2" jdbcType="INTEGER" />
+	    <result property="B3" column="B3" jdbcType="INTEGER" />
+	    <result property="B4" column="B4" jdbcType="INTEGER" />
+	    <result property="B5" column="B5" jdbcType="INTEGER" />
+	    <result property="B6" column="B6" jdbcType="INTEGER" />
+	    <result property="B7" column="B7" jdbcType="INTEGER" />
+	    <result property="B8" column="B8" jdbcType="INTEGER" />
+	    <result property="B9" column="B9" jdbcType="INTEGER" />
+	    <result property="B10" column="B10" jdbcType="INTEGER" />
+	    <result property="orgId" column="ORG_ID" jdbcType="INTEGER" />
+	    	    
+	</resultMap>
+	
+	<!-- 查询 -->
+	<select id="query" parameterType="java.util.Map" resultMap="reportMap">
+	
+	    <include refid="dynamicQuery"/>
+		
+	</select>
+		
+	<!-- where:and 动态生成查询主题 -->
+	<sql id="dynamicQuery">
+		<trim>
+		    <if test="gnkhqk!=null">
+             select m.a1
+					,m.a2  
+					,m.a3  
+					,n.a2  a4
+					,n.a6  a5
+					,l.a3  a6
+					 from 
+					(select t.day_id,t.a1,t.a2,t.a3,t.order_id 
+					from t07_rpt_detail t 
+                    <include refid="dynamicWhere" /> 
+                    and t.show_id='gnxb2')m
+					left join
+					(select t.day_id,t.a1,t.a2,t.a6 
+					from t07_rpt_detail t 
+					<include refid="dynamicWhere" />
+                    and t.show_id='gnxb4')n
+					on m.a1=n.a1
+					left join
+					(select t.day_id,t.a1,t.a3 
+					from t07_rpt_detail t 
+					<include refid="dynamicWhere" /> 
+					and t.show_id='gnxb5')l
+					on  m.a1=l.a1
+					order by m.order_id
+			</if>
+			<if test="mywhere!=null">
+			select  A1                
+				   ,A2             
+				   ,A3             
+				   ,A4             
+				   ,A5             
+				   ,A6             
+				   ,A7             
+				   ,A8             
+				   ,A9             
+				   ,A10            
+				   ,A11            
+		           from t07_rpt_detail t 
+		           <include refid="dynamicWhere" />
+		           order by t.order_id
+		   </if>
+		   <if test="gjkhqk!=null">
+		   select t.a1 
+                  ,t.a2 
+                  ,round((t.a2-t.a3)/t.a3,4)*100||'%' a3
+                  ,t.a4 
+                  from t07_rpt_detail t 
+                  <include refid="dynamicWhere" />
+                  and t.show_id='gjxb3'
+                  order by t.order_id
+		   </if>
+		   <if test="bbdata!=null">
+		   select  t.a1
+		          ,t.a2 
+                  ,B1
+                  ,B2  
+                  from t07_rpt_detail t 
+                  <include refid="dynamicWhere" />
+                  order by t.order_id
+		   </if>
+		</trim>
+	</sql>
+	
+	
+	<!-- where:and 动态生成可筛选字段 -->
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		    <if test="showId!=null">
+				AND t.SHOW_ID=#{showId,jdbcType=VARCHAR}
+			</if>
+			<if test="dayId!=null">
+				AND t.DAY_ID =#{dayId,jdbcType=INTEGER}
+			</if>
+			<if test="orgId!=null">
+				AND t.ORG_ID =#{orgId,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</sql>
+</mapper>

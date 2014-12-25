@@ -1,0 +1,150 @@
+<PUBLIC:COMPONENT  tagName="MSPMenu"> 
+<PUBLIC:ATTACH for="elememt" EVENT="ondocumentready" ONEVENT="DoInit()" /> 
+<PUBLIC:PROPERTY NAME="menuXML"/> 
+<PUBLIC:PROPERTY NAME="dateValue"/>
+<PUBLIC:PROPERTY NAME="userName"/>  
+<PUBLIC:PROPERTY NAME="activeIndex"/> 
+
+<SCRIPT LANGUAGE="jscript"> 
+
+var xmlHTTP = null;
+var xmlDOM = null;
+var goCurMenu = null;
+var goCurSubMenu = null;
+var nodes = null;
+function DoInit() { 
+	BuildTable(); 
+} 
+
+
+function BuildTable() { 
+	var htmlText = ''; 
+	var CurNode = null;
+	
+	htmlText += '<table width="100%"  cellspacing="0" cellpadding="0"><tr id="MainMenuContainer">';
+	htmlText += '<td width="100%" style="font-size:11pt;padding-left:3;border-bottom:1px solid #666666"><b>'+element.dateValue+'</b></td>';
+	
+	var gblXMLHttp =  new ActiveXObject("MSXML2.XMLHTTP");
+	gblXMLHttp.open("GET", element.menuXML, false);	// async	
+	gblXMLHttp.send();
+	xmlDOM = gblXMLHttp.responseXML;
+	if(xmlDOM){
+ 		nodes = xmlDOM.documentElement.childNodes
+	}
+
+
+ 	htmlText += '</tr>';
+  
+   	
+   	htmlText += '<tr bgcolor="#eeeeee" height="24">';
+   	htmlText += '<td  colspan="'+(nodes.length*2+2)+'" style="border:1px solid #666666;border-top:0">';
+   	htmlText += '<table width="100%"><td id="SubMenuContainer" style="font-size:9pt"></td><td style="text-align:right" noWrap="true">当前用户:'+element.userName+'</td></tr></table>';
+   	htmlText += '</td></tr></table>';
+    	element.innerHTML = htmlText; 
+
+	
+    	for(var i=0;i<nodes.length;i++){
+    		var oTD = document.createElement("TD");
+    		oTD.noWrap = "true";
+    		oTD.id = "MainMenu_"+i;
+    		oTD.onclick = fnMainClick;
+    		if(i==parseInt(element.activeIndex)){
+    			oTD.className = "ActiveMenu";
+    			goCurMenu = oTD;
+    			CurNode = nodes.item(i);
+    		}
+    		else
+    			oTD.className = "NormalMenu";
+    		oTD.innerHTML = nodes.item(i).getAttribute("title");
+    		MainMenuContainer.appendChild(oTD);
+    		
+    		var oTD = document.createElement("TD");
+    		oTD.width="1px";
+    		oTD.className = "MenuSplitter";
+    		oTD.innerHTML = '<img height="16" width="1"></img>';
+    		MainMenuContainer.appendChild(oTD);
+    	}
+    	
+	var oTD = document.createElement("TD");
+	oTD.width="1px";
+	oTD.className = "MenuSplitter";
+	oTD.innerHTML = '<img height="16" width="1"></img>';
+	
+	MainMenuContainer.appendChild(oTD);
+	
+	_drawSubMenu(CurNode);
+} 
+
+
+function _drawSubMenu(node){
+	var target = node.getAttribute("target");
+	var src = node.getAttribute("src");
+	var title = node.getAttribute("title");
+	
+	if(target==null)
+		target = "_self"
+	if(src != null && src.length>0)
+		window.open(src,target,"",1);
+	
+	
+	SubMenuContainer.innerHTML = "";
+	goCurSubMenu = null;
+	
+	if(node.childNodes.length>0){
+		for(var i=0;i<node.childNodes.length;i++){
+			var oSpan = document.createElement("SPAN");
+			oSpan.innerHTML = node.childNodes(i).getAttribute("title");
+			oSpan.src  = node.childNodes(i).getAttribute("src");
+			oSpan.target = node.childNodes(i).getAttribute("target");
+			oSpan.onclick = fnSubMenuClick;
+			oSpan.style.padding = "0px";
+			oSpan.style.paddingLeft="4px";
+			oSpan.style.paddingRight="4px";
+			oSpan.style.cursor="hand";
+			if(oSpan.innerHTML == title){
+				goCurSubMenu = oSpan;
+				oSpan.style.border = "1px solid #666666";
+			}
+			
+			SubMenuContainer.appendChild(oSpan);
+		}
+	}
+	
+	if(goCurSubMenu ==null && SubMenuContainer.childNodes.length>0){
+		goCurSubMenu = SubMenuContainer.childNodes(0);
+		goCurSubMenu.style.border = "1px solid #666666";
+	}
+}
+
+function fnMainClick(){
+	var MainMenuID = new String(this.id);
+	var a = MainMenuID.split("_");
+	var idx = a[1];
+	
+	if(this == goCurMenu)
+		return;
+	
+	
+	this.className = "ActiveMenu";
+	goCurMenu.className = "NormalMenu";
+	goCurMenu = this;
+	
+	var node = xmlDOM.documentElement.childNodes(idx);
+	
+	_drawSubMenu(node);
+}
+
+function fnSubMenuClick(){
+	//if(this == goCurSubMenu)
+	//	return;
+	goCurSubMenu.style.border = "";	
+
+	goCurSubMenu = this;
+	goCurSubMenu.style.border = "1px solid #666666";
+	
+	window.open(this.src,this.target,"",1);
+
+}
+</SCRIPT> 
+
+</PUBLIC:COMPONENT> 

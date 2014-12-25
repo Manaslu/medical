@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/ThunderReportEZ/css/report.css"/>
+<script src="/ThunderReportEZ/include/js/ext-base.js"></script>
+<script src="/ThunderReportEZ/include/js/ext-all.js"></script>
+<script src="/ThunderReportEZ/include/js/report.js"></script>
+
+<script language="javascript">
+
+function LeftTopCornerMerge(cols){
+var trcoll = document.getElementsByTagName("TR");
+
+var i = 0;
+var tr = null;
+//for(var i=0;i<trcoll.length;i++){
+  // alert(trcoll[i].className);
+//}
+
+tr = trcoll[3]
+
+
+tr.childNodes(0).setAttribute("colSpan",2);
+for(i=1;i<2;i++)
+		tr.childNodes.item(i).removeNode();
+		
+}
+function fun1(param)	
+{
+	document.forms[0].action="RepresentAction?index=5";
+	document.getElementById("pageindex").value = parseInt(document.getElementById("pageindex").value) + param;
+	document.forms[0].submit();		
+	return true;
+}
+function fun2(fileType){
+document.forms[0].action="RepresentAction?index=6&fileType="+fileType;
+document.forms[0].target="_blank";
+document.forms[0].submit();
+}
+function fun3(){
+	document.forms[0].action="RepresentAction?index=5";
+	
+	var toPage=parseInt(document.getElementById("selectindex").value);
+	if(toPage<0||toPage>parseInt(document.getElementById("pagecount").value)){
+		alert("输入数字页号超出范围");
+		return false;	
+	}
+	document.getElementById("pageindex").value = toPage;
+	document.forms[0].submit();
+	return false;
+}
+
+</script>
+</head>
+<body>
+	<form id="FA" method="post" action="RepresentAction?index=5">
+		<input type="hidden" name="pageindex" value="$page.getPageindex()"></input>
+		<input type="hidden" name="pagecount" value="$page.getPagecount()"></input>
+		<input type="hidden" name="filename" value="$file"></input>
+		#if($back)
+		<input type="hidden" name="back" value="1"></input>
+		#else
+		<input type="hidden" name="back" value="0"></input>
+		#end
+		<input type="hidden" name="sql"></input>
+		#foreach($key in $parameters.keySet())
+			<input type="hidden" name="$key" value="$parameters.get($key)"></input>
+		#end
+		
+		
+		$table
+		
+		
+		<table border="1px" width="98%" cellspacing="0" cellpadding="0"  bordercolorlight="#333333"  bordercolordark="#efefef">
+			<tr class="tr_odd">
+			#if($pageFlag)
+				<td align="right">
+				#if($page.hasPrevious())
+					<a href="javascript:fun1(-1);">上一页</a>
+				#else
+					上一页
+				#end</td>
+				<td align="center" width="100">
+				#if($page.hasNext())
+					<a href="javascript:fun1(1);" >下一页</a>
+				#else
+					下一页
+				#end</td>
+				<td align="center" width="100">当前第$page.getPageindex()页</td>
+				<td align="center" width="100">共$page.getPagecount()页</td>
+				<td align="center" width="100">共$page.getRecordcount()条记录</td>
+				<td align="center" width="100"><a href="javascript:fun3()">跳转</a><input type="text" id="selectindex" name="selectindex" value="$page.getPageindex()"></td></td>
+			#end	
+				<td align="center" width="100">
+					<a href="javascript:fun2('xls')">导出Excel</a>
+				</td>
+				</tr>
+		</table>			
+		
+	
+	</form>
+	#if($back)
+   		<div id="back" align="center">
+		<a href="javascript:history.go(-1)"><input onclick="javascript:history.go(-1)" type="button" class="backbutton" title="返回"/></a>
+		</div>
+   #end
+</body>
+</html>
+<script>
+
+function replacetdwithpic(rownum,colnum,picpath){
+var tables=document.getElementsByTagName('TABLE');
+if(tables[2]){
+  var headel=tables[2].firstChild.firstChild.firstChild;
+  var rows=tables[2].getElementsByTagName('TR');
+  for (var i=0;i<rows.length;i++){
+       var cols=rows[i].getElementsByTagName('TD');
+       if(cols[0].innerHTML==this_year){
+       for(var j=0;j<cols.length;j++){
+       cols[j].innerHTML='<b>'+cols[j].innerHTML+'</b>';
+       }
+       }
+       for(var j=0;j<cols.length;j++){
+           if(colnum==(j+1)&&rownum==(i+1)){
+           cols[j].width=200;
+           cols[j].height=50;
+           cols[j].innerHTML='<img src='+picpath+'>';
+           }
+           
+       }
+  }
+}    
+}
+
+var this_year= new Date().format("Y");
+replacetdwithpic(1,1,'/ThunderReportEZ/images/report/title1.jpg');
+
+
+
+
+</script>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.SynchronizationApply" >
+	 
+ 
+	
+	
+    <resultMap id="synchronizationApply" type="com.idap.danalysis.entity.SynchronizationApply">
+			<result property="id" column="ID" jdbcType="VARCHAR" />
+			<result property="requId" column="REQU_ID" jdbcType="VARCHAR" />
+			<result property="dataStartTime" column="DATA_START_TIME" jdbcType="DATE" />
+			<result property="dataEndTime" column="DATA_END_TIME" jdbcType="DATE" />
+			<result property="cheanMethod" column="CHEAN_METHOD" jdbcType="VARCHAR" />
+			<result property="syncTablename" column="SYNC_TABLENAME" jdbcType="VARCHAR" />
+			<result property="syncState" column="SYNC_STATE" jdbcType="VARCHAR" />
+			<result property="applyId" column="APPLY_ID" jdbcType="VARCHAR" />
+			<result property="applyUser" column="APPLY_USER" jdbcType="VARCHAR" />
+			<result property="theme" column="THEME" jdbcType="VARCHAR" />
+			<result property="sourceTableName" column="SOURCE_TABLE_NAME" jdbcType="VARCHAR" />
+			<result property="tableComment" column="TABLE_COMMENT" jdbcType="VARCHAR" />
+			<result property="sourceSystem" column="SOURCE_SYSTEM" jdbcType="VARCHAR" />
+			<result property="saveCycle" column="SAVE_CYCLE" jdbcType="VARCHAR" />
+			<result property="applyDate" column="APPLY_DATE" jdbcType="DATE" />
+			<result property="demandDate" column="DEMAND_DATE" jdbcType="DATE" />
+			<result property="applyUni" column="APPLY_UNI" jdbcType="VARCHAR" />
+			<result property="applyOrg" column="APPLY_ORG" jdbcType="VARCHAR" />
+			<result property="receiveUser" column="RECEIVE_USER" jdbcType="VARCHAR" />
+			<result property="applyPhone" column="APPLY_PHONE" jdbcType="VARCHAR" />
+			<result property="receivePhone" column="RECEIVE_PHONE" jdbcType="VARCHAR" />
+			<result property="approvalUser" column="APPROVAL_USER" jdbcType="VARCHAR" />
+			<result property="apprRoleId" column="APPR_ROLE_ID" jdbcType="VARCHAR" />
+			<result property="approvalDate" column="APPROVAL_DATE" jdbcType="DATE" />
+			<result property="approvalStats" column="APPROVAL_STATS" jdbcType="VARCHAR" />
+			<result property="approvalOpinion" column="APPROVAL_OPINION" jdbcType="VARCHAR" />
+			<result property="failureDate" column="FAILURE_DATE" jdbcType="DATE" />
+			<result property="autoManu" column="AUTO_MANU" jdbcType="VARCHAR" />
+			<result property="tableNameen" column="TABLENAMEEN" jdbcType="VARCHAR" />
+	 
+	</resultMap>
+	 
+	
+ 
+ 
+
+
+		<sql id="queryBody">
+				 
+				<if test="sno!=null and eno!=null">
+					 
+					select orderContentTab.*,ROWNUM AS rowno
+					from
+					(
+				</if>
+				select
+				<if test="sno!=null and eno!=null">
+					ROWNUM AS rowno,
+				</if>
+				 
+				<include refid="allColumn" />
+				<include refid="bodyfrom" />
+				WHERE T.APPROVAL_STATS = '22'	
+				<include refid="dynamicWhere" />
+			    order by  APPLY_DATE DESC
+				<if test="sno!=null and eno!=null">
+					) orderContentTab
+					WHERE ROWNUM <![CDATA[<=]]>${eno} AND rowno <![CDATA[>=]]>${sno}
+					 
+				</if>
+		</sql>	
+
+	
+	   <sql id="allColumn">
+				       T.ID,
+				       SDIC.TABLE_NAME SOURCE_TABLE_NAME,
+				       SDIC.TABLE_DESC RECEIVE_PHONE,
+				       T.SOURCE_SYSTEM,
+				       T.SAVE_CYCLE,
+				       T.DATA_START_TIME,
+				       T.DATA_END_TIME,
+				       T.THEME,
+				       T.APPLY_DATE,
+				       T.APPROVAL_STATS,
+				       usr.USR_NAME APPLY_USER,
+				       T.TABLENAMEEN,
+				       TABLE_COMMENT,
+				       T.FAILURE_DATE
+
+	   </sql>
+		<sql id="bodyfrom">
+             FROM T04_DATA_SYNC_APPLY T
+			  LEFT JOIN T04_SOURCE_DATA_DIC SDIC
+			    ON (T.TABLENAMEEN = SDIC.TABLE_NAME_EN)
+		      LEFT JOIN t02_user_base usr
+		         ON (T.APPLY_USER = usr.user_id)  
+			   
+			 
+		   
+	    </sql>
+	
+		<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="synchronizationApply">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="synchronizationApplyquery" parameterType="java.util.Map" resultMap="synchronizationApply">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="synchronizationApply">
+		<include refid="queryBody" />
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+			<include refid="bodyfrom" />
+			WHERE T.APPROVAL_STATS = '22'
+			<include refid="dynamicWhere" />
+			 
+		    
+	</select>
+	 
+       <sql id="dynamicWhere">
+			<if test="name!=null">
+				AND (SDIC.TABLE_NAME LIKE '%'||#{name}||'%' 
+				OR SDIC.SOURCE_SYSTEM LIKE '%'||#{name}||'%' 
+				OR T.THEME LIKE '%'||#{name}||'%' 
+				)
+			</if>
+ 
+			
+			<if test="createTime1!=null and createTime2 !=null ">
+				AND T.APPLY_DATE <![CDATA[>=]]>to_date('${createTime1}', 'yyyy-mm-dd')
+				AND T.APPLY_DATE <![CDATA[<=]]>to_date('${createTime2}', 'yyyy-mm-dd')
+			</if>
+			<if test="createTime1!=null and createTime2 ==null ">
+				AND T.APPLY_DATE <![CDATA[>=]]>to_date('${createTime1}', 'yyyy-mm-dd')
+			</if>
+			<if test="createTime1 ==null and createTime2 !=null ">
+				AND T.APPLY_DATE <![CDATA[<=]]>to_date('${createTime2}', 'yyyy-mm-dd')
+			</if>
+			
+	</sql>
+	
+	<insert id="insert" parameterType="com.idap.danalysis.entity.SynchronizationApply" >
+	    INSERT INTO 
+	    t04_data_sync_apply(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+	<sql id="allapplColumn">
+				ID,
+				REQU_ID,
+				DATA_START_TIME,
+				DATA_END_TIME,
+				CHEAN_METHOD,
+				APPLY_USER,
+				THEME,
+				SOURCE_TABLE_NAME,
+				TABLE_COMMENT,
+				SOURCE_SYSTEM,
+				SAVE_CYCLE,
+				APPLY_DATE,
+				DEMAND_DATE,
+				APPLY_UNI,
+				APPLY_ORG,
+				RECEIVE_USER,
+				APPLY_PHONE,
+				APPROVAL_USER,
+				APPR_ROLE_ID,
+				FAILURE_DATE,
+				AUTO_MANU,
+				APPROVAL_STATS,
+				TABLENAMEEN
+
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+				#{id,jdbcType=VARCHAR},
+				#{requId,jdbcType=VARCHAR},
+				#{dataStartTime,jdbcType=DATE},
+				#{dataEndTime,jdbcType=DATE},
+				#{cheanMethod,jdbcType=VARCHAR},
+				#{applyUser,jdbcType=VARCHAR},
+				#{theme,jdbcType=VARCHAR},
+				#{sourceTableName,jdbcType=VARCHAR},
+				#{tableComment,jdbcType=VARCHAR},
+				#{sourceSystem,jdbcType=VARCHAR},
+				#{saveCycle,jdbcType=VARCHAR},
+				#{applyDate,jdbcType=DATE},
+				#{demandDate,jdbcType=DATE},
+				#{applyUni,jdbcType=VARCHAR},
+				#{applyOrg,jdbcType=VARCHAR},
+				#{receiveUser,jdbcType=VARCHAR},
+				#{applyPhone,jdbcType=VARCHAR},
+				#{approvalUser,jdbcType=VARCHAR},
+				#{apprRoleId,jdbcType=VARCHAR},
+				#{failureDate,jdbcType=DATE},
+				#{autoManu,jdbcType=VARCHAR},
+				#{approvalStats,jdbcType=VARCHAR},
+				#{tableNameen,jdbcType=VARCHAR}
+		)
+	</sql>
+ 
+	
+	
+<update id="update" parameterType="com.idap.danalysis.entity.SynchronizationApply">
+		update t04_data_sync_apply
+		<trim prefix=" SET " prefixOverrides=",">
+		<if test="approvalDate!=null">
+			  ,APPROVAL_DATE=#{approvalDate,jdbcType=DATE}
+		</if>
+		<if test="approvalStats!=null">
+			  ,APPROVAL_STATS=#{approvalStats,jdbcType=VARCHAR}
+		</if>
+		<if test="approvalOpinion!=null">
+			  ,APPROVAL_OPINION=#{approvalOpinion,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="requId!=null">   
+		      , REQU_ID=#{requId,jdbcType=VARCHAR}  
+		</if>
+		<if test="dataStartTime!=null">   
+		      , DATA_START_TIME=#{dataStartTime,jdbcType=DATE}  
+		 </if>
+		<if test="dataEndTime!=null">   
+		      , DATA_END_TIME=#{dataEndTime,jdbcType=DATE}
+		</if>
+		<if test="cheanMethod!=null">   
+		      , CHEAN_METHOD=#{cheanMethod,jdbcType=VARCHAR}  
+		</if>
+		<if test="applyUser!=null">   
+		      , APPLY_USER=#{applyUser,jdbcType=VARCHAR}  
+		</if>
+		<if test="theme!=null">   
+		      , THEME=#{theme,jdbcType=VARCHAR}  
+		</if>
+		<if test="sourceTableName!=null">   
+		      , SOURCE_TABLE_NAME=#{sourceTableName,jdbcType=VARCHAR} 
+		</if>
+		<if test="tableComment!=null">   
+		      , TABLE_COMMENT=#{tableComment,jdbcType=VARCHAR}  
+		</if>
+		<if test="sourceSystem!=null">   
+		      , SOURCE_SYSTEM=#{sourceSystem,jdbcType=VARCHAR}  
+		</if>
+		<if test="saveCycle!=null">   
+		      , SAVE_CYCLE=#{saveCycle,jdbcType=VARCHAR}  
+		</if>
+		<if test="applyDate!=null">   
+		      , APPLY_DATE=#{applyDate,jdbcType=DATE}  
+		</if>
+		<if test="demandDate!=null">   
+		      , DEMAND_DATE=#{demandDate,jdbcType=DATE}  
+		</if>
+		<if test="applyUni!=null">   
+		      , APPLY_UNI=#{applyUni,jdbcType=VARCHAR}  
+		</if>
+		<if test="applyOrg!=null">   
+		      , APPLY_ORG=#{applyOrg,jdbcType=VARCHAR}  
+		</if>
+		<if test="receiveUser!=null">   
+		      , RECEIVE_USER=#{receiveUser,jdbcType=VARCHAR}  
+		</if>
+		<if test="applyPhone!=null">   
+		      , APPLY_PHONE=#{applyPhone,jdbcType=VARCHAR}  
+		</if>
+		<if test="approvalUser!=null">   
+		      , APPROVAL_USER=#{approvalUser,jdbcType=VARCHAR}  
+		</if>
+		<if test="apprRoleId!=null">   
+		      , APPR_ROLE_ID=#{apprRoleId,jdbcType=VARCHAR}  
+		 </if>
+		<if test="failureDate!=null">   
+		      , FAILURE_DATE=#{failureDate,jdbcType=DATE}  
+		</if>
+		<if test="autoManu!=null">   
+		      , AUTO_MANU=#{autoManu,jdbcType=VARCHAR}  
+		</if>
+		<if test="tableNameen!=null">   
+		      , TABLENAMEEN=#{tableNameen,jdbcType=VARCHAR}  
+		</if>
+		
+		
+ 
+		</trim>
+		WHERE 
+		<!-- ID=#{id} -->
+			ID=#{id}
+</update>
+	
+	
+	<!-- 4.删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM t04_data_sync_apply t
+		where t.id =#{id}
+	</delete>		
+
+</mapper>
+
+
+
+

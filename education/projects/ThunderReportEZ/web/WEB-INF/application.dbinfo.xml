@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+<!--	<bean id="template_oracle"-->
+<!--		class="org.springframework.jdbc.core.JdbcTemplate">-->
+<!--		<property name="dataSource" ref="dataSource_oracle" />-->
+<!--	</bean>-->
+		<bean id="template_mysql"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource_mysql" />
+	</bean>
+
+	<bean id="template_teradata"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource_teradata" />
+	</bean>
+
+	<bean id="template_hsqldb"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource_hsqldb" />
+	</bean>				
+
+	<bean id="sqlServer"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource_sqlserver" />
+	</bean>
+<!--	<bean id="oracle"--> 
+<!--改造成mysql,此处的引用为报表的配置文件-->
+<!--		class="org.springframework.jdbc.core.JdbcTemplate">-->
+<!--		<property name="dataSource" ref="dataSource_oracle" />-->
+<!--	</bean>-->
+	<bean id="dataSource_teradata"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${teradata.database.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${teradata.database.url}</value>
+		</property>
+		<property name="username">
+			<value>${teradata.database.username}</value>
+		</property>
+		<property name="password">
+			<value>${teradata.database.password}</value>
+		</property>
+	</bean>
+
+<!-- 
+      改造成mysql,先注释掉
+	<bean id="dataSource_oracle"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${oracle.database.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${oracle.database.url}</value>
+		</property>
+		<property name="username">
+			<value>${oracle.database.username}</value>
+		</property>
+		<property name="password">
+			<value>${oracle.database.password}</value>
+		</property>
+		 
+	</bean>
+
+ -->
+
+
+
+	<bean id="dataSource_mysql"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${mysql.database.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${mysql.database.url}</value>
+		</property>
+		<property name="username">
+			<value>${mysql.database.username}</value>
+		</property>
+		<property name="password">
+			<value>${mysql.database.password}</value>
+		</property>
+		 
+	</bean>
+
+	<bean id="dataSource_hsqldb"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${hsqldb.database.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${hsqldb.database.url}</value>
+		</property>
+		<property name="username">
+			<value>${hsqldb.database.username}</value>
+		</property>
+		<property name="password">
+			<value>${hsqldb.database.password}</value>
+		</property>
+	</bean>
+
+
+
+	<bean id="nativeJdbcExtractor" lazy-init="true"
+		class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor" />
+
+
+	<bean id="lobHandler" lazy-init="true"
+		class="org.springframework.jdbc.support.lob.OracleLobHandler">
+		<property name="nativeJdbcExtractor">
+			<ref bean="nativeJdbcExtractor" />
+		</property>
+	</bean>
+<bean id="dataSource_sqlserver"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.17.180.180)(PORT = 1521)) ) (CONNECT_DATA = (SERVICE_NAME = iCloud) ) )</value>
+		</property>
+		<property name="user">
+			<value>ynmeta</value>
+		</property>
+		<property name="password">
+			<value>ynmeta</value>
+		</property>
+		<property name="minPoolSize">
+            <value>2</value>
+        </property>
+        <property name="maxPoolSize">
+            <value>10</value>
+        </property>
+        <property name="initialPoolSize">
+            <value>2</value>
+        </property>
+	</bean>
+</beans>

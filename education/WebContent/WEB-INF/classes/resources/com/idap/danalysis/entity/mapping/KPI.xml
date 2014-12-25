@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.KPI" >
+	 
+	<resultMap id="indexMap" type="com.idap.danalysis.entity.KPI">
+		<result property="indexId" column="INDEX_ID" jdbcType="VARCHAR" />
+		<result property="indexName" column="INDEX_NAME" jdbcType="VARCHAR" />
+		<result property="indexDesc" column="INDEX_DESC" jdbcType="VARCHAR" />
+		<result property="sourceSystem" column="SOURCE_SYSTEM" jdbcType="VARCHAR" />
+		<result property="indexTheme_name" column="INDEX_THEME_NAME" jdbcType="VARCHAR" />
+		<result property="indexTheme_id" column="INDEX_THEME_ID" jdbcType="VARCHAR" />
+		<result property="derIndex_flag" column="DER_INDEX_FLAG" jdbcType="VARCHAR" />
+		<result property="sourceTable" column="SOURCE_TABLE" jdbcType="VARCHAR" />
+		<result property="sourceColumn" column="SOURCE_COLUMN" jdbcType="VARCHAR" />
+		<result property="calMethod" column="CAL_METHOD" jdbcType="VARCHAR" />
+		<result property="calMethodDesc" column="CAL_METHOD_DESC" jdbcType="VARCHAR" />
+		<result property="createUser" column="CREATE_USER" jdbcType="VARCHAR" />
+		<result property="indexVersion" column="INDEX_VERSION" jdbcType="VARCHAR" />
+		<result property="failFlag" column="FAIL_FLAG" jdbcType="VARCHAR" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="DATE" />
+		<result property="indexDirectionId" column="INDEX_DIRECTION" jdbcType="DATE" />
+		
+ 
+	</resultMap>
+	
+	
+ 
+	
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+<!-- 	<sql id="queryBody"> -->
+<!-- 			select -->
+<!-- 			<include refid="allColumn" /> -->
+<!-- 			<include refid="bodyfrom" /> -->
+<!-- 		    <include refid="dynamicWhere" /> -->
+<!-- 	</sql> -->
+	
+		<sql id="queryBody">
+				<!-- 有orderby -->
+				<if test="sno!=null and eno!=null and orderBy==null">
+					 
+					select orderContentTab.*,ROWNUM AS rowno
+					from
+					(
+				</if>
+				select
+				<if test="sno!=null and eno!=null and orderBy==null">
+					ROWNUM AS rowno,
+				</if>
+				<include refid="allColumn" />
+		        <include refid="bodyfrom" />
+				<include refid="dynamicWhere" />
+				order by CREATE_TIME DESC nulls last
+				<if test="sno!=null and eno!=null and orderBy==null">
+					) orderContentTab
+					WHERE ROWNUM <![CDATA[<=]]>${eno} AND rowno <![CDATA[>=]]>${sno}
+				</if>
+		</sql>	
+	
+	
+	
+	
+	
+		<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="indexMap">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="indexquery" parameterType="java.util.Map" resultMap="indexMap">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="indexMap">
+		<include refid="queryBody" />
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+			<include refid="bodyfrom" />
+		    <include refid="dynamicWhere"/>
+	</select>
+	
+		<insert id="insert" parameterType="com.idap.danalysis.entity.KPI" >
+	    INSERT INTO 
+	    T04_INDEX(<include refid="allKpiColumn"/>	)
+		<include refid="allKpiColumnVar"/>
+	</insert>
+	
+	<sql id="allKpiColumn">
+	   INDEX_THEME_ID,
+	   INDEX_ID,
+	   INDEX_NAME,
+	   INDEX_DESC,
+	   DER_INDEX_FLAG,
+	   INDEX_VERSION,
+	   FAIL_FLAG
+	
+	</sql>
+	
+	<sql id="allKpiColumnVar">
+		values(
+			#{indexTheme_id,jdbcType=VARCHAR},
+			#{indexId,jdbcType=VARCHAR},
+			#{indexName,jdbcType=VARCHAR},
+			#{indexDesc,jdbcType=VARCHAR},
+			#{derIndex_flag,jdbcType=VARCHAR},
+			#{indexVersion,jdbcType=VARCHAR},
+			#{failFlag,jdbcType=VARCHAR}  
+ 
+		)
+	</sql>
+<!-- 表所有的字段：的表、字段 部分    -->
+	<sql id="allColumn">
+	        ind.INDEX_ID,
+	        ind.INDEX_NAME,
+	        ind.INDEX_DESC,
+	        sourc.SOURCE_SYSTEM,
+	        theme.INDEX_THEME_NAME,
+	        theme.INDEX_THEME_ID,
+	        ind.SOURCE_TABLE,
+	        ind.SOURCE_COLUMN,
+	        ind.DER_INDEX_FLAG,
+	        derindex.CAL_METHOD,
+	        derindex.CAL_METHOD_DESC,
+	        usr.USR_NAME CREATE_USER,
+	        derindex.INDEX_VERSION,
+	        ind.FAIL_FLAG,
+	        derindex.CREATE_TIME,
+	        direc.name INDEX_DIRECTION
+	</sql>
+	
+	<!-- 多表关联from    -->
+	<sql id="bodyfrom">
+		 
+		   FROM t04_index ind
+		   left join t04_index_theme theme
+		     on (ind.index_theme_id = theme.index_theme_id)
+		   left join t04_source_data_dic sourc
+		     on (ind.source_table = sourc.table_name_en)
+		   left join t04_derivative_index derindex
+		     on (ind.index_id = derindex.index_id)	
+		   left join T02_USER_BASE usr
+		     on (to_number(derindex.CREATE_USER) = usr.USER_ID)	
+		   left join t09_sys_code direc
+		     on (direc.id = to_number(derindex.index_direction_id))	
+	</sql>
+     
+     <sql id="dynamicWhere">
+         
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		 
+		   FAIL_FLAG='1'
+			<if test="name!=null">
+				AND (INDEX_DESC like '%'||#{name}||'%' 
+				OR INDEX_NAME like '%'||#{name}||'%'  )
+				 
+			</if>
+			<if test="createTime1!=null and createTime2 !=null ">
+				AND derindex.CREATE_TIME <![CDATA[>=]]>to_date('${createTime1}', 'yyyy-mm-dd')
+				AND derindex.CREATE_TIME <![CDATA[<=]]>to_date('${createTime2}', 'yyyy-mm-dd')
+			</if>
+			<if test="createTime1!=null and createTime2 ==null ">
+				AND derindex.CREATE_TIME <![CDATA[>=]]>to_date('${createTime1}', 'yyyy-mm-dd')
+				 
+			</if>
+			<if test="createTime1 ==null and createTime2 !=null ">
+				 
+				AND derindex.CREATE_TIME <![CDATA[<=]]>to_date('${createTime2}', 'yyyy-mm-dd')
+			</if>
+			 
+		</trim>
+	</sql>
+ 
+	
+ <update id="update" parameterType="com.idap.danalysis.entity.KPI">
+		update T04_INDEX
+		<trim prefix=" SET " prefixOverrides=",">
+		<if test="indexTheme_id!=null">
+			  ,INDEX_THEME_ID=#{indexTheme_id,jdbcType=VARCHAR}
+		</if>
+		<if test="indexName!=null">
+			  ,INDEX_NAME=#{indexName,jdbcType=VARCHAR}
+		</if>
+		<if test="indexDesc!=null">
+			  ,INDEX_DESC=#{indexDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="indexVersion!=null">
+			  ,INDEX_VERSION=#{indexVersion,jdbcType=VARCHAR}
+		</if>
+		<if test="failFlag!=null">
+			  ,FAIL_FLAG=#{failFlag,jdbcType=VARCHAR}
+		</if>
+		 
+		</trim>
+		WHERE 
+		<!-- ID=#{id} -->
+			INDEX_ID=#{indexId}
+</update>
+
+ 
+
+</mapper>
+
+
+
+

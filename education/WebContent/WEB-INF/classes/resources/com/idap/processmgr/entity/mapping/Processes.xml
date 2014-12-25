@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T03_FRUIT_MANAGE  -->
+<mapper namespace="com.idap.processmgr.special.entity.Processes" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="processesMap" type="com.idap.processmgr.special.entity.Processes">
+		<result property="fruitCode" column="FRUIT_CODE" jdbcType="VARCHAR" />
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="fruitCont" column="FRUIT_CONT" jdbcType="VARCHAR" />
+		<result property="projCode" column="PROJ_CODE" jdbcType="VARCHAR" />
+		<result property="requCode" column="REQU_CODE" jdbcType="VARCHAR" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="createTime_" column="CREATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="creator" column="CREATOR" jdbcType="VARCHAR" />
+		<result property="confirmPerson" column="CONFORM_PRESON" jdbcType="VARCHAR" />
+		<result property="confirmTime" column="CONFORM_TIME" jdbcType="TIMESTAMP" />		
+		<result property="publicPerson" column="PUBULIC_PERSON" jdbcType="VARCHAR" />
+		<result property="publicTime" column="PUBULIC_TIME" jdbcType="TIMESTAMP" />
+		<result property="oprId" column="OPR_ID" jdbcType="VARCHAR" />
+		<result property="publicState" column="PUBULIC_STATE" jdbcType="VARCHAR" />
+		<result property="roleId" column="ROLE_ID" jdbcType="NUMERIC" />
+		<result property="addUrl" column="ADD_URL" jdbcType="VARCHAR" />
+		<result property="showUrl" column="SHOW_URL" jdbcType="VARCHAR" />
+		
+		<result property="requName" column="REQU_NAME" jdbcType="VARCHAR" />
+		<result property="flowType" column="FLOW_TYPE" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="findByPager" parameterType="java.util.Map" resultMap="processesMap">
+		select  	
+					t.FRUIT_CODE,
+					t.ID,
+					t.REQU_CODE,
+					t.REQU_NAME,
+					t.FLOW_TYPE,
+					t.FRUIT_CONT,
+					t.PROJ_CODE,
+					t.CREATE_TIME,
+					t.CREATOR,
+					t.CONFORM_PRESON,
+					t.CONFORM_TIME,
+					t.PUBULIC_PERSON,
+					t.PUBULIC_TIME,
+					t.OPR_ID,
+					t.PUBULIC_STATE,
+					t.ROLE_ID,
+		        	t.rowno from
+        	(select 
+        			t.FRUIT_CODE,
+					t.ID,
+					a.REQU_CODE,
+					a.REQU_NAME,
+					a.FLOW_TYPE,
+					t.FRUIT_CONT,
+					t.PROJ_CODE,
+					t.CREATE_TIME,
+					t.CREATOR,
+					t.CONFORM_PRESON,
+					t.CONFORM_TIME,
+					t.PUBULIC_PERSON,
+					t.PUBULIC_TIME,
+					t.OPR_ID,
+					t.PUBULIC_STATE,
+					t.ROLE_ID,
+        			ROWNUM AS rowno from T03_FRUIT_MANAGE t,T03_REQU_MANAGE a 
+        			where t.ID = a.ID and a.CONTACT = #{contact,jdbcType=VARCHAR} and a.APPRO_STATE <![CDATA[<>]]> '7' and 
+               	 ROWNUM <![CDATA[<=]]>${eno}) t where 1=1
+			<include refid="dynamicWhere" />
+			<if test="requName!=null">
+				AND t.REQU_NAME LIKE '%${requName}%' 
+			</if>
+			<if test="requCode!=null">
+				AND t.REQU_CODE LIKE '%${requCode}%' 
+			</if>
+			<if test="sno!=null and eno!=null">
+				and t.rowno <![CDATA[>=]]> ${sno}
+			</if>
+			order by CREATE_TIME desc
+	</select>
+	
+	<sql id="dynamicWhere">
+			<if test="id!=null">
+				AND t.ID=#{id,jdbcType=VARCHAR} 
+			</if>
+			<if test="createTime!=null">
+				AND TO_CHAR(t.CREATE_TIME,'YYYY-MM-DD')<![CDATA[ >= ]]> #{createTime,jdbcType=TIMESTAMP} 
+			</if>
+			<if test="createTime_!=null">
+				AND TO_CHAR(t.CREATE_TIME,'YYYY-MM-DD')<![CDATA[ <= ]]>#{createTime_,jdbcType=TIMESTAMP} 
+			</if>
+	</sql>
+	<!-- 根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+			select count(1)
+			from T03_FRUIT_MANAGE t,T03_REQU_MANAGE a 
+        			where t.ID = a.ID and a.CONTACT = #{contact,jdbcType=VARCHAR} and a.APPRO_STATE <![CDATA[<>]]> '7'
+        			<include refid="dynamicWhere" />
+		        	<if test="requName!=null">
+						AND a.REQU_NAME LIKE '%${requName}%' 
+					</if>
+					<if test="requCode!=null">
+						AND a.REQU_CODE LIKE '%${requCode}%' 
+					</if>
+	</select>
+	<!-- 保存 -->
+	<insert id="insert" parameterType="com.idap.processmgr.special.entity.Processes">
+		INSERT INTO 
+	    T03_FRUIT_MANAGE (FRUIT_CODE,ID,CREATE_TIME,CREATOR,OPR_ID
+	    <include refid="dynamicInsert"/>
+	    ) values(#{fruitCode,jdbcType=VARCHAR}
+				,#{id,jdbcType=VARCHAR}
+				,(select sysdate from dual)
+				,#{creator,jdbcType=VARCHAR}
+				,'0'  
+				<include refid="dynamicInsertParams" />)
+	</insert>
+	<!--删除 -->
+	<delete id="delete" parameterType="com.idap.processmgr.special.entity.Processes">
+		DELETE FROM T03_FRUIT_MANAGE t where t.FRUIT_CODE=#{fruitCode,jdbcType=VARCHAR} 
+	</delete>
+	<!-- 修改 -->
+	<update id="update" parameterType="java.util.Map">
+		update T03_FRUIT_MANAGE t set t.CONFORM_TIME=(select sysdate from dual)
+					<if test="fruitCont!=null">
+						,t.FRUIT_CONT=#{fruitCont,jdbcType=VARCHAR}
+					</if>
+					<if test="publicState!=null">
+						,t.PUBULIC_STATE=#{publicState,jdbcType=VARCHAR}
+					</if>
+					<if test="oprId!=null">
+					,t.OPR_ID=#{oprId,jdbcType=VARCHAR}
+					</if>					
+				 where t.FRUIT_CODE=#{fruitCode,jdbcType=VARCHAR}
+	</update>
+	<select id="query" parameterType="java.util.Map" resultMap="processesMap">
+		select  
+				a.REQU_CODE,
+				a.REQU_NAME,
+				t.FRUIT_CODE,
+				t.ID,
+				t.FRUIT_CONT,
+				t.PROJ_CODE,
+				t.REQU_CODE,
+				t.CREATE_TIME,
+				t.CREATOR,
+				t.CONFORM_PRESON,
+				t.CONFORM_TIME,
+				t.PUBULIC_PERSON,
+				t.PUBULIC_TIME,
+				t.OPR_ID,
+				t.PUBULIC_STATE,
+				t.ROLE_ID
+		 from T03_FRUIT_MANAGE t,T03_REQU_MANAGE a 
+        			where t.ID = a.ID 
+        			and t.ID = #{id,jdbcType=VARCHAR}
+        			and t.PUBULIC_STATE = '1'
+	</select>
+	<select id="findAllCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(1) from T03_FRUIT_MANAGE t,T03_REQU_MANAGE a where t.ID = a.ID and t.ID = #{id,jdbcType=VARCHAR} 
+	</select>
+	<select id="findCountOfConfirm" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(1) from T03_FRUIT_MANAGE t,T03_REQU_MANAGE a 
+									where t.ID = a.ID 
+										  and t.ID = #{id,jdbcType=VARCHAR}
+										  and t.OPR_ID = '1'
+	</select>	
+	<sql id="dynamicInsert">
+			<if test="fruitCont!=null">
+				,FRUIT_CONT 
+			</if>
+			<if test="projCode!=null">
+				,PROJ_CODE 
+			</if>
+			<if test="confirmPerson!=null">
+				,CONFORM_PRESON 
+			</if>
+			<if test="confirmTime!=null">
+				,CONFORM_TIME 
+			</if>
+			<if test="publicPerson!=null">
+				,PUBULIC_PERSON 
+			</if>
+			<if test="publicTime!=null">
+				,PUBULIC_TIME 
+			</if>
+			<if test="publicState!=null">
+				,PUBULIC_STATE 
+			</if>
+	</sql>
+	<sql id="dynamicInsertParams">
+			<if test="fruitCont!=null">
+				,#{fruitCont,jdbcType=VARCHAR}  
+			</if>
+			<if test="projCode!=null">
+				,#{fruitCont,jdbcType=VARCHAR}  
+			</if>
+			<if test="confirmPerson!=null">
+				,#{confirmPerson,jdbcType=VARCHAR}  
+			</if>
+			<if test="confirmTime!=null">
+				,#{confirmTime,jdbcType=VARCHAR}  
+			</if>
+			<if test="publicPerson!=null">
+				,#{publicPerson,jdbcType=VARCHAR}  
+			</if>
+			<if test="publicTime!=null">
+				,#{publicTime,jdbcType=DATE}  
+			</if>
+			<if test="publicState!=null">
+				,#{publicState,jdbcType=VARCHAR}  
+			</if>
+	</sql>
+</mapper>

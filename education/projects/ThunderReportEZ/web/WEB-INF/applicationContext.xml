@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>WEB-INF/database.properties</value>
+				<value>WEB-INF/application.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="application.dbinfo.xml" />
+
+	<bean id="fileService"
+		class="com.teamsun.thunderreport.thread.support.ConfigurationFileServiceImpl">
+		<property name="dir">
+			<value>${application.config.filesdir}</value>
+		</property>
+		<property name="preGenDir">
+			<value>${application.config.prefilesdir}</value>
+		</property>
+	</bean>
+
+	<bean id="beanLoader"
+		class="com.teamsun.thunderreport.util.BeanLoader" />
+
+	<!--  -->
+	<bean id="transformDBDestination"
+		class="com.teamsun.thunderreport.database.TransformDBDestination">
+		<property name="template" ref="template_hsqldb"></property>
+	</bean>
+
+	<bean id="transformDBSource"
+		class="com.teamsun.thunderreport.database.TransformDBSource">
+		<property name="transformDBService"
+			ref="transformDBDestination">
+		</property>
+	</bean>
+
+	<bean id="threadResourcePool"
+		class="com.teamsun.thunderreport.thread.ThreadResourcePool">
+		<constructor-arg index="0">
+			<value>${thread.maxActiveSize}</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>${thread.threadSize}</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="dimDataFactory"
+		class="com.teamsun.thunderreport.database.DimDataFactory"
+		init-method="loadData" autowire="no">	
+		<property name="dateDimLength">
+			<value>7</value>
+		</property>
+	</bean>
+
+	<bean id="workUnitFactory"
+		class="com.teamsun.thunderreport.thread.WorkUnitFactory"
+		init-method="startMonitor">
+		<property name="fileservice" ref="fileService"></property>
+		<property name="resourcePool" ref="threadResourcePool"></property>
+		<!-- <property name="jdbcTemplate" ref="template_oracle"></property> -->
+		<property name="jdbcTemplate" ref="template_mysql"></property>
+		<property name="transformDBSource" ref="transformDBSource"></property>
+		<property name="dimDataFactory" ref="dimDataFactory"></property>
+		<property name="threadStopTime">
+			<value>${application.threadInterruptTime}</value>
+		</property>
+	</bean>
+	<bean id="workUnitFusionChart"
+		class="com.teamsun.thunderreport.thread.WorkUnitFusionChart">
+		<property name="fileService" ref="fileService" />
+	</bean>
+</beans>

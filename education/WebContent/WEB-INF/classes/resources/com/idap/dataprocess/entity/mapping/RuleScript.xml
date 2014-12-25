@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：T06_RULE_SCRIPT_LIB -->
+<!-- <typeAlias type="com.idap.dataprocess.assess.entity.RuleScriptLib" alias="RuleScriptLib"/> -->
+<mapper namespace="com.idap.dataprocess.rule.entity.RuleScript">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="ruleScriptLibMap" type="com.idap.dataprocess.rule.entity.RuleScript">
+		<result property="scriptId" column="SCRIPT_ID" jdbcType="NUMERIC" />
+		<result property="scriptName" column="SCRIPT_NAME" jdbcType="VARCHAR" />
+		<result property="ruleDesc" column="RULE_DESC" jdbcType="VARCHAR" />
+		<result property="ruleScript" column="RULE_SCRIPT" jdbcType="VARCHAR" />
+		<result property="createUser" column="CREATE_USER" jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP" />
+		<result property="ruleTypeId" column="RULE_TYPE_ID" jdbcType="VARCHAR" />
+		<result property="scriptCode" column="SCRIPT_CODE" jdbcType="VARCHAR" />
+		<result property="parScriptId" column="PAR_SCRIPT_ID" jdbcType="NUMERIC" />
+	</resultMap>
+
+	<!--================= 动态内容部分 ================= -->
+	<!-- where：动态生成部分 -->
+	<sql id="dynamicWhere">
+		<!-- LIKE 样例： SYSTEM_NAME like '%'||#{systemName}||'%' -->
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="scriptId!=null">
+				AND SCRIPT_ID=#{scriptId}
+			</if>
+			<if test="scriptName!=null">
+				AND SCRIPT_NAME=#{scriptName}
+			</if>
+
+			<if test="matchScriptName!=null">
+				AND SCRIPT_NAME like #{matchScriptName}
+			</if>
+			<if test="ruleDesc!=null">
+				AND RULE_DESC=#{ruleDesc}
+			</if>
+			<if test="ruleScript!=null">
+				AND RULE_SCRIPT=#{ruleScript}
+			</if>
+			<if test="createUser!=null">
+				AND CREATE_USER=#{createUser}
+			</if>
+			<if test="parScriptId!=null">
+				AND PAR_SCRIPT_ID=#{parScriptId}
+			</if>
+			<if test="isChd!=null and isChd=='N'.toString()">
+				AND PAR_SCRIPT_ID is null 
+			</if>
+			<if test="isChd!=null and isChd=='Y'.toString()">
+				AND PAR_SCRIPT_ID is not null
+			</if>
+			<if test="createDate!=null">
+				AND CREATE_DATE=to_date('${createDate}', 'yyyy-mm-dd
+				HH24:MI:SS')
+			</if>
+			<if test="ruleType!=null">
+				AND RULE_TYPE_ID=#{ruleType}
+			</if>
+			<if test="ids!=null and ids.length>0">
+				AND id in
+				<foreach item="id" index="index" collection="ids" open="("
+					separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			<if test="sno!=null and eno!=null and orderBy==null">
+				AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+		</trim>
+
+	</sql>
+
+	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+
+	<!-- group by 分组 -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			group by ${groupBy}
+		</if>
+	</sql>
+
+	<!-- 表所有的字段：insert 的表、字段 部分 -->
+	<sql id="allColumn">
+		SCRIPT_ID,
+		SCRIPT_NAME,
+		RULE_DESC,
+		RULE_SCRIPT,
+		CREATE_USER,
+		CREATE_DATE,
+		RULE_TYPE_ID,
+		SCRIPT_CODE,
+		PAR_SCRIPT_ID
+	</sql>
+
+	<!-- 单条插入：动态生成可插入字段 对应的变量列表 -->
+	<sql id="allColumnVar">
+		values(
+		#{scriptName,jdbcType=VARCHAR},
+		#{ruleDesc,jdbcType=VARCHAR},
+		#{ruleScript,jdbcType=VARCHAR},
+		#{createUser,jdbcType=VARCHAR},
+		#{createDate,jdbcType=DATE},
+		#{ruleTypeId,jdbcType=VARCHAR}},
+			#{scriptCode,jdbcType=VARCHAR},
+			#{parScriptId,jdbcType=NUMERIC}
+		)
+	</sql>
+
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+			select orderContentTab.*,ROWNUM AS rowno
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumn" />
+		from
+		T06_RULE_SCRIPT_LIB
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>
+			${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+		</if>
+	</sql>
+
+
+	<!-- ================================================= -->
+	<!-- 1.1根据id查询对像 -->
+	<select id="getById" parameterType="String" resultMap="ruleScriptLibMap">
+		select
+		<include refid="allColumn" />
+		from T06_RULE_SCRIPT_LIB where SCRIPT_ID=#{value}
+	</select>
+
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map"
+		resultMap="ruleScriptLibMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="ruleScriptLibMap">
+		<include refid="queryBody" />
+	</select>
+
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		count(1)
+		from
+		T06_RULE_SCRIPT_LIB
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 4.删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM T06_RULE_SCRIPT_LIB
+		<include refid="dynamicWhere" />
+	</delete>
+
+
+	<!-- 5.1对像插入 -->
+	<insert id="insert" parameterType="com.idap.dataprocess.rule.entity.RuleScript">
+		INSERT INTO
+		T06_RULE_SCRIPT_LIB(
+		<include refid="allColumn" />
+		)
+		<include refid="allColumnVar" />
+	</insert>
+
+	<!-- =========================自定义操作======================== -->
+
+</mapper>
+
+
+
+

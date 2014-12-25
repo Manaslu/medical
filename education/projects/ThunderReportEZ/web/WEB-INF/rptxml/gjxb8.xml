@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="gjxb8" title="主要出口互换局给据邮件数量及信息上网率">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="month"/>           
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+ 
+
+select    
+        A1                
+   ,A2             
+   ,A3             
+   ,A4             
+   ,A5             
+   ,A6             
+   ,A7             
+   ,A8             
+   ,A9             
+   ,A10            
+   ,A11            
+   ,A12            
+   ,A13
+   ,a14   
+from t07_rpt_detail t where t.show_id='gjxb8' and t.day_id=#month#   
+   order by order_id
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													主要出口互换局给据邮件数量及信息上网率
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;出口互换局&lt;/td&gt;
+&lt;td&gt;抽取邮件条数&lt;/td&gt;
+&lt;td&gt;收寄信息有效条数&lt;/td&gt;
+&lt;td&gt;A信息上网率&lt;/td&gt;
+&lt;td&gt;出口互换局开拆信息有效条数&lt;/td&gt;
+&lt;td&gt;开拆信息上网率&lt;/td&gt;
+&lt;td&gt;出口互换局封发有效信息&lt;/td&gt;
+&lt;td&gt;封发信息上网率&lt;/td&gt;
+&lt;td&gt;到达航站时间信息有效条数&lt;/td&gt;
+&lt;td&gt;到达航站信息上网率&lt;/td&gt;
+&lt;td&gt;交航空公司信息有效条数&lt;/td&gt;
+&lt;td&gt;交航信息上网率&lt;/td&gt;
+&lt;td&gt;启运时间信息有效条数&lt;/td&gt;
+&lt;td&gt;启运时间信息上网率&lt;/td&gt;
+				&lt;/tr&gt;
+																	
+			</FuncTitle>
+			<Columns>
+
+
+<Column name="u" group="0" code="a1" type="measure" ></Column>
+<Column name="u" group="0" code="a2" type="measure" ></Column>
+<Column name="u" group="0" code="a3" type="measure" ></Column>
+<Column name="u" group="0" code="a4" type="measure" ></Column>
+<Column name="u" group="0" code="a5" type="measure" ></Column>
+<Column name="u" group="0" code="a6" type="measure" ></Column>
+<Column name="u" group="0" code="a7" type="measure" ></Column>
+<Column name="u" group="0" code="a8" type="measure" ></Column>
+<Column name="u" group="0" code="a9" type="measure" ></Column>
+<Column name="u" group="0" code="a10" type="measure" ></Column>
+<Column name="u" group="0" code="a11" type="measure" ></Column>
+<Column name="u" group="0" code="a12" type="measure" ></Column>
+<Column name="u" group="0" code="a13" type="measure" ></Column>
+<Column name="u" group="0" code="a14" type="measure" ></Column>
+                               
+		    </Columns>                               
+	</ReportBody>                                  
+                                                 
+                                                    <ReportFooter>
+                                                    </ReportFooter>
+                                </ListGrid>      
+                                                 
+                        </DataUI>                
+                <Layout outputtype="function"    >
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

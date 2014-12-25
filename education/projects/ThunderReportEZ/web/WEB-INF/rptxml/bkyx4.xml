@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyw1" title="组织机构行业渗透率及流转额占比对比">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+				<CrossGrid id="grid1" >
+						<Sql db="template_mysql">
+select  t.group_name as dim,t.parent_name as datatype,t.a1 as datavalue 
+from t07_nps_graph t where t.show_id=110030 
+and t.org_code=#org# and t.ym_id=#year#
+order by t.order_id,t.parent_id
+
+							</Sql>
+						<ReportHeader outputtype="print">
+						</ReportHeader>
+						<ReportBody>
+							<FuncTitle outputtype="print">
+							</FuncTitle>
+								<RowDims>
+									<Dim code="datatype" name="指标" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{datatype}</Dim>
+								</RowDims>
+								<ColDims>
+									
+									<Dim code="dim" name="行业" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{dim}</Dim>
+								</ColDims>
+								<Measures crosswith="RowDims">
+								    <Measure code="datavalue" name=""  >{datavalue}</Measure>
+
+								</Measures>
+						</ReportBody>
+						<ReportFooter>
+						</ReportFooter>
+				</CrossGrid>                              
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

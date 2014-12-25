@@ -1,0 +1,201 @@
+<PUBLIC:COMPONENT tagName="PagesNavi">
+<PUBLIC:PROPERTY name="PageSize" PUT="putPageSize" />
+<PUBLIC:PROPERTY name="RecordCount" PUT="putRecordCount" />
+<PUBLIC:PROPERTY name="FormName" PUT="putFormName" />
+<PUBLIC:PROPERTY name="CurrentPage" PUT="putCurrentPage" GET="getCurrentPage" />
+<PUBLIC:PROPERTY name="onPageChange" PUT="putonPageChange" />
+<PUBLIC:ATTACH event="ondocumentready" onevent="init()"/>
+
+<SCRIPT LANGUAGE="JavaScript">
+var oContainer = null;
+var gnPageSize = 0;
+var gnRecordCount = 0;
+var gnCurrentPage = 1;
+var gsTemplate = '';
+var gsonPageChange = '';
+var gsFormName = '';
+var gnPageCount = 0;
+	
+function putPageSize(val){
+	gnPageSize = val/1;
+}
+
+function putRecordCount(val){
+	if(typeof val +''!= 'undefined')
+		gnRecordCount = val/1;
+}
+
+function putCurrentPage(val){
+	gnCurrentPage = val/1;
+}
+
+function getCurrentPage(){
+	return gnCurrentPage
+}
+
+function putonPageChange(val){
+	gsonPageChange = val;
+}
+
+function putFormName(val){
+	if(typeof val +''!= 'undefined')
+		gsFormName = val;
+}
+	
+function PageBarSet(){
+	if(gnCurrentPage/1==1){
+		FirstPage.className = "PageNaviDisable";
+		PrevPage.className = "PageNaviDisable";
+	}
+	else{
+		FirstPage.className = "PageNavi";
+		PrevPage.className = "PageNavi";
+	}
+	if(gnPageCount <= gnCurrentPage/1){
+		NextPage.className = "PageNaviDisable";
+		LastPage.className = "PageNaviDisable";
+	}
+	else{
+		NextPage.className = "PageNavi";
+		LastPage.className = "PageNavi";
+	}
+}
+
+function init(){
+	// this defines the title bar.
+	//var eDiv = document.createElement("div")
+	gnPageCount = Math.ceil(gnRecordCount / gnPageSize);
+	var nStartRecord = (gnCurrentPage-1)*gnPageSize +1;
+	var nEndRecord = nStartRecord + gnPageSize-1;
+	if (nEndRecord >gnRecordCount)
+		nEndRecord = gnRecordCount;
+	
+	gsTemplate += '<TABLE cellspacing="0" cellpadding="0" width="100%"><TR>';
+	gsTemplate += '	<STYLE>';
+	gsTemplate += '		.PageNavi {padding:1px;font-family:webdings;cursor:hand;}';
+	gsTemplate += '		.PageNaviHover {padding:0px;font-family:webdings;cursor:hand;border-top:1px solid buttonhighlight;border-left:1px solid buttonhighlight;border-right:1px solid buttonshadow;border-bottom:1px solid buttonshadow}';
+	gsTemplate += '		.PageNaviOn {padding:0px;font-family:webdings;cursor:hand;border-top:1px solid buttonshadow;border-left:1px solid buttonshadow;border-right:1px solid buttonhighlight;border-bottom:1px solid buttonhighlight}';
+	gsTemplate += '		.PageNaviDisable {padding:1px;font-family:webdings;cursor:hand;color:#808080}';
+	gsTemplate += '	</STYLE>';
+	
+	gsTemplate += '<TD><TABLE cellspacing="0" cellpadding="0"><TR>';
+	
+	gsTemplate += '<TD style="padding-left:4px;padding-right:4px">共'+gnRecordCount+'条</TD>';
+	gsTemplate += '<TD style="padding-left:4px;padding-right:4px">分'+gnPageCount+'页显示</TD>';
+	gsTemplate += '</TR></TABLE></TD><TD style="text-align:right">';
+	gsTemplate += '<TABLE cellspacing="0" cellpadding="0"><TR>';
+	gsTemplate += '<TD id="FirstPage" class="PageNavi" title="第一页">9</TD>';
+	gsTemplate += '<TD id="PrevPage"  class="PageNavi" title="前一页">3</TD>';
+	gsTemplate += '<TD>第<INPUT id="HTCPageNo" name="HTCPageNo" style="text-align:right;border:1px solid #999999" size="4" maxLength="4" value="'+gnCurrentPage+'"/>页('+nStartRecord+'-'+nEndRecord+'条)</TD>';
+	gsTemplate += '<TD id="NextPage"  class="PageNavi" title="后一页">4</TD>';
+	gsTemplate += '<TD id="LastPage"  class="PageNavi" title="最后一页">:</TD>'; 
+	gsTemplate += '</TD></TR></TABLE>';
+	
+	//oContainer = element.appendChild(eDiv);
+	element.insertAdjacentHTML("afterBegin", gsTemplate);
+
+	eval(gsFormName).HTCPageNo.attachEvent("onkeydown",fnOnKeyDown);
+	eval(gsFormName).HTCPageNo.attachEvent("onchange",fnOnChange);
+	FirstPage.attachEvent("onclick",onPageNaviClick);
+	FirstPage.attachEvent("onmouseover",onPageNaviMouseOver);
+	FirstPage.attachEvent("onmouseout",onPageNaviMouseOut);
+	FirstPage.attachEvent("onmousedown",onPageNaviMouseDown);
+	
+	PrevPage.attachEvent("onclick",onPageNaviClick);
+	PrevPage.attachEvent("onmouseover",onPageNaviMouseOver);
+	PrevPage.attachEvent("onmouseout",onPageNaviMouseOut);
+	PrevPage.attachEvent("onmousedown",onPageNaviMouseDown);
+	
+	NextPage.attachEvent("onclick",onPageNaviClick);
+	NextPage.attachEvent("onmouseover",onPageNaviMouseOver);
+	NextPage.attachEvent("onmouseout",onPageNaviMouseOut);
+	NextPage.attachEvent("onmousedown",onPageNaviMouseDown);
+	
+	LastPage.attachEvent("onclick",onPageNaviClick);
+	LastPage.attachEvent("onmouseover",onPageNaviMouseOver);
+	LastPage.attachEvent("onmouseout",onPageNaviMouseOut);
+	LastPage.attachEvent("onmousedown",onPageNaviMouseDown);
+	
+	PageBarSet();
+}
+
+function fnOnChange(){
+	if(eval(gsFormName).HTCPageNo.value/1>gnPageCount/1){
+		alert("输入的数值超出范围");
+		eval(gsFormName).HTCPageNo.value = gnCurrentPage;
+		return;
+	}
+	gnCurrentPage = eval(gsFormName).HTCPageNo.value;
+	eval(gsFormName).submit();
+	//eval(gsonPageChange);
+}
+
+function fnOnKeyDown(){
+	if(event.keyCode==32 || event.keyCode==192 )
+		event.returnValue=false;
+
+	var ret = String.fromCharCode(event.keyCode);
+		
+	var re = /\w/i
+	if(!re.test(ret))
+		return;
+
+	var re1 =/\D/i	
+	if(re1.test(ret))
+		event.returnValue=false;
+	else if(event.shiftKey)
+		event.returnValue=false;
+}
+
+
+function onPageNaviMouseDown(){
+	if(window.event.srcElement.className=="PageNaviDisable")
+		return;
+	window.event.srcElement.className = "PageNaviOn";
+}
+
+function onPageNaviClick(){
+	if(window.event.srcElement.className=="PageNaviDisable")
+		return;
+	window.event.srcElement.className = "PageNaviOn";
+	var newPageNo = 0;
+	
+	switch(window.event.srcElement.id){
+		case "FirstPage":
+			newPageNo = 1;
+			break;
+		case "PrevPage":
+			newPageNo = gnCurrentPage/1-1;
+			if(newPageNo<1)
+				newPageNo = 1;
+			break;
+		case "NextPage":
+			newPageNo = gnCurrentPage/1+1;
+			if(newPageNo>gnPageCount)
+				newPageNo = gnPageCount;
+			break;
+		case "LastPage":
+			newPageNo = gnPageCount;
+			break;
+		
+	}
+	gnCurrentPage = newPageNo;
+	eval(gsFormName).HTCPageNo.value = newPageNo;
+	eval(gsFormName).submit();
+	//eval(gsonPageChange);
+}
+
+function onPageNaviMouseOver(){
+	if(window.event.srcElement.className=="PageNaviDisable")
+		return;
+	window.event.srcElement.className = "PageNaviHover"
+}
+
+function onPageNaviMouseOut(){
+	if(window.event.srcElement.className=="PageNaviDisable")
+		return;
+	window.event.srcElement.className = "PageNavi";
+}
+
+</SCRIPT> 
+</PUBLIC:COMPONENT> 

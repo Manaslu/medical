@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="comp_simple" title="集团公司简单统计">
+                <Parameter>  
+					<Cond title="日期" id="cond1" paraname="month_ed"/>               
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">SELECT t.dept,t.group_num,t.total_num,t.col1,t.col2,t.col3,t.col4
+                                                        FROM tb_report t 
+                                                        WHERE t.rpt_id='RP004' 
+                                                        ORDER BY t.dept_id
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													云南石油分公司2013年11月20日配送计划、实际出库执行情况表
+                                                </ReportHeader>
+<ReportBody>
+                                                        <FuncTitle outputtype="function">
+                                                         
+&lt;tr class="tr_head"&gt;
+	&lt;th rowspan="2" align="center"&gt;双码&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;油库&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;公司&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;配送中心&lt;/th&gt;	
+	&lt;th rowspan="2" align="center"&gt;当日计划&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;执行总量&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;执行％&lt;/th&gt;
+	&lt;th colspan="8" align="center"&gt;云南石油分公司当日计划&lt;/th&gt;
+	&lt;th colspan="8" align="center"&gt;云南石油分公司当日实际执行&lt;/th&gt;
+	&lt;th colspan="7" align="center"&gt;当日计划执行率％&lt;/th&gt;
+	&lt;th colspan="6" align="center"&gt;计划-实际执行&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr class="tr_head"&gt;
+
+	&lt;th&gt;小计&lt;/th&gt;
+	&lt;th&gt;90#&lt;/th&gt;
+	&lt;th&gt;93#&lt;/th&gt;
+	&lt;th&gt;97#&lt;/th&gt;
+	&lt;th&gt;其他汽油&lt;/th&gt;
+	&lt;th&gt;零配柴油&lt;/th&gt;
+	&lt;th&gt;0#&lt;/th&gt;
+	&lt;th&gt;车柴&lt;/th&gt;
+
+	&lt;th&gt;小计&lt;/th&gt;
+	&lt;th&gt;90#&lt;/th&gt;
+	&lt;th&gt;93#&lt;/th&gt;
+	&lt;th&gt;97#&lt;/th&gt;
+	&lt;th&gt;其他汽油&lt;/th&gt;
+	&lt;th&gt;零配柴油&lt;/th&gt;
+	&lt;th&gt;0#&lt;/th&gt;
+	&lt;th&gt;车柴&lt;/th&gt;
+	
+
+	&lt;th&gt;90#&lt;/th&gt;
+	&lt;th&gt;93#&lt;/th&gt;
+	&lt;th&gt;97#&lt;/th&gt;
+	&lt;th&gt;其他汽油&lt;/th&gt;
+	&lt;th&gt;煤油&lt;/th&gt;
+	&lt;th&gt;0#&lt;/th&gt;
+	&lt;th&gt;其他柴油&lt;/th&gt;	
+	
+	&lt;th&gt;小计&lt;/th&gt;
+	&lt;th&gt;93#&lt;/th&gt;
+	&lt;th&gt;97#&lt;/th&gt;
+	&lt;th&gt;0#&lt;/th&gt;
+	&lt;th&gt;其他柴油&lt;/th&gt;
+	&lt;th&gt;零配柴油&lt;/th&gt;
+	
+	
+&lt;/tr&gt;
+                                                         
+                                                        </FuncTitle>
+                                                        <Columns> 
+                                                                
+                                                                <Column name="团组类型" group="0" code="dept"></Column>
+                                                                <Column name="部门" group="0" code="col1"></Column>
+                                                                <Column name="部门" group="0" code="col2"></Column>
+                                                                <Column name="部门" group="0" code="col3"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="total_num"></Column>
+                                                                <Column name="部门" group="0" code="col4"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>                                                                
+                                                        </Columns>         
+</ReportBody>
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="report_alarm" title="集团公司简单统计">
+                <Parameter>                  
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">
+                        
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1" >
+                                                <Sql db="template_mysql">SELECT t.dept,t.group_num,t.total_num,t.col1,t.col2,t.col3,t.col4,t.group_type_id,t.look_for
+                                                        FROM tb_report t 
+                                                        WHERE t.rpt_id='RP007' 
+                                                        ORDER BY t.dept_id
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+                                                报警信息统计
+ 
+                                                </ReportHeader>
+<ReportBody>
+                                                        <FuncTitle outputtype="print">
+
+&lt;tr class="tr_head"&gt;
+
+	&lt;th&gt;序号&lt;/th&gt;
+	&lt;th&gt;配置计划单号&lt;/th&gt;
+	&lt;th&gt;运输车辆&lt;/th&gt;
+	&lt;th&gt;未处理违规次数&lt;/th&gt;
+	&lt;th&gt;合理违规次数&lt;/th&gt;
+	&lt;th&gt;不合理违规次数&lt;/th&gt;
+	
+	
+&lt;/tr&gt;
+                                                         
+                                                        </FuncTitle>
+                                                        <Columns> 
+                                                                
+                                                                <Column name="序号" group="1" code="group_type_id" type="dim" sumname="总计" summary="0" sumpos="after" ></Column>
+                                                                <Column name="配置计划单号" group="0" code="dept" type="dim"></Column>
+                                                                <Column name="运输车辆" group="0" code="col1" type="dim"></Column>
+                                                                <Column name="未处理违规次数" group="0" code="col2" type="measure"></Column>
+                                                                <Column name="合理违规次数" group="0" code="col3" type="measure"></Column>
+                                                                <Column name="不合理违规次数" group="0" code="col4" type="measure"></Column>
+
+                                                                                      
+                                                        </Columns>         
+</ReportBody>
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                              
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

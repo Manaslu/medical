@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T06_DATA_SET_MAINTAIN_LOG  -->
+    <!-- <typeAlias type="com.idap.dataprocess.dataset.entity.DataSetMaintainLog" alias="DataSetMaintainLog"/>  -->
+<mapper namespace="com.idap.dataprocess.dataset.entity.DataSetMaintainLog" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="dataSetMaintainLogMap" type="com.idap.dataprocess.dataset.entity.DataSetMaintainLog">
+	 		<id property="id" column="ID" jdbcType="VARCHAR" />
+			<result property="dataSetId" column="DATA_SET_ID" jdbcType="VARCHAR" />
+			<result property="columnName" column="COLUMN_NAME" jdbcType="VARCHAR" />
+			<result property="rowNumber" column="ROW_NUMBER" jdbcType="VARCHAR" />
+			<result property="oldVal" column="OLD_VAL" jdbcType="VARCHAR" />
+			<result property="newVal" column="NEW_VAL" jdbcType="VARCHAR" />
+			<result property="opDate" column="OP_DATE" jdbcType="TIMESTAMP" />
+			<result property="opUser" column="OP_USER" jdbcType="VARCHAR" />
+			<result property="opStats" column="OP_STATS" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!--=================    动态内容部分           =================-->
+	<!-- where：动态生成部分  -->
+	<sql id="dynamicWhere">
+	<!-- 	LIKE 样例：   SYSTEM_NAME like '%'||#{systemName}||'%'    -->
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id!=null">
+				AND ID=#{id}
+			</if>
+			<if test="dataSetId!=null">
+				AND DATA_SET_ID=#{dataSetId}
+			</if>
+			<if test="columnName!=null">
+				AND COLUMN_NAME=#{columnName}
+			</if>
+			<if test="rowNumber!=null">
+				AND ROW_NUMBER=#{rowNumber}
+			</if>
+			<if test="oldVal!=null">
+				AND OLD_VAL=#{oldVal}
+			</if>
+			<if test="newVal!=null">
+				AND NEW_VAL=#{newVal}
+			</if>
+			<if test="opUser!=null">
+				AND OP_USER=#{opUser}
+			</if>
+			<if test="opStats!=null">
+				AND OP_STATS=#{opStats}
+			</if>
+	
+			<if test="sno!=null and eno!=null and orderBy==null">
+						AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- order by 排序   -->
+	<sql id="dynamicOrderBy">
+	<if test="orderBy!=null">
+		order by ${orderBy}
+		<if test="order!=null">
+			 ${order}
+		</if>
+	</if>
+	</sql>
+	
+	<!-- group by 分组   -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			 group by ${groupBy}
+		</if>
+	</sql>
+	
+	<!-- 表所有的字段：insert 的表、字段 部分    -->
+	<sql id="allColumn">
+			ID,
+			DATA_SET_ID,
+			COLUMN_NAME,
+			ROW_NUMBER,
+			OLD_VAL,
+			NEW_VAL,
+			OP_DATE,
+			OP_USER,
+			OP_STATS
+	</sql>
+	
+	<!-- 单条插入：动态生成可插入字段 对应的变量列表    -->
+	<sql id="allColumnVar">
+		values(
+			#{id,jdbcType=VARCHAR},
+			#{dataSetId,jdbcType=VARCHAR},
+			#{columnName,jdbcType=VARCHAR},
+			#{rowNumber,jdbcType=VARCHAR},
+			#{oldVal,jdbcType=VARCHAR},
+			#{newVal,jdbcType=VARCHAR},
+			#{opDate,jdbcType=TIMESTAMP},
+			#{opUser,jdbcType=VARCHAR},
+			#{opStats,jdbcType=VARCHAR}
+		)
+	</sql>
+
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+			select orderContentTab.*,ROWNUM AS rowno
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumn" />
+		from
+		T06_DATA_SET_MAINTAIN_LOG
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>	${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+		</if>
+	</sql>
+	
+	
+	<!-- =================================================  -->
+	<!-- 1.1根据id查询对像  -->
+	<select id="getById" parameterType="String"  resultMap="dataSetMaintainLogMap" >
+		select 
+			<include refid="allColumn"/>
+		from T06_DATA_SET_MAINTAIN_LOG where id=#{value}
+	</select>
+	
+	<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="dataSetMaintainLogMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="dataSetMaintainLogMap">
+		<include refid="queryBody" />
+	</select>
+	
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+		from 
+			T06_DATA_SET_MAINTAIN_LOG
+		<include refid="dynamicWhere"/>
+	</select>
+	
+	<!-- 4.删除  -->
+	<delete id="delete" parameterType="java.util.Map" >
+		DELETE FROM  T06_DATA_SET_MAINTAIN_LOG  
+		<include refid="dynamicWhere"/>
+	</delete>
+
+	
+	<!-- 5.1对像插入    -->
+	<insert id="insert" parameterType="com.idap.dataprocess.dataset.entity.DataSetMaintainLog" >
+	    INSERT INTO 
+	    T06_DATA_SET_MAINTAIN_LOG(<include refid="allColumn"/>	)
+		<include refid="allColumnVar"/>
+		
+		<!-- Oracle主键 -->
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+		SELECT SEQ_T06_DATA_SET_MAINTAIN_LOG.NEXTVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="com.idap.dataprocess.dataset.entity.DataSetMaintainLog">
+		update T06_DATA_SET_MAINTAIN_LOG
+		<trim prefix=" SET " prefixOverrides=",">
+		<if test="dataSetId!=null">
+			  ,DATA_SET_ID=#{dataSetId,jdbcType=VARCHAR}
+		</if>
+		<if test="columnName!=null">
+			  ,COLUMN_NAME=#{columnName,jdbcType=VARCHAR}
+		</if>
+		<if test="rowNumber!=null">
+			  ,ROW_NUMBER=#{rowNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="oldVal!=null">
+			  ,OLD_VAL=#{oldVal,jdbcType=VARCHAR}
+		</if>
+		<if test="newVal!=null">
+			  ,NEW_VAL=#{newVal,jdbcType=VARCHAR}
+		</if>
+		<if test="opDate!=null">
+			  ,OP_DATE=#{opDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="opUser!=null">
+			  ,OP_USER=#{opUser,jdbcType=VARCHAR}
+		</if>
+		<if test="opStats!=null">
+			  ,OP_STATS=#{opStats,jdbcType=VARCHAR}
+		</if>
+		</trim>
+		WHERE 
+		<!-- ID=#{id} -->
+		ID=#{id}
+	</update>
+	
+	<!-- =========================自定义操作========================  -->
+
+</mapper>
+
+
+
+

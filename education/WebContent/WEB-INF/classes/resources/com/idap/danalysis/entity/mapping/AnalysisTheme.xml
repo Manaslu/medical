@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.AnalysisTheme" >
+	
+    <resultMap id="analysisTheme" type="com.idap.danalysis.entity.AnalysisTheme">
+			<result property="anaMethodId" column="ANA_METHOD_ID" jdbcType="VARCHAR" />
+			<result property="anaMethodName" column="ANA_METHOD_NAME" jdbcType="VARCHAR" />
+			<result property="anaThemeId" column="ANA_THEME_ID" jdbcType="VARCHAR" />
+			<result property="anaThemeName" column="ANA_THEME_NAME" jdbcType="VARCHAR" />
+			<result property="anaThemeDesc" column="ANA_THEME_DESC" jdbcType="VARCHAR" />
+			<result property="anaScriptName" column="ANA_SCRIPT_NAME" jdbcType="VARCHAR" />
+			<result property="anaScript" column="ANA_SCRIPT" jdbcType="VARCHAR" />
+			<result property="createUser" column="CREATE_USER" jdbcType="VARCHAR" />
+			<result property="createDate" column="CREATE_DATE" jdbcType="DATE" />
+			<result property="version" column="VERSION" jdbcType="VARCHAR" />
+			<result property="anaStatus" column="ANA_STATUS" jdbcType="VARCHAR" />
+			<result property="dataSet" column="DATA_SET" jdbcType="VARCHAR" />
+			<result property="finishedDate" column="FINISHED_DATE" jdbcType="DATE" />
+			<result property="anaStatusId" column="ANA_STATUS_ID" jdbcType="VARCHAR" />
+			 
+	 	 
+	</resultMap>
+	 
+ 
+	<sql id="queryBody">
+			select
+			<include refid="allColumn" />
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+			order by CREATE_DATE DESC
+		  
+	</sql>
+	
+	   <sql id="allColumn">
+				 
+				T.ANA_METHOD_ID,
+				am.ANA_METHOD_NAME,   
+				T.ANA_THEME_ID,
+				T.ANA_THEME_NAME,
+				T.ANA_THEME_DESC,
+				T.ANA_SCRIPT_NAME,
+				T.ANA_SCRIPT,
+				usr.USR_NAME CREATE_USER,
+				T.CREATE_DATE,
+				T.VERSION,
+				T.ANA_STATUS,
+				T.ANA_STATUS ANA_STATUS_ID,
+				T.DATA_SET,
+				T.FINISHED_DATE 
+	   </sql>
+	   <sql id="insertColumns">
+				 
+				ANA_METHOD_ID,
+				ANA_THEME_ID,
+				ANA_THEME_NAME,
+				ANA_THEME_DESC,
+				ANA_SCRIPT_NAME,
+				CREATE_USER,
+				CREATE_DATE,
+				VERSION,
+				ANA_STATUS,
+				THEME_VALID
+	   </sql>
+	   	<sql id="allapplColumnVar">
+		values(
+				#{anaMethodId,jdbcType=VARCHAR},
+				#{anaThemeId,jdbcType=VARCHAR},
+				#{anaThemeName,jdbcType=VARCHAR},
+				#{anaThemeDesc,jdbcType=VARCHAR},
+				#{anaScriptName,jdbcType=VARCHAR},
+				#{createUser,jdbcType=VARCHAR},
+				#{createDate,jdbcType=DATE},
+				#{version,jdbcType=VARCHAR},
+				#{anaStatus,jdbcType=VARCHAR},
+				#{themeValid,jdbcType=VARCHAR}
+				 
+		)
+	</sql>
+	   	<insert id="insert" parameterType="com.idap.danalysis.entity.AnalysisTheme" >
+	    INSERT INTO 
+	    t04_analysis_theme(<include refid="insertColumns"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+		<sql id="bodyfrom">
+                 FROM t04_analysis_theme T
+	              
+	             LEFT JOIN t04_analysis_method am on(T.ANA_METHOD_ID =  am.ana_method_id)
+	             LEFT JOIN t02_user_base usr on(T.CREATE_USER =  usr.user_id)
+ 
+ 
+	    </sql>
+	
+		<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="analysisTheme">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="analysisThemequery" parameterType="java.util.Map" resultMap="analysisTheme">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="analysisTheme">
+		<include refid="queryBody" />
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+     <sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="anaMethodName!=null">
+				  ANA_THEME_NAME like '%'||#{anaMethodName}||'%' 
+			</if>
+			<if test="anaMethodId!=null">
+			  AND  T.ANA_METHOD_ID = #{anaMethodId}
+			</if>  
+			<if test="finishedAnalysis!=null">
+			   T.ANA_STATUS = '32'
+			</if>  
+
+			AND T.THEME_VALID='1'
+			
+			<if test="loguserId!=null">
+			  AND  T.CREATE_USER = #{loguserId}
+			</if>  
+		</trim>
+	 </sql>
+	
+ 
+	
+ 
+  <update id="update" parameterType="com.idap.danalysis.entity.AnalysisTheme">
+		update t04_analysis_theme
+		<trim prefix=" SET " prefixOverrides=",">
+		<if test="anaMethodId!=null">
+			  ,ANA_METHOD_ID=#{anaMethodId,jdbcType=DATE}
+		</if>
+		<if test="anaThemeName!=null">
+			  ,ANA_THEME_NAME=#{anaThemeName,jdbcType=VARCHAR}
+		</if>
+		<if test="anaThemeDesc!=null">
+			  ,ANA_THEME_DESC=#{anaThemeDesc,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="anaScriptName!=null">   
+		      , ANA_SCRIPT_NAME=#{anaScriptName,jdbcType=VARCHAR}  
+		</if>
+		<if test="version!=null">   
+		      , VERSION=#{version,jdbcType=DATE}  
+		 </if>
+		<if test="anaStatusId!=null">   
+		      , ANA_STATUS=#{anaStatusId,jdbcType=DATE}
+		</if>
+		<if test="dataSet!=null">   
+		      , DATA_SET=#{dataSet,jdbcType=VARCHAR}  
+		</if>
+		<if test="themeValid!=null">   
+		      , THEME_VALID=#{themeValid,jdbcType=VARCHAR}  
+		</if>
+		
+		</trim>
+		WHERE 
+			ANA_THEME_ID=#{anaThemeId}
+</update>   
+	
+
+</mapper>
+
+
+
+

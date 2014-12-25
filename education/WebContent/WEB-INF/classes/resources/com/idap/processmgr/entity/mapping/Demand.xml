@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T03_REQU_MANAGE  -->
+<mapper namespace="com.idap.processmgr.special.entity.Demand" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="demandMap" type="com.idap.processmgr.special.entity.Demand">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="requCode" column="REQU_CODE" jdbcType="VARCHAR" />
+		<result property="requName" column="REQU_NAME" jdbcType="VARCHAR" />
+		<result property="requCont" column="REQU_CONT" jdbcType="VARCHAR" />
+		<result property="requType" column="REQU_TYPE" jdbcType="VARCHAR" />
+		<result property="applDate" column="APPL_DATE" jdbcType="TIMESTAMP" />
+		<result property="applPer" column="APPL_PER" jdbcType="VARCHAR" />
+		<result property="applPer_" column="APPL_PER_" jdbcType="VARCHAR" />
+		<result property="applOrg" column="APPL_ORG" jdbcType="VARCHAR" />
+		<result property="applDept" column="APPL_DEPT" jdbcType="VARCHAR"/>
+		<result property="dataApplContacts" column="DATA_APPl_CONTACTS" jdbcType="VARCHAR" />
+		<result property="dataApplContacts_" column="DATA_APPl_CONTACTS_" jdbcType="VARCHAR" />
+		<result property="dataApplTel" column="DATA_APPL_TEL" jdbcType="VARCHAR"/>
+		<result property="dataApplEmail" column="DATA_APPL_EMAIL" jdbcType="VARCHAR" />
+		<result property="dataPassType" column="DATA_PASS_TYPE" jdbcType="VARCHAR"/>
+		<result property="dataExtrType" column="DATA_EXTR_TYPE" jdbcType="VARCHAR" />
+		<result property="analCyclStart" column="ANAL_CYCL_START" jdbcType="TIMESTAMP"/>
+		<result property="analCyclEnd" column="ANAL_CYCL_END" jdbcType="TIMESTAMP"/>
+		<result property="requDesc" column="REQU_DESC" jdbcType="VARCHAR"/>
+		<result property="requUrl" column="REQU_URL" jdbcType="VARCHAR"/>
+		<result property="spcOrjName" column="SPC_ORJ_NAME" jdbcType="VARCHAR"/>
+		<result property="objApplyOrg" column="OBJ_APPLY_ORG" jdbcType="VARCHAR"/>
+		<result property="securityLev" column="SECURITY_LEV" jdbcType="CHAR"/>
+		<result property="emergencyLev" column="EMERGENCY_LEV" jdbcType="VARCHAR"/>
+		<result property="dataSources" column="DATA_SOURCES" jdbcType="VARCHAR"/>
+		<result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+		<result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+		<result property="contact" column="CONTACT" jdbcType="VARCHAR"/>
+		<result property="approState" column="APPRO_STATE" jdbcType="CHAR"/>
+		<result property="remarks" column="REMARKS" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+		<result property="addRecord" column="ADD_RECORD" jdbcType="VARCHAR"/>
+		<result property="flowType" column="FLOW_TYPE" jdbcType="VARCHAR"/>
+		<result property="provContacts" column="PROV_CONTACTS" jdbcType="VARCHAR"/>
+		<result property="groupTechContacts" column="GROUP_TECH_CONTACTS" jdbcType="VARCHAR"/>
+		<result property="techContacts" column="TECH_CONTACTS" jdbcType="VARCHAR"/>
+		<result property="provContacts_" column="PROV_CONTACTS_" jdbcType="VARCHAR"/>
+		<result property="groupTechContacts_" column="GROUP_TECH_CONTACTS_" jdbcType="VARCHAR"/>
+		<result property="techContacts_" column="TECH_CONTACTS_" jdbcType="VARCHAR"/>
+		<result property="userName" column="USR_NAME" jdbcType="VARCHAR"/>
+		<result property="assignee" column="ASSIGNEE_" jdbcType="VARCHAR"/>
+		<result property="taskDefKey" column="TASK_DEF_KEY_" jdbcType="VARCHAR"/>
+		<result property="fcode" column="FCODE" jdbcType="VARCHAR"/>
+		<result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+		<result property="bussExamPsn" column="BUSS_EXAM_PSN" jdbcType="VARCHAR"/>
+		<result property="techExamPsn" column="TECH_EXAM_PSN" jdbcType="VARCHAR"/>
+		<result property="techConfirmPsn" column="TECH_CONFIRM_PSN" jdbcType="VARCHAR"/>
+		<result property="provLeader" column="PROV_LEADER" jdbcType="VARCHAR"/>
+		<result property="groupLeader" column="GROUP_LEADER" jdbcType="VARCHAR"/>
+	</resultMap>
+	<select id="getReqCode" resultType="java.lang.String">
+		select to_char(sysdate,'yyyy')||SEQ_T03_REQU_MANAGE.nextval from dual
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="demandMap">
+		select t.*
+  from (select s.*
+          from T03_REQU_MANAGE s, T02_USER_BASE a, act_ru_task b
+         where s.APPL_PER = a.LOG_NAME
+           and b.assignee_ = #{assignee,jdbcType = VARCHAR}
+           and s.id = b.execution_id_
+           and b.task_def_key_ in
+               (select distinct a.task_code
+                  from T03_DEMAND_ROLE_TASK a,
+                       t02_user_role_rela   b,
+                       t02_sys_role         c
+                 where b.user_id =
+                       (select t.user_id
+                          from t02_user_base t
+                         where t.log_name =#{assignee,jdbcType = VARCHAR})
+                   and b.role_id = c.role_id
+                   and a.in_role_id = c.in_role_id )) t
+	 	order by CREATE_TIME desc
+	</select>
+	<select id="getByContact" parameterType="java.util.Map" resultMap="demandMap">
+			  select t.* from T03_REQU_MANAGE t where t.CONTACT = #{contact,jdbcType=VARCHAR} and t.APPRO_STATE in ('6','e','h','i')
+			  <if test="requName!=null">
+			  and REQU_NAME	LIKE '%${requName}%' 
+			  </if>
+	</select>
+	<select id="getAllContacts" resultType="java.lang.String" resultMap="demandMap">
+		select  ID,
+				REQU_CODE,
+				REQU_NAME,
+				REQU_CONT,
+				REQU_TYPE,
+				APPL_DATE,
+				APPL_PER,
+		       	APPL_ORG,
+		       	APPL_DEPT,
+		       	DATA_APPl_CONTACTS,
+		       	DATA_APPL_TEL,
+		       	DATA_APPL_EMAIL,
+		       	DATA_PASS_TYPE,
+		       	DATA_EXTR_TYPE,
+		       	ANAL_CYCL_START,
+		       	ANAL_CYCL_END,
+		        REQU_DESC,
+		       	REQU_URL,
+		       	SPC_ORJ_NAME,
+		       	OBJ_APPLY_ORG,
+		       	SECURITY_LEV,
+		       	EMERGENCY_LEV,
+		       	DATA_SOURCES,
+		       	CREATE_TIME,
+		       	CREATOR,
+		       	CONTACT,
+		       	APPRO_STATE,
+		       	REMARKS,
+		       	UPDATE_TIME,
+		       	ADD_RECORD,
+		       	FLOW_TYPE,
+				PROV_CONTACTS,
+				GROUP_TECH_CONTACTS,
+				TECH_CONTACTS ,     
+         (select b.usr_name from t03_requ_manage a ,t02_user_base b where a.appl_per = b.log_name and id = #{value}) as APPL_PER_,
+          (select b.usr_name from t03_requ_manage a ,t02_user_base b where a.prov_contacts = b.log_name and id = #{value}) as PROV_CONTACTS_,
+          (select b.usr_name from t03_requ_manage a ,t02_user_base b where a.group_tech_contacts = b.log_name and id = #{value}) as GROUP_TECH_CONTACTS_,
+          (select b.usr_name from t03_requ_manage a,t02_user_base b where  a.tech_contacts = b.log_name and id = #{value}) as TECH_CONTACTS_,
+          (select b.usr_name from t03_requ_manage a,t02_user_base b where  a.data_appl_contacts = b.user_id and id = #{value}) as DATA_APPL_CONTACTS_
+              from T03_REQU_MANAGE where id = #{value}
+	</select>
+	<sql id="allColumn">
+       	id,
+		REQU_CODE,
+		REQU_NAME,
+		REQU_CONT,
+		REQU_TYPE,
+		APPL_DATE,
+		APPL_PER,
+       	APPL_ORG,
+       	APPL_DEPT,
+       	DATA_APPl_CONTACTS,
+       	DATA_APPL_TEL,
+       	DATA_APPL_EMAIL,
+       	DATA_PASS_TYPE,
+       	DATA_EXTR_TYPE,
+       	ANAL_CYCL_START,
+       	ANAL_CYCL_END,
+        REQU_DESC,
+       	REQU_URL,
+       	SPC_ORJ_NAME,
+       	OBJ_APPLY_ORG,
+       	SECURITY_LEV,
+       	EMERGENCY_LEV,
+       	DATA_SOURCES,
+       	CREATE_TIME,
+       	CREATOR,
+       	CONTACT,
+       	APPRO_STATE,
+       	REMARKS,
+       	UPDATE_TIME,
+       	ADD_RECORD,
+       	FLOW_TYPE,
+		PROV_CONTACTS,
+		GROUP_TECH_CONTACTS,
+		TECH_CONTACTS 
+	</sql>
+	<!-- 获取集团技术联系人 -->
+	<select id="getGroupTechContact" parameterType="java.lang.String" resultMap="demandMap">
+			SELECT
+		       	T.ID,
+				T.REQU_CODE,
+				T.REQU_NAME,
+				T.REQU_CONT,
+				T.REQU_TYPE,
+				T.APPL_DATE,
+				T.APPL_PER,
+		       	T.APPL_ORG,
+		       	T.APPL_DEPT,
+		       	T.DATA_APPL_CONTACTS,
+		       	T.DATA_APPL_TEL,
+		       	T.DATA_APPL_EMAIL,
+		       	T.DATA_PASS_TYPE,
+		       	T.DATA_EXTR_TYPE,
+		       	T.ANAL_CYCL_START,
+		       	T.ANAL_CYCL_END,
+		        T.REQU_DESC,
+		       	T.REQU_URL,
+		       	T.SPC_ORJ_NAME,
+		       	T.OBJ_APPLY_ORG,
+		       	T.SECURITY_LEV,
+		       	T.EMERGENCY_LEV,
+		       	T.DATA_SOURCES,
+		       	T.CREATE_TIME,
+		       	T.CREATOR,
+		       	T.CONTACT,
+		       	T.APPRO_STATE,
+		       	T.REMARKS,
+		       	T.UPDATE_TIME,
+		       	T.ADD_RECORD,
+		       	T.FLOW_TYPE,
+				T.PROV_CONTACTS,
+				T.GROUP_TECH_CONTACTS,
+				T.TECH_CONTACTS,
+				A.USR_NAME
+			FROM T03_REQU_MANAGE T JOIN T02_USER_BASE A	ON T.GROUP_TECH_CONTACTS=A.LOG_NAME WHERE T.ID=#{value} 
+	</select>
+	
+	<!-- 获取省内专门联系人 -->
+	<select id="getProvContacts" parameterType="java.lang.String" resultMap="demandMap">
+			SELECT
+		       	T.ID,
+				T.REQU_CODE,
+				T.REQU_NAME,
+				T.REQU_CONT,
+				T.REQU_TYPE,
+				T.APPL_DATE,
+				T.APPL_PER,
+		       	T.APPL_ORG,
+		       	T.APPL_DEPT,
+		       	T.DATA_APPL_CONTACTS,
+		       	T.DATA_APPL_TEL,
+		       	T.DATA_APPL_EMAIL,
+		       	T.DATA_PASS_TYPE,
+		       	T.DATA_EXTR_TYPE,
+		       	T.ANAL_CYCL_START,
+		       	T.ANAL_CYCL_END,
+		        T.REQU_DESC,
+		       	T.REQU_URL,
+		       	T.SPC_ORJ_NAME,
+		       	T.OBJ_APPLY_ORG,
+		       	T.SECURITY_LEV,
+		       	T.EMERGENCY_LEV,
+		       	T.DATA_SOURCES,
+		       	T.CREATE_TIME,
+		       	T.CREATOR,
+		       	T.CONTACT,
+		       	T.APPRO_STATE,
+		       	T.REMARKS,
+		       	T.UPDATE_TIME,
+		       	T.ADD_RECORD,
+		       	T.FLOW_TYPE,
+				T.PROV_CONTACTS,
+				T.GROUP_TECH_CONTACTS,
+				T.TECH_CONTACTS,
+				A.USR_NAME
+			FROM T03_REQU_MANAGE T JOIN T02_USER_BASE A	ON T.PROV_CONTACTS=A.LOG_NAME WHERE T.ID=#{value} 
+	</select>
+	<!-- 获取技术联系人 -->
+	<select id="getTechContect" parameterType="java.lang.String" resultMap="demandMap">
+		SELECT
+	       	T.ID,
+			T.REQU_CODE,
+			T.REQU_NAME,
+			T.REQU_CONT,
+			T.REQU_TYPE,
+			T.APPL_DATE,
+			T.APPL_PER,
+	       	T.APPL_ORG,
+	       	T.APPL_DEPT,
+	       	T.DATA_APPL_CONTACTS,
+	       	T.DATA_APPL_TEL,
+	       	T.DATA_APPL_EMAIL,
+	       	T.DATA_PASS_TYPE,
+	       	T.DATA_EXTR_TYPE,
+	       	T.ANAL_CYCL_START,
+	       	T.ANAL_CYCL_END,
+	        T.REQU_DESC,
+	       	T.REQU_URL,
+	       	T.SPC_ORJ_NAME,
+	       	T.OBJ_APPLY_ORG,
+	       	T.SECURITY_LEV,
+	       	T.EMERGENCY_LEV,
+	       	T.DATA_SOURCES,
+	       	T.CREATE_TIME,
+	       	T.CREATOR,
+	       	T.CONTACT,
+	       	T.APPRO_STATE,
+	       	T.REMARKS,
+	       	T.UPDATE_TIME,
+	       	T.ADD_RECORD,
+	       	T.FLOW_TYPE,
+			T.PROV_CONTACTS,
+			T.GROUP_TECH_CONTACTS,
+			T.TECH_CONTACTS,
+			A.USR_NAME
+		FROM T03_REQU_MANAGE T JOIN T02_USER_BASE A	ON T.TECH_CONTACTS=A.LOG_NAME WHERE T.ID=#{value} 
+	</select>
+	<!-- 根据Id获取用户 -->
+	<select id="getById" parameterType="java.lang.String" resultMap="demandMap" >
+		select 
+			<include refid="allColumn" />
+		from T03_REQU_MANAGE where id = #{value}
+	
+	</select>
+	<select id="findByPager" parameterType="java.util.Map" resultMap="demandMap">
+		select  	
+					t.id,
+					t.REQU_CODE,
+					t.REQU_NAME,
+					t.REQU_CONT,
+					t.REQU_TYPE,
+					t.APPL_DATE,
+					t.USR_NAME AS APPL_PER,
+		        	t.APPL_ORG,
+		        	t.APPL_DEPT,
+		        	t.DATA_APPl_CONTACTS,
+		        	t.DATA_APPL_TEL,
+		        	t.DATA_APPL_EMAIL,
+		        	t.DATA_PASS_TYPE,
+		        	t.DATA_EXTR_TYPE,
+		        	t.ANAL_CYCL_START,
+		        	t.ANAL_CYCL_END,
+		        	t.REQU_DESC,
+		        	t.REQU_URL,
+		        	t.SPC_ORJ_NAME,
+		        	t.OBJ_APPLY_ORG,
+		        	t.SECURITY_LEV,
+		        	t.EMERGENCY_LEV,
+		        	t.DATA_SOURCES,
+		        	t.CREATE_TIME,
+		        	t.CREATOR,
+		        	t.CONTACT,
+		        	t.APPRO_STATE,
+		        	t.REMARKS,
+		        	t.UPDATE_TIME,
+		        	t.ADD_RECORD,
+		        	t.FLOW_TYPE,
+					t.PROV_CONTACTS,
+					t.GROUP_TECH_CONTACTS,
+					t.TECH_CONTACTS,
+		        	t.rowno from
+        	(select 
+        			s.id,
+					s.REQU_CODE,
+					s.REQU_NAME,
+					s.REQU_CONT,
+					s.REQU_TYPE,
+					s.APPL_DATE,
+					a.USR_NAME,
+		        	s.APPL_ORG,
+		        	s.APPL_DEPT,
+		        	s.DATA_APPl_CONTACTS,
+		        	s.DATA_APPL_TEL,
+		        	s.DATA_APPL_EMAIL,
+		        	s.DATA_PASS_TYPE,
+		        	s.DATA_EXTR_TYPE,
+		        	s.ANAL_CYCL_START,
+		        	s.ANAL_CYCL_END,
+		        	s.REQU_DESC,
+		        	s.REQU_URL,
+		        	s.SPC_ORJ_NAME,
+		        	s.OBJ_APPLY_ORG,
+		        	s.SECURITY_LEV,
+		        	s.EMERGENCY_LEV,
+		        	s.DATA_SOURCES,
+		        	s.CREATE_TIME,
+		        	s.CREATOR,
+		        	s.CONTACT,
+		        	s.APPRO_STATE,
+		        	s.REMARKS,
+		        	s.UPDATE_TIME,
+		        	s.ADD_RECORD,
+		        	s.FLOW_TYPE,
+					s.PROV_CONTACTS,
+					s.GROUP_TECH_CONTACTS,
+					s.TECH_CONTACTS,
+					b.assignee_,
+					b.task_def_key_,
+        			ROWNUM AS rowno from T03_REQU_MANAGE s, T02_USER_BASE a,act_ru_task b
+        				 where s.APPL_PER = a.LOG_NAME 
+							   and b.assignee_ = #{assignee,jdbcType=VARCHAR}
+							   and s.id = b.execution_id_
+							   and b.task_def_key_ in
+							       (select distinct a.task_code
+							          from T03_DEMAND_ROLE_TASK a, t02_user_role_rela b, t02_sys_role c
+							         where b.user_id = (select t.user_id
+							                              from t02_user_base t
+							                             where t.log_name = #{assignee,jdbcType=VARCHAR})
+							           and b.role_id = c.role_id
+							           and a.in_role_id = c.in_role_id
+										<if test="fcode!=null">
+											and a.FCODE = #{fcode,jdbcType=VARCHAR} 
+										</if>
+							        )
+							           and ROWNUM <![CDATA[<=]]>${eno}) t where 1=1
+		<include refid="dynamicWhere" />
+			order by CREATE_TIME desc
+	</select>
+	<!-- 根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+			select
+			count(1) from
+				T03_REQU_MANAGE t, T02_USER_BASE a,act_ru_task b
+        				 where t.APPL_PER = a.LOG_NAME 
+							   and b.assignee_ = #{assignee,jdbcType=VARCHAR}
+							   and t.id = b.execution_id_
+							   and b.task_def_key_ in
+							       (select distinct a.task_code
+							          from T03_DEMAND_ROLE_TASK a, t02_user_role_rela b, t02_sys_role c
+							         where b.user_id = (select t.user_id
+							                              from t02_user_base t
+							                             where t.log_name = #{assignee,jdbcType=VARCHAR})
+							           and b.role_id = c.role_id
+							           and a.in_role_id = c.in_role_id
+							           	<if test="fcode!=null">
+											and a.FCODE = #{fcode,jdbcType=VARCHAR} 
+										</if>
+										)
+		<include refid="dynamicWhere" />
+	</select>
+	
+	<sql id="dynamicWhere">
+			<if test="approState!=null">
+				AND t.APPRO_STATE=#{approState,jdbcType=VARCHAR}
+			</if>
+			<if test="id!=null">
+				AND t.ID=#{id,jdbcType=VARCHAR} 
+			</if>
+			<if test="requName!=null">
+				AND t.REQU_NAME LIKE '%${requName}%' 
+			</if>
+			<if test="applDate!=null">
+				AND TO_CHAR(t.APPL_DATE,'YYYY-MM-DD')<![CDATA[ >= ]]> #{applDate,jdbcType=TIMESTAMP} 
+			</if>
+			<if test="applDate_!=null">
+				AND TO_CHAR(t.APPL_DATE,'YYYY-MM-DD')<![CDATA[ <= ]]>#{applDate_,jdbcType=TIMESTAMP} 
+			</if>
+			<if test="flowType!=null">
+				AND t.FLOW_TYPE=#{flowType,jdbcType=VARCHAR}
+			</if>
+			<if test="sno!=null and eno!=null">
+				AND t.rowno <![CDATA[>=]]> ${sno}
+			</if>
+	</sql>
+	
+	<!--删除 -->
+	<delete id="delete" parameterType="com.idap.processmgr.special.entity.Demand">
+		DELETE FROM T03_REQU_MANAGE t where 1=1
+		<include refid="dynamicWhere" />
+	</delete>
+	<!-- 保存 -->
+	<insert id="insert" parameterType="com.idap.processmgr.special.entity.Demand">
+		INSERT INTO 
+	    T03_REQU_MANAGE (APPRO_STATE,CREATE_TIME,APPL_DATE
+	    <include refid="dynamicInsert"/>
+	    ) values(#{approState,jdbcType=VARCHAR},(select sysdate from dual),(select sysdate from dual)<include refid="dynamicInsertParams" />)
+	</insert>
+	
+	<sql id="dynamicInsert">
+			<if test="id!=null">
+				,ID 
+			</if>
+			<if test="flowType!=null">
+				,FLOW_TYPE 
+			</if>
+			<if test="requCode!=null">
+				,REQU_CODE 	
+			</if>
+			<if test="requName!=null">
+				,REQU_NAME 
+			</if>
+			<if test="requCont!=null">
+				,REQU_CONT 
+			</if>
+			<if test="requType!=null">
+				,REQU_TYPE 
+			</if>
+			<if test="applPer!=null">
+				,APPL_PER 
+			</if>
+			<if test="applOrg!=null">
+				,APPL_ORG 
+			</if>
+			<if test="applDept!=null">
+				,APPL_DEPT
+			</if>
+			<if test="dataApplContacts!=null">
+				,DATA_APPL_CONTACTS 
+			</if>
+			<if test="dataApplTel!=null">
+				,DATA_APPL_TEL
+			</if>
+			<if test="dataApplEmail!=null">
+				,DATA_APPL_EMAIL
+			</if>
+			<if test="dataPassType!=null">
+				,DATA_PASS_TYPE
+			</if>
+			<if test="dataExtrType!=null">
+				,DATA_EXTR_TYPE 
+			</if>
+			<if test="analCyclStart!=null">
+				,ANAL_CYCL_START
+			</if>
+			<if test="analCyclEnd!=null">
+				,ANAL_CYCL_END
+			</if>
+			<if test="requDesc!=null">
+				,REQU_DESC 
+			</if>
+			<if test="requUrl!=null">
+				,REQU_URL
+			</if>
+			<if test="spcOrjName!=null">
+				,SPC_ORJ_NAME
+			</if>
+			<if test="objApplyOrg!=null">
+				,OBJ_APPLY_ORG
+			</if>
+			<if test="securityLev!=null">
+				,SECURITY_LEV 
+			</if>
+			<if test="emergencyLev!=null">
+				,EMERGENCY_LEV
+			</if>
+			<if test="dataSources!=null">
+				,DATA_SOURCES
+			</if>
+			<if test="creator!=null">
+				,CREATOR
+			</if>
+			<if test="contact!=null">
+				,CONTACT
+			</if>
+			<if test="remarks!=null">
+				,REMARKS
+			</if>
+			<if test="updateTime!=null">
+				,UPDATE_TIME
+			</if>
+			<if test="addRecord!=null">
+				,ADD_RECORD
+			</if>
+			<if test="provContacts!=null">
+				,PROV_CONTACTS
+			</if>
+			<if test="groupTechContacts!=null">
+				,GROUP_TECH_CONTACTS
+			</if>
+			<if test="techContacts!=null">
+				,TECH_CONTACTS
+			</if>
+			<if test="bussExamPsn!=null">
+				,BUSS_EXAM_PSN
+			</if>
+			<if test="techExamPsn!=null">
+				,TECH_EXAM_PSN
+			</if>
+			<if test="techConfirmPsn!=null">
+				,TECH_CONFIRM_PSN
+			</if>
+			<if test="provLeader!=null">
+				,PROV_LEADER
+			</if>
+			<if test="groupLeader!=null">
+				,GROUP_LEADER
+			</if>
+	</sql>
+	<sql id="dynamicInsertParams">
+			<if test="id!=null">
+				,#{id,jdbcType=VARCHAR}  
+			</if>
+			<if test="flowType!=null">
+				,#{flowType,jdbcType=VARCHAR}  
+			</if>
+			<if test="requCode!=null">
+				 ,#{requCode,jdbcType=VARCHAR}
+			</if> 
+			<if test="requName!=null">
+				,#{requName,jdbcType=VARCHAR} 
+			</if>
+			<if test="requCont!=null">
+				,#{requCont,jdbcType=VARCHAR} 
+			</if>
+			<if test="requType!=null">
+				,#{requType,jdbcType=VARCHAR}
+			</if>
+			<if test="applPer!=null">
+				,#{applPer,jdbcType=VARCHAR} 
+			</if>
+			<if test="applOrg!=null">
+				,#{applOrg,jdbcType=VARCHAR} 
+			</if>
+			<if test="applDept!=null">
+				,#{applDept,jdbcType=VARCHAR}
+			</if>
+			<if test="dataApplContacts!=null">
+				,#{dataApplContacts,jdbcType=VARCHAR} 
+			</if>
+			<if test="dataApplTel!=null">
+				,#{dataApplTel,jdbcType=VARCHAR}
+			</if>
+			<if test="dataApplEmail!=null">
+				,#{dataApplEmail,jdbcType=VARCHAR}
+			</if>
+			<if test="dataPassType!=null">
+				,#{dataPassType,jdbcType=VARCHAR}
+			</if>
+			<if test="dataExtrType!=null">
+				,#{dataExtrType,jdbcType=VARCHAR}
+			</if>
+			<if test="analCyclStart!=null">
+				,#{analCyclStart,jdbcType=DATE}
+			</if>
+			<if test="analCyclEnd!=null">
+				,#{analCyclEnd,jdbcType=DATE}
+			</if>
+			<if test="requDesc!=null">
+				,#{requDesc,jdbcType=VARCHAR}
+			</if>
+			<if test="requUrl!=null">
+				,#{requUrl,jdbcType=VARCHAR}
+			</if>
+			<if test="spcOrjName!=null">
+				,#{spcOrjName,jdbcType=VARCHAR}
+			</if>
+			<if test="objApplyOrg!=null">
+				,#{objApplyOrg,jdbcType=VARCHAR}
+			</if>
+			<if test="securityLev!=null">
+				,#{securityLev,jdbcType=VARCHAR}
+			</if>
+			<if test="emergencyLev!=null">
+				,#{emergencyLev,jdbcType=VARCHAR}
+			</if>
+			<if test="dataSources!=null">
+				,#{dataSources,jdbcType=VARCHAR}
+			</if>
+			<if test="creator!=null">
+				,#{creator,jdbcType=VARCHAR}
+			</if>
+			<if test="contact!=null">
+				,#{contact,jdbcType=VARCHAR}
+			</if>
+			<if test="remarks!=null">
+				,#{remarks,jdbcType=VARCHAR}
+			</if>
+			<if test="updateTime!=null">
+				,#{updateTime,jdbcType=DATE}
+			</if>
+			<if test="addRecord!=null">
+				,#{addRecord,jdbcType=VARCHAR}	
+			</if>
+			<if test="provContacts!=null">
+				,#{provContacts,jdbcType=VARCHAR}
+			</if>
+			<if test="groupTechContacts!=null">
+				,#{groupTechContacts,jdbcType=DATE}
+			</if>
+			<if test="techContacts!=null">
+				,#{techContacts,jdbcType=VARCHAR}	
+			</if>
+			<if test="bussExamPsn!=null">
+				,#{bussExamPsn,jdbcType=VARCHAR}	
+			</if>
+			<if test="techExamPsn!=null">
+				,#{techExamPsn,jdbcType=VARCHAR}	
+			</if>
+			<if test="techConfirmPsn!=null">
+				,#{techConfirmPsn,jdbcType=VARCHAR}	
+			</if>
+			<if test="provLeader!=null">
+				,#{provLeader,jdbcType=VARCHAR}	
+			</if>
+			<if test="groupLeader!=null">
+				,#{groupLeader,jdbcType=VARCHAR}	
+			</if>
+	</sql>
+	<!-- 修改 -->
+	<update id="update" parameterType="java.util.Map">
+		update T03_REQU_MANAGE t 
+		<include refid="dynamicSet"/>
+		where t.ID=#{id,jdbcType=VARCHAR}
+	</update>
+	<!-- update:set 动态生成可更新字段 -->
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="requCode!=null">
+				,t.REQU_CODE=#{requCode,jdbcType=VARCHAR}
+			</if>
+			<if test="flowType!=null">
+				,t.FLOW_TYPE=#{flowType,jdbcType=VARCHAR}
+			</if>
+			<if test="requName!=null">
+				,t.REQU_NAME=#{requName,jdbcType=VARCHAR}
+			</if>
+			<if test="requCont!=null">
+				,t.REQU_CONT=#{requCont,jdbcType=VARCHAR}
+			</if>
+			<if test="requType!=null">
+				,t.REQU_TYPE=#{requType,jdbcType=VARCHAR}
+			</if>
+			<if test="applPer!=null">
+				,t.APPL_PER=#{applPer,jdbcType=VARCHAR}
+			</if>
+			<if test="applOrg!=null">
+				,t.APPL_ORG=#{applOrg,jdbcType=VARCHAR}
+			</if>
+			<if test="applDept!=null">
+				,t.APPL_DEPT=#{applDept,jdbcType=VARCHAR}
+			</if>
+			<if test="dataApplContacts!=null">
+				,t.DATA_APPl_CONTACTS=#{dataApplContacts,jdbcType=VARCHAR}
+			</if>
+			<if test="dataApplTel!=null">
+				,t.DATA_APPL_TEL=#{dataApplTel,jdbcType=VARCHAR}
+			</if>
+			<if test="dataApplEmail!=null">
+				,t.DATA_APPL_EMAIL=#{dataApplEmail,jdbcType=VARCHAR}
+			</if>
+			<if test="dataPassType!=null">
+				,t.DATA_PASS_TYPE=#{dataPassType,jdbcType=VARCHAR}
+			</if>
+			<if test="dataExtrType!=null">
+				,t.DATA_EXTR_TYPE=#{dataExtrType,jdbcType=VARCHAR}
+			</if>
+			<if test="analCyclStart!=null">
+				,t.ANAL_CYCL_START=#{analCyclStart,jdbcType=DATE}
+			</if>
+			<if test="requDesc!=null">
+				,t.REQU_DESC=#{requDesc,jdbcType=VARCHAR}
+			</if>
+			<if test="requUrl!=null">
+				,t.REQU_URL=#{requUrl,jdbcType=VARCHAR}
+			</if>
+			<if test="spcOrjName!=null">
+				,t.SPC_ORJ_NAME=#{spcOrjName,jdbcType=VARCHAR}
+			</if>
+			<if test="objApplyOrg!=null">
+				,t.OBJ_APPLY_ORG=#{objApplyOrg,jdbcType=VARCHAR}
+			</if>
+			<if test="securityLev!=null">
+				,t.SECURITY_LEV=#{securityLev,jdbcType=VARCHAR}
+			</if>
+			<if test="emergencyLev!=null">
+				,t.EMERGENCY_LEV=#{emergencyLev,jdbcType=VARCHAR}
+			</if>
+			<if test="dataSources!=null">
+				,t.DATA_SOURCES=#{dataSources,jdbcType=VARCHAR}
+			</if>
+			<if test="contact!=null">
+				,t.CONTACT=#{contact,jdbcType=VARCHAR}
+			</if>
+			<if test="approState!=null">
+				,t.APPRO_STATE=#{approState,jdbcType=VARCHAR}
+			</if>
+			<if test="remarks!=null">
+				,t.REMARKS=#{remarks,jdbcType=VARCHAR}
+			</if>
+			<if test="updateTime!=null">
+				,t.UPDATE_TIME=#{updateTime,jdbcType=DATE}
+			</if>
+			<if test="addRecord!=null">
+				,t.ADD_RECORD=#{addRecord,jdbcType=VARCHAR}
+			</if>
+			<if test="provContacts!=null">
+				,t.PROV_CONTACTS=#{provContacts,jdbcType=VARCHAR}
+			</if>
+			<if test="groupTechContacts!=null">
+				,t.GROUP_TECH_CONTACTS=#{groupTechContacts,jdbcType=DATE}
+			</if>
+			<if test="techContacts!=null">
+				,t.TECH_CONTACTS=#{techContacts,jdbcType=VARCHAR}
+			</if>
+			<if test="bussExamPsn!=null">
+				,t.BUSS_EXAM_PSN=#{bussExamPsn,jdbcType=VARCHAR}
+			</if>
+			<if test="techExamPsn!=null">
+				,t.TECH_EXAM_PSN=#{techExamPsn,jdbcType=VARCHAR}
+			</if>
+			<if test="techConfirmPsn!=null">
+				,t.TECH_CONFIRM_PSN=#{techConfirmPsn,jdbcType=VARCHAR}
+			</if>
+			<if test="provLeader!=null">
+				,t.PROV_LEADER=#{provLeader,jdbcType=VARCHAR}
+			</if>
+			<if test="groupLeader!=null">
+				,t.GROUP_LEADER=#{groupLeader,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+</mapper>
+
+
+
+

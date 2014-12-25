@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    <!--  表名称：T03_NODE_INFO  -->
+<mapper namespace="com.idap.processmgr.special.entity.NodeInfo" >
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="nodeInfoMap" type="com.idap.processmgr.special.entity.NodeInfo">
+		<result property="nodeId" column="NODE_ID" jdbcType="VARCHAR" />
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="nodeApproval" column="NODE_APPROVAL" jdbcType="VARCHAR" />
+		<result property="signInfo" column="SIGN_INFO" jdbcType="VARCHAR" />
+		<result property="remarks" column="REMARKS" jdbcType="VARCHAR" />
+		<result property="nodeValid" column="NODE_VALID" jdbcType="VARCHAR" />
+		<result property="nodeSeq" column="NODE_SEQ" jdbcType="NUMERIC" />
+	</resultMap>
+	<sql id="dynamicInsert">
+		<if test="nodeApproval!=null">
+				,NODE_APPROVAL
+		</if>
+		<if test="signInfo!=null">
+				,SIGN_INFO
+		</if>
+		<if test="remarks!=null">
+				,REMARKS
+		</if>
+		<if test="nodeValid!=null">
+				,NODE_VALID
+		</if>
+		<if test="nodeSeq!=null">
+				,NODE_SEQ
+		</if>
+	</sql>
+	<sql id="dynamicInsertParams">
+		<if test="nodeApproval!=null">
+				,#{nodeApproval,jdbcType=VARCHAR}  
+		</if>
+		<if test="signInfo!=null">
+				,#{signInfo,jdbcType=VARCHAR}  
+		</if>
+		<if test="remarks!=null">
+				,#{remarks,jdbcType=VARCHAR}  
+		</if>
+		<if test="nodeValid!=null">
+				,#{nodeValid,jdbcType=VARCHAR}  
+		</if>
+		<if test="nodeSeq!=null">
+				,#{nodeSeq,jdbcType=NUMERIC}  
+		</if>
+	</sql>
+	<sql id="selectParams">
+		NODE_ID,
+		ID,
+		NODE_APPROVAL,
+		SIGN_INFO,
+		REMARKS,
+		NODE_VALID,
+		NODE_SEQ
+	</sql>
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="id!=null">
+				,t.ID=#{id,jdbcType=VARCHAR}
+			</if>
+			<if test="nodeApproval!=null">
+				,t.NODE_APPROVAL=#{nodeApproval,jdbcType=VARCHAR}
+			</if>
+			<if test="signInfo!=null">
+				,t.SIGN_INFO=#{signInfo,jdbcType=VARCHAR}
+			</if>
+			<if test="remarks!=null">
+				,t.REMARKS=#{remarks,jdbcType=VARCHAR}
+			</if>
+			<if test="nodeValid!=null">
+				,t.NODE_VALID=#{nodeValid,jdbcType=VARCHAR}
+			</if>
+			<if test="nodeSeq!=null">
+				,t.NODE_SEQ=#{nodeSeq,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+	<insert id="insert" parameterType="com.idap.processmgr.special.entity.NodeInfo">
+			INSERT INTO T03_NODE_INFO (NODE_ID,ID<include refid="dynamicInsert"/>) VALUES (
+				#{nodeId,jdbcType=VARCHAR},
+				#{id,jdbcType=VARCHAR}<include refid="dynamicInsertParams"/>
+			)
+	</insert>
+	<select id="getById" resultMap="nodeInfoMap" parameterType="java.lang.String">
+		SELECT <include refid="selectParams"/> FROM T03_NODE_INFO WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="java.util.Map">
+		update T03_NODE_INFO t 
+		<include refid="dynamicSet"/>
+		where t.NODE_ID=#{nodeId,jdbcType=VARCHAR}
+	</update>
+</mapper>
+
+
+
+

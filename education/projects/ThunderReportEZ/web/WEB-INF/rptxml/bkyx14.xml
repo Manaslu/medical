@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyx14" title="专项市场">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>          
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+select 
+group_name,
+   A1                
+   ,A2             
+   ,A3             
+   ,b1             
+   ,b2                         
+   from t07_nps_graph t where t.show_id=110036 and t.ym_id =#year# and t.org_code=#org#
+   order by t.a1
+
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;专项市场分类&lt;/td&gt;
+&lt;td&gt;订户数&lt;/td&gt;  
+&lt;td&gt;订阅份数&lt;/td&gt;
+&lt;td&gt;订阅份数占比&lt;/td&gt;
+&lt;td&gt;流转额&lt;/td&gt;
+&lt;td&gt;流转额占比&lt;/td&gt;
+
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+<Column name="" group="0" code="group_name"  ></Column>
+<Column name="" group="0" code="a1"  ></Column>
+<Column name="" group="0" code="a2"  ></Column>
+<Column name="" group="0" code="b1"   ></Column>
+<Column name="" group="0" code="a3"   ></Column>
+<Column name="" group="0" code="b2"   ></Column>
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

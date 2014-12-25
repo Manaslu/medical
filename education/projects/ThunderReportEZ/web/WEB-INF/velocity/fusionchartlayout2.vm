@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link type="text/css" rel="stylesheet" href="css/ext-all.css" />
+<link type="text/css" rel="stylesheet" href="css/report.css" />
+
+<SCRIPT LANGUAGE="Javascript" SRC="fusionchart/FusionCharts.js"></SCRIPT>
+<SCRIPT LANGUAGE="Javascript" SRC="include/js/p.js"></SCRIPT>
+<script language="javascript">
+	var xmlDoc;
+    var chartdata='empty';
+  
+	function updateChart(domId,check_name,other_params,cond_name, cond_value)
+	{
+		if (xmlDoc!=null){
+			
+			var xml2 = xmlDoc.responseText;
+			var cks1 = document.getElementsByName(check_name);
+			
+			var xDoc = new ActiveXObject("Microsoft.XMLDOM");
+			xDoc.loadXML(xml2);
+			var j = xDoc.selectNodes("/chart/dataset").length;
+			
+			var names = [];
+			// 如果为true表示图形折线数随着checkbox选择变化，可以在client处理；如果为false则必须提交服务器处理
+			var isclient = false;
+			for(var i =0;i<cks1.length; i++){
+				if (cks1[i].checked == false){
+					var name = cks1[i].text;
+					names=names.concat([name]);
+				}
+				
+				for(var k=0; k<j; k++){
+					var node = xDoc.selectNodes("/chart/dataset")[k];
+					if (cks1[i].text==node.getAttribute("seriesName")){
+						isclient = true;
+						break;
+					}
+				}
+			}
+			
+			if (isclient==true){
+			
+				var nodes = [];
+				for(var i=0; i<j; i++){
+					var node = xDoc.selectNodes("/chart/dataset")[i];
+					
+					for (var k=0; k<names.length; k++){
+						if (node.getAttribute("seriesName")==names[k]){
+							nodes = nodes.concat([node]);
+							break;
+						}
+					}
+				}
+				
+				for (var i=0; i<nodes.length; i++)
+					xDoc.selectNodes("/chart")[0].removeChild(nodes[i]);
+				var chartObj = getChartFromId(domId);
+				chartObj.setDataXML(xDoc.xml);
+				xDoc = null;
+				
+				var cks = document.getElementsByName(check_name);
+ 				for(var i =0;i<cks.length; i++){
+ 					cks[i].disabled=false;
+				}
+				var n=$('nonebox');
+				n.disabled=false;
+				return;
+			
+			}
+		}
+		
+		var cksn = document.getElementsByName(check_name);
+ 		for(var i =0;i<cksn.length; i++)
+			cksn[i].disabled=true;
+		var n=$('nonebox');
+		n.disabled=true;
+		try
+		{
+			var cp="";
+ 			var cv="";
+ 		//	alert(cond_name+'---'+cond_value);
+ 			if (check_name!="" && cond_name!=undefined && cond_value!=undefined)
+ 			{
+ 				document.getElementsByName("nonebox")[0].checked=false;
+ 				var cks = document.getElementsByName(check_name);
+ 				for(var i =0;i<cks.length; i++)
+ 				{
+   					if (cks[i].checked)
+   					{
+						cp+=cks[i].value+",";
+						cv+=cks[i].text+",";
+					}
+				}
+				cp=cond_name+"="+cp;
+				cv=cond_value+"="+cv;
+			}
+			if (cp!=""&& cv!="")
+			
+				other_params = other_params+"&"+cp+"&"+cv;
+
+			var chartObj = getChartFromId(domId);
+			
+			var url = other_params.substring(0,other_params.indexOf("?"));
+			var para = other_params.substring(url.length+1,other_params.length);
+			if(chartdata=='empty'){
+			//alert('ajax request');
+			var ajaxx = new Ajax.Request(
+				url,
+					{
+						method:'post',
+						parameters:para,
+						requestHeaders:['content','application/text', 'charset','utf-8'],
+						onComplete:function(res){
+					//	document.write(res.responseText);
+							//document.getElementById("spanx").innerHTML =ajaxx.responseIsFailure(); 
+							//alert(ajaxx.responseIsFailure());
+							//if (ajaxx.responseIsFailure()){
+							//	document.getElementById("tablex").style.display="none";
+							//	document.getElementById("spanx").style.display="";
+							//}else{
+								xmlDoc = res;
+								chartObj.setDataXML(res.responseText); 
+								chartdata=res.responseText;
+								var cks = document.getElementsByName(check_name);
+ 								for(var i =0;i<cks.length; i++)
+ 									cks[i].disabled=false;
+ 								var n = $("nonebox");
+ 								n.disabled=false;
+	 						//}
+						}
+					}
+			);
+			}else{
+			//alert('no ajax request');
+			var datastr=chartdata;
+		    var maxv=0;
+		    var modifiedstr='';
+			var dataarr=datastr.split('<dataset');
+	if(dataarr.length>1){
+		var parastr=para.split('Prd_Name=')[1];
+		var paraarr=parastr.split(',');
+			modifiedstr='';
+			for (var j=1;j<dataarr.length;j++){
+			  if(j>0){
+			   dataarr[j]='<dataset '+dataarr[j];
+			  }
+			  if(j==dataarr.length-1){
+			   dataarr[j]=dataarr[j].split('</chart>')[0];
+			  }
+			  for(var k=0;k<paraarr.length-1;k++){
+			   if(dataarr[j].indexOf(paraarr[k])>-1){
+			     modifiedstr=modifiedstr+dataarr[j];
+			     if(dataarr[j].split('renderAs="')[1].split('"')[0]=='COLUMN'){
+			     var mvalue1=dataarr[j].split('COLUMN">')[1];
+			  
+				 var mvaluearr=mvalue1.split('<set value="');
+				
+				  for(var n=1;n<mvaluearr.length;n++){
+				   if(mvaluearr[n]!=' '){
+			           var mvalue2=mvaluearr[n].split('"')[0];
+						 if(parseInt(maxv)<parseInt(mvalue2)){
+							 maxv=mvalue2;
+						 }
+						 
+				   }
+				  }
+			  }
+			   }
+			 }
+			
+			}
+			maxv=parseInt(maxv)+20;
+			 var strti=dataarr[0].split('<chart ')[1];
+			 strti='<chart pyAxisMaxValue="'+maxv+'" '+strti;
+			 modifiedstr=strti+modifiedstr;
+			modifiedstr=modifiedstr+'</chart>';
+			  chartObj.setDataXML(modifiedstr);
+			  
+		   
+		 }else{
+		      chartObj.setDataXML(datastr);
+		      
+		 }	  
+			  var cks = document.getElementsByName(check_name);
+			  for(var i =0;i<cks.length; i++){
+			    cks[i].disabled=false;
+			  }
+			  var n = $("nonebox");
+ 			  n.disabled=false;
+			}
+		}catch(e)
+		{
+			document.getElementById("tablex").style.display="none";
+			document.getElementById("spanx").style.display="";
+		}
+	}
+	
+	function selectNonde(check_name, domId){
+		var cks = document.getElementsByName(check_name);
+ 		for(var i =0;i<cks.length; i++)
+ 			cks[i].checked = false;
+ 		var chart = getChartFromId(domId);
+ 		chart.setDataXML("<chart></chart>");
+	}
+</script>
+
+</head>
+<body>
+	<center>
+		<span id="spanx" style="display:none">您请求数据出现异常，请右键点击标签页刷新重新尝试。</span>
+		<table id="tablex" width="98%" style="display">
+			<tr>
+				<td><div id="div_$chartid"/>
+				</td>
+			</tr>
+			<tr>
+				<td><div id="snone"><input type="checkbox" id="nonebox" disabled onclick="selectNonde('checkbox_$chartid', '$chartid')">全部不选</input> 
+					$checkbox
+				</div></td>
+				<script LANGUAGE="JavaScript">
+						var chart1 = new FusionCharts("fusionchart/ScrollCombiDY2D.swf?LoadDataErrorText=\u6b63\u5728\u52a0\u8f7d\u6570\u636e", "$chartid", "610", "235", "0", "1");		   
+						chart1.setTransparent(false);
+						chart1.render("div_$chartid");
+						updateChart("$chartid","checkbox_$chartid","$url");
+						
+						var cks = document.getElementsByName('checkbox_$chartid');
+						if (cks.length==0)
+						{
+							$('snone').hide(); 
+						}
+					
+						
+				</script>
+			</tr>
+		</table>
+	</center>
+</body>
+</html>

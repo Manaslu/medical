@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!--            
+		<typeAlias
+		type="com.idap.drad.entity.SourceDataDicColumn"
+		alias="SourceDataDicColumn"/>
+	-->
+<mapper namespace="com.idap.drad.entity.SourceDataDicColumn">
+	<!-- *.来映射文件字段与类属性的对就关系     ibatis默认不对字段进行去下划线工作  -->
+	<resultMap id="sourceDataDicColumnMap"
+	type="com.idap.drad.entity.SourceDataDicColumn">
+	<result property="tableName" column="TABLE_NAME" jdbcType="VARCHAR" />
+	<result property="colName" column="COL_NAME" jdbcType="VARCHAR" />
+	<result property="colAttr" column="COL_ATTR" jdbcType="VARCHAR" />
+	<result property="colDesc" column="COL_DESC" jdbcType="VARCHAR" />
+	<result property="colType" column="COL_TYPE" jdbcType="VARCHAR" />
+	<result property="length" column="LENGTH" jdbcType="VARCHAR" />
+	<result property="primaryKeyFlag" column="PRIMARY_KEY_FLAG"
+		jdbcType="VARCHAR" />
+	<result property="foreignKeyFlag" column="FOREIGN_KEY_FLAG"
+		jdbcType="VARCHAR" />
+	<result property="defaultVal" column="DEFAULT_VAL" jdbcType="VARCHAR" />
+	<result property="isNull" column="IS_NULL" jdbcType="VARCHAR" />
+	<result property="portCode" column="PORT_CODE" jdbcType="VARCHAR" />
+
+</resultMap>
+	
+	
+	<!--
+		================= 动态内容部分 =================
+	-->
+	<!-- where：动态生成部分  -->
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="tableName!=null">
+				AND TABLE_NAME=#{tableName}
+			</if>
+			<if test="colName!=null">
+				AND COL_NAME=#{colName}
+			</if>
+			<if test="colAttr!=null">
+				AND COL_ATTR=#{colAttr}
+			</if>
+			<if test="colDesc!=null">
+				AND COL_DESC=#{colDesc}
+			</if>
+			<if test="colType!=null">
+				AND COL_TYPE=#{colType}
+			</if>
+			<if test="length!=null">
+				AND LENGTH=#{length}
+			</if>
+			<if test="primaryKeyFlag!=null">
+				AND PRIMARY_KEY_FLAG=#{primaryKeyFlag}
+			</if>
+			<if test="foreignKeyFlag!=null">
+				AND FOREIGN_KEY_FLAG=#{foreignKeyFlag}
+			</if>
+			<if test="defaultVal!=null">
+				AND DEFAULT_VAL=#{defaultVal}
+			</if>
+			<if test="isNull!=null">
+				AND IS_NULL=#{isNull}
+			</if>
+
+			<if test="portCode!=null">
+				AND PORT_CODE=#{portCode}
+			</if>
+                                                                   
+			<if test="startTime!=null">
+				AND CREATE_TIME <![CDATA[>=]]>#{startTime}
+			</if>
+			<if test="endTime!=null">
+				AND CREATE_TIME <![CDATA[<=]]>#{endTime}
+			</if>
+			<if test="ids!=null and ids.length>0">
+				AND
+				<foreach item="id" index="index" collection="ids" open="("
+					separator="," close=")">
+					#{id}
+	            	</foreach>
+			</if>
+			                      
+			<if test="sno!=null and eno!=null and orderBy==null">
+						AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+			                       
+			
+		</trim>
+	</sql>
+
+	<!-- limit 分页   -->
+	<sql id="dynamicLimit">
+		<if test="start!=null and end!=null">
+			limit #{start},#{end}
+	</if>
+	</sql>
+
+	<!-- order by 排序   -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+
+	<!-- group by 分组   -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			group by ${groupBy}
+		</if>
+	</sql>
+
+	<!-- update:set 动态生成可更新字段    -->
+	<sql id="dynamicSet">
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="v_tableName!=null">
+				TABLE_NAME=#{v_tableName,jdbcType=VARCHAR}
+		</if>
+			<if test="v_colName!=null">
+				COL_NAME=#{v_colName,jdbcType=VARCHAR}
+		</if>
+			<if test="v_colAttr!=null">
+				COL_ATTR=#{v_colAttr,jdbcType=VARCHAR}
+		</if>
+			<if test="v_colDesc!=null">
+				COL_DESC=#{v_colDesc,jdbcType=VARCHAR}
+		</if>                    
+			<if test="v_colType!=null">
+				COL_TYPE=#{v_colType,jdbcType=VARCHAR}
+		</if>
+			<if test="v_length!=null">
+				LENGTH=#{v_length,jdbcType=VARCHAR}
+		</if>
+			<if test="v_primaryKeyFlag!=null">
+				PRIMARY_KEY_FLAG=#{v_primaryKeyFlag,jdbcType=VARCHAR}
+		</if>
+			<if test="v_foreignKeyFlag!=null">
+				FOREIGN_KEY_FLAG=#{v_foreignKeyFlag,jdbcType=VARCHAR}
+		</if>
+			<if test="v_defaultVal!=null">
+				DEFAULT_VAL=#{v_defaultVal,jdbcType=VARCHAR}
+		</if>
+			<if test="v_isNull!=null">
+				IS_NULL=#{v_isNull,jdbcType=VARCHAR}
+		</if>
+		</trim>
+	</sql>
+
+	<!-- 表所有的字段：insert 的表、字段 部分    -->
+	<sql id="allColumn">
+		T04_SOURCE_DATA_DIC_COLUMN(
+		TABLE_NAME,
+		COL_NAME,
+		COL_ATTR,
+		COL_DESC,
+		COL_TYPE,
+		LENGTH,
+		PRIMARY_KEY_FLAG,
+		FOREIGN_KEY_FLAG,
+		DEFAULT_VAL,
+		IS_NULL,
+		PORT_CODE 
+		)
+	</sql>
+
+	<sql id="allColumnNoTab">
+		TABLE_NAME,
+		COL_NAME,
+		COL_ATTR,
+		COL_DESC,
+		COL_TYPE,
+		LENGTH,
+		PRIMARY_KEY_FLAG,
+		FOREIGN_KEY_FLAG,
+		DEFAULT_VAL,
+		IS_NULL,
+		PORT_CODE 
+	</sql>
+
+	  
+
+ 
+	<!-- oracle 查询有三种情况：单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumnNoTab" />
+			from
+			(
+			  select orderContentTab.*,ROWNUM AS rowno
+				from
+				(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumnNoTab" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumnNoTab" />
+		from                               
+		   T04_SOURCE_DATA_DIC_COLUMN                
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>	${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>	${sno}
+		</if>
+	</sql>
+	 
+
+	<!-- =================================================  -->
+	<!-- 1.1根据id查询对像  -->
+	<select id="queryById" parameterType="String" resultMap="sourceDataDicColumnMap">
+		select
+		<include refid="allColumnNoTab" />
+		from T04_SOURCE_DATA_DIC_COLUMN where id=#value#
+	</select>
+                       
+
+
+
+	<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="sourceDataDicColumnMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="sourceDataDicColumnMap">
+		<include refid="queryBody" />
+	</select>
+	
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+		from 
+			T04_SOURCE_DATA_DIC_COLUMN           
+		<include refid="dynamicWhere"/>
+	</select>
+	
+	 
+
+	<!-- 4.删除  -->
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM T04_SOURCE_DATA_DIC_COLUMN
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 4.1.逻辑删除 根据ID  -->
+	<update id="deleteLogicById" parameterType="String">
+		update
+		T04_SOURCE_DATA_DIC_COLUMN set istatus='2' where id=#value#
+	</update>
+
+	  
+
+	<!-- 6.1批量更新  -->
+	<update id="update" parameterType="java.util.Map">
+		update T04_SOURCE_DATA_DIC_COLUMN
+		<include refid="dynamicSet" />
+		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- =========================自定义操作========================  -->
+
+</mapper>
+
+
+
+

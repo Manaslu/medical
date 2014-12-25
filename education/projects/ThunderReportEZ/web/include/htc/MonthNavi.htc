@@ -1,0 +1,136 @@
+<PUBLIC:COMPONENT tagName="MonthNavi">
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+var oConfig = null;
+var CY,CM;
+var oActiveMonth = null;
+
+function CConfig(){
+	this._year 	= element.DefaultYear;
+	this._month 	= element.DefaultMonth;
+	this._click	= element.MonthClick;
+}
+
+function init(){
+	oConfig = new CConfig();
+	CY = oConfig._year/1;
+	CM = oConfig._month/1;
+	
+	draw(CY,CM);
+}
+
+function fnMonth_Click(){
+	if (this.className=="ActiveMonth")
+		return;
+	oActiveMonth.className = "NormalMonth";
+	this.className = "ActiveMonth";
+	
+	oActiveMonth = this;
+//	alert(this.value);
+	eval(oConfig._click+'('+this.value+')');
+}
+
+
+//前翻导航按钮修改年份
+function fnNavi_Prev(){
+
+	CY = CY-1;
+
+	draw(CY,CM);
+	
+	var paraValue = '';
+	paraValue += new String(CY);
+	if(CM<10)
+		paraValue +='0';
+	paraValue = paraValue + new String(CM);
+	
+	eval(oConfig._click+'('+paraValue+')');
+}
+
+//后翻导航按钮修改年份
+function fnNavi_Next(){
+
+	CY = CY + 1;
+	draw(CY,CM);
+	
+	var paraValue = '';
+	paraValue += new String(CY);
+	if(CM<10)
+		paraValue +='0';
+	paraValue = paraValue + new String(CM);
+	
+	eval(oConfig._click+'('+paraValue+')');
+}
+
+//显示导航条
+function draw(CY,CM){
+	var s = '';
+	
+	s += '<STYLE> .Navi{font-family:Webdings;cursor:hand}\n';
+	s += '</STYLE>';
+	s += '<TABLE class="bar-jiing-ying-fen-xi"><TR><TD id="NaviPrevContainer"></TD><TD>'+CY+'年</TD>';
+	s += '<TD id="NaviNextContainer"></TD><TD id="MonthContainer">';
+	s += '</TD></TR></TABLE>';
+	
+	element.innerHTML = "";
+	element.insertAdjacentHTML("beforeEnd",s);
+	
+	//插入前导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = '<img src="/EMS/images/bi/side-arrow-left.gif" width="7" height="11" align="absmiddle" />';
+	ele.onclick = fnNavi_Prev;
+	
+	NaviPrevContainer.appendChild(ele);
+	
+	//生成各个月份
+	var start = 1;
+	
+	var eleTable = document.createElement("Table");
+	eleTable.cellSpacing = "0";
+	eleTable.cellPadding = "0";
+
+
+	MonthContainer.appendChild(eleTable);
+	
+	var eleTR = eleTable.insertRow();
+	
+	for(var i=0;i<12;i++){
+		mValue = start/1+i;
+		var paraValue = '';
+		paraValue += new String(CY);
+		if(mValue<10)
+			paraValue +='0';
+		
+		paraValue = paraValue + new String(mValue);
+		
+		var eleTD = eleTR.insertCell();
+		eleTD.style.paddingLeft = "2";
+		eleTD.style.paddingRight = "2";
+
+			
+		var oMonth = document.createElement("DIV");
+		if(mValue/1==oConfig._month/1){
+			oActiveMonth = oMonth;
+			oMonth.className = "ActiveMonth";
+		}
+		else{
+			oMonth.className = "NormalMonth";
+		}
+		oMonth.onclick = fnMonth_Click;
+		oMonth.value = paraValue;
+		oMonth.innerHTML = (mValue)+"月";
+		eleTD.appendChild(oMonth);
+	}
+	////插入后导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = '<img src="/EMS/images/bi/side-arrow-right.gif" width="7" height="11" align="middle" />';
+	ele.onclick = fnNavi_Next;
+	NaviNextContainer.appendChild(ele);
+}
+
+</SCRIPT>
+</PUBLIC:COMPONENT>

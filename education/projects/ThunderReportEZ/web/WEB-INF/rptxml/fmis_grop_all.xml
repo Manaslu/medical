@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="fmis_grop_all" title="总体情况表">
+		<Parameter>
+			
+		</Parameter>
+		<BOLayer>
+			<BO db="template_mysql" id="template_oracledb">
+			
+			</BO>
+		</BOLayer>
+		<DataUI>
+				<CrossGrid id="grid1" gridtemplname="templateline1.vm">
+						<Sql db="template_mysql">SELECT t.term_year,t.group_type,t.group_num,t.total_num FROM tb_report t WHERE t.rpt_id='RP001'  ORDER BY t.term_year, t.group_type_id</Sql>
+						<ReportHeader outputtype="print">
+						总体情况表
+						</ReportHeader>
+						<ReportBody>
+							<FuncTitle outputtype="print">
+							</FuncTitle>
+								<RowDims>
+									<Dim code="term_year" name="时间" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{year}</Dim>
+								</RowDims>
+								<ColDims>
+									<Dim code="group_type" name="团组类型" summary="1" group="0" sumname="总计" sumby="" sumpos="after">{group_type}</Dim>
+									
+								</ColDims>
+								<Measures crosswith="RowDims">
+								    <Measure code="group_num" name="团组数" format="#">{group_num}</Measure>
+									<Measure code="total_num" name="人次数" format="#">{total_num}</Measure>
+								</Measures>
+						</ReportBody>
+						<ReportFooter>
+						</ReportFooter>
+				</CrossGrid>
+				
+			</DataUI>
+		<Layout outputtype="function">
+			<table width="98%"><tr><td>grid1</td></tr></table>
+		</Layout>
+	</Report>

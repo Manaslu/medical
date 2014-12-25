@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyw4" title="">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+				<CrossGrid id="grid1" >
+						<Sql db="template_mysql">
+							select * from
+(select a.subs_year as year,a.module_name a1,a.SUBS_SUM a2,a.SUBS_SUM_ZB a3 ,a.SUBS_SUM_RATE a4 
+,b.SUBS_SUM_JZ b1 ,b.SUBS_SUM_JZZB b2
+from TB_MODULE_1_#org# a
+left join TB_MODULE_3_#org# b
+on a.subs_year=b.subs_year and a.module_name=b.module_name)
+t where t.year between #year#-1 and  #year#
+
+							</Sql>
+						<ReportHeader outputtype="print">
+						</ReportHeader>
+						<ReportBody>
+							<FuncTitle outputtype="print">
+							</FuncTitle>
+								<RowDims>
+									<Dim code="a1" name="" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{a1}</Dim>
+								</RowDims>
+								<ColDims>
+									<Dim code="year" name="年" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{year}</Dim>
+									
+									
+								</ColDims>
+								<Measures crosswith="RowDims">
+								    <Measure code="a2" name="流转额"  outputtype="function"></Measure>
+								    <Measure code="a3" name="流转额占比"  format="#.0%" outputtype="function"></Measure>
+								    <Measure code="a4" name="流转额增幅"  format="#.0%" outputtype="function"></Measure>
+								    <Measure code="b1" name="流转额净增"   outputtype="function"></Measure>
+									<Measure code="b2" name="流转额净增占比" format="#.0%" outputtype="function"></Measure>
+								</Measures>
+						</ReportBody>
+						<ReportFooter>
+						</ReportFooter>
+				</CrossGrid>                              
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

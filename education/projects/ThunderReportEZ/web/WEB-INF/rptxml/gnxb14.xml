@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="gnxb14" title="国内小包完成投递比例及分布情况">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="month"/>           
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+select 
+		A1                
+   ,A2             
+   ,A3             
+   ,A4             
+   ,A5             
+   ,A6             
+   ,A7             
+   ,A8             
+   ,A9             
+   ,A10                      
+   from t07_rpt_detail t where t.show_id='gnxb14' and t.day_id=#month#
+   order by t.order_id
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													国内小包完成投递比例及分布情况
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;投递机构&lt;/td&gt;
+&lt;td&gt;总数&lt;/td&gt;
+&lt;td&gt;完成投递比例&lt;/td&gt;
+&lt;td&gt;T+0当日妥投比例&lt;/td&gt;
+&lt;td&gt;T+（1~3）1-3天妥投比例&lt;/td&gt;
+&lt;td&gt;T+（4~5）4-5天妥投比例&lt;/td&gt;
+&lt;td&gt;T+（6~7）6-7天妥投比例&lt;/td&gt;
+&lt;td&gt;T+（8~+）8天以上妥投比例&lt;/td&gt;
+&lt;td&gt;信息不符比例&lt;/td&gt;
+&lt;td&gt;在途比例&lt;/td&gt;
+
+	
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+
+<Column name="投递机构" group="0" code="a1"  ></Column>
+<Column name="总数" group="0" code="a2"  ></Column>
+<Column name="完成投递比例" group="0" code="a3"  ></Column>
+<Column name="T+0当日妥投比例" group="0" code="a4"  ></Column>
+<Column name="T+（1~3）1-3天妥投比例" group="0" code="a5"  ></Column>
+<Column name="T+（4~5）4-5天妥投比例" group="0" code="a6"  ></Column>
+<Column name="T+（6~7）6-7天妥投比例" group="0" code="a7"  ></Column>
+<Column name="T+（8~+）8天以上妥投比例" group="0" code="a8"  ></Column>
+<Column name="信息不符比例" group="0" code="a9"  ></Column>
+<Column name="在途比例" group="0" code="a10"  ></Column>
+
+
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%">
+                        	<tr><td>grid1</td></tr>
+                        <tr><td>注：各省顺序按照国内小包完成投递比例排序
+</td></tr>
+                        </table>
+                </Layout>
+        </Report>

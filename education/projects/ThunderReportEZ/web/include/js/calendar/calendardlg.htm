@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>日期选择&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR>
+<style>
+html{
+	margin:0px;
+	font: 12px; 
+	
+	font-family: Arial,宋体,Arial,Sans-serif;
+	line-height: 18px;
+} 
+</style>
+</HEAD>
+<BODY bgColor=#d4d0c8 onload=fload()>
+<SCRIPT src="calendar.js">
+</SCRIPT>
+
+<SCRIPT>
+function fload()
+{
+	fPopCalendar(document.all.txt1, document.all.txt1, CAL_MODE_NOBLANK);
+}
+
+function fkeydown()
+{
+	if(event.keyCode==27){
+		event.returnValue = null;
+		window.returnValue = null;
+		window.close();
+	}
+}
+
+document.onkeydown=fkeydown;
+</SCRIPT>
+<INPUT id=txt1 style="DISPLAY: none"> </BODY></HTML>

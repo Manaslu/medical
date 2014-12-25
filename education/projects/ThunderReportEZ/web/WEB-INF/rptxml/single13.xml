@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="single13" title="同类报刊对比分析">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>  
+<Cond title="表名" id="cond3" paraname="table"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+select A1                
+   ,A2             
+   ,A3             
+   ,A4
+   ,a5,a6,a7,a8                                     
+   from #table# t where t.show_id='single13' and t.day_id=#year# and t.org_id=#org#
+   order by t.order_id
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">同类报刊对比分析
+													
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;同类报刊&lt;/td&gt;  
+&lt;td&gt;订户数&lt;/td&gt;
+&lt;td&gt;同比变化&lt;/td&gt;
+&lt;td&gt;订户份数&lt;/td&gt;
+&lt;td&gt;同比变化&lt;/td&gt;
+&lt;td&gt;流转额&lt;/td&gt;
+&lt;td&gt;同比变化&lt;/td&gt;
+
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+<Column name="" group="0" code="a1"  ></Column>
+<Column name="" group="0" code="a2"  ></Column>
+<Column name="" group="0" code="a3"   ></Column>
+<Column name="" group="0" code="a4"   ></Column>
+<Column name="" group="0" code="a5"   ></Column>
+<Column name="" group="0" code="a6"   ></Column>
+<Column name="" group="0" code="a7"   ></Column>
+<Column name="" group="0" code="a8"   ></Column>
+
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

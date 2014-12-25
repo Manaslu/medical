@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyw14" title="各类行业订户数量发展情况">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+				<CrossGrid id="grid1" >
+						<Sql db="template_mysql">
+select t.subs_year ||'订户数' as datatype,t.CUST_TYP_ID as dim,sum(INDIV_NUM) as datavalue from TB_CUST_TYPE_2_#org# T 
+where t.subs_year between #year#-2 and #year#
+group by t.subs_year, t.CUST_TYP_ID
+order by t.subs_year
+
+							</Sql>
+						<ReportHeader outputtype="print">
+						</ReportHeader>
+						<ReportBody>
+							<FuncTitle outputtype="print">
+							</FuncTitle>
+								<RowDims>
+									<Dim code="dim" name="行业" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{dim}</Dim>
+								</RowDims>
+								<ColDims>
+									<Dim code="datatype" name="指标" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{datatype}</Dim>
+									
+								</ColDims>
+								<Measures crosswith="RowDims">
+								    <Measure code="datavalue" name=""  >{datavalue}</Measure>
+
+								</Measures>
+						</ReportBody>
+						<ReportFooter>
+						</ReportFooter>
+				</CrossGrid>                              
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

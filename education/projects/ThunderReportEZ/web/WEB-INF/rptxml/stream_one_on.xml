@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="stream_one_on" title="一次物流库存及在途">
+                <Parameter>     
+
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">
+                        
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">SELECT t.a1 as dept,t.a2 as group_num,t.a2 as total_num
+                                                        FROM t07_rpt_detail t where t.show_id='gnxb2'
+                                                        ORDER BY t.order_id
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													中国石油化工股份有限公司云南石油分公司通槽库库容和库存及在途表
+                                                </ReportHeader>
+<ReportBody>
+                                                        <FuncTitle outputtype="function">
+                                                         
+&lt;tr class="tr_head"&gt;
+&lt;th rowspan="4" textalign="center"&gt;到站&lt;/th&gt;
+	&lt;th rowspan="4" align="center"&gt;油库库容量合计（吨）&lt;/th&gt;
+	&lt;th rowspan="4" align="center"&gt;库存合计（吨）&lt;/th&gt;
+	&lt;th colspan="14" align="center"&gt;汽油&lt;/th&gt;
+	&lt;th colspan="15" align="center"&gt;柴油&lt;/th&gt;
+	&lt;th rowspan="4" align="center"&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr class="tr_head"&gt;
+&lt;th rowspan="3" align="center"&gt;汽油库存小计&lt;/th&gt;
+&lt;th colspan="7" align="center"&gt;93#汽油&lt;/th&gt;
+&lt;th colspan="6" align="center"&gt;97#汽油&lt;/th&gt;
+&lt;th rowspan="3" align="center"&gt;柴油库存小计&lt;/th&gt;
+&lt;th colspan="7" align="center"&gt;0#普通柴油&lt;/th&gt;
+&lt;th colspan="7" align="center"&gt;0#车用柴油&lt;/th&gt;
+
+&lt;/tr&gt;
+&lt;tr class="tr_head"&gt;
+	&lt;th rowspan="2" align="center"&gt;库容&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;库存&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;未交接&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;空容&lt;/th&gt;	
+	&lt;th rowspan="2" align="center"&gt;未下载&lt;/th&gt;
+	&lt;th colspan="2" align="center"&gt;在途&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;库容&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;库存&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;未交接&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;空容&lt;/th&gt;	
+	&lt;th colspan="2" align="center"&gt;在途&lt;/th&gt;
+	
+	&lt;th rowspan="2" align="center"&gt;库容&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;库存&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;未交接&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;空容&lt;/th&gt;	
+	&lt;th rowspan="2" align="center"&gt;未下载&lt;/th&gt;
+	&lt;th colspan="2" align="center"&gt;在途&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;库容&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;库存&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;未交接&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;空容&lt;/th&gt;
+	&lt;th rowspan="2" align="center"&gt;未下载&lt;/th&gt;	
+	&lt;th colspan="2" align="center"&gt;在途&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+
+	&lt;th&gt;配置&lt;/th&gt;
+	&lt;th&gt;自采&lt;/th&gt;
+	&lt;th&gt;配置&lt;/th&gt;
+	&lt;th&gt;自采&lt;/th&gt;
+	&lt;th&gt;配置&lt;/th&gt;
+	&lt;th&gt;自采&lt;/th&gt;
+	&lt;th&gt;配置&lt;/th&gt;
+	&lt;th&gt;自采&lt;/th&gt;
+	
+&lt;/tr&gt;
+                                                         
+                                                        </FuncTitle>
+                                                        <Columns> 
+                                                                
+                                                                <Column name="团组类型" group="0" code="dept"></Column>
+                                                                <Column name="部门" group="0" code="total_num"></Column>
+                                                                <Column name="部门" group="0" code="total_num"></Column>
+                                                                <Column name="部门" group="0" code="total_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="total_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                <Column name="部门" group="0" code="group_num"></Column>
+                                                                
+                                                        </Columns>         
+</ReportBody>
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

@@ -1,0 +1,138 @@
+<PUBLIC:COMPONENT tagName="CommonSelect">
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+var oConfig = null;
+var oPopup = window.createPopup();
+var eInput = null;
+var s = '';
+s += '<DIV style="border:1px solid black;padding:0px">';
+s += '<div id="itemContainer" style="overflow:scroll; overflow-x:hidden;height:150; scrollbar-base-color:#c2d3fc; border-bottom:2px solid #666666; SCROLLBAR-HIGHLIGHT-COLOR: #eoeoeo; SCROLLBAR-ARROW-COLOR: white;"></div>';
+oPopup.document.body.innerHTML = s; 
+
+var oItemContainer = oPopup.document.all.itemContainer;
+
+function CConfig(){
+	this._value 	= element.value;
+	this._name	= element.InputName;
+	this._label = element.label;
+	this._constr = element.constr;
+	this._width = element.ConWidth;
+}
+
+function init(){
+	oConfig = new CConfig();
+	draw();
+}
+
+function fnItemMouseOver(){
+		this.style.backgroundColor = "#E8EBF7";
+		this.style.borderTopWidth = "1px";
+		this.style.borderRightWidth = "1px";
+		this.style.borderBottomWidth = "1px";
+		this.style.borderLeftWidth = "1px";
+		this.style.borderBottomStyle = "dashed";
+		this.style.borderTopColor = "#FFBBBB";
+		this.style.borderRightColor = "#FFBBBB";
+		this.style.borderBottomColor = "#FFBBBB";
+		this.style.borderLeftColor = "#FFBBBB";
+}
+
+function fnItemMouseOut(){
+	 if(this.value==""){
+		this.style.borderBottom = "1px solid black";
+	}
+	 else{
+	  this.style.borderBottom="";
+	  }
+		this.style.backgroundColor = "";
+		this.style.borderTopWidth = "";
+		this.style.borderRightWidth = "";
+		this.style.borderLeftWidth = "";
+		this.style.borderTopColor = "";
+		this.style.borderRightColor = "";
+		this.style.borderLeftColor = "";
+}
+
+function fnItemClick(){
+	eval(oConfig._name+"_Label").innerText = this.innerText;
+	eInput.value = this.value;
+	if(this.value==""){
+		eInput.previousSibling.firstChild.firstChild.children[1].innerText = 6;
+	} 
+	else{
+		eInput.previousSibling.firstChild.firstChild.children[1].innerText = 5;
+	}
+	oPopup.hide();
+}
+
+function CreateItem(){
+
+	oItemContainer.innerHTML = '';
+	var arr = oConfig._constr.split(";");
+  var newarr = new Array();
+  newarr.push(oConfig._value+","+oConfig._label);
+  for(var i=0;i<arr.length;i++){
+   	newarr.push(arr[i]);
+  }
+	for(var i=0;i<newarr.length;i++){
+		var v_key = new String(newarr[i].split(",")[0]);
+		var v_value = new String(newarr[i].split(",")[1]);
+		
+		var oDiv = oPopup.document.createElement("DIV");
+		oDiv.onmouseover = fnItemMouseOver;
+		oDiv.onmouseout = fnItemMouseOut;
+		oDiv.onclick = fnItemClick;
+		
+		oDiv.innerText = v_value;
+		oDiv.style.fontFamily = "verdana";
+		oDiv.style.fontSize = "70%";
+		oDiv.style.backGround = "#e4e4e4";
+		if(i==0){
+			oDiv.style.borderBottom = "1px solid black";
+		}  
+		
+		oDiv.style.padding = "2px";
+		oDiv.style.paddingLeft = "10px";
+		oDiv.style.paddingTop = "6px";
+		oDiv.style.cursor = "hand";
+		oDiv.style.height = "25px";
+		oDiv.value = v_key
+		oDiv.style.filter ="";
+		oItemContainer.appendChild(oDiv);
+} 
+}
+
+
+function fnPopup(){
+	if(typeof(oConfig._width)=='undefined' || oConfig._width=='' || oConfig._width==null || oConfig._width=="undefined"){
+		oConfig._width = 100;
+	}
+	oPopup.show(0, 20, oConfig._width,186, eval(oConfig._name+"_Label"));
+	CreateItem();
+}
+
+function draw(){
+	var s = '';
+	s += '<TABLE cellpadding="0" cellspacing="0"><TR><TD height=20 id="'+oConfig._name+'_Label" style="background:#ffffff;border:1px solid #666666;padding-left:8px;padding-right:8px;font-size:80%">'+label+'</TD>';
+	
+	s += '<TD id="'+oConfig._name+'_Button" style="font-size:60%;font-family:webdings;border:1px solid #666666;border-left:0px;cursor:hand">';
+	s += '6' ;
+	s += '</TD>';	//以后用图标取代
+	s += '</TR></TABLE>';
+	
+	
+	element.innerHTML = s;
+	
+	eval(oConfig._name+"_Button").attachEvent("onclick",fnPopup);	
+	eInput = document.createElement("INPUT");
+	eInput.id = oConfig._name;
+	eInput.name = oConfig._name;
+	eInput.value = oConfig._value;
+	eInput.type = "hidden";
+	element.appendChild(eInput);
+}
+
+
+
+</SCRIPT>
+</PUBLIC:COMPONENT>

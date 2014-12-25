@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="report_queue" title="到库排队统计">
+                <Parameter> 
+    <Cond title="油库" id="cond2" paraname="depot"/>                 
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">
+                        
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select ROWNUM,t.oildepot_name,t.trans_code,t.truck_code,t.starttime_a,decode(t.endtime_A,null,'未开单',to_char(t.endtime_A, 'YYYY-MM-DD HH24:MI:SS')) AS endtime_A ,fx_count_TIME(t.starttime_a,DECODE(t.endtime_A,NULL,SYSDATE,t.endtime_A)) as count_a
+from LM_TRANS_MONITOR t   where  t.oildepot_code =nvl(#depot#,t.oildepot_code)
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+                                                到库排队统计
+ 
+                                                </ReportHeader>
+<ReportBody>
+                                                        <FuncTitle outputtype="function">
+
+&lt;tr class="tr_head"&gt;
+
+	&lt;td&gt;序号&lt;/td&gt;
+	&lt;td&gt;油库名称&lt;/td&gt;
+	&lt;td&gt;运输车辆&lt;/td&gt;
+	&lt;td&gt;配置计划单号&lt;/td&gt;
+	&lt;td&gt;到库时间&lt;/td&gt;
+	&lt;td&gt;开单时间&lt;/td&gt;
+	&lt;td&gt;在站未开单时间&lt;/td&gt;
+	
+	
+&lt;/tr&gt;
+                                                         
+                                                        </FuncTitle>
+                                                        <Columns> 
+                                                                
+                                                                <Column name="序号" group="0" code="ROWNUM" ></Column>
+                                                                <Column name="油库名称" group="0" code="oildepot_name"></Column>
+                                                                <Column name="运输车辆" group="0" code="truck_code"></Column>
+                                                                <Column name="配置计划单号" group="0" code="trans_code"></Column>
+                                                                <Column name="到库时间" group="0" code="starttime_a"></Column>
+                                                                <Column name="开单时间" group="0" code="endtime_A"></Column>
+                                                                <Column name="在站未开单时间" group="0" code="count_a"  ></Column>
+
+                                                                                      
+                                                        </Columns>         
+</ReportBody>
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                              
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

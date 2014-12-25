@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link type="text/css" rel="stylesheet" href="css/ext-all.css" />
+<link type="text/css" rel="stylesheet" href="css/report.css" />
+
+
+<SCRIPT LANGUAGE="Javascript" SRC="fusionchart/FusionCharts.js"></SCRIPT>
+<SCRIPT LANGUAGE="Javascript" SRC="include/js/ext.js"></SCRIPT>
+<script language="javascript">
+	function updateChart(domId,check_name,other_params,cond_name, cond_value)
+	{
+		try
+		{
+			var cp="";
+ 			var cv="";
+ 			if (check_name!="")
+ 			{
+ 				var cks = document.getElementsByName(check_name);
+ 				for(var i =0;i<cks.length; i++)
+ 				{
+   					if (cks[i].checked)
+   					{
+						cp+=cks[i].value+",";
+						cv+=cks[i].text+",";
+					}
+				}
+				cp=cond_name+"="+cp;
+				cv=cond_value+"="+cv;
+			}
+			
+			other_params = encodeURI(other_params+"&"+cp+"&"+cv,true);
+			var chartObj = getChartFromId(domId);
+			Ext.Ajax.defaultHeaders = {'Content-Type':'application/text; charset=utf-8'}; 
+			Ext.Ajax.request({ 
+				url : other_params ,
+				params : null, 
+				method : "POST", 
+				success : function(result, request){ 
+					chartObj.setDataXML(result.responseText);
+				},
+				failure : function(result, request) {}
+				}
+			);
+		}catch(e)
+		{}
+	}
+</script>
+
+</head>
+<body>
+	<center>
+		<table width="98%">
+			<tr>
+				<td><div id="div_$chartid"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form name="form_$chartid" action="" method="POST">
+					$checkbox
+					<script LANGUAGE="JavaScript">
+						var chart1 = new FusionCharts("fusionchart/Pie3D.swf?LoadDataErrorText=\u6b63\u5728\u52a0\u8f7d\u6570\u636e", "$chartid", "600", "400", "0", "1");		   
+						chart1.setTransparent(false);
+						chart1.render("div_$chartid");
+						updateChart("$chartid","","$url");
+					</script>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</center>
+</body>
+</html>

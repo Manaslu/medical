@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/ThunderReportEZ/css/report.css"/>
+<link rel="stylesheet" type="text/css" href="/ThunderReportEZ/css/ext-all.css"/>
+<script src="/ThunderReportEZ/include/js/ext-base.js"></script>
+<script src="/ThunderReportEZ/include/js/ext-all.js"></script>
+<script src="/ThunderReportEZ/include/js/report.js"></script>
+<script src="/ThunderReportEZ/WEB-INF/include/reportserver.js"></script>
+<style type="text/css">
+			.the-table { border:1px solid #bbb;border-collapse:collapse; }
+			.the-table td { border:1px solid #ccc;border-collapse:collapse;padding:1px; font: normal 11px arial, helvetica, tahoma, sans-serif}
+</style>
+</head>
+<body>
+<div>
+$table
+</div>
+#if($back)
+<div id="back" align="center">
+<a href="javascript:history.go(-1)"><input onclick="javascript:history.go(-1)" type="button" class="backbutton" title="返回"/></a>
+</div>
+#end
+</body>
+</html>
+<script>
+
+function addTooltip(el,text){
+        Ext.QuickTips.init();
+     Ext.QuickTips.autoDismissDelay=50000;
+		Ext.QuickTips.register({
+					target: el,
+					text : text,
+					width : 403,
+					enabled:true,
+	     			trackMouse:true
+			})	
+	    Ext.QuickTips.enable();
+}
+  
+
+ var div4=document.getElementById('divcontainer4');
+ if(div4){
+		var tb1=div4.firstChild.getElementsByTagName('TBODY')[0];
+		var tbd1=tb1.getElementsByTagName('TBODY')[0];
+		var tbd2=tb1.getElementsByTagName('TBODY')[1];
+		var ele1=tbd1.firstChild.firstChild;
+		var ele2=tbd2.firstChild.firstChild;
+		var tooltiptext='<table class=the-table><tr><td colspan=4>普通电话包括如下产品： </td></tr><tr><td>110001</td><td>普通电话</td><td>110002</td><td>ISDN 2B＋D</td></tr><tr><td>110003</td><td>ISDN 30B＋D</td><td>110004</td><td>数字用户中继线</td></tr><tr><td>110005</td><td>市内模拟用户中继线</td><td>110006</td><td>用户交换机电话（PBX）</td></tr><tr><td>110007</td><td>集中用户交换机（CENTREX）电话</td><td>110010</td><td>95/96 专线</td></tr><tr><td>110013</td><td>长途190业务</td><td>110016</td><td>模拟中继</td></tr><tr><td>110051</td><td>集中用户交换机<CENTREX></td><td>130002</td><td>ETS电话（就是CDMA450）</td></tr><tr><td>130004</td><td>SCDMA406电话</td><td>130005</td><td>ETS电话</td></tr></table>';
+	if(ele1.innerHTML!=null&&ele1.innerHTML!='没有数据'){	
+		ele1.innerHTML='<span id="qtip1">'+ele1.innerHTML+'</span>';
+		var span1=ele1.getElementsByTagName('span')[0];
+        addTooltip(span1,tooltiptext);
+	}
+	if(ele2.innerHTML!=null&&ele2.innerHTML!='没有数据'){	
+		ele2.innerHTML='<span id="qtip2">'+ele2.innerHTML+'</span>';
+		var span2=ele2.getElementsByTagName('span')[0];
+        addTooltip(span2,tooltiptext);
+	}
+ }	
+</script>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+	<bean class="com.teamsun.thunderreport.database.DmiSampleValue">
+		<property name="ref_name" value="bil_date" />
+		<property name="key">
+			<value>20140110</value>
+		</property>
+		<property name="value">
+			<value>20140110</value>
+		</property>
+	</bean>
+
+ 
+	
+	<bean class="com.teamsun.thunderreport.database.DmiSampleValue">
+		<property name="ref_name" value="eorg"></property>
+		<property name="key" value="10000100"></property>
+		<property name="value" value="10000100"></property>
+	</bean>
+
+	<bean class="com.teamsun.thunderreport.database.DmiSampleValue">
+		<property name="ref_name" value="bil_date" />
+		<property name="key">
+			<value>20140110</value>
+		</property>
+		<property name="value">
+			<value>20080110</value>
+		</property>
+	</bean>
+
+	<bean class="com.teamsun.thunderreport.database.DmiSampleValue">
+		<property name="ref_name" value="prd_id" />
+		<property name="key">
+			<value>110004,120011,150003</value>
+		</property>
+		<property name="value">
+			<value>110004,120011,150003</value>
+		</property>
+	</bean>
+
+	<bean class="com.teamsun.thunderreport.database.DmiSampleValue">
+		<property name="ref_name" value="test_table" />
+		<property name="key">
+			<value>1,2,3,4,5,6,7</value>
+		</property>
+		<property name="value">
+			<value>A,B2,C3,D4,E5,F6,G7</value>
+		</property>
+	</bean>
+
+	<bean class="com.teamsun.thunderreport.database.DmiSampleValue">
+		<property name="ref_name" value="begindate"></property>
+		<property name="key" value="2014-05-01"></property>
+		<property name="value" value="2014-05-01"></property>
+	</bean>
+
+	<bean class="com.teamsun.thunderreport.database.DmiSampleValue">
+		<property name="ref_name" value="enddate"></property>
+		<property name="key" value="2014-05-02"></property>
+		<property name="value" value="2014-05-02"></property>
+	</bean>
+</beans>

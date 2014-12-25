@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="gjxb4" title="留存客户情况">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="month"/>           
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+select a1,a2,a3,a4,a5,a6
+   from t07_rpt_detail t where t.show_id='gjxb4' and t.day_id=#month#
+   order by order_id
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													留存客户情况
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;月份&lt;/td&gt;
+&lt;td&gt;本月交寄客户&lt;/td&gt;
+&lt;td&gt;从上月留存下的客户数&lt;/td&gt;
+&lt;td&gt;上月客户流失比例&lt;/td&gt;
+&lt;td&gt;上月留存客户占本月客户数比例&lt;/td&gt;
+&lt;td&gt;留存客户业务贡献量比&lt;/td&gt;
+
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+<Column name="月份" group="0" code="a1"  ></Column>
+<Column name="本月交寄客户" group="0" code="a2"  ></Column>
+<Column name="从上月留存下的客户数" group="0" code="a3"  ></Column>
+<Column name="上月客户流失比例" group="0" code="a4"  ></Column>
+<Column name="上月留存客户占本月客户数比例" group="0" code="a5" ></Column>
+<Column name="留存客户业务贡献量比" group="0" code="a6"  ></Column>
+
+
+
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

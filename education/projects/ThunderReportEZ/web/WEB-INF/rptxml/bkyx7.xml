@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyx7" title="">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>          
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+select 
+   A1                
+   ,A2             
+   ,A3             
+   ,A4             
+   ,A5                         
+   from t07_rpt_detail t where t.show_id='bkyx7' and t.day_id=#year# and t.org_id=#org#
+   order by t.order_id
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													单位订阅情况分析
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt; &lt;/td&gt;
+&lt;td&gt;商务楼个数&lt;/td&gt;  
+&lt;td&gt;总计单位数量&lt;/td&gt;
+&lt;td&gt;订报刊单位数&lt;/td&gt;
+&lt;td&gt;订阅渗透率平均值&lt;/td&gt;
+
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+<Column name="" group="0" code="a1"  ></Column>
+<Column name="" group="0" code="a2"  ></Column>
+<Column name="" group="0" code="a3"   ></Column>
+<Column name="" group="0" code="a4"   ></Column>
+<Column name="" group="0" code="a5"   ></Column>
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

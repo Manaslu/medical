@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+     
+    
+<mapper namespace="com.idap.danalysis.entity.ParaImportantClient" >
+	 
+    <resultMap id="paraImportantClient" type="com.idap.danalysis.entity.ParaImportantClient">
+		<result property="clientId" column="INDUST_TYPE_CD" jdbcType="VARCHAR" />
+		<result property="clientName" column="IDSTRY_TYPE_NAME" jdbcType="VARCHAR" />
+	</resultMap>
+	 
+		<sql id="queryBody">
+				<!-- 有orderby -->
+				<if test="sno!=null and eno!=null and orderBy!=null">
+					select
+					*
+					from
+					(
+					select orderContentTab.*,ROWNUM AS rowno
+					from
+					(
+				</if>
+				<!-- 无orderby -->
+				<if test="sno!=null and eno!=null and orderBy==null">
+					select
+					*
+					from
+					(
+				</if>
+				<!-- 查询的主体内容：start -->
+				select
+				<!-- 无orderby -->
+				<if test="sno!=null and eno!=null and orderBy==null">
+					ROWNUM AS rowno,
+				</if>
+				 
+			<include refid="allColumn" />
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+				 
+				
+				<!-- 查询的主体内容：end -->
+				<!-- 无orderBy -->
+				<if test="sno!=null and eno!=null and orderBy==null">
+					) pageTab
+					WHERE pageTab.rowno <![CDATA[>=]]>	${sno}
+				</if>
+				<!-- 有orderBy -->
+				<if test="sno!=null and eno!=null and orderBy!=null">
+					) orderContentTab
+					WHERE ROWNUM <![CDATA[<=]]>${eno}
+					) pageTab
+					WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+				</if>
+		</sql>		
+	
+	
+	   <sql id="allColumn">
+			
+      T.CLIENT_ID,
+      T.CLIENT_NAME 
+
+	   </sql>
+		<sql id="bodyfrom">
+		
+				 FROM T04_CDE_IMPORTANT_CLIENT  T 
+ 
+	    </sql>
+	
+		<!-- 2.1.根据条件查询 列表 分页 排序  -->
+	<select id="findByPager" parameterType="java.util.Map" resultMap="paraImportantClient">
+		<include refid="queryBody" />
+		 
+	</select>
+	
+	<select id="paraImportantClientquery" parameterType="java.util.Map" resultMap="paraImportantClient">
+		<include refid="queryBody" />
+		 
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="paraImportantClient">
+		<include refid="queryBody" />
+		 
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select 
+			count(1)
+			<include refid="bodyfrom" />
+			<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+	
+    <sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="paperCode!=null">
+				  T.PAPER_CODE = ${paperCode}
+			</if>
+			 
+		</trim>
+		
+		ORDER BY 1
+ 
+	</sql>
+	
+</mapper>
+
+
+
+

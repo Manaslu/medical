@@ -18,7 +18,7 @@
             //测试报表地址
             //resultPath : 'http://172.17.181.132:8080/'
         	//10.3.24.71 weblogic  此处不能加斜杠
-            resultPath : 'http://10.3.24.71:7001'
+            resultPath : 'http://localhost:8080'
         	//10.3.24.71 tomcat
             //resultPath : 'http://10.3.24.71:7002/'
         },

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="single1" title="">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>  
+<Cond title="表名" id="cond3" paraname="table"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+select day_id
+   ,A1                
+   ,A2             
+   ,A3             
+   ,A4                                      
+   from #table# t where t.show_id='single1' and t.day_id between #year#-2 and #year# and t.org_id=#org#
+   order by t.day_id
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;年份&lt;/td&gt;
+&lt;td&gt;报刊代号&lt;/td&gt;  
+&lt;td&gt;期发份数&lt;/td&gt;
+&lt;td&gt;订阅份数&lt;/td&gt;
+&lt;td&gt;订阅金额&lt;/td&gt;
+
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+<Column name="" group="0" code="day_id"   ></Column>
+<Column name="" group="0" code="a1"  ></Column>
+<Column name="" group="0" code="a2"  ></Column>
+<Column name="" group="0" code="a3"   ></Column>
+<Column name="" group="0" code="a4"   ></Column>
+
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

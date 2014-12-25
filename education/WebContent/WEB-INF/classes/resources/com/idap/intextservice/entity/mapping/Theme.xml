@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：T08_RESULT_ANA_THEME -->
+<mapper namespace="com.idap.intextservice.result.subscriptions.entity.Theme">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="themeMap" type="com.idap.intextservice.result.subscriptions.entity.Theme">
+		<result property="anaThemeId" column="ANA_THEME_ID" jdbcType="VARCHAR" />
+		<result property="anaThemeName" column="ANA_THEME_NAME" jdbcType="VARCHAR" />
+		<result property="anaThemeDesc" column="ANA_THEME_DESC" jdbcType="VARCHAR" />
+		<result property="dispResourceLink" column="DISP_PESOURCE_LINK" jdbcType="VARCHAR" />
+		<result property="state" column="STATE" jdbcType="VARCHAR" />
+		<result property="createPsn" column="CREATE_PSN" jdbcType="VARCHAR" />
+		<result property="createDt" column="CREATE_DT" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 查询订阅主题 -->
+	<select id="query" parameterType="java.util.Map" resultMap="themeMap">
+		select t.ana_theme_id,t.ana_theme_name from T08_RESULT_ANA_THEME t
+	</select>
+</mapper>

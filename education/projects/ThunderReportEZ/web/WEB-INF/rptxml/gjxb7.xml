@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="gjxb7" title="各省国内小包交寄客户情况表">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="month"/>           
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select    
+        A1                
+   ,A2             
+   ,A3             
+   ,A4             
+   ,A5               
+from t07_rpt_detail t where t.show_id='gjxb7' and t.day_id=#month#   
+   order by order_id
+
+                                                        </Sql>
+                                                 <ReportHeader outputtype="print">
+													各省国内小包交寄客户情况表
+                                                </ReportHeader>
+<ReportBody>
+                        <FuncTitle outputtype="print">
+
+                          &lt;tr class="tr_head"&gt;
+				&lt;td&gt;收寄省份&lt;/td&gt;
+				&lt;td&gt;寄达地&lt;/td&gt;			
+				&lt;td&gt;业务量(万件)&lt;/td&gt;		
+				&lt;td&gt;占总业务量的比例&lt;/td&gt;			
+				&lt;td&gt;收寄时间-妥投时间（天）&lt;/td&gt;		
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+<Column name="u" group="0" code="a1" type="measure" ></Column>
+<Column name="u" group="0" code="a2" type="measure" ></Column>
+<Column name="u" group="0" code="a3" type="measure" ></Column>
+<Column name="u" group="0" code="a4" type="measure" ></Column>
+<Column name="u" group="0" code="a5" type="measure" ></Column>
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

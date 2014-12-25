@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="comp_simple" title="集团公司简单统计">
+                <Parameter>  
+					<Cond title="日期" id="cond1" paraname="month_ed"/>               
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">SELECT t.dept,t.group_num,t.total_num,t.col1,t.col2,t.col3,t.col4
+                                                        FROM tb_report t 
+                                                        WHERE t.rpt_id='RP004' 
+                                                        ORDER BY t.dept_id
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													4月份各省国内小包交寄客户情况表
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+			  &lt;tr class="tr_head"&gt;
+				&lt;td&gt;省份&lt;/td&gt;
+				&lt;td&gt;地区&lt;/td&gt;
+				&lt;td&gt;本月交寄客户&lt;/td&gt;					
+			  &lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+			  <Column name="省份" group="1" code="dept" type="dim" sumname="总计" summary="1"  sumby="" sumpos="after" ></Column>
+			  <Column name="地区" group="0" code="col1"  type="dim" sumname="总计" summary="1"  sumby="dept" sumpos="after" ></Column>
+				<Column name="本月交寄客户" group="0" code="group_num" type="measure" ></Column>
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

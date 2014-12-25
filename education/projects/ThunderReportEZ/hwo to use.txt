@@ -1,0 +1,17 @@
+ 
+修改database.properties 中的oracle配置
+ 
+
+
+
+
+
+
+页面引入:
+
+<iframe frameborder=0 id="reportareaid" frameborder=0 width="1280" height="600"  marginheight=0 marginwidth=0  src="http://localhost:8080//ThunderReportEZ/RepresentAction?filename=stream_one_on.xml&index=8"></iframe> 
+
+
+可以直接在浏览器中输入:
+
+http://localhost:8080//ThunderReportEZ/RepresentAction?filename=stream_one_on.xml&index=8 查看效果

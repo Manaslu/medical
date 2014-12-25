@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyw1" title="人均流转额分析">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select province as a1, l.a2, l.a3
+  from (select m.subs_year,
+               l.province,
+               m.prov_cd,
+               m.subs_sum / l.population a2,
+               (m.subs_sum / l.population - n.subs_sum / l.population) /
+               n.subs_sum as a3
+          from (select a.subs_year,
+                       a.dist_cd as prov_cd,
+                       sum(a.subs_sum) as subs_sum
+                  from TB_BK_OVERALL_99 a
+                 group by a.subs_year, dist_cd) m
+          left join (select a.subs_year,
+                           a.dist_cd as prov_cd,
+                           sum(a.subs_sum) as subs_sum
+                      from TB_BK_OVERALL_99 a
+                     group by a.subs_year, dist_cd) n on m.subs_year =
+                                                                         n.subs_year + 1
+                                                                     and m.prov_cd =
+                                                                         n.prov_cd
+          left join (select * from T07_POPULATION) L ON n.prov_cd =
+                                                        L.DIST_CD
+                                                    and m.subs_year = l.year
+         order by m.subs_year, m.prov_cd) l
+ where l.subs_year =#year# and  substr(prov_cd,1,2)=decode(#org#,99,substr(prov_cd,1,2),#org#)
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+                                                各省大客户数量及业务量贡献情况
+                                                </ReportHeader>
+<ReportBody>
+                        <FuncTitle outputtype="print">
+
+                          &lt;tr class="tr_head"&gt;
+&lt;td&gt;省份&lt;/td&gt;
+&lt;td&gt;人均流转额&lt;/td&gt;
+&lt;td&gt;人均流转额增长&lt;/td&gt;
+                       &lt;/tr&gt;                                                                                                        
+                        </FuncTitle>
+                        <Columns>
+
+
+<Column name="u" group="0" code="a1"  type="measure" ></Column>
+<Column name="u" group="0" code="a2" format="#0.00" type="measure" ></Column>
+<Column name="u" group="0" code="a3" format="#0.00%" type="measure" ></Column>
+
+
+
+
+                    </Columns>
+        </ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

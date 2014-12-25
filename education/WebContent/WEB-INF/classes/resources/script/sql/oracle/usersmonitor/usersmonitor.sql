@@ -1,0 +1,8 @@
+create table T02_USER_ONLINE (
+    SESSION_ID NVARCHAR2(64) not null,
+    USER_ID INTEGER  not null,
+    LOGIN_NAME NVARCHAR2(40)  not null,
+    USR_NAME NVARCHAR2(40),
+    TS NVARCHAR2(20)
+);
+create index TXSESSION_ID on T02_USER_ONLINE(SESSION_ID);

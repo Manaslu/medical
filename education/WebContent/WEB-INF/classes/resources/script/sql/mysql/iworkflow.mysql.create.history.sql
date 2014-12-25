@@ -1,0 +1,22 @@
+create table IWF_HI_TASKINST (
+    ID varchar(64) not null,
+    PROC_DEF_ID varchar(64),
+    TASK_ACTION_CODE varchar(255),
+    ACTION_TYPE varchar(20),
+    PROC_INST_ID varchar(64),
+    EXECUTION_ID varchar(64),
+    TASK_NAME varchar(255),
+    PARENT_TASK_ID varchar(64),
+    DESCRIPTION varchar(4000),
+    OWNER varchar(64),
+    ASSIGNEE varchar(64),
+    START_TIME datetime not null,
+    END_TIME datetime,
+    DELETE_REASON varchar(4000),
+    REMARK varchar(4000),
+    SIGNATURE varchar(4000),
+    PRIORITY integer,
+    PRESTAGE_TASK_CODE varchar(255),
+    PRESTAGE_TASK_NAME varchar(255),
+    primary key (ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;

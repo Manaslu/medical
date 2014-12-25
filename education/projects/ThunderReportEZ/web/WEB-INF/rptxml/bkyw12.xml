@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="bkyw1" title="校园期刊分析">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>        
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+				<CrossGrid id="grid1" >
+						<Sql db="template_mysql">
+select t.parent_name as dim,t.group_name as datatype,t.a1 as datavalue,t.b1 as value from t07_nps_graph t
+where t.show_id=110025 
+and t.org_code=#org#
+and t.ym_id =#year# 
+order by t.a1 desc
+
+							</Sql>
+						<ReportHeader outputtype="print">
+						</ReportHeader>
+						<ReportBody>
+							<FuncTitle outputtype="print">
+							</FuncTitle>
+								<RowDims>
+									<Dim code="dim" name="省份" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{dim}</Dim>
+								</RowDims>
+								<ColDims>
+									<Dim code="datatype" name="指标" summary="0" group="0" sumname="总计" sumby="" sumpos="after">{datatype}</Dim>
+									
+								</ColDims>
+								<Measures crosswith="RowDims">
+								    <Measure code="datavalue" name="" format="#0.00" >{datavalue}</Measure>
+
+								</Measures>
+						</ReportBody>
+						<ReportFooter>
+						</ReportFooter>
+				</CrossGrid>                              
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

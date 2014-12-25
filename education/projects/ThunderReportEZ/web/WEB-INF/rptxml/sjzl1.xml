@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="sjzl1" title="订阅卡片数据完备情况">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="year"/>    
+<Cond title="地区" id="cond2" paraname="org"/>          
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+Select * from NPS_AIS_IDSS_#org#_RES  order by id
+
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													订阅卡片数据完备情况
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;ID&lt;/td&gt;
+&lt;td&gt;字段名称&lt;/td&gt;
+&lt;td&gt;字段描述&lt;/td&gt;
+&lt;td&gt;字段类型&lt;/td&gt;
+&lt;td&gt;记录数&lt;/td&gt;
+&lt;td&gt;唯一值个数&lt;/td&gt;
+&lt;td&gt;字段完整量&lt;/td&gt;
+&lt;td&gt;字段完整率&lt;/td&gt;
+
+
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+<Column name="" group="0" code="ID"  ></Column>
+<Column name="" group="0" code="COLUMN_NAME"  ></Column>
+<Column name="" group="0" code="COLUMN_DESC"   ></Column>
+<Column name="" group="0" code="COLUMN_TYPE"   ></Column>
+<Column name="" group="0" code="ALL_NUM"   ></Column>
+<Column name="" group="0" code="DISTINCT_NUM"   ></Column>
+<Column name="" group="0" code="NOTNULL_NUM"   ></Column>
+<Column name="" group="0" code="NOTNULL_RATE"  format="#0.00%" ></Column>
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                	备注：随机抽取1%做数据质量检查
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

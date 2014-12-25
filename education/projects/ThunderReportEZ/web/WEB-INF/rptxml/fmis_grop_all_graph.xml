@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="fmis_group_all_graph" title="总体情况表">
+	<Parameter>
+	<Cond title="title1" id="id1" paraname="test"/>
+	</Parameter>
+	<BOLayer>
+		<BO id="bo1" db="teradata">
+			Select dim1,dim2,dim3,dim4,sum(m1),sum(m2) from t1,t2 where t1.id=t2.id [and t1.id=#cond1#] [and t2.date=#cond2#] 
+			exec PDU_VIEW_EAP.M_Activeuser_D_P1('86992','20071229','130001')
+		</BO>
+	</BOLayer>
+	<DataUI>
+	<Fusionchart id="chart5"  type="line" layoutfilename="fusionchartlayout2.vm">
+				<Sql db="template_mysql">SELECT t.term_year,sum(t.group_num) AS group_num ,SUM(t.total_num) AS total_num 
+FROM tb_report t
+WHERE t.rpt_id='RP001' 
+GROUP BY t.term_year</Sql>
+				<chart  caption="总体情况表" xAxisName="日期" PYAxisName="到达数" SYAxisName="净增数" showValues="1" placeValuesInside='1' numberPrefix="" numVisiblePlot="19" numberSuffix="个" snumberSuffix="人次" scrollToEnd="1"  formatNumberScale='0' format='0'  palette="1" >
+					<categories reference="term_year">
+					</categories>
+					<datasets select="false" reference="" cond_value="" cond_disp="" ref_group="true">
+						<dataset seriesName="团组数" value="group_num" parentYAxis="P" renderAs="COLUMN" showValues='1' />
+						<dataset seriesName="人次数" value="total_num"  parentYAxis="S" renderAs="LINE" showValues='0' />
+					</datasets>
+				</chart>
+	</Fusionchart>
+	</DataUI>
+	<Layout outputtype="function">
+		<table width="100%" border="0">
+			<tr>
+				<td><div id="div_chart5"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form name="form_chart5" action="" method="POST">
+					#select_chart5#
+					<script LANGUAGE="JavaScript">
+						var chart1 = new FusionCharts("fusionchart/ScrollLine2D.swf", "chart5", "600", "400", "0", "1");		   
+						<!--chart1.setDataURL("#url_chart5#");-->
+						chart1.render("div_chart5");
+						updateChart("chart5","","#url_chart5#","","");
+						
+					</script>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</Layout>
+	</Report>
+

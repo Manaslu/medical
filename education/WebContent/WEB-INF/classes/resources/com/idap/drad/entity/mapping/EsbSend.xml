@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 表名称：T01_ESB_SEND_VIEW -->
+<!-- <typeAlias type="com.idap.drad.entity.EsbSend" alias="EsbSend"/> -->
+<mapper namespace="com.idap.drad.entity.EsbSend">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="esbSendMap" type="com.idap.drad.entity.EsbSend">
+		<result property="systemName" column="SYSTEM_NAME" jdbcType="VARCHAR" />
+		<result property="dataProvince" column="DATA_PROVINCE"
+			jdbcType="VARCHAR" />
+		<result property="tableNameCh" column="TABLE_NAME_CH" jdbcType="VARCHAR" />
+		<result property="tableNameEn" column="TABLE_NAME_EN" jdbcType="VARCHAR" />
+		<result property="dataSentFreq" column="DATA_SENT_FREQ"
+			jdbcType="VARCHAR" />
+		<result property="businessDate" column="BUSINESS_DATE"
+			jdbcType="DATE" />
+		<result property="sendDate" column="SEND_DATE" jdbcType="TIMESTAMP" />
+		<result property="logProvinceNo" column="LOG_PROVINCE_NO"
+			jdbcType="CHAR" />
+	</resultMap>
+
+	<!--================= 动态内容部分 ================= -->
+	<!-- where：动态生成部分 -->
+	<sql id="dynamicWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="systemName!=null">
+				AND SYSTEM_NAME like '%'||#{systemName}||'%'
+			</if>
+			<if test="dataProvince!=null">
+				AND DATA_PROVINCE=#{dataProvince}
+			</if>
+			<if test="tableNameCh!=null">
+				AND TABLE_NAME_CH like '%'||#{tableNameCh}||'%' 
+			</if>
+			<if test="tableNameEn!=null">
+				AND TABLE_NAME_EN=#{tableNameEn}
+			</if>
+			<if test="dataSentFreq!=null">
+				AND DATA_SENT_FREQ=#{dataSentFreq}
+			</if>
+			<if test="sendDate!=null">
+				AND SEND_DATE=#{sendDate}
+			</if>
+			<if test="logProvinceNo!=null">
+				AND LOG_PROVINCE_NO in
+				<foreach item="pno" index="index" collection="logProvinceNo"
+					open="(" separator="," close=")">
+					#{pno}
+				 </foreach>
+			</if>
+			<if test="sno!=null and eno!=null and orderBy==null">
+				AND ROWNUM <![CDATA[<=]]>${eno}
+			</if>
+			<if test="startTime!=null">
+				AND BUSINESS_DATE <![CDATA[>=]]>to_date('${startTime}',
+				'yyyy-mm-dd')
+			</if>
+			<if test="endTime!=null">
+				AND BUSINESS_DATE <![CDATA[<=]]>to_date('${endTime}
+				23:59:59', 'yyyy-mm-dd hh24:mi:ss')
+			</if>
+		</trim>
+
+	</sql>
+
+	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order},RID
+		</if>
+		</if>
+	</sql>
+
+	<!-- group by 分组 -->
+	<sql id="dynamicGroupBy">
+		<if test="groupBy!=null">
+			group by ${groupBy}
+		</if>
+	</sql>
+
+	<!-- 表所有的字段：insert 的表、字段 部分 -->
+	<sql id="allColumn">
+		SYSTEM_NAME,
+		DATA_PROVINCE,
+		TABLE_NAME_CH,
+		TABLE_NAME_EN,
+		DATA_SENT_FREQ,
+		BUSINESS_DATE,
+		SEND_DATE,
+		LOG_PROVINCE_NO
+	</sql>
+
+	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
+	<sql id="queryBody">
+		<!-- 有orderby -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+			select orderContentTab.*,ROWNUM AS rowno
+			from
+			(
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			from
+			(
+		</if>
+		<!-- 查询的主体内容：start -->
+		select
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			ROWNUM AS rowno,
+		</if>
+		<include refid="allColumn" />
+		from
+		T01_ESB_SEND_VIEW
+		<include refid="dynamicWhere" />
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		<!-- 无orderBy -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>
+			${sno}
+		</if>
+		<!-- 有orderBy -->
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			) orderContentTab
+			WHERE ROWNUM <![CDATA[<=]]>${eno}
+			) pageTab
+			WHERE pageTab.rowno <![CDATA[>=]]>
+			${sno}
+			order by BUSINESS_DATE desc
+		</if>
+	</sql>
+
+	<!-- 2.1.根据条件查询 列表 分页 排序 -->
+	<select id="findByPager" parameterType="java.util.Map"
+		resultMap="esbSendMap">
+		<include refid="queryBody" />
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="esbSendMap">
+		<include refid="queryBody" />
+	</select>
+
+	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		count(1)
+		from
+		T01_ESB_SEND_VIEW
+		<include refid="dynamicWhere" />
+	</select>
+
+</mapper>
+
+
+
+

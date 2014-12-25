@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="comp_cplt_graph2" title="按照“所在单位”的团组数统计">
+	<Parameter>
+	<Cond title="title1" id="id1" paraname="year"/>
+	<Cond title="title2" id="id2" paraname="look_for"/>
+	</Parameter>
+	<BOLayer>
+		<BO id="bo1" db="teradata">
+			Select dim1,dim2,dim3,dim4,sum(m1),sum(m2) from t1,t2 where t1.id=t2.id [and t1.id=#cond1#] [and t2.date=#cond2#] 
+			exec PDU_VIEW_EAP.M_Activeuser_D_P1('86992','20071229','130001')
+		</BO>
+	</BOLayer>
+	<DataUI>
+	<Fusionchart id="chart5"  type="line" layoutfilename="barchartlayout.vm">
+				<Sql db="template_mysql">SELECT t.dept_id,t.dept,sum(t.group_num) AS group_num
+FROM tb_report t 
+WHERE t.rpt_id='RP003' AND t.look_for='#look_for#' AND t.term_year='#year#'
+GROUP BY t.dept_id,t.dept
+HAVING sum(t.group_num) IS NOT NULL
+ORDER BY group_num DESC</Sql>
+<chart sumselected="true" baseFontSize='12' chartRightMargin='30' format='0' color="8EAC41" decimals='0' numVisiblePlot="6" numberPrefix="" numberSuffix="个"  scrollToEnd="1" showValues="0" caption="按照“所在单位”的团组数统计" formatNumberScale="0" xAxisName="日期" yAxisName="个">
+					<categories reference="dept">
+					</categories>
+					<datasets cond_disp="" cond_value="" reference="" select="false" color="0000ff">
+						<dataset seriesName="部门" value="group_num" />					
+					</datasets>
+				</chart>
+	</Fusionchart>
+	</DataUI>
+	<Layout outputtype="function">
+		<table width="100%" border="0">
+			<tr>
+				<td><div id="div_chart5"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form name="form_chart5" action="" method="POST">
+					#select_chart5#
+					<script LANGUAGE="JavaScript">
+						var chart1 = new FusionCharts("fusionchart/ScrollLine2D.swf", "chart5", "600", "400", "0", "1");		   
+						<!--chart1.setDataURL("#url_chart5#");-->
+						chart1.render("div_chart5");
+						updateChart("chart5","","#url_chart5#","","");
+						
+					</script>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</Layout>
+	</Report>
+

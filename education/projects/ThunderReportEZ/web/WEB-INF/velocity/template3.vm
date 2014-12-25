@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/ThunderReportYZ/css/report.css"/>
+
+<script language="javascript">
+function fun1(param)	
+{
+	nextPage=parseInt(document.all("pageindex").value)+param;
+	if(nextPage<2){
+		window.location.href=document.all("filename").value+".html";
+	}else{
+		window.location.href=document.all("filename").value+nextPage+".html";
+	}
+}
+function fun2()
+{
+   toPage=parseInt(document.all("selectindex").value);
+   pageCount=parseInt(document.all("pagecount").value);
+   if(toPage>pageCount||toPage<0){
+		alert("输入数字页号超出范围");
+		return false;
+   }
+   if(toPage>1)
+	window.location.href=document.all("filename").value+toPage+".html";
+	else
+	window.location.href=document.all("filename").value+".html";
+}
+</script>
+</head>
+<body>
+	<form id="FA" method="post" action="RepresentAction?index=5">
+		<input type="hidden" name="pageindex" value="$page.getPageindex()"></input>
+		<input type="hidden" name="pagecount" value="$page.getPagecount()"></input>
+		<input type="hidden" name="filename" value="$file"></input>
+		#foreach($key in $parameters.keySet())
+			<input type="hidden" name="$key" value="$parameters.get($key)"></input>
+		#end
+		
+		<table border="1" width="100%" cellspacing="0" cellpadding="0">
+		$table
+		</table>
+		<table border="1px" width="100%" cellspacing="0" cellpadding="0" class="thunderreport" bordercolorlight="#333333"  bordercolordark="#efefef">
+			<tr>
+				<td align="right">
+				#if($page.hasPrevious())
+					<a href="#" onclick="javascript:fun1(-1);">上一页</a>
+				#else
+					上一页
+				#end
+				</td>
+				<td align="center" width="100">
+				#if($page.hasNext())
+					<a href="#" onclick="javascript:fun1(1);">下一页</a>
+				#else
+					下一页
+				#end
+				</td>
+				<td align="center" width="100">当前第$page.getPageindex()页</td>
+				<td align="center" width="100">共$page.getPagecount()页</td>
+				<td align="center" width="100">共$page.getRecordcount()条记录</td>
+				<td align="center" width="100"><a href="#" onclick="javascript:fun2()">跳转</a><input type="text" id="selectindex" value="$page.getPageindex()"></td></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

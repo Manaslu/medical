@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="gnxb2" title="月份各省国内小包交寄客户情况表">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="month"/>           
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+
+select 
+   A1                
+   ,A2             
+   ,A3             
+
+   from t07_rpt_detail t where t.show_id='gnxb2' and t.day_id=#month#
+   order by t.order_id
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													各省国内小包交寄客户情况表
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+&lt;td&gt;省份&lt;/td&gt;
+				&lt;td&gt;本月交寄客户&lt;/td&gt;			
+				&lt;td&gt;交寄客户环比增长&lt;/td&gt;	
+
+	
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+<Column name="省份" group="0" code="a1"  ></Column>
+<Column name="业务量(万件)" group="0" code="a2"  ></Column>
+<Column name="较上月净增（万件）" group="0" code="a3"  ></Column>
+
+
+
+
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

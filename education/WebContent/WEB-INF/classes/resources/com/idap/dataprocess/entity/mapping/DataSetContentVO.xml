@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <typeAlias type="com.idap.dataprocess.dataset.entity.DataSetMaintainLog" alias="DataSetMaintainLog"/> -->
+<mapper namespace="com.idap.dataprocess.dataset.entity.DataSetContent">
+
+	<!-- ================================================= -->
+	<update id="update" parameterType="java.util.Map">
+		update ${tableName} set
+		<foreach item="col" index="i" collection="values" open=" " separator=" , " close="">
+			<if test="col.val==null">
+				${col.key}=NULL
+			</if>
+			<if test="col.val!=null">
+				${col.key}=#{col.val}
+			</if>
+		</foreach>
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<foreach item="col" index="index" collection="wheres" open=" " separator=" AND " close="">
+				${col.key}=#{col.val}
+			</foreach>
+		</trim>
+	</update>
+	<!-- ================================================= -->
+	<!-- 5.2 多条插入 -->
+	<insert id="insert" parameterType="java.util.Map">
+		INSERT INTO ${tableName}
+		(
+		<foreach item="col" index="index" collection="columns" open=" " separator=", " close="">
+			${col.columnName}
+		</foreach>
+		)
+		<foreach item="val" index="index" collection="values" open=" values( " separator="," close=")">
+			<if test="index==0">
+				SEQ_T06_DATA_SET_CONTENT.NEXTVAL,
+			</if>
+			<if test="val==null">
+				NULL
+			</if>
+			<if test="val!=null">
+				#{val}
+			</if>
+
+		</foreach>
+	</insert>
+
+	<!-- ================================================= -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from ${tableName}
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<foreach item="col" index="index" collection="w_columns" open=" " separator=" AND " close="">
+				${col}=${w_values[index]}
+			</foreach>
+		</trim>
+	</delete>
+	<!-- ================================================= -->
+	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+			</if>
+		</if>
+	</sql>
+	<select id="findByPager" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		select
+		<foreach item="col" index="index" collection="columns" open=" " separator="," close="">
+			${col.columnName}
+		</foreach>
+		from (
+		<!-- 查询的主体内容：start -->
+		select
+		ROWNUM AS rowno
+		<foreach item="col" index="index" collection="columns" open=" " separator="" close="">
+			,${col.columnName}
+		</foreach>
+		from
+		(select
+		ROWNUM AS rowno
+		<foreach item="col" index="index" collection="columns" open=" " separator="" close="">
+			,${col.columnName}
+		</foreach>
+		from
+		${tableName}
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="likeColumn!=null and likeContent!=null">
+				${likeColumn} like '%'||#{likeContent}||'%'
+			</if>
+			<if test="id!=null">
+				id=#{id}
+			</if>
+			<if test="isToEmpty!=null and isToEmpty=='Y'.toString()">
+				AND
+				<foreach item="col" index="index" collection="columns" open="(" separator="or" close=")">
+					${col.columnName} is not null
+				</foreach>
+			</if>
+
+		</trim>
+		<include refid="dynamicOrderBy" />
+		<!-- 查询的主体内容：end -->
+		) orderContentTab
+		WHERE ROWNUM <![CDATA[<=]]>${eno}
+		) pageTab
+		WHERE pageTab.rowno <![CDATA[>=]]>${sno}
+	</select>
+
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int">
+		select count(1) from ${tableName}
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="likeColumn!=null and likeContent!=null">
+				${likeColumn} like '%'||#{likeContent}||'%'
+			</if>
+			<if test="isToEmpty!=null and isToEmpty=='Y'.toString()">
+				AND
+				<foreach item="col" index="index" collection="columns" open="(" separator="or" close=")">
+					${col.columnName} is not null
+				</foreach>
+			</if>
+		</trim>
+	</select>
+
+	<select id="query" parameterType="java.util.Map" resultType="hashmap">
+		select
+		<foreach item="col" index="index" collection="columns" open=" " separator="," close="">
+			${col.columnName}
+		</foreach>
+		from
+		${tableName}
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="likeColumn!=null and likeContent!=null">
+				${likeColumn} like '%'||#{likeContent}||'%'
+			</if>
+			<if test="id!=null">
+				id=#{id}
+			</if>
+		</trim>
+
+
+	</select>
+	<!-- ========================创建表========================= -->
+	<select id="create" parameterType="java.util.Map">
+		create table ${tableName}(
+		<trim prefix="" prefixOverrides=",">
+			<foreach item="col" index="index" collection="columns" open=" " separator="," close="">
+				<if test="col.dataType=='DATE'">
+					${col.columnName} ${col.dataType}
+				</if>
+				<if test="col.dataType=='NUMBER'">
+					${col.columnName} ${col.dataType}
+				</if>
+				<if test="col.dataType=='VARCHAR2'">
+					${col.columnName} ${col.dataType}(${col.length})
+				</if>
+			</foreach>
+		</trim>
+		)
+	</select>
+
+	<delete id="dropTable" parameterType="java.lang.String">
+		DROP TABLE ${value}
+	</delete>
+
+	<!-- ========================创建 sequence========================= -->
+	<select id="createSequence" parameterType="java.lang.String">
+		create sequence SEQ_${value}
+		minvalue 1
+		maxvalue 99999999
+		start with 1
+		increment by 1
+		nocache
+		order
+	</select>
+	<select id="dropSequence" parameterType="java.lang.String">
+		DROP SEQUENCE SEQ_${value}
+	</select>
+
+	<!-- ========================创建 sequence========================= -->
+	<select id="tableExist" parameterType="java.lang.String" resultType="int">
+		select count(1) from user_tables where
+		table_name=#{value}
+	</select>
+
+	<!-- ========================表记录统计========================= -->
+	<select id="count" parameterType="java.lang.String" resultType="int">
+		select count(1) from ${value}
+	</select>
+
+	<!-- ========================表记录统计========================= -->
+	<select id="maxId" parameterType="java.lang.String" resultType="int">
+		select count(1) from ${value}
+	</select>
+
+
+	<!-- ================================================= -->
+
+</mapper>
+
+
+
+

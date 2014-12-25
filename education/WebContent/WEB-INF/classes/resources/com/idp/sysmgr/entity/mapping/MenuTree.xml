@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 表名称：t02_sys_menu -->
+
+<mapper namespace="com.idp.sysmgr.menu.entity.MenuTree">
+	<!-- *.来映射文件字段与类属性的对就关系 ibatis默认不对字段进行去下划线工作 -->
+	<resultMap id="menuMap" type="com.idp.sysmgr.menu.entity.MenuTree">
+		<result property="menuId" column="MENU_ID" jdbcType="VARCHAR" />
+		<result property="parendId" column="PAR_MENU_ID" jdbcType="VARCHAR" />
+		<result property="name" column="MENU_NAME" jdbcType="VARCHAR" />
+		<result property="action" column="action" jdbcType="VARCHAR" />
+		<result property="redirectTo" column="REDIRECTTO" jdbcType="VARCHAR" />
+		<result property="template" column="TEMPLATE" jdbcType="VARCHAR" />
+		<result property="params" column="params" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="query" parameterType="java.util.Map" resultMap="menuMap"
+		resultType="java.util.LinkedList">
+		select t.menu_id,
+		t.par_menu_id,
+		t.menu_title,
+		case when
+		t.action='index' then t.menu_name || '(' || t.menu_desc || ')'
+		else
+		t.menu_name end menu_name,
+		t.menu_desc,
+		t.action,
+		t.state,
+		t.role_check_id,
+		t.menu_type,
+		t.indexno,
+		t.deal_id,
+		t.redirectto,
+		t.template,
+		t.params from t02_sys_menu t 
+		<if test="menuId!=null">
+				where t.menu_id in
+			(select
+			menu_id from
+			t02_function_role where
+			t02_function_role.role_id=#{menuId,jdbcType=VARCHAR})
+		</if>
+		order by
+		t.indexno
+	</select>
+
+	<select id="getMenuChild" parameterType="java.lang.String"
+		resultMap="menuMap" resultType="java.util.LinkedList">
+		select t.menu_id,
+		t.par_menu_id,
+		t.menu_title,
+		t.menu_name,
+		t.menu_desc,
+		t.action,
+		t.state,
+		t.role_check_id,
+		t.menu_type,
+		t.indexno,
+		t.deal_id,
+		t.redirectto,
+		t.template,
+		t.params from t02_sys_menu t where
+		t.PAR_MENU_ID=#{value}
+		order by indexno
+	</select>
+
+	<select id="findUserMenu" parameterType="java.lang.String"
+		resultMap="menuMap" resultType="java.util.LinkedList">
+		<!--SELECT * FROM (SELECT * FROM t02_sys_menu where menu_id in (SELECT 
+			distinct menu_id FROM t02_user_role_rela u, t02_function_role a,t02_sys_role 
+			b where u.user_id = #{value} and b.state=1 and b.role_id=u.role_id and a.role_id 
+			= u.role_id)) RU start with RU.PAR_MENU_ID = '99999' connect by prior RU.menu_id 
+			= RU.par_menu_id order by indexno -->
+			
+			
+			
+			select * from (
+SELECT * FROM t02_sys_menu grandfather WHERE grandfather.PAR_MENU_ID = '99999' 
+union all
+SELECT * FROM t02_sys_menu father where father.PAR_MENU_ID in( SELECT menu_id FROM t02_sys_menu  WHERE PAR_MENU_ID = '99999' )
+union all
+SELECT * FROM t02_sys_menu son where son.PAR_MENU_ID in(SELECT t.menu_id FROM t02_sys_menu t where t.PAR_MENU_ID in( SELECT menu_id FROM t02_sys_menu  WHERE PAR_MENU_ID = '99999' ))
+) m where m.menu_id in (
+SELECT min(c.menu_id)
+              FROM t02_user_role_rela u,
+                   t02_function_role a,
+                   t02_sys_role b,
+                   t02_sys_menu c
+              WHERE c.action = 'index'
+                  AND c.menu_id = a.menu_id
+                  AND u.user_id = #{value}
+                  AND b.state = 1
+                  AND b.role_id = u.role_id
+                  AND a.role_id = u.role_id
+              UNION ALL SELECT DISTINCT c.menu_id
+              FROM t02_user_role_rela u,
+                   t02_function_role a,
+                   t02_sys_role b,
+                   t02_sys_menu c
+              WHERE c.action != 'index'
+                  AND c.menu_id = a.menu_id
+                  AND u.user_id = #{value}
+                  AND b.state = 1
+                  AND b.role_id = u.role_id
+                  AND a.role_id = u.role_id
+)                 order by m.indexno
+			
+<!-- 			
+		SELECT *
+		FROM (select *
+		from t02_sys_menu
+		where menu_id in (SELECT min(c.menu_id)
+		FROM t02_user_role_rela u,
+		t02_function_role a,
+		t02_sys_role b,
+		t02_sys_menu c
+		where c.action = 'index'
+		and c.menu_id = a.menu_id
+		and u.user_id = #{value}
+		and b.state = 1
+		and b.role_id = u.role_id
+		and a.role_id = u.role_id
+		union all
+		SELECT distinct c.menu_id
+		FROM t02_user_role_rela u,
+		t02_function_role a,
+		t02_sys_role b,
+		t02_sys_menu c
+		where c.action != 'index'
+		and c.menu_id = a.menu_id
+		and u.user_id = #{value}
+		and b.state = 1
+		and b.role_id = u.role_id
+		and a.role_id = u.role_id)) RU
+		start with RU.PAR_MENU_ID = '99999'
+		connect by prior RU.menu_id = RU.par_menu_id
+		order by indexno
+		 -->
+	</select>
+	
+	<select id="findRoleMenu" parameterType="java.lang.String"
+	resultMap="menuMap" resultType="java.util.LinkedList">
+		select t.menu_id,
+			t.par_menu_id,
+			t.menu_title,
+			case when
+			t.action='index' then t.menu_name || '(' || t.menu_desc || ')'
+			else
+			t.menu_name end menu_name,
+			t.menu_desc,
+			t.action,
+			t.state,
+			t.role_check_id,
+			t.menu_type,
+			t.indexno,
+			t.deal_id,
+			t.redirectto,
+			t.template,
+			t.params
+		from t02_sys_menu t
+		where t.menu_id in
+		(select r.menu_id
+		from t02_function_role r
+		where r.role_id in (select u.role_id
+		from t02_user_role_rela u
+		where u.user_id = #{value}))
+		order by
+		t.indexno
+	</select>
+
+	<insert id="insert" parameterType="com.idp.sysmgr.menu.entity.MenuTree"
+		flushCache="true">
+		INSERT INTO
+		t02_sys_menu
+		(MENU_ID,PAR_MENU_ID,MENU_TITLE,MENU_NAME,MENU_DESC,ACTION,INDEXNO,REDIRECTTO,TEMPLATE,PARAMS)
+		values(
+		#{menuId,jdbcType=VARCHAR},
+		#{parendId,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{menuDesc,jdbcType=VARCHAR},
+		#{action,jdbcType=VARCHAR},
+		#{indexNo,jdbcType=VARCHAR},
+		#{redirectTo,jdbcType=DATE},
+		#{template,jdbcType=VARCHAR},
+		#{params,jdbcType=VARCHAR}
+		)
+	</insert>
+</mapper>

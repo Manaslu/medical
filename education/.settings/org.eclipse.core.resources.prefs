@@ -1,5 +1,7 @@
-#Mon Nov 03 17:48:32 CST 2014
+#Thu Dec 25 16:34:47 CST 2014
 eclipse.preferences.version=1
+encoding//WebContent/templates/result/newspaper/result.html=UTF-8
+encoding//WebContent/templates/result/newspaper/resultPZ.html=UTF-8
 encoding//src/com/idp/pub/dao/impl/DefaultBaseDao.java=UTF-8
 encoding//src/com/idp/pub/dao/impl/SmartBaseDao.java=UTF-8
 encoding//src/com/idp/pub/entity/utils/SqlBuilder.java=UTF-8
@@ -15,3 +17,4 @@ encoding//src/com/idp/workflow/impl/metadata/activiti/SpringActivitiMetaData.jav
 encoding//src/com/idp/workflow/impl/service/DefaultWorkFlowProxy.java=UTF-8
 encoding//src/resources/config/appcontext.properties=UTF-8
 encoding//src/resources/config/application.properties=UTF-8
+encoding/<project>=UTF-8

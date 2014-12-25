@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <typeAlias type="com.idap.dataprocess.dataset.entity.DataSetMaintainLog" alias="DataSetMaintainLog"/> -->
+<mapper namespace="com.idap.danalysis.entity.DataMap">
+	
+	<select id="query" parameterType="java.util.Map" resultType="hashmap">
+		select
+		*
+		from
+		${tableName}
+	</select>
+
+	<select id="queryCount" parameterType="java.util.Map" resultType="int">
+		select
+		count(*)
+		from
+		${tableName}
+	</select>
+	
+	<select id="queryGroup" parameterType="java.util.Map" resultType="hashmap">
+		select ${groupColumn},count(*) as count
+		from
+		${tableName}
+		group by ${groupColumn}
+	</select>
+
+	<select id="queryAddress" parameterType="java.util.Map" resultType="hashmap">
+		select column_desc as columnName from t06_data_definition_attr where data_def_id=(
+		    select data_def_id from t06_data_set where data_set_id='${resultSetId}'
+		) and column_name = (
+		    select data_set_1_col from t06_column_inte_rule where rule_id='${ruleId}' and script_id in (
+              	select script_id from t06_rule_script_lib where script_code='${type}'
+       		)
+		)
+	</select>
+	
+	<select id="queryColumns" parameterType="java.util.Map" resultType="hashmap">
+		select NVL(c.COMMENTS,c.COLUMN_NAME) as COMMENTS,c.COLUMN_NAME, t.COLUMN_ID from USER_col_COMMENTS c,user_tab_cols t  where c.column_name = t.COLUMN_NAME and c.table_name='${tableName}' and t.TABLE_NAME='${tableName}' order by t.COLUMN_ID asc
+	</select>
+
+	<select id="copyScript" parameterType="java.util.Map" statementType="CALLABLE">
+	<![CDATA[
+		{call
+		P04_PROC_SYNC(
+		#{scriptName,jdbcType=VARCHAR,mode=IN}
+		)}
+		]]>
+	</select>
+	
+	<select id="executeScript" parameterType="java.util.Map" statementType="CALLABLE">
+	<![CDATA[
+		{call
+		${procedure}(
+		#{tableName,jdbcType=VARCHAR,mode=OUT}
+		)}
+		]]>
+	</select>
+	
+	<select id="dropScript" parameterType="java.util.Map" statementType="CALLABLE">
+	<![CDATA[
+		{call
+		sp_drop_proc(
+		#{procedure,jdbcType=VARCHAR,mode=IN}
+		)}
+		]]>
+	</select>
+</mapper>
+
+
+
+

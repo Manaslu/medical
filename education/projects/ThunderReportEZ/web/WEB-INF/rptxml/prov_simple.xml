@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="comp_simple" title="省公司简单统计">
+		<Parameter>
+	<Cond title="title1" id="id1" paraname="year"/>
+	<Cond title="title2" id="id2" paraname="look_for"/>			
+		</Parameter>
+		<BOLayer>
+			<BO db="template_mysql" id="template_oracledb">
+			
+			</BO>
+		</BOLayer>
+		<DataUI>
+				<CrossGrid id="grid1" gridtemplname="templateline.vm">
+						<Sql db="template_mysql">SELECT t.dept,t.group_num,t.total_num,t.group_type
+							FROM tb_report t 
+							WHERE t.rpt_id='RP004' AND t.look_for='#look_for#' AND t.term_year='#year#'
+							ORDER BY t.dept_id,t.group_type_id
+							</Sql>
+						<ReportHeader outputtype="print">
+						省公司简单统计
+						</ReportHeader>
+						<ReportBody>
+							<FuncTitle outputtype="print">
+							</FuncTitle>
+								<RowDims>
+									<Dim code="dept" name="部门" summary="1" group="0" sumname="总计" sumby="" sumpos="after">{dept}</Dim>
+								</RowDims>
+								<ColDims>
+									<Dim code="group_type" name="团组类型" summary="1" group="0" sumname="总计" sumby="" sumpos="after">{group_type}</Dim>
+									
+								</ColDims>
+								<Measures crosswith="RowDims">
+								    <Measure code="group_num" name="团组数" format="#" outputtype="function"></Measure>
+									<Measure code="total_num" name="人次数" format="#" outputtype="function"></Measure>
+								</Measures>
+						</ReportBody>
+						<ReportFooter>
+						</ReportFooter>
+				</CrossGrid>
+				
+			</DataUI>
+		<Layout outputtype="function">
+			<table width="98%"><tr><td>grid1</td></tr></table>
+		</Layout>
+	</Report>

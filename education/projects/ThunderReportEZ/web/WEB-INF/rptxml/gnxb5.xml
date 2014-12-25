@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="gnxb5" title="各省业务量下降70%的客户分布情况">
+                <Parameter>  
+<Cond title="日期" id="cond1" paraname="month"/>           
+                </Parameter>
+                <BOLayer>
+                        <BO db="template_mysql" id="template_oracledb">                       
+                        </BO>
+                </BOLayer>
+                <DataUI>
+                                <ListGrid id="grid1">
+                                                <Sql db="template_mysql">
+select 
+   A1                
+   ,A2             
+   ,A3             
+   ,A4             
+   from t07_rpt_detail t where t.show_id='gnxb5' and t.day_id=#month#
+   order by t.order_id
+
+
+
+
+                                                        </Sql>
+                                                <ReportHeader outputtype="print">
+													各省业务量下降70%的客户分布情况
+                                                </ReportHeader>
+<ReportBody>
+			<FuncTitle outputtype="print">
+
+			  &lt;tr class="tr_head"&gt;
+				&lt;td&gt;省份&lt;/td&gt;
+				&lt;td&gt;交寄客户数&lt;/td&gt;			
+				&lt;td&gt;业务量下滑70%客户数&lt;/td&gt;	
+				&lt;td&gt;下滑客户占比&lt;/td&gt;		
+				&lt;/tr&gt;													
+			</FuncTitle>
+			<Columns>
+
+			  <Column name="省份" group="0" code="a1"  ></Column>
+				<Column name="交寄客户数" group="0" code="a2"  ></Column>
+				<Column name="业务量下滑70%客户数" group="0" code="a3"  ></Column>
+				<Column name="下滑客户占比" group="0" code="a4"  ></Column>
+		    </Columns>
+	</ReportBody>
+
+                                                <ReportFooter>
+                                                </ReportFooter>
+                                </ListGrid>
+                                
+                        </DataUI>
+                <Layout outputtype="function">
+                        <table width="98%"><tr><td>grid1</td></tr></table>
+                </Layout>
+        </Report>

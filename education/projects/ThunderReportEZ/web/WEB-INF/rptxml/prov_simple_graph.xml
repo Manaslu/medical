@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report id="comp_simple_graph" title="省公司简单统计">
+	<Parameter>
+	<Cond title="title1" id="id1" paraname="year"/>
+	<Cond title="title2" id="id2" paraname="look_for"/>
+	</Parameter>
+	<BOLayer>
+		<BO id="bo1" db="teradata">
+			Select dim1,dim2,dim3,dim4,sum(m1),sum(m2) from t1,t2 where t1.id=t2.id [and t1.id=#cond1#] [and t2.date=#cond2#] 
+			exec PDU_VIEW_EAP.M_Activeuser_D_P1('86992','20071229','130001')
+		</BO>
+	</BOLayer>
+	<DataUI>
+	<Fusionchart type="pie"  id="chart5" layoutfilename="piechartlayout.vm">
+				<Sql db="template_mysql">SELECT t.group_type_id,t.group_type,t.issliced,sum(t.total_num) AS total_num,t.color
+FROM tb_report t 
+WHERE t.rpt_id='RP004' AND t.look_for='#look_for#' AND t.term_year='#year#'
+GROUP BY t.group_type_id,t.group_type,t.issliced,t.color
+HAVING sum(t.total_num) IS NOT NULL
+ORDER BY t.group_type_id
+</Sql>
+
+<chart palette='4' baseFontSize='12' decimals='0' enableSmartLabels='1' enableRotation='0' numberSuffix="人次" bgColor='99CCFF,FFFFFF' bgAlpha='40,100' bgRatio='0,100' bgAngle='360' showBorder='1' startingAngle='70' caption="省公司简单统计" >
+					<datasets  select="false" reference="" cond_value="" cond_disp="" ref_group="true">
+						<dataset seriesName="人次数" label="group_type" color="color" isSliced="issliced"  value="total_num" />
+					</datasets>
+				</chart>
+	</Fusionchart>
+	</DataUI>
+	<Layout outputtype="function">
+		<table width="100%" border="0">
+			<tr>
+				<td><div id="div_chart5"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form name="form_chart5" action="" method="POST">
+					#select_chart5#
+					<script LANGUAGE="JavaScript">
+						var chart1 = new FusionCharts("fusionchart/ScrollLine2D.swf", "chart5", "600", "400", "0", "1");		   
+						<!--chart1.setDataURL("#url_chart5#");-->
+						chart1.render("div_chart5");
+						updateChart("chart5","","#url_chart5#","","");
+						
+					</script>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</Layout>
+	</Report>
+
