@@ -24,8 +24,7 @@ public abstract class AdapterFactoryBuilder implements IAdapterFactoryBuilder {
 			return ((AbstractAdapterBuilder<E, IWorkFlowMetaData<?>>) regMap
 					.get(serviceClass));
 		} else {
-			throw new WfNotSupprotException("未找到，不支持该类型的服务："
-					+ String.valueOf(serviceClass));
+			throw new WfNotSupprotException("not found,do not suport this type of service:" + String.valueOf(serviceClass));
 		}
 	}
 

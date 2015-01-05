@@ -13,13 +13,13 @@ import com.idp.workflow.itf.metadata.IWorkFlowMetaData;
  * @author panfei
  * 
  */
-@Service("iworkFlowProxy")
-public class CommentWorkFlowProxy extends DefaultWorkFlowProxy {
-
-	@Autowired
-	public CommentWorkFlowProxy(IWorkFlowMetaData<?> tagretSource)
-			throws WfBusinessException {
-		super(tagretSource);
-	}
-
-}
+//@Service("iworkFlowProxy")
+//public class CommentWorkFlowProxy extends DefaultWorkFlowProxy {
+//
+//	@Autowired
+//	public CommentWorkFlowProxy(IWorkFlowMetaData<?> tagretSource)
+//			throws WfBusinessException {
+//		super(tagretSource);
+//	}
+//
+//}
