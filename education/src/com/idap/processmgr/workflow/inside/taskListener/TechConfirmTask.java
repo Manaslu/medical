@@ -50,7 +50,7 @@ public class TechConfirmTask extends CommonTaskGadget {
 		//保存这个用户信息主要是给成果管理查询当前用户的需求而用的
 		demand.setContact(contact);
 		demandService.update(demand);
-		System.out.println("把需求列表里面的状态改为--------->待成果确认");
+ 
 		requTrack = (RequTrack)billVO.get("requTrack");
 		nodeInfo = (NodeInfo)billVO.get("nodeInfo"); 
 		nodeAnnex = (NodeAnnex)billVO.get("nodeAnnex");

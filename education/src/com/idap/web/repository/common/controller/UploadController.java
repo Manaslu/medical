@@ -80,7 +80,7 @@ public class UploadController {
 			                                  
 			entity.setFileType( knowledgeType);//    knowledgevo.getKnowledgeType()
 			entity.setUploadDate(new Date());
-			entity.setUploadStats("已上传");
+			entity.setUploadStats("uploaded");
 			entity.setFileDir(path);
 			
 	 	    this.knowledgeBaseAttService.save(entity);

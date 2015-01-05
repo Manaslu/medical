@@ -11,7 +11,7 @@ import com.idp.workflow.itf.service.task.IHistoricTaskQueryService;
 import com.idp.workflow.util.common.StringUtil;
 import com.idp.workflow.vo.service.proinst.ProcessInstanceVO;
 import com.idp.workflow.vo.service.task.HistoricTaskVO;
-
+ 
 /**
  * 历史任务查询实现
  * 

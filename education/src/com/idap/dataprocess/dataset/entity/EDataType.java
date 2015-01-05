@@ -1,5 +1,5 @@
 package com.idap.dataprocess.dataset.entity;
-
+ 
 public enum EDataType {
 	VARCHAR2("VARCHAR2", "字符串", 0), // 字符串类型
 

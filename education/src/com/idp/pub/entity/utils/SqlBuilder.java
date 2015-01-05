@@ -7,7 +7,7 @@ import com.idp.pub.entity.Pager;
 import com.idp.pub.entity.constants.IDataType;
 import com.idp.pub.exception.BusinessException;
 import com.idp.pub.utils.StringUtils;
-
+ 
 /**
  * sql语句构造
  * 

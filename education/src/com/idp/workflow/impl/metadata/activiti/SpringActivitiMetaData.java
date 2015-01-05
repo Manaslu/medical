@@ -22,7 +22,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.idp.workflow.exception.pub.WfBusinessException;
 import com.idp.workflow.itf.service.primarykey.IPrimaryKeyCreater;
 import com.idp.workflow.util.spring.ServiceBeanFactory;
-
+ 
 /**
  * 
  * Activiti工作流元数据实现

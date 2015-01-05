@@ -5,7 +5,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.idap.dataprocess.addrmatch.MatchException;
 import com.idap.dataprocess.addrmatch.service.MatchHandler;
-
+ 
 public abstract class DefaultMatchHandler implements MatchHandler {
 	private static final Log logger = LogFactory
 			.getLog(DefaultMatchHandler.class);

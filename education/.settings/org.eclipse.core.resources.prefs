@@ -1,4 +1,4 @@
-#Sun Jan 04 20:22:39 CST 2015
+#Mon Jan 05 19:29:35 CST 2015
 eclipse.preferences.version=1
 encoding//WebContent/templates/dataIntegration/defined-extends.html=UTF-8
 encoding//WebContent/templates/dataIntegration/upload-extends.html=UTF-8
@@ -9,6 +9,7 @@ encoding//src/com/idp/pub/dao/impl/SmartBaseDao.java=UTF-8
 encoding//src/com/idp/pub/entity/utils/SqlBuilder.java=UTF-8
 encoding//src/com/idp/pub/serverlocker/dao/LockerDaoStrategyFactory.java=UTF-8
 encoding//src/com/idp/pub/serverlocker/service/impl/ExclusiveLockerServicesImpl.java=UTF-8
+encoding//src/com/idp/pub/sqlresolver/dao/SqlPartResolverDaoStrategyFactory.java=UTF-8
 encoding//src/com/idp/pub/timechecker/dao/VersionValidatorDao.java=UTF-8
 encoding//src/com/idp/pub/utils/DateUtil.java=UTF-8
 encoding//src/com/idp/pub/utils/GetCh2Spell.java=UTF-8

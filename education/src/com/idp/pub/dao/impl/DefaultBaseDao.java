@@ -27,7 +27,7 @@ import com.idp.pub.entity.utils.ColumnAttribute;
 import com.idp.pub.exception.BusinessException;
 import com.idp.pub.generatekey.entity.GeneratedKeyHolder;
 import com.idp.pub.generatekey.service.IGenerateKeyMangerService;
-
+ 
 /**
  * 
  * @author Raoxiaoyan

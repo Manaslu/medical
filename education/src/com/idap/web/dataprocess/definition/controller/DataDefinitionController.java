@@ -80,7 +80,7 @@ public class DataDefinitionController extends BaseController<DataDefinition, Str
             //1.
             if(StringUtils.isBlank(entity.getDataDefId())){
                 throw new RuntimeException("更新数据定义的主键不可为空");
-            }
+            } 
             Map<String, Object> attrParmas = new HashMap<String, Object>();
             attrParmas.put("dataDefId",entity.getDataDefId());
             Integer dsCount=this.dsService.count(attrParmas);

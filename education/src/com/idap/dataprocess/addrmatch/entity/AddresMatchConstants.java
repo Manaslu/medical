@@ -1,7 +1,7 @@
 package com.idap.dataprocess.addrmatch.entity;
 
 import java.io.Serializable;
-
+ 
 public final class AddresMatchConstants implements Serializable {
 
 	private static final long serialVersionUID = 3565520655726718821L;

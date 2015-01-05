@@ -45,7 +45,7 @@ public class ProTechCheckTask extends CommonTaskGadget {
 		demand.setId(id);
 		demand.setApproState("a");
 		demandService.update(demand);
-		System.out.println("把需求列表里面的状态改为--------->省联系人待接收");
+	 
 		//在节点信息号里添加相应信息
 		Map<String, Object> billVO = (Map<String, Object>) context.getBillVO();
 		requTrack = (RequTrack)billVO.get("requTrack");

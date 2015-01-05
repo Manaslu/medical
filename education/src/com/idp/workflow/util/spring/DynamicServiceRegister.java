@@ -16,7 +16,7 @@ import com.idp.workflow.itf.metadata.IWorkFlowMetaData;
 import com.idp.workflow.itf.service.extension.IServicesRegInvoker;
 import com.idp.workflow.util.common.StringUtil;
 import com.idp.workflow.vo.pub.IWorkFlowTypes;
-
+ 
 /**
  * spring动态注册bean的定义
  * 

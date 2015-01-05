@@ -1,7 +1,7 @@
 package com.idap.dataprocess.addrmatch.entity;
 
 import java.io.Serializable;
-
+ 
 public enum EMatch implements Serializable {
 	MATCHED_POST(0, "MATCHED_POST", "邮政编码"), // 邮政编码
 

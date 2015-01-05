@@ -223,7 +223,7 @@ public class DemandController extends BaseController<Demand, String> {
 			nodeAnnex.setFileDir("获取的文件路径");
 			nodeAnnex.setFileName("获取的文件名称");
 
-			// 对节点信息表获取并设置数据
+			// 对节点信息表获取并设置数据 
 			NodeInfo nodeInfo = new NodeInfo();
 			nodeInfo.setNodeId(nodeId);
 			nodeInfo.setId(id);

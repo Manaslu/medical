@@ -6,7 +6,7 @@ import java.util.Map;
 import com.idp.workflow.exception.pub.WfBusinessException;
 import com.idp.workflow.exception.pub.WfNotSupprotException;
 import com.idp.workflow.itf.service.ILocater;
-
+ 
 /**
  * 简单缓存
  * 

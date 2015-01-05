@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.idap.dataprocess.addrmatch.MatchException;
-
+ 
 @Service("addresMatchServer")
 public class AddresMatchServer {
 	private Log logger = LogFactory.getLog(getClass());

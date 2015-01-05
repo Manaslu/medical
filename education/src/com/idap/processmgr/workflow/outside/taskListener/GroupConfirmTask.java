@@ -49,7 +49,7 @@ public class GroupConfirmTask extends CommonTaskGadget {
 		demand.setDataPassType(dataPassType);
 		demand.setContact(contact);
 		demandService.update(demand);
-		System.out.println("把需求列表里面的状态改为--------->待成果确认");
+	 
 		//在节点信息号里添加相应信息
 		requTrack = (RequTrack)billVO.get("requTrack");
 		nodeInfo = (NodeInfo)billVO.get("nodeInfo"); 

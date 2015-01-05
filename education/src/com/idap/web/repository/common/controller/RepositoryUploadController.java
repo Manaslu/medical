@@ -109,7 +109,7 @@ public class    RepositoryUploadController   extends BaseController<KnowledgeBas
 				                                  
 				entity.setFileType( knowledgeType);//    knowledgevo.getKnowledgeType()
 				entity.setUploadDate(new Date());
-				entity.setUploadStats("已上传");
+				entity.setUploadStats("upload");
 				entity.setFileDir(path);
 				
 		 	    this.knowledgeBaseAttService.save(entity);

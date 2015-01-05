@@ -99,7 +99,7 @@ public class BaseServiceImpl {
 		}
 		return params;
 	}
-
+ 
 	/**
 	 * 检查工作溜实例是否可以回退
 	 * 

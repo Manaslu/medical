@@ -317,7 +317,7 @@ public abstract class SmartBaseDao<T extends BaseEntity> extends
 	private String[] fillColumnRelation(ColumnAttribute[] colattrs,
 			Map<String, String> colRelationMap) {
 		if (colattrs == null) {
-			throw new BusinessException("列属性不能为空");
+			throw new BusinessException("column property is null");
 		}
 
 		String[] colNamesArr = new String[colattrs.length];

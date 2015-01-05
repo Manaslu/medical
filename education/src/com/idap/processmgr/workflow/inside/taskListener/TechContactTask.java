@@ -52,7 +52,7 @@ public class TechContactTask extends CommonTaskGadget {
 			demand.setApproState("4");
 		}
 		demandService.update(demand);
-		System.out.println("把需求列表里面的状态改为--------->技术领导待审批");
+ 
 		//在节点信息号里添加相应信息
 		requTrack = (RequTrack)billVO.get("requTrack");
 		nodeInfo = (NodeInfo)billVO.get("nodeInfo"); 

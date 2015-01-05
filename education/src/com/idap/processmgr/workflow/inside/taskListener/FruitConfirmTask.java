@@ -44,7 +44,7 @@ public class FruitConfirmTask extends CommonTaskGadget {
 		demand.setId(id);
 		demand.setApproState("7");
 		demandService.update(demand);
-		System.out.println("把需求列表里面的状态改为--------->已确认");
+	 
 		Map<String, Object> billVO = (Map<String, Object>) context.getBillVO();
 		requTrack = (RequTrack)billVO.get("requTrack");
 		nodeInfo = (NodeInfo)billVO.get("nodeInfo"); 

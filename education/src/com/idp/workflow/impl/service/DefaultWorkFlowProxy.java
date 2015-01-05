@@ -14,7 +14,7 @@ import com.idp.workflow.itf.service.task.IHistoricTaskManageService;
 import com.idp.workflow.itf.service.task.IHistoricTaskQueryService;
 import com.idp.workflow.itf.service.task.ITaskManageService;
 import com.idp.workflow.itf.service.task.ITaskQueryService;
-
+ 
 /**
  * 默认工作流代理类
  * 
