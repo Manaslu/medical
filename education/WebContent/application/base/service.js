@@ -419,4 +419,13 @@ define(function() {
 	app.factory('AnalysisProcess', [ '$resource', function($resource) {
 		return $resource('analysisProcess.shtml');
 	} ]);
+	
+	// 健康饮食
+	app.factory('HealthFood', [ '$resource', function($resource) {
+		return $resource('healthFood.shtml');
+	} ]);	
+	
+	
+	
+	
 });

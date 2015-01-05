@@ -1,0 +1,319 @@
+<div class="col-sm-12 col-md-12">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-3 col-md-3">
+                    <input type="text" class="form-control" placeholder="标题,内容" ng-model="params.querykeyword">
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
+                    <button class="btn btn-custom" type="button" ng-click="clearForm()" data-toggle="modal" data-target="#pushDialog">新增</button>
+                </div>
+            </form>
+        </div>
+    </div>
+ 
+    <table class="table table-striped table-bordered table-condensed index-center  table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th style="width:280px">标题</th>
+            <th >内容</th>
+            <th style="width:160px">创建时间</th>
+            <th style="width:100px">操作</th>
+          
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{current*limit+$index+1}}</td>
+            <td>{{item.eatTitle}}</td>
+            <td title="{{item.eatContent}}">{{item.eatContent|limitTo:60}}  </td>
+            <td>{{item.eatDate|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>
+
+                <a    href="javascript:" data-toggle="modal" data-target="#pushDialog"      ng-click="editApply(item)" >修改</a> 
+                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"    ng-click="todeleteapply(item.id)" >删除</a>
+                 
+            </td>
+    
+        </tr>
+        </tbody>
+    </table>
+	<div class="col-sm-12 col-md-12">
+		<div data-remote-paging="pager" data-params="params"
+			data-refresh="refresh" data-current="current" data-total="total"
+			data-data="limitArr" data-limit="limit"></div>
+	</div>
+</div>
+
+ 
+
+<!-- 查看该表历史同步信息 -->
+<div class="modal fade" id="viewHistoryLog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 900px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">该表历史同步信息</h4>
+            </div>
+            <div class="modal-body">
+                
+                     
+                        <table class="table table-striped table-bordered table-condensed index-center table-costom">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th style="width:130px">开始时间</th>
+                                <th style="width:130px">完成时间</th>
+                                <th style="width:60px">记录数</th>
+                                <th>源表名</th>
+                                <th>同步表名</th>
+                                <th style="width:50px">状态</th>
+ 
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in limitArr2">
+                                <td>{{current2*limit2+$index+1}}</td>
+                                <td>{{item.startDate |date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{item.endDate |date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{item.rowCount}}</td>
+                                <td>{{item.sourceTablename}}</td>
+                                <td>{{item.targetTablename}}</td>
+                                <td>{{item.syncStats}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    
+
+            
+                
+		         <div class="col-sm-12 col-md-12">
+		            <div 
+					data-remote-paging="pager2" 
+					data-refresh="refresh2" 
+					data-current="current2" 
+					data-total="total2" 
+					data-data="limitArr2"
+					data-limit="limit2"
+					data-params="params2"
+					data-current="current2"
+					></div>
+		        </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+ 
+<div class="modal fade" id="pushDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 850px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">新增</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                 <form class="clearfix" name="addSyncApplForm">
+                    <div class="col-sm-12 col-md-12 form-horizontal">
+							    <div class="alert alert-danger alert-dismissable" ng-if="!data.dataDefId" style="padding-left:80px">
+									<a data-dismiss="alert" class="close">×</a>
+									<strong>友情提示：</strong> 图片文件大小不要超过2M
+								</div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">标题</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control" required ng-model="key.eattitle" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
+			                 <span class="mustItem">*</span>
+		 
+                        </div>
+                         <div class="form-group">
+			                <label data-tip="b" title="文件大小不超过2M,暂时只支持一个图片" class="col-lg-2 control-label">图片</label>
+			                <div class="col-lg-9">
+			                    <div   
+			                         ng-model="key.eatpic"
+								     name="picture"  
+								     uploader ="uploader" 
+								     success="upsuccess($data , $file)"    
+									 api="uploader"  
+									 extensions="png,jpeg,jpg,bmp"  
+									 post-server="/upload.shtml"  
+									  > 
+ 								</div> 
+			                </div>
+			                 <span class="mustItem">*</span>
+                        </div>   
+                        
+                           
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">内容</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="8" required ng-model="key.eatcontent"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                            <span class="mustItem">*</span>
+                             
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"   ng-disabled="addSyncApplForm.$invalid" ng-click="save(key)">保存</button>
+                <button type="button" class="btn btn-danger"     ng-click="clearForm()">重置</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 选择表 -->
+<div class="modal fade" id="select" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择需求</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-md-8">
+                        <label>查询关键字</label>
+                        <input class="form-control" type="text" ng-model="params1.demandname" placeholder="需求名,需求描述,申请人,申请人单位,申请人部门" />
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-info" ng-click="refresh1('first',true)"  >查询</button>
+                        <label>&nbsp;</label> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <table class="table table-striped table-bordered table-condensed index-center">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>需求名称</th>
+                                <th>需求描述</th>
+                                <th>申请人单位</th>
+                                <th>申请人部门</th>
+                                <th>申请人</th>
+                                <th style="width:40px;">选择</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rowlink" ng-repeat="item in limitArr1">
+                                <td>{{current1*limit1+$index+1}}</td>
+                                <td>{{item.requName}}</td>
+                                <td style="width:200px"  title="{{item.requDesc}}" >{{item.requDesc|limitTo:7}}...</td>
+                                <td>{{item.applOrg}}</td>
+                                <td>{{item.applDept}}</td>
+                                <td>{{item.applPer}}</td>
+
+                                <td>
+                                    <input type="radio" name="selradio" id="demandsRadios" data-dismiss="modal"  ng-click="toSlectDemand(item)">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+					            <div 
+									data-remote-paging="pager1" 
+									data-refresh="refresh1" 
+									data-current="current1" 
+									data-total="total1" 
+									data-data="limitArr1"
+									data-limit="limit1"
+									data-params="params1"
+									data-current="current1"
+								></div>
+
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除申请</h4>
+            </div>
+            <div class="modal-body">
+                确认要删除此申请么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="comfirmDelete()" data-dismiss="modal">确认删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- 驳回意见对话框 -->
+<div class="modal fade" id="rejectDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 700px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">意见</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <form role="form" name="auditForm" class="form-horizontal" novalidate="novalidate">
+                 
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">审批时间:</label>
+
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{toviewOpionobj.approvalDate |date:'yyyy-MM-dd HH:mm:ss'}}</p> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">审批意见:</label>
+
+                                <div class="col-lg-9">
+                                    <p class="form-control-static">{{toviewOpionobj.approvalOpinion}}</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+ 
