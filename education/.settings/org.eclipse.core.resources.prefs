@@ -1,5 +1,7 @@
-#Thu Dec 25 16:34:47 CST 2014
+#Sun Jan 04 20:22:39 CST 2015
 eclipse.preferences.version=1
+encoding//WebContent/templates/dataIntegration/defined-extends.html=UTF-8
+encoding//WebContent/templates/dataIntegration/upload-extends.html=UTF-8
 encoding//WebContent/templates/result/newspaper/result.html=UTF-8
 encoding//WebContent/templates/result/newspaper/resultPZ.html=UTF-8
 encoding//src/com/idp/pub/dao/impl/DefaultBaseDao.java=UTF-8
