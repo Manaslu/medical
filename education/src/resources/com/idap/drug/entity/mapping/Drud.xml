@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    
+<mapper namespace="com.idap.drug.entity.Drug" >
+    <resultMap id="Drug" type="com.idap.drug.entity.Drug">
+    	    <result property="drugId" column="DRUG_ID" jdbcType="INTEGER" />
+    	    <result property="drugName" column="DRUG_NAME" jdbcType="VARCHAR" />
+    	    <result property="drugContent" column="DRUG_CONTENT" jdbcType="VARCHAR" />
+    	    <result property="drupPic" column="DRUG_PIC" jdbcType="VARCHAR" />
+    	    <result property="drugDate" column="DRUG_DATE" jdbcType="DATE" />	    	    	    
+    	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
+	</resultMap>
+	 
+ 
+	
+	<sql id="queryBody">
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			 from
+			drug t
+			<include refid="dynamicWhere" />
+			<include refid="dynamicOrderBy" />
+			limit ${sno-1},${eno}
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			 from
+			drug t
+			<include refid="dynamicWhere" />
+			limit ${sno-1},${eno}
+		</if>
+	</sql>	
+	   <sql id="allColumn">
+	           t.DRUG_ID,
+	           t.DRUG_NAME,
+	           t.DRUG_CONTENT,
+	           t.DRUG_PIC,
+	           t.DRUG_DATE,
+	           t.CLINIC_ID
+	</sql>
+ 
+	
+ 
+	<select id="findByPager" parameterType="java.util.Map" resultMap="Drug">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="drugquery" parameterType="java.util.Map" resultMap="Drug">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Drug">
+		<include refid="queryBody" />
+	</select>
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select
+		count(1)
+		from
+		drug
+		<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+	<sql id="dynamicWhere">
+			<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="querykeyword!=null">
+					AND (DRUG_NAME like '%'||#{querykeyword}||'%' 
+					OR DRUG_CONTENT like '%'||#{querykeyword}||'%'  )
+				</if>
+				<if test="clinicId!=null">
+					AND ID = #{id}
+				</if>
+			</trim>
+	</sql>
+	
+ 	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+	
+
+</mapper>
+
+
+
+
