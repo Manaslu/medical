@@ -1,7 +1,11 @@
-#Mon Jan 05 19:29:35 CST 2015
+#Tue Jan 06 11:54:08 CST 2015
 eclipse.preferences.version=1
+encoding//WebContent/*=UTF-8
+encoding//WebContent/templates/clinic/healthfood.html=UTF-8
+encoding//WebContent/templates/dataAnalyse/quota.html=UTF-8
 encoding//WebContent/templates/dataIntegration/defined-extends.html=UTF-8
 encoding//WebContent/templates/dataIntegration/upload-extends.html=UTF-8
+encoding//WebContent/templates/dataIntegration/upload.html=UTF-8
 encoding//WebContent/templates/result/newspaper/result.html=UTF-8
 encoding//WebContent/templates/result/newspaper/resultPZ.html=UTF-8
 encoding//src/com/idp/pub/dao/impl/DefaultBaseDao.java=UTF-8
