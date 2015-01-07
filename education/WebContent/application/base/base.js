@@ -46,7 +46,10 @@ define(function (require) {
                 if(errs.length && seajs.data.debug){
                 	alert('请求异常：\n' + errs.join('\n'));
                 }else{
-                    console.log('请求异常：\n' + errs.join('\n'));
+                	if(errs.length>0){
+                		console.log('请求异常：\n' + errs.join('\n'));
+                	}
+                    
                 }
                 log.errs = [];//clear errs
             }
