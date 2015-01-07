@@ -424,10 +424,11 @@ define(function() {
 	app.factory('HealthFood', [ '$resource', function($resource) {
 		return $resource('healthFood.shtml');
 	} ]);	
-	// 药品知识
-	app.factory('Drug', [ '$resource', function($resource) {
-		return $resource('drug.shtml');
-	} ]);
+	
+	// 常见病
+	app.factory('CommonIllness', [ '$resource', function($resource) {
+		return $resource('commonIllness.shtml');
+	} ]);	
 	
 	
 	

@@ -91,7 +91,7 @@
 	</sql>
 	
 
-	<insert id="insert" parameterType="com.idap.danalysis.entity.SynchronizationApply" >
+	<insert id="insert" parameterType="com.idap.clinic.entity.HealthFood" >
 	    INSERT INTO 
 	    EAT(<include refid="allapplColumn"/>	)
 		<include refid="allapplColumnVar"/>
