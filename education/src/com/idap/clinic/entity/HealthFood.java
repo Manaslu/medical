@@ -8,17 +8,17 @@ import com.idp.pub.entity.annotation.MetaTable;
 public class HealthFood implements java.io.Serializable {
 	private static final long serialVersionUID = 5736511926578194639L;
 	
-	private int     eatId;//EAT_ID
+	private String     eatId;//EAT_ID
 	private String  eatTitle;//EAT_TITLE 
 	private String  eatContent;//EAT_CONTENT
 	private String  eatPic;//EAT_PIC --> only address
 	private Date    eatDate;//EAT_DATE
-	private int     clinicId;//CLINIC_ID 
+	private String     clinicId;//CLINIC_ID 
 	
-	public int getEatId() {
+	public String getEatId() {
 		return eatId;
 	}
-	public void setEatId(int eatId) {
+	public void setEatId(String eatId) {
 		this.eatId = eatId;
 	}
 	public String getEatTitle() {
@@ -45,13 +45,14 @@ public class HealthFood implements java.io.Serializable {
 	public void setEatDate(Date eatDate) {
 		this.eatDate = eatDate;
 	}
-	public int getClinicId() {
+	public String getClinicId() {
 		return clinicId;
 	}
-	public void setClinicId(int clinicId) {
+	public void setClinicId(String clinicId) {
 		this.clinicId = clinicId;
 	}
- 
+	
+	 
 	
 
 }

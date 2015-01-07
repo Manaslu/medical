@@ -5,12 +5,12 @@
     
 <mapper namespace="com.idap.clinic.entity.HealthFood" >
     <resultMap id="HealthFood" type="com.idap.clinic.entity.HealthFood">
-    	    <result property="eatId" column="EAT_ID" jdbcType="INTEGER" />
+    	    <result property="eatId" column="EAT_ID" jdbcType="VARCHAR" />
     	    <result property="eatTitle" column="EAT_TITLE" jdbcType="VARCHAR" />
     	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
     	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
     	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
-    	    <result property="clinicId" column="CLINIC_ID" jdbcType="INTEGER" />
+    	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
 	</resultMap>
 	 
  
@@ -71,11 +71,11 @@
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="querykeyword!=null">
-					AND (EAT_TITLE like '%'||#{querykeyword}||'%' 
-					OR EAT_CONTENT like '%'||#{querykeyword}||'%'  )
+					AND (EAT_TITLE like concat('%',#{querykeyword},'%') 
+					OR EAT_CONTENT like concat('%',#{querykeyword},'%')  )
 				</if>
 				<if test="clinicId!=null">
-					AND ID = #{id}
+					AND CLINIC_ID = #{clinicId}
 				</if>
 			</trim>
 	</sql>
@@ -90,6 +90,60 @@
 		</if>
 	</sql>
 	
+
+	<insert id="insert" parameterType="com.idap.danalysis.entity.SynchronizationApply" >
+	    INSERT INTO 
+	    EAT(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+	<sql id="allapplColumn">
+				EAT_ID,
+				EAT_TITLE,
+				EAT_CONTENT,
+				EAT_PIC,
+				EAT_DATE,
+				CLINIC_ID 
+
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+				#{eatId,jdbcType=VARCHAR},
+				#{eatTitle,jdbcType=VARCHAR},
+				#{eatContent,jdbcType=DATE},
+				#{eatPic,jdbcType=DATE},
+				#{eatDate,jdbcType=DATE},
+				#{clinicId,jdbcType=VARCHAR}
+		     )
+	</sql>
+	
+	<update id="update" parameterType="com.idap.clinic.entity.HealthFood">
+			update EAT
+			<trim prefix=" SET " prefixOverrides=",">
+				<if test="eatTitle!=null">
+					  ,EAT_TITLE=#{eatTitle,jdbcType=DATE}
+				</if>
+				<if test="eatContent!=null">
+					  ,EAT_CONTENT=#{eatContent,jdbcType=VARCHAR}
+				</if>
+				<if test="eatPic!=null">
+					  ,EAT_PIC=#{eatPic,jdbcType=VARCHAR}
+				</if>
+				<if test="eatDate!=null">   
+				      , EAT_DATE=#{eatDate,jdbcType=DATE}  
+				</if>
+			</trim>
+			WHERE 
+			 
+				EAT_ID=#{eatId}
+	</update>
+
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM EAT 
+		where EAT_ID =#{eatId}
+	</delete>	
+
 
 </mapper>
 
