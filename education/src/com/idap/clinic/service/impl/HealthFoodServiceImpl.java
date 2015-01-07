@@ -26,7 +26,8 @@ import com.idp.pub.service.impl.DefaultBaseService;
 
 @Transactional
 @Service("healthFoodService")
-public class HealthFoodServiceImpl extends DefaultBaseService<HealthFood, String>{
+public class HealthFoodServiceImpl extends DefaultBaseService<HealthFood, String>
+		  {
 	@Resource(name = "healthFoodDao")
 	public void setBaseDao(IBaseDao<HealthFood, String> baseDao) {
 		super.setBaseDao(baseDao);
