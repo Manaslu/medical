@@ -429,7 +429,10 @@ define(function() {
 	app.factory('CommonIllness', [ '$resource', function($resource) {
 		return $resource('commonIllness.shtml');
 	} ]);	
-	
+	// 常见病类别
+	app.factory('IllnessType', [ '$resource', function($resource) {
+		return $resource('illnessType.shtml');
+	} ]);	
 	
 	
 });

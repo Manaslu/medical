@@ -9,6 +9,8 @@
     	    <result property="illnessName" column="ILLNESS_NAME" jdbcType="VARCHAR" />
     	    <result property="illnessDesc" column="ILLNESS_DESC" jdbcType="VARCHAR" />
     	    <result property="illnessTypeId" column="ILLNESS_TYPE_ID" jdbcType="VARCHAR" />
+    	    <result property="illnessTypeName" column="ILLNESS_TYPE_NAME" jdbcType="VARCHAR" />
+    	     
 	</resultMap>
 	 
  
@@ -19,6 +21,7 @@
 			<include refid="allColumn" />
 			 from
 			ILLNESS t
+			left join ILLNESS_TYPE  ty on(t.ILLNESS_TYPE_ID=ty.ILLNESS_TYPE_ID)
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -29,6 +32,7 @@
 			<include refid="allColumn" />
 			 from
 			ILLNESS t
+			left join ILLNESS_TYPE  ty on(t.ILLNESS_TYPE_ID=ty.ILLNESS_TYPE_ID)
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>
@@ -37,7 +41,8 @@
 	           t.ILLNESS_ID,
 	           t.ILLNESS_NAME,
 	           t.ILLNESS_DESC,
-	           t.ILLNESS_TYPE_ID 
+	           t.ILLNESS_TYPE_ID,
+	           ty.ILLNESS_TYPE_NAME 
 	</sql>
  
 	

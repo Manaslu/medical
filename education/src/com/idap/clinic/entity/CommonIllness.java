@@ -11,6 +11,7 @@ public class CommonIllness implements java.io.Serializable {
 	private String     illnessName;//ILLNESS_NAME 
 	private String     illnessDesc;//ILLNESS_DESC
 	private String     illnessTypeId;//ILLNESS_TYPE_ID
+	private String     illnessTypeName;//
 	
 	
  
@@ -37,6 +38,12 @@ public class CommonIllness implements java.io.Serializable {
 	}
 	public void setIllnessTypeId(String illnessTypeId) {
 		this.illnessTypeId = illnessTypeId;
+	}
+	public String getIllnessTypeName() {
+		return illnessTypeName;
+	}
+	public void setIllnessTypeName(String illnessTypeName) {
+		this.illnessTypeName = illnessTypeName;
 	}
  
  

@@ -32,12 +32,12 @@
         <tr class="rowlink" ng-repeat="item in limitArr">
             <td>{{current*limit+$index+1}}</td>
             <td>{{item.illnessName}}</td>
-            <td title="{{item.illnessDesc}}">{{item.illnessDesc|limitTo:50}}......  </td>
-            <td>{{item.illnessTypeId}}</td>
+            <td title="{{item.illnessDesc}}">{{item.illnessDesc|limitTo:50}}  </td>
+            <td>{{item.illnessTypeName}}</td>
             <td>
 
                 <a    href="javascript:" data-toggle="modal" data-target="#addandedit"    ng-click="edithealthfood(item)" >修改</a> 
-                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"  ng-click="todeletehealthfood(item.illnessId)">删除</a>
+                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"  ng-click="todelete(item.illnessId)">删除</a>
                  
             </td>
     
@@ -61,7 +61,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4  class="modal-title">新增</h4>
+                <h4  class="modal-title">新增/修改</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -85,7 +85,9 @@
                             <label class="col-lg-2 control-label">类别</label>
                             <div class="col-lg-9">
                                 
-                            <select name="anaThemeRepId" select2 data-live-search="true" ng-model="key.illnessTypeId" required ng-options="c.anaThemeRepId as c.repName for c in themeNameList" class="form-control">
+                            <select name="anaThemeRepId" select2 data-live-search="true" 
+                                    ng-model="key.illnessTypeId" required 
+                                    ng-options="c.illnessTypeId as c.illnessTypeName for c in illnessType" class="form-control">
 				                 <option value="">-----select------</option>
 				            </select>
                             </div>
