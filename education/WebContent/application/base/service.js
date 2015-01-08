@@ -432,6 +432,10 @@ define(function() {
 	// 常见病类别
 	app.factory('IllnessType', [ '$resource', function($resource) {
 		return $resource('illnessType.shtml');
+	} ]);
+	// 医生
+	app.factory('DoctorsManagement', [ '$resource', function($resource) {
+		return $resource('doctorsManagement.shtml');
 	} ]);	
 	
 	
