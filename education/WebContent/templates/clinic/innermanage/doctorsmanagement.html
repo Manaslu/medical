@@ -5,7 +5,7 @@
             <form class="form-custom clearfix">
                 <div class="col-sm-3 col-md-3">
                      
-                    <input class="form-control" type="text" placeholder="姓名,介绍" ng-model="params.querykeyword"/>
+                    <input class="form-control" type="text" placeholder="姓名,介绍,专长" ng-model="params.querykeyword"/>
                 </div>
                 
                 <div class="col-sm-3 col-md-3">
@@ -126,10 +126,9 @@
 			                  
 			                <label class="col-lg-2 control-label">科室</label>
 			                <div class="col-lg-3">
-			                     <select id="blong" ng-init="key.doctorDepartment = '1'" select2 data-live-search="false" class="form-control" name="department"  ng-model="key.doctorDepartment"  >
-                                        <option value="1">的大幅度</option>
-                                        <option value="0">阿范德萨</option>
-                                 </select>
+			                
+			                    <select class="form-control" ng-model="key.doctorDepartment" name="department" required  select2 data-live-search="true"  ng-options="item.departmentId as item.departmentName for item  in departments">
+			                    </select>       
                              </div>
 			                  
                         </div>
@@ -138,7 +137,7 @@
 						        <div class="col-lg-9">
 				 					<div uploader 
 				 						 
-				 						ng-model="key.doctorPic" 
+				 						ng-model="key.tempeatPic" 
 				 						name="manyFiles" 
 				 						server="upload.shtml" 
 				 						files="files" 

@@ -8,7 +8,7 @@
     	    <result property="departmentId" column="DEPARTMENT_ID" jdbcType="VARCHAR" />
     	    <result property="departmentName" column="DEPARTMENT_NAME" jdbcType="VARCHAR" />
     	    <result property="departmentDesc" column="DEPARTMENT_DESC" jdbcType="VARCHAR" />
-    	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
+    	 
 	</resultMap>
 	 
  
@@ -36,11 +36,15 @@
 	   <sql id="allColumn">
 	           t.DEPARTMENT_ID,
 	           t.DEPARTMENT_NAME,
-	           t.DEPARTMENT_DESC,
-	           t.CLINIC_ID 
+	           t.DEPARTMENT_DESC 
 	</sql>
  
-	
+ 	<select id="query" parameterType="java.util.Map" resultMap="DepartmentManagement">
+		select t.DEPARTMENT_ID,
+	           t.DEPARTMENT_NAME,
+	           t.DEPARTMENT_DESC  from DEPARTMENT t
+	 
+	</select>
  
 	<select id="findByPager" parameterType="java.util.Map" resultMap="DepartmentManagement">
 		<include refid="queryBody" />
@@ -50,9 +54,7 @@
 		<include refid="queryBody" />
 	</select>
 	
-	<select id="query" parameterType="java.util.Map" resultMap="DepartmentManagement">
-		<include refid="queryBody" />
-	</select>
+
 	
 		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
 	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
@@ -68,11 +70,9 @@
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="querykeyword!=null">
 					AND (DEPARTMENT_NAME like concat('%',#{querykeyword},'%') 
-					OR DEPARTMENT_DESC like concat('%',#{querykeyword},'%')  )
+					OR   DEPARTMENT_DESC like concat('%',#{querykeyword},'%')  )
 				</if>
-				<if test="clinicId!=null">
-					AND CLINIC_ID = #{clinicId}
-				</if>
+				 
 			</trim>
 	</sql>
 	
@@ -96,8 +96,7 @@
 	<sql id="allapplColumn">
 	            DEPARTMENT_ID,
 	            DEPARTMENT_NAME,
-	            DEPARTMENT_DESC,
-	            CLINIC_ID
+	            DEPARTMENT_DESC 
 
 	</sql>
 	
@@ -105,8 +104,7 @@
 		values(
 				#{departmentId,jdbcType=VARCHAR},
 				#{departmentName,jdbcType=VARCHAR},
-				#{departmentDesc,jdbcType=VARCHAR},
-				#{clinicId,jdbcType=VARCHAR}
+				#{departmentDesc,jdbcType=VARCHAR} 
 		     )
 	</sql>
 	
@@ -114,7 +112,7 @@
 			update DEPARTMENT
 			<trim prefix=" SET " prefixOverrides=",">
 				<if test="departmentName!=null">
-					  ,DEPARTMENT_NAME=#{departmentName,jdbcType=DATE}
+					  ,DEPARTMENT_NAME=#{departmentName,jdbcType=VARCHAR}
 				</if>
 				<if test="departmentDesc!=null">
 					  ,DEPARTMENT_DESC=#{departmentDesc,jdbcType=VARCHAR}

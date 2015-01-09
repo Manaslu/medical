@@ -3,10 +3,7 @@ define(function (require, exports, module) {
         app.controller('ClinicInnermanageDepartmentmanagementCtrl', ['$scope','$http' ,'$filter','DepartmentManagement',function ($scope,$http,$filter,DepartmentManagement) { 
      //------------------gridlist--------- 	 
        	 $scope.pager =  DepartmentManagement;
-       	 $scope.params = {};
-       	 $scope.params.clinicId = $scope.USER_INFO.orgCd;//default clinic id for current user
-       	 $scope.refresh && $scope.refresh('first' , true);	
-        	 
+ 
      //------------reset botton---------------------
             $scope.clearForm = function(){//reset botton
                 $scope.pageitem="";

@@ -1,11 +1,17 @@
 define(function (require, exports, module) {
     return function setApp(app) {
-        app.controller('ClinicInnermanageDoctorsmanagementCtrl', ['$scope','$http' ,'$filter','Doctorsmanagement','$timeout',function ($scope,$http,$filter,Doctorsmanagement,$timeout) { 
+        app.controller('ClinicInnermanageDoctorsmanagementCtrl', ['$scope','$http' ,'$filter','DoctorsManagement','DepartmentManagement','$timeout',function ($scope,$http,$filter,DoctorsManagement,DepartmentManagement,$timeout) { 
      //------------------gridlist--------- 	 
-       	 $scope.pager =  Doctorsmanagement;
-       	 $scope.params = {};// normally "$scope.pager =  HealthFood" is already enough for listgrid  ,but here we need to use clinicId to identify user's authority  
+       	 $scope.pager =  DoctorsManagement;
+       	 $scope.params = {};
        	 $scope.params.clinicId = $scope.USER_INFO.orgCd;//default clinic id for current user
        	 $scope.refresh && $scope.refresh('first' , true);	
+       	 
+ 
+         
+         DepartmentManagement.query({isArray:true,params:{}},function (list){//for combo
+     		$scope.departments =list; 
+         });
         	 
      //------------reset botton---------------------
             $scope.clearForm = function(){//reset botton
@@ -17,24 +23,24 @@ define(function (require, exports, module) {
             $scope.edithealthfood =function(healthfood){ //click on edit link
               	$scope.key= healthfood;
               	$scope.tempeatPic=[];
-              	$scope.tempeatPic[0]=healthfood.eatPic
+              	$scope.tempeatPic[0]=healthfood.doctorPic
                };     
                
-             $scope.create = function(key) {//add and edit
+             $scope.create = function(key) { 
                if($scope.tempeatPic && $scope.tempeatPic.length>0){
-            	   key.eatPic=$scope.tempeatPic[0].filePath; //
+            	   key.doctorPic=$scope.tempeatPic[0].filePath; //
                }
-                   if(key.eatId){
-                   	key.eatDate=''; //update time now is number,it cause error of mismatch
-                   	HealthFood.save(key,function(){
+                   if(key.doctorId){
+                   	key.doctorDate=''; //update time now is number,it cause error of mismatch
+                   	DoctorsManagement.save(key,function(){
                        	$scope.refresh('current',true);//refresh listgrid
                         $scope.clearForm();
                       	$('#addandedit').modal('hide');
                       	     
                       });
-               	}else{ 
+               	}else{ //add
                		key.clinicId =  $scope.USER_INFO.orgCd; 
-               		HealthFood.put(key,function(){
+               		DoctorsManagement.put(key,function(){
                        	$scope.refresh('current',true);//refresh listgrid
                        	$scope.clearForm();
                         $('#addandedit').modal('hide');
@@ -50,9 +56,9 @@ define(function (require, exports, module) {
 
             $scope.comfirmDelete = function() {//confirm to delete on dialog
 	            var params = {
-	            		eatId : $scope.tobedeleteId
+	            		doctorId : $scope.tobedeleteId
 	            };
-	            HealthFood.remove({
+	            DoctorsManagement.remove({
 	                params : angular.toJson(params)
 	            }, function(jsonData) {
 	                $scope.refresh('current', true);

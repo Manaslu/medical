@@ -5,46 +5,30 @@
     
 <mapper namespace="com.idap.clinic.entity.DoctorsManagement" >
     <resultMap id="DoctorsManagement" type="com.idap.clinic.entity.DoctorsManagement">
-    	    <result property="eatId" column="EAT_ID" jdbcType="VARCHAR" />
-    	    <result property="eatTitle" column="EAT_TITLE" jdbcType="VARCHAR" />
-    	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
-    	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
-    	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
+    	    <result property="doctorId" column="DOCTOR_ID" jdbcType="VARCHAR" />
+    	    <result property="doctorName" column="DOCTOR_NAME" jdbcType="VARCHAR" />
+    	    <result property="doctorDesc" column="DOCTOR_DESC" jdbcType="VARCHAR" />
+    	    <result property="doctorPic" column="DOCTOR_PIC" jdbcType="VARCHAR" />
+    	    <result property="doctorDegree" column="DOCTOR_DEGREE" jdbcType="VARCHAR" />
+    	    <result property="doctorTel" column="DOCTOR_TEL" jdbcType="VARCHAR" />	    	    	    
+    	    <result property="doctorSpeciality" column="DOCTOR_SPECIALITY" jdbcType="VARCHAR" />
+    	    <result property="doctorDepartment" column="DOCTOR_DEPARTMENT" jdbcType="VARCHAR" />
+    	    <result property="doctorDate" column="DOCTOR_DATE" jdbcType="DATE" />
     	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
 	</resultMap>
-	 
- 
 	
-	<sql id="queryBody">
-		<if test="sno!=null and eno!=null and orderBy!=null">
-			select
-			<include refid="allColumn" />
-			 from
-			EAT t
-			<include refid="dynamicWhere" />
-			<include refid="dynamicOrderBy" />
-			limit ${sno-1},${eno}
-		</if>
-		<!-- 无orderby -->
-		<if test="sno!=null and eno!=null and orderBy==null">
-			select
-			<include refid="allColumn" />
-			 from
-			EAT t
-			<include refid="dynamicWhere" />
-			limit ${sno-1},${eno}
-		</if>
-	</sql>	
-	   <sql id="allColumn">
-	           t.EAT_ID,
-	           t.EAT_TITLE,
-	           t.EAT_CONTENT,
-	           t.EAT_PIC,
-	           t.EAT_DATE,
+	<sql id="allColumn">
+	           t.DOCTOR_ID,
+	           t.DOCTOR_NAME,
+	           t.DOCTOR_DESC,
+	           t.DOCTOR_PIC,
+	           t.DOCTOR_DEGREE,
+	           t.DOCTOR_TEL,
+	           t.DOCTOR_SPECIALITY,
+	           t.DOCTOR_DEPARTMENT,
+	           t.DOCTOR_DATE,
 	           t.CLINIC_ID
 	</sql>
- 
-	
  
 	<select id="findByPager" parameterType="java.util.Map" resultMap="DoctorsManagement">
 		<include refid="queryBody" />
@@ -63,7 +47,7 @@
 		select
 		count(1)
 		from
-		EAT
+		DOCTOR
 		<include refid="dynamicWhere" />
 		    
 	</select>
@@ -71,8 +55,10 @@
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="querykeyword!=null">
-					AND (EAT_TITLE like concat('%',#{querykeyword},'%') 
-					OR EAT_CONTENT like concat('%',#{querykeyword},'%')  )
+					AND (DOCTOR_NAME       like concat('%',#{querykeyword},'%') 
+					OR   DOCTOR_DESC       like concat('%',#{querykeyword},'%')
+					OR   DOCTOR_SPECIALITY like concat('%',#{querykeyword},'%')
+					)
 				</if>
 				<if test="clinicId!=null">
 					AND CLINIC_ID = #{clinicId}
@@ -93,56 +79,98 @@
 
 	<insert id="insert" parameterType="com.idap.clinic.entity.DoctorsManagement" >
 	    INSERT INTO 
-	    EAT(<include refid="allapplColumn"/>	)
+	    DOCTOR(<include refid="allapplColumn"/>	)
 		<include refid="allapplColumnVar"/>
 	</insert>
 	
 	<sql id="allapplColumn">
-				EAT_ID,
-				EAT_TITLE,
-				EAT_CONTENT,
-				EAT_PIC,
-				EAT_DATE,
-				CLINIC_ID 
+				 
+			    DOCTOR_ID,
+	            DOCTOR_NAME,
+	            DOCTOR_DESC,
+	            DOCTOR_PIC,
+	            DOCTOR_DEGREE,
+	            DOCTOR_TEL,
+	            DOCTOR_SPECIALITY,
+	            DOCTOR_DEPARTMENT,
+	            DOCTOR_DATE,
+	            CLINIC_ID
 
 	</sql>
 	
 	<sql id="allapplColumnVar">
 		values(
-				#{eatId,jdbcType=VARCHAR},
-				#{eatTitle,jdbcType=VARCHAR},
-				#{eatContent,jdbcType=DATE},
-				#{eatPic,jdbcType=DATE},
-				#{eatDate,jdbcType=DATE},
-				#{clinicId,jdbcType=VARCHAR}
+				#{doctorId,jdbcType=VARCHAR},
+				#{doctorName,jdbcType=VARCHAR},
+				#{doctorDesc,jdbcType=VARCHAR},
+				#{doctorPic,jdbcType=VARCHAR},
+				#{doctorDegree,jdbcType=VARCHAR},
+				#{doctorTel,jdbcType=VARCHAR},
+				#{doctorSpeciality,jdbcType=VARCHAR},
+				#{doctorDepartment,jdbcType=VARCHAR},
+				#{doctorDate,jdbcType=DATE},
+				#{clinicId,jdbcType=VARCHAR} 
 		     )
 	</sql>
 	
 	<update id="update" parameterType="com.idap.clinic.entity.DoctorsManagement">
-			update EAT
+			update DOCTOR
 			<trim prefix=" SET " prefixOverrides=",">
-				<if test="eatTitle!=null">
-					  ,EAT_TITLE=#{eatTitle,jdbcType=DATE}
+				<if test="doctorName!=null">
+					  ,DOCTOR_NAME=#{doctorName,jdbcType=VARCHAR}
 				</if>
-				<if test="eatContent!=null">
-					  ,EAT_CONTENT=#{eatContent,jdbcType=VARCHAR}
+				<if test="doctorPic!=null">
+					  ,DOCTOR_DESC=#{doctorPic,jdbcType=VARCHAR}
 				</if>
 				<if test="eatPic!=null">
-					  ,EAT_PIC=#{eatPic,jdbcType=VARCHAR}
+					  ,DOCTOR_PIC=#{eatPic,jdbcType=VARCHAR}
 				</if>
-				<if test="eatDate!=null">   
-				      , EAT_DATE=#{eatDate,jdbcType=DATE}  
+				<if test="doctorDegree!=null">   
+				      , DOCTOR_DEGREE=#{doctorDegree,jdbcType=VARCHAR}  
+				</if>
+				<if test="doctorTel!=null">   
+				      , DOCTOR_TEL=#{doctorTel,jdbcType=VARCHAR}  
+				</if>
+				<if test="doctorSpeciality!=null">   
+				      , DOCTOR_SPECIALITY=#{doctorSpeciality,jdbcType=VARCHAR}  
+				</if>
+				<if test="doctorDepartment!=null">   
+				      , DOCTOR_DEPARTMENT=#{doctorDepartment,jdbcType=VARCHAR}  
+				</if>
+				<if test="doctorDate!=null">   
+				      , DOCTOR_DATE=#{doctorDate,jdbcType=DATE}  
 				</if>
 			</trim>
 			WHERE 
 			 
-				EAT_ID=#{eatId}
+				DOCTOR_ID=#{doctorId}
 	</update>
 
 	<delete id="delete" parameterType="java.util.Map">
-		DELETE FROM EAT 
-		where EAT_ID =#{eatId}
+		DELETE FROM DOCTOR 
+		where DOCTOR_ID =#{doctorId}
 	</delete>	
+	
+	<sql id="queryBody">
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			 from
+			DOCTOR t
+			<include refid="dynamicWhere" />
+			<include refid="dynamicOrderBy" />
+			limit ${sno-1},${eno}
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			 from
+			DOCTOR t
+			<include refid="dynamicWhere" />
+			limit ${sno-1},${eno}
+		</if>
+	</sql>	
 
 
 </mapper>
