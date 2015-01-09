@@ -1,0 +1,197 @@
+<div class="col-sm-12 col-md-12">
+
+<div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form class="form-custom clearfix">
+                <div class="col-sm-3 col-md-3">
+                     
+                    <input class="form-control" type="text" placeholder="姓名,介绍" ng-model="params.querykeyword"/>
+                </div>
+                
+                <div class="col-sm-3 col-md-3">
+                  
+                    <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
+                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#addandedit" on-click="clearForm()"  upload-refresh>新增</button>
+                </div>
+            </form>
+        </div>
+     </div>   
+
+    <table class="table table-striped table-bordered table-condensed index-center  table-costom">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>简介</th>
+            <th>照片</th>
+            <th>级别</th>
+            <th>电话</th>
+            <th>主治</th>
+            <th>科室</th>
+            <th>时间</th>
+            <th>操作</th>
+          
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rowlink" ng-repeat="item in limitArr">
+            <td>{{current*limit+$index+1}}</td>
+            <td>{{item.doctorName}}</td>
+            <td title="{{item.doctorDesc}}">{{item.doctorDesc|limitTo:50}}......  </td>
+            <td>{{item.doctorPic}}</td>
+            <td>{{item.doctorDegree}}</td>
+            <td>{{item.doctorTel}}</td>
+            <td>{{item.doctorSpeciality}}</td>
+            <td>{{item.doctorDepartment}}</td>
+            <td>{{item.doctorDate|date:'yyyy-MM-dd'}}</td>
+            <td>
+
+                <a    href="javascript:" data-toggle="modal" data-target="#addandedit"    ng-click="edithealthfood(item)" >修改</a> 
+                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"  ng-click="todeletehealthfood(item.eatId)">删除</a>
+                 
+            </td>
+    
+        </tr>
+        </tbody>
+    </table>
+            <div   data-remote-paging="pager" 
+					data-refresh="refresh" 
+					data-current="current" 
+					data-total="total" 
+					data-data="limitArr"
+					data-limit="limit"
+					data-params="params"
+			></div>
+</div>
+
+<!-- 新增修改对话框 -->
+<div class="modal fade" id="addandedit" tabindex="-1" role="dialog" aria-hidden="true">
+<form class="form-horizontal" name="addSyncApplForm" novalidate="novalidate" auto-file-upload   ng-submit="create(key)" >
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4  class="modal-title">新增/修改</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                            <div class="alert alert-danger alert-dismissable"   style="padding-left:80px">
+								<a data-dismiss="alert" class="close">×</a>
+								<strong>友情提示：</strong> 图片文件大小不要超过2M
+							</div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">姓名</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="key.doctorName" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
+			                 
+			                 <label class="col-lg-2 control-label">性别</label>
+			                <div class="col-lg-3">
+			                     <select id="pro" ng-init="key.doctorGender = '1'" select2 data-live-search="false" class="form-control" name="anatype"  ng-model="key.doctorGender"  >
+                                        <option value="1">男</option>
+                                        <option value="0">女</option>
+                                 </select>
+                             </div>
+			                  
+		 
+                        </div>
+
+						<div class="form-group">
+                            <label class="col-lg-2 control-label">级别</label>
+                            <div class="col-lg-3">
+                                 <select id="prodree" ng-init="key.doctorDegree = '3'" select2 data-live-search="false" class="form-control" name="degree"  ng-model="key.doctorDegree"  >
+                                        <option value="1">实习医师</option>
+                                        <option value="2">助理医师</option>
+                                        <option value="3">医师</option>
+                                        <option value="4">主治医师</option>
+                                        <option value="5">副主任医师-</option>
+                                        <option value="6">主任医师</option>
+                                 </select>
+                            </div>
+                            
+                            
+                            <label class="col-lg-2 control-label">电话</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control"  ng-model="key.doctorTel" ng-maxlength="20" ng-trim maxlength="20" />
+                            </div>
+                             
+                             
+                        </div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">主治</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control"  ng-model="key.doctorSpeciality"  />
+			                </div>
+			                  
+			                <label class="col-lg-2 control-label">科室</label>
+			                <div class="col-lg-3">
+			                     <select id="blong" ng-init="key.doctorDepartment = '1'" select2 data-live-search="false" class="form-control" name="department"  ng-model="key.doctorDepartment"  >
+                                        <option value="1">的大幅度</option>
+                                        <option value="0">阿范德萨</option>
+                                 </select>
+                             </div>
+			                  
+                        </div>
+                        <div class="form-group">
+						        <label class="col-lg-2 control-label">照片</label>
+						        <div class="col-lg-9">
+				 					<div uploader 
+				 						 
+				 						ng-model="key.doctorPic" 
+				 						name="manyFiles" 
+				 						server="upload.shtml" 
+				 						files="files" 
+				 						extensions="png,jpeg,jpg,bmp"
+				 						file-queued-error="fn($file,$type,$ext)"
+				 					></div>
+						        </div>
+						    </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">简介</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="8"  ng-model="key.doctorDesc"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                            
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary"     ng-disabled="addSyncApplForm.$invalid">保存</button>
+                <button type="button" class="btn btn-danger"     ng-click="clearForm()">重置</button>
+                <button type="button" class="btn btn-default"    data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    </form>
+    <!-- /.modal-dialog -->
+</div>
+
+ 
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">删除</h4>
+            </div>
+            <div class="modal-body">
+                                                     确认要删除么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="comfirmDelete()" data-dismiss="modal">确认删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ 
+ 

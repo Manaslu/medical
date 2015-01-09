@@ -27,16 +27,16 @@
 	</insert>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="rolePermissionsMap">
-		select t.role_id,t.menu_id,t.create_time,t.update_time,t.state from t02_function_role t
+		select role_id, menu_id, create_time, update_time, state from t02_function_role 
 		<include refid="dynamicWhere" />
 	</select>
 	
 	<!-- 2.1.根据条件查询 列表 分页 排序 -->
 	<select id="findByPager" parameterType="java.util.Map" resultMap="rolePermissionsMap">
-		select t.role_id,t.menu_id,t.create_time,t.update_time,t.state from
-        	(select s.* , ROWNUM AS rowno from t02_function_role s
-                 where ROWNUM <![CDATA[<=]]>${eno}) t 
+		select  role_id, menu_id, create_time, update_time, state from
+        	t02_function_role  
 		<include refid="dynamicWhere" />
+		limit ${sno-1},${eno}
 	</select>
 	
 	<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
@@ -44,7 +44,7 @@
 		select
 		count(1)
 		from
-		t02_function_role t
+		t02_function_role 
 		<include refid="dynamicWhere" />
 	</select>
 
@@ -52,43 +52,35 @@
 	
 	<!-- 4.删除 -->
 	<delete id="delete" parameterType="com.idp.sysmgr.role.entity.RolePermissions">
-		DELETE FROM t02_function_role t
-		<include refid="dynamicWhere" />
+		DELETE FROM t02_function_role 
+		where ROLE_ID =#{roleId} 
+	 
 	</delete>
 	
 	
 	<sql id="dynamicWhere">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="roleId!=null">
-				AND t.ROLE_ID=#{roleId,jdbcType=INTEGER} 
+				AND ROLE_ID=#{roleId,jdbcType=INTEGER} 
 			</if>
-			
-			<if test="sno!=null and eno!=null">
-				AND t.rowno <![CDATA[>=]]> ${sno}
-			</if>
-			
 		</trim>
 
 	</sql>
 	
 	<update id="update" parameterType="java.util.Map">
-		update t02_function_role t 
-		<include refid="dynamicSet"/>
-		where t.ROLE_ID=#{roleId,jdbcType=INTEGER}
+		update t02_function_role
+			<trim prefix=" SET " prefixOverrides=",">
+				<if test="state!=null">
+					  ,STATE=#{state,jdbcType=VARCHAR}
+				</if>
+				<if test="updateTime!=null">
+					  ,UPDATE_TIME=#{updateTime,jdbcType=DATE}
+				</if>
+			 
+			</trim>
+			WHERE  ROLE_ID=#{roleId}
 	</update>
 	
-	<!-- update:set 动态生成可更新字段 -->
-	<sql id="dynamicSet">
-		<trim prefix="SET" prefixOverrides=",">
-			
-			<if test="state!=null">
-				,t.STATE=#{state,jdbcType=VARCHAR}
-			</if>
-			
-			<if test="updateTime!=null">
-				,t.UPDATE_TIME=#{updateTime,jdbcType=DATE}
-			</if>
-		</trim>
-	</sql>
+ 
 	
 </mapper>

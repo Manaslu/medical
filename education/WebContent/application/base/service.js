@@ -437,6 +437,10 @@ define(function() {
 	app.factory('DoctorsManagement', [ '$resource', function($resource) {
 		return $resource('doctorsManagement.shtml');
 	} ]);	
+	// 诊所
+	app.factory('DepartmentManagement', [ '$resource', function($resource) {
+		return $resource('departmentManagement.shtml');
+	} ]);	
 	
 	
 });
