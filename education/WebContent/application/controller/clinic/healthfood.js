@@ -10,33 +10,39 @@ define(function (require, exports, module) {
      //------------reset botton---------------------
             $scope.clearForm = function(){//reset botton
                 $scope.key="";
-                $scope.tempeatPic=[];
+//                $scope.tempeatPic=[];
             }
             
      //------------------add/edit--------- ----------- 	
             $scope.edithealthfood =function(healthfood){ //click on edit link
-              	$scope.key= healthfood;
-              	$scope.tempeatPic=[];
-              	$scope.tempeatPic[0]=healthfood.eatPic
+            	$scope.clearForm(); 
+              	$scope.keye= angular.copy(healthfood);
+ 
+//              	$scope.tempeatPic=[];
+//              	$scope.tempeatPic[0]=healthfood.eatPic
                };     
                
-             $scope.create = function(key) {//add and edit
-               if($scope.tempeatPic && $scope.tempeatPic.length>0){
-            	   key.eatPic=$scope.tempeatPic[0].filePath; //
-               }
-                   if(key.eatId){
-                   	key.eatDate=''; //update time now is number,it cause error of mismatch
-                   	HealthFood.save(key,function(){
+             $scope.create = function(item) {//add and edit
+
+            	 $scope.newentity = angular.copy(item);
+                 if( $scope.newentity.eatPic &&  $scope.newentity.eatPic.length>0){
+                	 var tt=  $scope.newentity.eatPic[0].filePath;
+                	 $scope.newentity.eatPic =tt;
+                 }
+                   if($scope.newentity.eatId){
+                	   $scope.newentity.eatDate=''; //update time now is number,it cause error of mismatch
+                	   var t= $scope.newentity.eatPic[0]
+                   	HealthFood.save($scope.newentity,function(){
                        	$scope.refresh('current',true);//refresh listgrid
-                        $scope.clearForm();
-                      	$('#addandedit').modal('hide');
+                       	$scope.newentity="";
+                      	$('#editonly').modal('hide');
                       	     
                       });
                	}else{ 
-               		key.clinicId =  $scope.USER_INFO.orgCd; 
-               		HealthFood.put(key,function(){
+               		$scope.newentity.clinicId =  $scope.USER_INFO.orgCd; 
+               		HealthFood.put($scope.newentity,function(){
                        	$scope.refresh('current',true);//refresh listgrid
-                       	$scope.clearForm();
+                       	$scope.newentity="";
                         $('#addandedit').modal('hide');
                        });
                	}

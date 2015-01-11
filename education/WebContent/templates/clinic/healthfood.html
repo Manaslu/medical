@@ -11,7 +11,7 @@
                 <div class="col-sm-3 col-md-3">
                   
                     <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
-                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#addandedit" on-click="clearForm()"  upload-refresh>新增</button>
+                    <button class="btn btn-custom" type="submit" data-toggle="modal" data-target="#addandedit" on-click="$scope.clearForm()"  upload-refresh>新增</button>
                 </div>
             </form>
         </div>
@@ -29,15 +29,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="rowlink" ng-repeat="item in limitArr">
+        <tr class="rowlink" ng-repeat="it in limitArr">
             <td>{{current*limit+$index+1}}</td>
-            <td>{{item.eatTitle}}</td>
-            <td title="{{item.eatContent}}">{{item.eatContent|limitTo:50}}......  </td>
-            <td>{{item.eatDate|date:'yyyy-MM-dd'}}</td>
+            <td>{{it.eatTitle}}</td>
+            <td title="{{it.eatContent}}">{{it.eatContent|limitTo:50}} </td>
+            <td>{{it.eatDate|date:'yyyy-MM-dd'}}</td>
             <td>
 
-                <a    href="javascript:" data-toggle="modal" data-target="#addandedit"    ng-click="edithealthfood(item)" >修改</a> 
-                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"  ng-click="todeletehealthfood(item.eatId)">删除</a>
+                <a    href="javascript:" data-toggle="modal" data-target="#editonly" upload-refresh    ng-click="edithealthfood(it)" >修改</a> 
+                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"  ng-click="todeletehealthfood(it.eatId)">删除</a>
                  
             </td>
     
@@ -56,7 +56,7 @@
 
 <!-- 新增修改对话框 -->
 <div class="modal fade" id="addandedit" tabindex="-1" role="dialog" aria-hidden="true">
-<form class="form-horizontal" name="addSyncApplForm" novalidate="novalidate" auto-file-upload   ng-submit="create(key)" >
+<form class="form-horizontal" name="eatForm" novalidate="novalidate" auto-file-upload   ng-submit="create(key)" >
     <div class="modal-dialog" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,13 +82,13 @@
 						        <label class="col-lg-2 control-label">图片</label>
 						        <div class="col-lg-9">
 				 					<div uploader 
-				 						 
-				 						ng-model="tempeatPic" 
-				 						name="manyFiles" 
+				 						thumb 
+				 						ng-model="key.eatPic" 
+				 						name="manFiles" 
 				 						server="upload.shtml" 
-				 						files="files" 
+				 						 
 				 						extensions="png,jpeg,jpg,bmp"
-				 						file-queued-error="fn($file,$type,$ext)"
+				 						 
 				 					></div>
 						        </div>
 						    </div>
@@ -96,6 +96,64 @@
                             <label class="col-lg-2 control-label">内容</label>
                             <div class="col-lg-9">
                                 <textarea class="form-control" rows="8" required ng-model="key.eatContent"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                            <span class="mustItem">*</span>
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary"     ng-disabled="eatForm.$invalid">保存</button>
+                <button type="button" class="btn btn-danger"     ng-click="clearForm()">重置</button>
+                <button type="button" class="btn btn-default"    data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    </form>
+    <!-- /.modal-dialog -->
+</div>
+
+ <div class="modal fade" id="editonly" tabindex="-1" role="dialog" aria-hidden="true">
+<form class="form-horizontal" name="addSyncApplForm" novalidate="novalidate" auto-file-upload   ng-submit="create(keye)" >
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4  class="modal-title">修改</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                            <div class="alert alert-danger alert-dismissable"   style="padding-left:80px">
+								<a data-dismiss="alert" class="close">×</a>
+								<strong>友情提示：</strong> 图片文件大小不要超过2M
+							</div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">标题</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control" required ng-model="keye.eatTitle" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
+			                 <span class="mustItem">*</span>
+		 
+                        </div>
+						    <div class="form-group">
+						        <label class="col-lg-2 control-label">图片</label>
+						        <div class="col-lg-9">
+				 					<div uploader  
+				 						thumb
+				 						ng-model="keye.eatPic" 
+				 						name="manyFiles" 
+				 						server="upload.shtml" 
+				 						extensions="png,jpeg,jpg,bmp"
+				 					></div>
+						        </div>
+						    </div>
+						<div class="form-group">
+                            <label class="col-lg-2 control-label">内容</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="8" required ng-model="keye.eatContent"  data-valid-pos="bottom" ></textarea>
                             </div>
                             <span class="mustItem">*</span>
                              
@@ -114,8 +172,6 @@
     </form>
     <!-- /.modal-dialog -->
 </div>
-
- 
 
 <!-- 删除对话框 -->
 <div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
