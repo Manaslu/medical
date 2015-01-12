@@ -347,4 +347,13 @@ define(function (require) {
         3: '待发布 ',
         4: '已发布 '
     }); 
+    //数据分析-->审核状态{{ exports | DSL_apprstatus }}
+    filterFactory('DSL_doctorlevel', {
+        1: '实习医师 ',
+        2: '助理医师',
+        3: '医师',
+        4: '主治医师',
+        5: '副主任医师',
+        6: '主任医师'
+    });
 });

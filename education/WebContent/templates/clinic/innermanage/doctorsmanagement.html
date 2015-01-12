@@ -11,7 +11,7 @@
                 <div class="col-sm-3 col-md-3">
                   
                     <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
-                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#addandedit" on-click="clearForm()"  upload-refresh>新增</button>
+                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#addandedit"    upload-refresh>新增</button>
                 </div>
             </form>
         </div>
@@ -23,7 +23,7 @@
             <th>序号</th>
             <th>姓名</th>
             <th>简介</th>
-            <th>照片</th>
+           
             <th>级别</th>
             <th>电话</th>
             <th>主治</th>
@@ -38,15 +38,15 @@
             <td>{{current*limit+$index+1}}</td>
             <td>{{item.doctorName}}</td>
             <td title="{{item.doctorDesc}}">{{item.doctorDesc|limitTo:50}}......  </td>
-            <td>{{item.doctorPic}}</td>
-            <td>{{item.doctorDegree}}</td>
+            
+            <td>{{item.doctorDegree | DSL_doctorlevel}}</td>
             <td>{{item.doctorTel}}</td>
             <td>{{item.doctorSpeciality}}</td>
             <td>{{item.doctorDepartment}}</td>
             <td>{{item.doctorDate|date:'yyyy-MM-dd'}}</td>
             <td>
 
-                <a    href="javascript:" data-toggle="modal" data-target="#addandedit"    ng-click="edithealthfood(item)" >修改</a> 
+                <a    href="javascript:" data-toggle="modal" data-target="#addandedit"  upload-refresh  ng-click="edithealthfood(item)" >修改</a> 
                 <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"  ng-click="todeletehealthfood(item.eatId)">删除</a>
                  
             </td>
@@ -119,9 +119,9 @@
                              
                         </div>
                         <div class="form-group">
-			                <label class="col-lg-2 control-label">主治</label>
+			                <label class="col-lg-2 control-label">身份证</label>
 			                <div class="col-lg-3">
-			                    <input type="text" class="form-control"  ng-model="key.doctorSpeciality"  />
+			                    <input type="text" class="form-control" required ng-model="key.doctorIdcard" ng-maxlength="20" ng-trim maxlength="20" />
 			                </div>
 			                  
 			                <label class="col-lg-2 control-label">科室</label>
@@ -133,23 +133,37 @@
 			                  
                         </div>
                         <div class="form-group">
+			                <label class="col-lg-2 control-label">主治</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control"  ng-model="key.doctorSpeciality"  />
+			                </div>
+                        </div>                        
+                        <div class="form-group">
 						        <label class="col-lg-2 control-label">照片</label>
-						        <div class="col-lg-9">
+						        <div class="col-lg-4">
 				 					<div uploader 
-				 						 
-				 						ng-model="key.tempeatPic" 
+				 						thumb
+				 						ng-model="key.doctorPic" 
+				 						name="File" 
+				 						server="upload.shtml" 
+				 						extensions="png,jpeg,jpg,bmp"
+				 					></div>
+						        </div>
+						         <label class="col-lg-2 control-label">证书</label>
+						        <div class="col-lg-4">
+				 					<div uploader 
+				 						thumb 
+				 						ng-model="key.doctorCertificate" 
 				 						name="manyFiles" 
 				 						server="upload.shtml" 
-				 						files="files" 
 				 						extensions="png,jpeg,jpg,bmp"
-				 						file-queued-error="fn($file,$type,$ext)"
 				 					></div>
 						        </div>
 						    </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">简介</label>
                             <div class="col-lg-9">
-                                <textarea class="form-control" rows="8"  ng-model="key.doctorDesc"  data-valid-pos="bottom" ></textarea>
+                                <textarea class="form-control" rows="4"  ng-model="key.doctorDesc"  data-valid-pos="bottom" ></textarea>
                             </div>
                             
                              

@@ -24,7 +24,7 @@ define(function (require, exports, module) {
                       });
                	}else{ 
                		key.clinicId =  $scope.USER_INFO.orgCd; 
-               		DepartmentManagement.put(k,function(){
+               		DepartmentManagement.put(key,function(){
                        	$scope.refresh('current',true);//refresh listgrid
                        	$scope.clearForm();
                         $('#addandedit').modal('hide');

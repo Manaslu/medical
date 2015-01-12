@@ -15,6 +15,10 @@
     	    <result property="doctorDepartment" column="DOCTOR_DEPARTMENT" jdbcType="VARCHAR" />
     	    <result property="doctorDate" column="DOCTOR_DATE" jdbcType="DATE" />
     	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
+    	    <result property="doctorGender" column="DOCTOR_GENDER" jdbcType="VARCHAR" />
+    	    <result property="doctorIdcard" column="DOCTOR_IDCARD" jdbcType="VARCHAR" />
+    	    <result property="doctorCertificate" column="DOCTOR_CERTIFICATE" jdbcType="VARCHAR" />
+    	    
 	</resultMap>
 	
 	<sql id="allColumn">
@@ -25,9 +29,13 @@
 	           t.DOCTOR_DEGREE,
 	           t.DOCTOR_TEL,
 	           t.DOCTOR_SPECIALITY,
-	           t.DOCTOR_DEPARTMENT,
+	           d.DEPARTMENT_NAME  DOCTOR_DEPARTMENT,
 	           t.DOCTOR_DATE,
-	           t.CLINIC_ID
+	           t.CLINIC_ID,
+	           t.DOCTOR_GENDER,
+	           t.DOCTOR_IDCARD,
+	           t.DOCTOR_CERTIFICATE
+	           
 	</sql>
  
 	<select id="findByPager" parameterType="java.util.Map" resultMap="DoctorsManagement">
@@ -94,7 +102,10 @@
 	            DOCTOR_SPECIALITY,
 	            DOCTOR_DEPARTMENT,
 	            DOCTOR_DATE,
-	            CLINIC_ID
+	            CLINIC_ID,
+	            DOCTOR_GENDER,
+	            DOCTOR_IDCARD,
+	            DOCTOR_CERTIFICATE
 
 	</sql>
 	
@@ -109,7 +120,10 @@
 				#{doctorSpeciality,jdbcType=VARCHAR},
 				#{doctorDepartment,jdbcType=VARCHAR},
 				#{doctorDate,jdbcType=DATE},
-				#{clinicId,jdbcType=VARCHAR} 
+				#{clinicId,jdbcType=VARCHAR},
+				#{doctorGender,jdbcType=VARCHAR},
+				#{doctorIdcard,jdbcType=VARCHAR},
+				#{doctorCertificate,jdbcType=VARCHAR}
 		     )
 	</sql>
 	
@@ -140,6 +154,17 @@
 				<if test="doctorDate!=null">   
 				      , DOCTOR_DATE=#{doctorDate,jdbcType=DATE}  
 				</if>
+				<if test="doctorGender!=null">   
+				      , DOCTOR_GENDER=#{doctorGender,jdbcType=VARCHAR}  
+				</if>
+				<if test="doctorIdcard!=null">   
+				      , DOCTOR_IDCARD=#{doctorIdcard,jdbcType=VARCHAR}  
+				</if>
+				<if test="doctorCertificate!=null">   
+				      , DOCTOR_CERTIFICATE=#{doctorCertificate,jdbcType=VARCHAR}  
+				</if>
+				
+				
 			</trim>
 			WHERE 
 			 
@@ -156,7 +181,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			DOCTOR t
+			DOCTOR t left join DEPARTMENT d on(t.doctor_department=d.department_id )
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -166,7 +191,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			DOCTOR t
+			DOCTOR t left join DEPARTMENT d on(t.doctor_department=d.department_id )
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>

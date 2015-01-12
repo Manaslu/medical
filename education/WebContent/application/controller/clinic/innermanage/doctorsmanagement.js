@@ -16,21 +16,23 @@ define(function (require, exports, module) {
      //------------reset botton---------------------
             $scope.clearForm = function(){//reset botton
                 $scope.key="";
-                $scope.tempeatPic=[];
             }
             
      //------------------add/edit--------- ----------- 	
             $scope.edithealthfood =function(healthfood){ //click on edit link
               	$scope.key= healthfood;
-              	$scope.tempeatPic=[];
-              	$scope.tempeatPic[0]=healthfood.doctorPic
                };     
                
              $scope.create = function(key) { 
-               if($scope.tempeatPic && $scope.tempeatPic.length>0){
-            	   key.doctorPic=$scope.tempeatPic[0].filePath; //
+               if( key.doctorPic &&  key.doctorPic.length>0){
+              	 var tt=  key.doctorPic[0].filePath;
+              	 key.doctorPic =tt;
                }
-                   if(key.doctorId){
+               if( key.doctorCertificate &&  key.doctorCertificate.length>0){
+                	 var tt=  key.doctorCertificate[0].filePath;
+                	 key.doctorCertificate =tt;
+               }
+             if(key.doctorId){
                    	key.doctorDate=''; //update time now is number,it cause error of mismatch
                    	DoctorsManagement.save(key,function(){
                        	$scope.refresh('current',true);//refresh listgrid
