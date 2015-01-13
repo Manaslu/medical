@@ -441,6 +441,10 @@ define(function() {
 	app.factory('DepartmentManagement', [ '$resource', function($resource) {
 		return $resource('departmentManagement.shtml');
 	} ]);	
+	// 预约
+	app.factory('UserAppointment', [ '$resource', function($resource) {
+		return $resource('userAppointment.shtml');
+	} ]);	
 	
 	
 });
