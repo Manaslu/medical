@@ -14,8 +14,16 @@ public class UserAppointment implements java.io.Serializable {
 	private Date       orderDate;//ORDER_DATE order_date
 	private String     orderClinic;//ORDER_CLINIC order_clinic
 	private String     mUserName;//M_USER_NAME m_user_name
+	private String     orderStatus;//ORDER_STATUS ORDER_STATUS
 	
 	
+	
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
 	public String getOrderId() {
 		return orderId;
 	}

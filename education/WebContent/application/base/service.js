@@ -445,6 +445,9 @@ define(function() {
 	app.factory('UserAppointment', [ '$resource', function($resource) {
 		return $resource('userAppointment.shtml');
 	} ]);	
-	
+	// 诊断结果
+	app.factory('DiagnoseResult', [ '$resource', function($resource) {
+		return $resource('diagnoseResult.shtml');
+	} ]);		
 	
 });

@@ -10,7 +10,9 @@
     	    <result property="orderDoctorId"  column="ORDER_DOCTOR_ID"  jdbcType="VARCHAR" />
     	    <result property="orderDate"      column="ORDER_DATE"       jdbcType="DATE" />
     	    <result property="orderClinic"    column="ORDER_CLINIC"     jdbcType="VARCHAR" />
-    	    <result property="mUserName"      column="M_USER_NAME"      jdbcType="VARCHAR" />    
+    	    <result property="mUserName"      column="M_USER_NAME"      jdbcType="VARCHAR" />  
+    	     <result property="orderStatus"      column="ORDER_STATUS"      jdbcType="VARCHAR" />  
+    	      
     	 
 	</resultMap>
 	 
@@ -42,7 +44,8 @@
 	           t.ORDER_DOCTOR_ID,
 	           t.ORDER_DATE,
 	           t.ORDER_CLINIC,
-	           u.M_USER_NAME 
+	           u.M_USER_NAME,
+	           ORDER_STATUS 
 	</sql>
  
 	<select id="query" parameterType="java.util.Map" resultMap="UserAppointment">
@@ -51,9 +54,12 @@
 	           t.ORDER_DOCTOR_ID,
 	           t.ORDER_DATE,
 	           t.ORDER_CLINIC,
-	           u.M_USER_NAME 
+	           u.M_USER_NAME,
+	           isnull(r.see_doctor_result)   as ORDER_STATUS 
 	     from USER_ORDER t
-	     left join MOBILE_USER u on(t.ORDER_USER_ID=u.M_USER_ID ) 
+	     left join MOBILE_USER u on(t.ORDER_USER_ID=u.M_USER_ID) 
+	     left join SEE_DOCTOR_RESULT r on(t.ORDER_ID=r.USER_ORDER_ID) 
+	     
 		<include refid="dynamicWhere" />
 	</select>
  

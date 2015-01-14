@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    
+<mapper namespace="com.idap.clinic.entity.DiagnoseResult" >
+    <resultMap id="DiagnoseResult" type="com.idap.clinic.entity.DiagnoseResult">
+    
+    	    <result property="seeDoctorId"     column="SEE_DOCTOR_ID"     jdbcType="VARCHAR" />
+    	    <result property="seeDoctorDate"   column="SEE_DOCTOR_DATE"   jdbcType="DATE" />
+    	    <result property="seeDoctorResult" column="SEE_DOCTOR_RESULT" jdbcType="VARCHAR" />
+    	    <result property="doctorId"        column="DOCTOR_ID"         jdbcType="VARCHAR" />
+    	    <result property="clinicId"        column="CLINIC_ID"         jdbcType="VARCHAR" />
+    	    <result property="mUserId"         column="M_USER_ID"         jdbcType="VARCHAR" />
+    	    <result property="userOrderId"     column="USER_ORDER_ID"     jdbcType="VARCHAR" />
+    	    <result property="userIllnessDesc" column="USER_ILLNESS_DESC" jdbcType="VARCHAR" />
+    	 
+	</resultMap>
+	 
+ 
+	
+	<sql id="queryBody">
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			 from
+			SEE_DOCTOR_RESULT  t
+			<include refid="dynamicWhere" />
+			<include refid="dynamicOrderBy" />
+			limit ${sno-1},${eno}
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			 from
+			SEE_DOCTOR_RESULT t
+			<include refid="dynamicWhere" />
+			limit ${sno-1},${eno}
+		</if>
+	</sql>	
+	   <sql id="allColumn">
+	           t.SEE_DOCTOR_ID,
+	           t.SEE_DOCTOR_DATE,
+	           t.SEE_DOCTOR_RESULT, 
+	           t.DOCTOR_ID,
+	           t.CLINIC_ID,
+	           t.M_USER_ID, 
+	           t.USER_ORDER_ID,
+	           t.USER_ILLNESS_DESC 
+	</sql>
+ 
+ 	<select id="query" parameterType="java.util.Map" resultMap="DiagnoseResult">
+		select t.SEE_DOCTOR_ID,
+	           t.SEE_DOCTOR_DATE,
+	           t.SEE_DOCTOR_RESULT, 
+	           t.DOCTOR_ID,
+	           t.CLINIC_ID,
+	           t.M_USER_ID, 
+	           t.USER_ORDER_ID,
+	           t.USER_ILLNESS_DESC   
+	     from SEE_DOCTOR_RESULT t
+	           <include refid="dynamicWhere" />
+	 
+	</select>
+ 
+	<select id="findByPager" parameterType="java.util.Map" resultMap="DiagnoseResult">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="DiagnoseResultquery" parameterType="java.util.Map" resultMap="DiagnoseResult">
+		<include refid="queryBody" />
+	</select>
+	
+
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select
+		count(1)
+		from
+		SEE_DOCTOR_RESULT
+		<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+	<sql id="dynamicWhere">
+			<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="orderId!=null">
+					AND USER_ORDER_ID = #{orderId} 
+				</if>
+				 
+			</trim>
+	</sql>
+	
+ 	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+	
+
+	<insert id="insert" parameterType="com.idap.clinic.entity.DiagnoseResult" >
+	    INSERT INTO 
+	    SEE_DOCTOR_RESULT(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+	<sql id="allapplColumn">
+	           SEE_DOCTOR_ID,
+	           SEE_DOCTOR_DATE,
+	           SEE_DOCTOR_RESULT, 
+	           DOCTOR_ID,
+	           CLINIC_ID,
+	           M_USER_ID, 
+	           USER_ORDER_ID,
+	           USER_ILLNESS_DESC
+
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+				#{seeDoctorId,    jdbcType=VARCHAR},
+				#{seeDoctorDate,  jdbcType=DATE},
+				#{seeDoctorResult,jdbcType=VARCHAR}, 
+				#{doctorId,       jdbcType=VARCHAR},
+				#{clinicId,       jdbcType=VARCHAR},
+				#{mUserId,        jdbcType=VARCHAR}, 
+				#{userOrderId,    jdbcType=VARCHAR},
+				#{userIllnessDesc,jdbcType=VARCHAR}  
+		     )
+	</sql>
+	    	   
+	<update id="update" parameterType="com.idap.clinic.entity.DiagnoseResult">
+			update SEE_DOCTOR_RESULT
+			<trim prefix=" SET " prefixOverrides=",">
+				<if test="seeDoctorDate!=null">
+					  ,SEE_DOCTOR_DATE=#{seeDoctorDate,jdbcType=DATE}
+				</if>
+				<if test="seeDoctorResult!=null">
+					  ,SEE_DOCTOR_RESULT=#{seeDoctorResult,jdbcType=VARCHAR}
+				</if>
+				<if test="doctorId!=null">
+					  ,DOCTOR_ID=#{doctorId,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicId!=null">
+					  ,CLINIC_ID=#{clinicId,jdbcType=VARCHAR}
+				</if>
+				<if test="mUserId!=null">
+					  ,M_USER_ID=#{mUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="userOrderId!=null">
+					  ,USER_ORDER_ID=#{userOrderId,jdbcType=VARCHAR}
+				</if>
+				<if test="userIllnessDesc!=null">
+					  ,USER_ILLNESS_DESC=#{userIllnessDesc,jdbcType=VARCHAR}
+				</if>
+			</trim>
+			WHERE 
+				SEE_DOCTOR_ID=#{seeDoctorId}
+	</update>
+
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM SEE_DOCTOR_RESULT 
+		where SEE_DOCTOR_ID=#{seeDoctorId}
+	</delete>	
+
+
+</mapper>
+
+
+
+

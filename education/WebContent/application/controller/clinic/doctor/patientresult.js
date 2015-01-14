@@ -1,6 +1,6 @@
 define(function (require, exports, module) {
     return function setApp(app) {
-        app.controller('ClinicDoctorPatientresultCtrl', ['$scope','$http' ,'$filter','DoctorsManagement','UserAppointment','$timeout',function ($scope,$http,$filter,DoctorsManagement,UserAppointment,$timeout) { 
+        app.controller('ClinicDoctorPatientresultCtrl', ['$scope','$http' ,'$filter','DiagnoseResult','UserAppointment','$timeout',function ($scope,$http,$filter,DiagnoseResult,UserAppointment,$timeout) { 
  
   
        	 
@@ -9,67 +9,74 @@ define(function (require, exports, module) {
         		 clinicId : $scope.USER_INFO.orgCd,
         		 doctorId : $scope.USER_INFO.id 
          };
-       	UserAppointment.query({
+       	UserAppointment.query({ //初始化用户列表
        		                    isArray:true,
        		                    params: angular.toJson(params)
-       	                      },
-       		                    function (list){//for combo
+       	                      },  function (list){
      		$scope.userAppointment =list; 
          });
+       	
+       	
+        $scope.clickOnUser =  function(orderid,userid){  //点击用户名
+        	$scope.currentUserOrderId=orderid;
+        	$scope.currentUserId = userid;
+                var params = {
+                   orderId : orderid
+                };
+                DiagnoseResult.query({
+                                      isArray:true,
+                                      params: angular.toJson(params)
+                                      },
+                                      function (list){
+                $scope.currentUserResult =list; 
+                 $scope.key = list[0];
+                
+                });
+          }
         	 
      //------------reset botton---------------------
             $scope.clearForm = function(){//reset botton
                 $scope.key="";
             }
             
-     //------------------add/edit--------- ----------- 	
-            $scope.edithealthfood =function(healthfood){ //click on edit link
-              	$scope.key= healthfood;
-               };     
-               
              $scope.create = function(key) { 
-               if( key.doctorPic &&  key.doctorPic.length>0){
-              	 var tt=  key.doctorPic[0].filePath;
-              	 key.doctorPic =tt;
-               }
-               if( key.doctorCertificate &&  key.doctorCertificate.length>0){
-                	 var tt=  key.doctorCertificate[0].filePath;
-                	 key.doctorCertificate =tt;
-               }
-             if(key.doctorId){
-                   	key.doctorDate=''; //update time now is number,it cause error of mismatch
-                   	DoctorsManagement.save(key,function(){
-                       	$scope.refresh('current',true);//refresh listgrid
+             if(key.seeDoctorId){
+                   	key.seeDoctorDate=''; //update time now is number,it cause error of mismatch
+                   	DiagnoseResult.save(key,function(){
                         $scope.clearForm();
-                      	$('#addandedit').modal('hide');
+                        
+                        var params = {
+                       		 clinicId : $scope.USER_INFO.orgCd,
+                       		 doctorId : $scope.USER_INFO.id 
+                        };
+                      	UserAppointment.query({ //初始化用户列表
+                      		                    isArray:true,
+                      		                    params: angular.toJson(params)
+                      	                      },  function (list){
+                    		$scope.userAppointment =list; 
+                        });
                       	     
                       });
                	}else{ //add
-               		key.clinicId =  $scope.USER_INFO.orgCd; 
-               		DoctorsManagement.put(key,function(){
-                       	$scope.refresh('current',true);//refresh listgrid
+               		key.clinicId =    $scope.USER_INFO.orgCd; 
+               		key.doctorId =    $scope.USER_INFO.id;
+               		key.mUserId =     $scope.currentUserId;
+               		key.userOrderId = $scope.currentUserOrderId;
+               		DiagnoseResult.put(key,function(){
                        	$scope.clearForm();
-                        $('#addandedit').modal('hide');
+                       	var params = {
+                       		 clinicId : $scope.USER_INFO.orgCd,
+                       		 doctorId : $scope.USER_INFO.id 
+                        };
+                      	UserAppointment.query({ //初始化用户列表
+                      		                    isArray:true,
+                      		                    params: angular.toJson(params)
+                      	                      },  function (list){
+                    		$scope.userAppointment =list; 
+                        });
                        });
                	}
                }
- 
-            
-    //-------------delete----------        
-            $scope.todeletehealthfood = function(hid) {//click on DELETE link
-                $scope.tobedeleteId = hid;
-            };
-
-            $scope.comfirmDelete = function() {//confirm to delete on dialog
-	            var params = {
-	            		doctorId : $scope.tobedeleteId
-	            };
-	            DoctorsManagement.remove({
-	                params : angular.toJson(params)
-	            }, function(jsonData) {
-	                $scope.refresh('current', true);
-	            });
-            }; 
  
         }]);
     }
