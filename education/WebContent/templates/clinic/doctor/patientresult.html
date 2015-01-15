@@ -8,7 +8,7 @@
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">上午</li>
-						<li ng-click ="clickOnUser(item.orderId)"  ng-repeat="item in userAppointment" style="margin-left: -2px;">
+						<li ng-click ="clickOnUser(item.orderId,item.orderUserId)"  ng-repeat="item in userAppointment" style="margin-left: -2px;">
 						      <a  href="" > 
 						       <i  class="{{item.orderStatus=='0'?'icon-ok':'icon-time'}}">  </i>
 						      <span  >{{item.mUserName}} </span>
