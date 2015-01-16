@@ -1,6 +1,0 @@
-<root>
-	<AddrCmd CreateTime="" CmdNumber="1">
-		<FileMatch SrcFile="" AimFile="" AddrColumn="" PostCodeColumn="" DivisionColumn="" Separator="" MatchType="" OutputLevel=""  Priority="" DivLimit="">
-		</FileMatch>
-	</AddrCmd>
-</root>
