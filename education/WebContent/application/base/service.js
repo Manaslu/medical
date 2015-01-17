@@ -448,6 +448,11 @@ define(function() {
 	// 诊断结果
 	app.factory('DiagnoseResult', [ '$resource', function($resource) {
 		return $resource('diagnoseResult.shtml');
-	} ]);		
+	} ]);
+	// 日历
+	app.factory('FullCalendar', [ '$resource', function($resource) {
+		return $resource('fullCalendar.shtml');
+	} ]);
+	
 	
 });

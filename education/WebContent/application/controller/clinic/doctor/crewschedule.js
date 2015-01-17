@@ -1,6 +1,6 @@
 define(function (require, exports, module) {
     return function setApp(app) {
-        app.controller('ClinicDoctorCrewscheduleCtrl', ['$scope','$http' ,'$filter','DoctorsManagement','UserAppointment','$timeout',function ($scope,$http,$filter,DoctorsManagement,UserAppointment,$timeout) { 
+        app.controller('ClinicDoctorCrewscheduleCtrl', ['$scope','$http' ,'$filter','FullCalendar','$timeout',function ($scope,$http,$filter,FullCalendar,$timeout) { 
  
    
  
@@ -13,6 +13,73 @@ define(function (require, exports, module) {
 //       	                      },  function (list){
 //     		$scope.doctors =list; 
 //         });
+        	
+        	FullCalendar.query({ //初始化用户列表
+                         isArray:true,
+                         params: {}
+            },  function (list){
+               $scope.calendars =list; 
+               
+       		$('#calendar').fullCalendar({
+       			id: $scope.USER_INFO.orgCd ,//Function.view.calendar.options.id
+    			header: {
+    				left: 'prev,next',
+    				center: 'title',
+    				right: 'month,agendaWeek'
+    			},
+    			lang: 'zh-cn',
+    			eventColor:'#333333',
+    			eventLimit: true, 
+    			buttonIcons: false,
+    			allDaySlot : true,
+    			slotMinutes :'60',
+    			firstHour : '8',
+    			slotEventOverlap:'true',
+    			weekMode : 'liquid',
+    			editable: true,
+    			droppable: true, // this allows things to be dropped onto the calendar
+    			drop: function(date, all_day) {
+    				console.log('drop'+this.id);//div 的id
+    			},
+    			dayClick: function() { 
+    				console.log('a day has been clicked!'); 
+    			},
+    			eventClick: function(event, jsEvent, view) {
+    				 
+    				$(this).css('border-color', 'red');
+    			},
+    			eventAfterRender:function( event, element, view ) { //add
+    				if(!event.id){//new
+    					event._id=view.calendar.options.id+event._id;
+    				}
+    				console.log('eventAfterRender:'+event._id);
+    			},
+    			 eventResize : function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {//update
+    			      
+
+    			      updatetime(event,dayDelta,minuteDelta);
+    			  },
+    			  eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {//update
+    			      
+    			      if(allDay){
+    			          update_date(event,dayDelta);
+    			      }else{
+    			          
+    			          updatetime_date(event,dayDelta,minuteDelta);
+    			      }
+    			  },
+    			  eventMouseover: function(event, jsEvent, view){ //监听不止一个元素！.fc-event及初始加载两个子元素均可能
+    			      
+    			      var $h = $(jsEvent.target);
+    			      
+    			      $h.attr("_id",event.id);
+    			      
+    			  },
+    			events:list
+    		});
+               
+               
+            });
        	
        	$scope.clearSchedule = function(){//重置整个日历
        		$('#calendar').fullCalendar('destroy');
