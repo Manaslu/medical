@@ -9,7 +9,7 @@
     	    <result property="title"  column="TITLE"   jdbcType="VARCHAR" />
     	    <result property="start"  column="START"   jdbcType="VARCHAR" />
     	    <result property="end"    column="END"     jdbcType="VARCHAR" />
-    	    <result property="allDay" column="ALLDAY"  jdbcType="VARCHAR" />
+    	     
 	</resultMap>
 	 
  
@@ -38,16 +38,14 @@
 	           t.ID,
 	           t.TITLE,
 	           t.START,
-	           t.END,
-	           t.ALLDAY 
+	           t.END  
 	</sql>
  
  	<select id="query" parameterType="java.util.Map" resultMap="FullCalendar">
 		select t.ID,
 	           t.TITLE,
 	           t.START,
-	           t.END,
-	           t.ALLDAY   from FULLCALENDAR t
+	           t.END    from FULLCALENDAR t
 	 
 	</select>
  
@@ -102,9 +100,7 @@
 	            ID,
 	            TITLE,
 	            START,
-	            END,
-	            ALLDAY 
-
+	            END 
 	</sql>
 	
 	<sql id="allapplColumnVar">
@@ -112,8 +108,7 @@
 				#{id,jdbcType=VARCHAR},
 				#{title,jdbcType=VARCHAR},
 				#{start,jdbcType=VARCHAR},
-				#{end,jdbcType=VARCHAR},
-				#{allday,jdbcType=VARCHAR} 
+				#{end,jdbcType=VARCHAR} 
 		     )
 	</sql>
 	
@@ -129,13 +124,8 @@
 				<if test="end!=null">
 					  ,END=#{end,jdbcType=VARCHAR}
 				</if>
-				<if test="allday!=null">
-					  ,ALLDAY=#{allday,jdbcType=VARCHAR}
-				</if>
-				 
 			</trim>
 			WHERE 
-			 
 				ID=#{id}
 	</update>
 

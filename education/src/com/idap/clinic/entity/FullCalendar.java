@@ -11,7 +11,7 @@ public class FullCalendar implements java.io.Serializable {
 	private String     title;  //title TITLE    
 	private String     start;  //start START
 	private String     end;    //end END
-	private String     allDay; //allDay ALLDAY
+ 
 	public String getId() {
 		return id;
 	}
@@ -36,11 +36,6 @@ public class FullCalendar implements java.io.Serializable {
 	public void setEnd(String end) {
 		this.end = end;
 	}
-	public String getAllDay() {
-		return allDay;
-	}
-	public void setAllDay(String allDay) {
-		this.allDay = allDay;
-	}
+ 
  
 }

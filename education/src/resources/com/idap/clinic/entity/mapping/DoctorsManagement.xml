@@ -47,7 +47,12 @@
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="DoctorsManagement">
-		<include refid="queryBody" />
+		select
+			<include refid="allColumn" />
+			 from
+			DOCTOR t left join DEPARTMENT d on(t.doctor_department=d.department_id )
+			<include refid="dynamicWhere" />
+		 
 	</select>
 	
 		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->

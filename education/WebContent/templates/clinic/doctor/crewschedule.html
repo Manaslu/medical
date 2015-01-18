@@ -29,51 +29,7 @@
 		});
 
 
-		/* initialize the calendar
-		-----------------------------------------------------------------*/
-
-// 		$('#calendar').fullCalendar({
-// 			header: {
-// 				left: 'prev,next',
-// 				center: 'title',
-// 				right: 'month,agendaWeek'
-// 			},
-// 			lang: 'zh-cn',
-// 			eventColor:'#333333',
-// 			eventLimit: true, 
-// 			buttonIcons: false,
-// 			allDaySlot : true,
-// 			slotMinutes :'60',
-// 			firstHour : '8',
-// 			slotEventOverlap:'true',
-// 			weekMode : 'liquid',
-// 			editable: true,
-// 			droppable: true, // this allows things to be dropped onto the calendar
-// 			drop: function() {
-				 
-// 				console.log('drop'+this.id);//div 的id
-// 				// is the "remove after drop" checkbox checked?
-// // 				if ($('#drop-remove').is(':checked')) {
-// // 					// if so, remove the element from the "Draggable Events" list
-// // 					$(this).remove();
-// // 				}
-// 			},
-// 			dayClick: function() { 
-// 				console.log('a day has been clicked!'); 
-// 			},
-// 			eventClick: function(event, jsEvent, view) {
-// 				console.log('an event has been clicked!'); 
-// 			},
-// 			eventAfterRender:function( event, element, view ) { 
-				 
-				
-// 				console.log('eventAfterRender');
-				
-// 			},
-// 			eventRender :function(calEvent, element, view){
-// 				console.log('eventRender');
-// 			} 
-// 		});
+	 
 
 
 	});
@@ -131,22 +87,14 @@
 
 		<div id='external-events'>
 			<h4>医生列表</h4>
-			<div class='fc-event' id="yishengid1"><span calss="121212" id="yishengid1" name="yishengid1">王思聪</span></div>
-			<div class='fc-event' id="yishengid2"><span  calss="131312" name="yishengid2">李牡蒿</span></div>
-		 
-
+			<div ng-repeat="item in doctors" class='fc-event' id="{{item.doctorId}}">{{item.doctorName}}</div>
 		</div>
 
 		<div id='calendar'></div>
 
 		<div style='clear:both'></div>
 		<br>
-        <div class="modal-footer">
-              <button type="submit" class="btn btn-primary"    ng-click="saveSchedule()">保存</button>
-              <button type="button" class="btn btn-danger"     ng-click="clearSchedule()">重置</button>
-              
-              
-          </div>
+    
 
 	</div>
  

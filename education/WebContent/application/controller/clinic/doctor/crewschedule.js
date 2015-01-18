@@ -1,20 +1,51 @@
 define(function (require, exports, module) {
     return function setApp(app) {
-        app.controller('ClinicDoctorCrewscheduleCtrl', ['$scope','$http' ,'$filter','FullCalendar','$timeout',function ($scope,$http,$filter,FullCalendar,$timeout) { 
+        app.controller('ClinicDoctorCrewscheduleCtrl', ['$scope','$http' ,'$filter','FullCalendar','DoctorsManagement','$timeout',function ($scope,$http,$filter,FullCalendar,DoctorsManagement,$timeout) { 
  
-   
- 
-//         var params = {
-//        		 clinicId : $scope.USER_INFO.orgCd 
-//         };
-//         DoctorsManagement.query({ //初始化用户列表
-//       		                    isArray:true,
-//       		                    params: angular.toJson(params)
-//       	                      },  function (list){
-//     		$scope.doctors =list; 
-//         });
+        	var dateFIlter = $filter('date'); 
         	
-        	FullCalendar.query({ //初始化用户列表
+        	$scope.minusd8Hours = function(date){ 
+        		var d=new Date(date); 
+        		d.setHours(d.getHours()-8); 
+        		return d;
+        	}
+        	$scope.minusd6Hours = function(date){ 
+        		var d=new Date(date); 
+        		d.setHours(d.getHours()-6); 
+        		return d;
+        	}
+ 
+         var params = {
+        		 clinicId : $scope.USER_INFO.orgCd 
+         };
+         DoctorsManagement.query({ //初始化医生列表
+       		                    isArray:true,
+       		                    params: angular.toJson(params)
+       	                      },  function (list){
+     		$scope.doctors =list; 
+     		setTimeout(function(){//让列表可拖动
+        		$('#external-events .fc-event').each(function() {
+
+        			// store data so the calendar knows to render an event upon drop
+        			$(this).data('event', {
+        				title: $.trim($(this).text()), // use the element's text as the event title
+        				stick: true // maintain when user navigates (see docs on the renderEvent method)
+        			});
+
+        			// make the event draggable using jQuery UI
+        			$(this).draggable({
+        				zIndex: 999,
+        				revert: true,      // will cause the event to go back to its
+        				revertDuration: 0  //  original position after the drag
+        			});
+
+        		});
+     			},3000);
+         });
+         
+   
+        	
+       FullCalendar.query({ //初始化排班列表
                          isArray:true,
                          params: {}
             },  function (list){
@@ -25,16 +56,17 @@ define(function (require, exports, module) {
     			header: {
     				left: 'prev,next',
     				center: 'title',
-    				right: 'month,agendaWeek'
+    				right: 'agendaWeek'
     			},
+    			 
     			lang: 'zh-cn',
     			eventColor:'#333333',
     			eventLimit: true, 
     			buttonIcons: false,
-    			allDaySlot : true,
-    			slotMinutes :'60',
-    			firstHour : '8',
+    			allDaySlot : false,
+    			defaultEventMinutes:480,
     			slotEventOverlap:'true',
+    			firstHour:'8',
     			weekMode : 'liquid',
     			editable: true,
     			droppable: true, // this allows things to be dropped onto the calendar
@@ -45,144 +77,106 @@ define(function (require, exports, module) {
     				console.log('a day has been clicked!'); 
     			},
     			eventClick: function(event, jsEvent, view) {
-    				 
-    				$(this).css('border-color', 'red');
+    				if(this.style.cssText.indexOf("red")>0){  //删除
+    					 var params = {
+    			            		id : event.id
+    			            };
+    					 FullCalendar.remove({
+    			                params : angular.toJson(params)
+    			            }, function(jsonData) {
+    			            	$('#calendar').fullCalendar('removeEvents', event.id);
+    			            });
+    			            
+    		            }; 
+		    			if(this.style){//标记,准备删除
+		    				$(this).css('border-color', 'red');
+		    				  
+		    			}
+    				
+    				
     			},
     			eventAfterRender:function( event, element, view ) { //add
-    				if(!event.id){//new
-    					event._id=view.calendar.options.id+event._id;
+    				if(!event.id && event._id.slice(0,1)=='_'){//new
+    					
+    					var newid = Math.floor(Math.random() * 10000000)+'';//全局唯一id
+    					event._id = newid + event._id; 
+    					var newevent={};
+    					newevent.id = event._id;
+    					newevent.title = event.title ;
+    					
+    					var sobj=angular.copy(event.start._d);
+    					var eventsdate = dateFIlter($scope.minusd8Hours(sobj), 'yyyy-MM-ddTHH:mm:ss');
+    					
+    					if(!event.end){//默認全天事件
+    						var eobj=angular.copy(event.start._d);
+     						var eventedate = dateFIlter($scope.minusd6Hours(eobj),   'yyyy-MM-ddTHH:mm:ss');
+    						
+    					}else{
+    						var eobj=angular.copy(event.end._d);
+     						var eventedate = dateFIlter($scope.minusd8Hours(eobj),   'yyyy-MM-ddTHH:mm:ss');
+    					}
+						newevent.start = eventsdate;
+						newevent.end   = eventedate;
+ 						
+ 
+    					FullCalendar.put(newevent,function(){ 
+    					});
+    					
+    					
     				}
-    				console.log('eventAfterRender:'+event._id);
+    			 
     			},
     			 eventResize : function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {//update
-    			      
-
-    			      updatetime(event,dayDelta,minuteDelta);
+    				 
+    				var newevent={};
+ 					newevent.id = event._id;
+ 					newevent.title = event.title ;
+ 					if(event.allDay){//跨天
+						var eventsdate = dateFIlter(event.start._d, 'yyyy-MM-dd');
+						var eventedate = dateFIlter(event.end._d, 'yyyy-MM-dd');
+					}else{
+						var sobj=angular.copy(event.start._d);
+						var eobj=angular.copy(event.end._d);
+						var eventsdate = dateFIlter($scope.minusd8Hours(sobj), 'yyyy-MM-ddTHH:mm:ss');
+ 						var eventedate = dateFIlter($scope.minusd8Hours(eobj),   'yyyy-MM-ddTHH:mm:ss');
+					}
+					newevent.start = eventsdate;
+					newevent.end   = eventedate;
+					FullCalendar.save(newevent,function(){ 
+						
+					});
+ 
     			  },
     			  eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {//update
-    			      
-    			      if(allDay){
-    			          update_date(event,dayDelta);
-    			      }else{
-    			          
-    			          updatetime_date(event,dayDelta,minuteDelta);
-    			      }
+    				  
+    				var newevent={};
+   					newevent.id = event._id;
+   					newevent.title = event.title ;
+   					if(event.allDay){//跨天
+  						var eventsdate = dateFIlter(event.start._d, 'yyyy-MM-dd');
+  						var eventedate = dateFIlter(event.end._d, 'yyyy-MM-dd');
+  					}else{
+  						var sobj=angular.copy(event.start._d);
+  						var eobj=angular.copy(event.end._d);
+  						var eventsdate = dateFIlter($scope.minusd8Hours(sobj), 'yyyy-MM-ddTHH:mm:ss');
+   						var eventedate = dateFIlter($scope.minusd8Hours(eobj),   'yyyy-MM-ddTHH:mm:ss');
+  					}
+  					newevent.start = eventsdate;
+  					newevent.end   = eventedate;
+  					FullCalendar.save(newevent,function(){ 
+  						
+  					});
+    				  
     			  },
     			  eventMouseover: function(event, jsEvent, view){ //监听不止一个元素！.fc-event及初始加载两个子元素均可能
-    			      
     			      var $h = $(jsEvent.target);
-    			      
     			      $h.attr("_id",event.id);
-    			      
     			  },
+    			  
     			events:list
     		});
-               
-               
+       		$('#calendar').fullCalendar( 'changeView', 'agendaWeek' );
             });
-       	
-       	$scope.clearSchedule = function(){//重置整个日历
-       		$('#calendar').fullCalendar('destroy');
-//    		$('#calendar').fullCalendar({
-//    			header: {
-//    				left: 'prev,next',
-//    				center: 'title',
-//    				right: 'agendaWeek,month'
-//    			},
-//    			lang: 'zh-cn',
-//    			eventColor:'#333333',
-//    			 
-//    			eventLimit: true, 
-//    			buttonIcons: false,
-//    			allDaySlot : true,
-//    			slotMinutes :'60',
-//    			firstHour : '8',
-//    			slotEventOverlap:'true',
-//    			weekMode : 'variable',
-//    			editable: true,
-//    			droppable: true, // this allows things to be dropped onto the calendar
-//    			drop: function() {
-//    				alert(this.id);//div 的id
-//    				// is the "remove after drop" checkbox checked?
-//    				if ($('#drop-remove').is(':checked')) {
-//    					// if so, remove the element from the "Draggable Events" list
-//    					$(this).remove();
-//    				}
-//    			},
-//    			dayClick: function() { 
-//    				alert('a day has been clicked!'); 
-//    			},
-//    			eventClick: function(event, jsEvent, view) {
-//    				alert('an event has been clicked!'); 
-//    			}
-//    		});
-       	};
-       	$scope.saveSchedule = function(){
-       		var events =  $('#calendar').fullCalendar( 'clientEvents');
-       		alert(events);
-       	}
- 
-        $scope.clickOnUser =  function(orderid,userid){  //点击用户名
-        	$scope.currentUserOrderId=orderid;
-        	$scope.currentUserId = userid;
-                var params = {
-                   orderId : orderid
-                };
-                DiagnoseResult.query({
-                                      isArray:true,
-                                      params: angular.toJson(params)
-                                      },
-                                      function (list){
-                $scope.currentUserResult =list; 
-                 $scope.key = list[0];
-                
-                });
-          }
-        	 
-     //------------reset botton---------------------
-            $scope.clearForm = function(){//reset botton
-                $scope.key="";
-            }
-            
-             $scope.create = function(key) { 
-             if(key.seeDoctorId){
-                   	key.seeDoctorDate=''; //update time now is number,it cause error of mismatch
-                   	DiagnoseResult.save(key,function(){
-                        $scope.clearForm();
-                        
-                        var params = {
-                       		 clinicId : $scope.USER_INFO.orgCd,
-                       		 doctorId : $scope.USER_INFO.id 
-                        };
-                      	UserAppointment.query({ //初始化用户列表
-                      		                    isArray:true,
-                      		                    params: angular.toJson(params)
-                      	                      },  function (list){
-                    		$scope.userAppointment =list; 
-                        });
-                      	     
-                      });
-               	}else{ //add
-               		key.clinicId =    $scope.USER_INFO.orgCd; 
-               		key.doctorId =    $scope.USER_INFO.id;
-               		key.mUserId =     $scope.currentUserId;
-               		key.userOrderId = $scope.currentUserOrderId;
-               		DiagnoseResult.put(key,function(){
-                       	$scope.clearForm();
-                       	var params = {
-                       		 clinicId : $scope.USER_INFO.orgCd,
-                       		 doctorId : $scope.USER_INFO.id 
-                        };
-                      	UserAppointment.query({ //初始化用户列表
-                      		                    isArray:true,
-                      		                    params: angular.toJson(params)
-                      	                      },  function (list){
-                    		$scope.userAppointment =list; 
-                        });
-                       });
-               	}
-               }
- 
         }]);
     }
 
