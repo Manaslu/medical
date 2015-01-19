@@ -453,6 +453,10 @@ define(function() {
 	app.factory('FullCalendar', [ '$resource', function($resource) {
 		return $resource('fullCalendar.shtml');
 	} ]);
+	//常见药品
 	
+	app.factory('CommonDrug', [ '$resource', function($resource) {
+		return $resource('commonDrug.shtml');
+	} ]);
 	
 });
