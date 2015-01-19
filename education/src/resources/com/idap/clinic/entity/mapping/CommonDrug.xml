@@ -9,7 +9,7 @@
     	    <result property="drugId" column="DRUG_ID" jdbcType="INTEGER" />
     	    <result property="drugName" column="DRUG_NAME" jdbcType="VARCHAR" />
     	    <result property="drugContent" column="DRUG_CONTENT" jdbcType="VARCHAR" />
-    	    <result property="drupPic" column="DRUG_PIC" jdbcType="VARCHAR" />
+    	    <result property="drugPic" column="DRUG_PIC" jdbcType="VARCHAR" />
     	    <result property="drugDate" column="DRUG_DATE" jdbcType="DATE" />	    	    	    
     	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
     	 
@@ -73,8 +73,8 @@
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="querykeyword!=null">
-					AND (DRUG_NAME like '%'||#{querykeyword}||'%' 
-					OR DRUG_CONTENT like '%'||#{querykeyword}||'%'  )
+					AND (DRUG_NAME like concat('%',#{querykeyword},'%') 
+					OR DRUG_CONTENT like concat('%',#{querykeyword},'%')  )
 				</if>
 				<if test="clinicId!=null">
 					AND CLINIC_ID = #{clinicId}
@@ -102,8 +102,8 @@
 				<if test="drugContent!=null">
 					  ,DRUG_CONTENT=#{drugContent,jdbcType=VARCHAR}
 				</if>
-				<if test="drupPic!=null">
-					  ,DRUG_PIC=#{drupPic,jdbcType=VARCHAR}
+				<if test="drugPic!=null">
+					  ,DRUG_PIC=#{drugPic,jdbcType=VARCHAR}
 				</if>
 				 
 			</trim>
@@ -114,7 +114,7 @@
 
 	<delete id="delete" parameterType="java.util.Map">
 		DELETE FROM DRUG 
-		where DRUG_ID =#{departmentId}
+		where DRUG_ID =#{drugId}
 	</delete>	
 
 

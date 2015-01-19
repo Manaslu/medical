@@ -19,9 +19,9 @@
         <thead>
         <tr>
             <th>序号</th>
-            <th style="width:280px">标题</th>
-            <th >内容预览</th>
-            <th style="width:160px">创建日期</th>
+            <th >名称</th>
+            <th >描述</th>
+            <th style="width:120px">最后修改于</th>
             <th style="width:100px">操作</th>
           
         </tr>
@@ -29,9 +29,11 @@
         <tbody>
         <tr class="rowlink" ng-repeat="it in limitArr">
             <td>{{current*limit+$index+1}}</td>
-            <td>{{it.eatTitle}}</td>
-            <td title="{{it.eatContent}}">{{it.eatContent|limitTo:50}} </td>
-            <td>{{it.eatDate|date:'yyyy-MM-dd'}}</td>
+            <td>{{it.drugName}}</td>
+            <td title="{{it.drugContent}}">{{it.drugContent|limitTo:50}} </td>
+            <td>{{it.drugDate|date:'yyyy-MM-dd'}}</td>
+           
+            
             <td>
 
                 <a    href="javascript:" data-toggle="modal" data-target="#editonly" upload-refresh    ng-click="edithealthfood(it)" >修改</a> 
@@ -69,9 +71,9 @@
 								<strong>友情提示：</strong> 图片文件大小不要超过2M
 							</div>
                         <div class="form-group">
-			                <label class="col-lg-2 control-label">标题</label>
+			                <label class="col-lg-2 control-label">名称</label>
 			                <div class="col-lg-9">
-			                    <input type="text" class="form-control" required ng-model="key.eatTitle" ng-maxlength="50" ng-trim maxlength="50" />
+			                    <input type="text" class="form-control" required ng-model="key.drugName" ng-maxlength="50" ng-trim maxlength="50" />
 			                </div>
 			                 <span class="mustItem">*</span>
 		 
@@ -81,19 +83,17 @@
 						        <div class="col-lg-9">
 				 					<div uploader 
 				 						thumb 
-				 						ng-model="key.eatPic" 
+				 						ng-model="key.drugPic" 
 				 						name="manFiles" 
 				 						server="upload.shtml" 
-				 						 
 				 						extensions="png,jpeg,jpg,bmp"
-				 						 
 				 					></div>
 						        </div>
 						    </div>
 						<div class="form-group">
                             <label class="col-lg-2 control-label">内容</label>
                             <div class="col-lg-9">
-                                <textarea class="form-control" rows="8" required ng-model="key.eatContent"  data-valid-pos="bottom" ></textarea>
+                                <textarea class="form-control" rows="8" required ng-model="key.drugContent"  data-valid-pos="bottom" ></textarea>
                             </div>
                             <span class="mustItem">*</span>
                              
