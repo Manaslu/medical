@@ -14,7 +14,9 @@ define(function (require, exports, module) {
         		d.setHours(d.getHours()-6); 
         		return d;
         	}
- 
+        	$scope.saveCalendar = function(){
+        		$('#calendar').fullCalendar
+        	}
          var params = {
         		 clinicId : $scope.USER_INFO.orgCd 
          };
@@ -56,9 +58,8 @@ define(function (require, exports, module) {
     			header: {
     				left: 'prev,next',
     				center: 'title',
-    				right: 'agendaWeek'
+    				right: 'month,agendaWeek'
     			},
-    			 
     			lang: 'zh-cn',
     			eventColor:'#333333',
     			eventLimit: true, 
@@ -98,6 +99,19 @@ define(function (require, exports, module) {
     			eventAfterRender:function( event, element, view ) { //add
     				if(!event.id && event._id.slice(0,1)=='_'){//new
     					
+    					if(!event.end){//全天事件会没有end
+        					var sobj=angular.copy(event.start._d);
+            				var text_s = dateFIlter($scope.minusd8Hours(sobj), 'HH:mm');
+            				var text_s = dateFIlter($scope.minusd8Hours(sobj), 'HH:mm');
+    					}else{
+    						
+    					}
+
+    					
+    					
+    					
+    					
+    					
     					var newid = Math.floor(Math.random() * 10000000)+'';//全局唯一id
     					event._id = newid + event._id; 
     					var newevent={};
@@ -125,7 +139,7 @@ define(function (require, exports, module) {
     					
     				}
     			 
-    			},
+    			} ,
     			 eventResize : function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {//update
     				 
     				var newevent={};
@@ -175,7 +189,7 @@ define(function (require, exports, module) {
     			  
     			events:list
     		});
-       		$('#calendar').fullCalendar( 'changeView', 'agendaWeek' );
+       		 
             });
         }]);
     }

@@ -39,11 +39,7 @@
 
  
 		
-	#wrap {
-		width: 1100px;
-		margin: 0 auto;
-	}
-		
+ 
 	#external-events {
 		float: left;
 		width: 120px;
@@ -74,27 +70,96 @@
 		margin: 0;
 		vertical-align: middle;
 	}
-
-	#calendar {
-		float: right;
-		width: 900px;
+	#batchcheck{
+		margin-left: 50;
+		 
 	}
+	 
 
 </style>
  
  
-	<div id='wrap'>
+	<div class="container">
+	
+	 
 
-		<div id='external-events'>
-			<h4>医生列表</h4>
-			<div ng-repeat="item in doctors" class='fc-event' id="{{item.doctorId}}">{{item.doctorName}}</div>
-		</div>
+   <div class="row">
 
-		<div id='calendar'></div>
+      <div class="col-md-2" >
+        <div class="row">
+            <div  >
+                <div id='external-events'>
+					<h4>医生列表</h4>
+					<div ng-repeat="item in doctors" class='fc-event' id="{{item.doctorId}}">{{item.doctorName}}</div>
+		
+				</div>
+            </div>
+         </div>
+         <br><br><br><br><br><br><br><br>
+             	<div class="modal-footer">
+							
+				</div>
+         <div class="row">
+	         <div class="row">
+	                                            批量时间: 
+	         </div>
+	        <div class="row">
+			         <div class="col-sm-1" ><input type='checkbox' id='batchcheck'></input></div>
+			         <div class="col-sm-5" ><input class="form-control" id="single-input_s" value="09:00"> </div>
+			         <div class="col-sm-5" ><input class="form-control" id="single-input_e" value="18:00"></div>
+	         </div>
+	                            
+
+					
+             
+         </div>
+          <br><br><br><br><br><br><br><br>
+             	<div class="modal-footer">
+							
+				</div> 
+          <div class="row">
+             
+                <button type="submit" class="btn btn-primary"    ng-click="saveCalendar()"  >保存排班-></button> 
+            
+         </div>
+      </div>
+
+      <div class="col-md-10" >
+         
+            <div id='calendar'></div>
+
+      </div>
+
+   </div>
+	
+	
+	
+
+<script type="text/javascript">
+var input = $('#single-input_s').clockpicker({
+    placement: 'bottom',
+    align: 'left',
+    autoclose: true 
+});
+var input = $('#single-input_e').clockpicker({
+    placement: 'bottom',
+    align: 'left',
+    autoclose: true 
+});
+ 
+
+</script>
+
+
+		
+		
+		 
+
+		
 
 		<div style='clear:both'></div>
 		<br>
-    
+
 
 	</div>
  
