@@ -181,7 +181,7 @@ define(function (require, exports, module) {
 	    					 FullCalendar.remove({
 	    			                params : angular.toJson(params)
 	    			            }, function(jsonData) {
-	    			            	$('#calendar').fullCalendar('removeEvents', event.id);
+	    			            	$('#calendar').fullCalendar('removeEvents', event._id);
 	    			            });
 	    			            
 	    		            }; 

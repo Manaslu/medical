@@ -41,7 +41,7 @@
 		
  
 	#external-events {
-		float: left;
+		float: center;
 		width: 120px;
 		padding: 0 20px;
 		border: 1px solid #ccc;
@@ -70,24 +70,21 @@
 		margin: 0;
 		vertical-align: middle;
 	}
-	#batchcheck{
-		margin-left: 50;
-		 
-	}
+ 
 	 
 
 </style>
  
  
 	<div class="container">
-	
-	 
-
    <div class="row">
 
       <div class="col-md-2" >
+         <div class="row">
+          
+         </div>
         <div class="row">
-            <div  >
+            <div style="padding: 50px;" >
                 <div id='external-events'>
 					<h4>医生列表</h4>
 					<div ng-repeat="item in doctors" class='fc-event' id="{{item.doctorId}}">{{item.doctorName}}</div>
@@ -96,17 +93,17 @@
             </div>
          </div>
          <br><br><br><br><br><br><br><br>
-             	<div class="modal-footer">
+             	<div class="modal-footer" style="padding:0  20px;">
 							
 				</div>
-         <div class="row">
-	         <div class="row">
+				<br><br>
+         <div class="row" >
+	         <div class="row" style="padding:0  0 0  60px;">
 	                                            排班时间: 
 	         </div>
-	        <div class="row">
-			       
-			         <div class="col-sm-5" ><input class="form-control" id="single-input_s" > </div>
-			         <div class="col-sm-5" ><input class="form-control" id="single-input_e" ></div>
+	        <div class="row"  >
+			         <div class="col-sm-5" ><input class="form-control" id="single-input_s" value="09:00" > </div>
+			         <div class="col-sm-5" ><input class="form-control" id="single-input_e" value="17:00"></div>
 	         </div>
 	                            
 
@@ -117,7 +114,7 @@
              	<div class="modal-footer">
 							
 				</div> 
-          <div class="row">
+          <div class="row" style="padding:0  0 0  50px;">
              
                 <button type="submit" class="btn btn-primary"    ng-click="saveCalendar()"  >保存排班-></button> 
             
