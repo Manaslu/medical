@@ -40,8 +40,6 @@ public class FullCalendarServiceImpl extends DefaultBaseService<FullCalendar, St
 	
 	 @Override
 	public FullCalendar save(FullCalendar entity) {
-		 String eatid =  generateKeyService.getNextGeneratedKey(null).getNextKey();//produce an id
-		  
 	 	 return  this.getBaseDao().save(entity);
 	    }
 		 
