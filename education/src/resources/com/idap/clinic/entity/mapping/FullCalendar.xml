@@ -100,7 +100,9 @@
 	            ID,
 	            TITLE,
 	            START,
-	            END 
+	            END,
+	            DOCTOR_ID,
+	            CLINIC_ID 
 	</sql>
 	
 	<sql id="allapplColumnVar">
@@ -108,7 +110,9 @@
 				#{id,jdbcType=VARCHAR},
 				#{title,jdbcType=VARCHAR},
 				#{start,jdbcType=VARCHAR},
-				#{end,jdbcType=VARCHAR} 
+				#{end,jdbcType=VARCHAR},
+				#{doctorId,jdbcType=VARCHAR},
+				#{clinicId,jdbcType=VARCHAR}
 		     )
 	</sql>
 	

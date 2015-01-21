@@ -11,7 +11,18 @@ public class FullCalendar implements java.io.Serializable {
 	private String     title;  //title TITLE    
 	private String     start;  //start START
 	private String     end;    //end END
+	private String     doctorId;    //DOCTOR_ID doctor_id
+	private String     clinicId ;//CLINIC_ID;
  
+	
+	
+	
+	public String getClinicId() {
+		return clinicId;
+	}
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
+	}
 	public String getId() {
 		return id;
 	}
@@ -35,6 +46,12 @@ public class FullCalendar implements java.io.Serializable {
 	}
 	public void setEnd(String end) {
 		this.end = end;
+	}
+	public String getDoctorId() {
+		return doctorId;
+	}
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
 	}
  
  

@@ -38,6 +38,13 @@ define(function (require, exports, module) {
                   }
                   return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum));
               }
+        	$scope.getDoctorId =  function(name) {
+                 for (var i=0;i< $scope.doctors.length;i++) {
+                     if (name  == $scope.doctors[i].doctorName) {
+                         return $scope.doctors[i].doctorId;
+                     }
+                 }
+             }
         	
         	$scope.minusd8Hours = function(date){ 
         		var d=new Date(date); 
@@ -59,6 +66,8 @@ define(function (require, exports, module) {
             				neweventobj.title=eventsarray[i].title;
             				neweventobj.start=eventdate+"T"+s_time+":00";
             				neweventobj.end=eventdate+"T"+e_time+":00";
+            				neweventobj.doctorId =$scope.getDoctorId(eventsarray[i].title.substring(12)); 
+            				neweventobj.clinicId = $scope.USER_INFO.orgCd;
             				if(i==eventsarray.length-1){
             					FullCalendar.put(neweventobj,function(){
             						$('#calendar').fullCalendar('destroy'); 
@@ -87,6 +96,8 @@ define(function (require, exports, module) {
                 				neweventobj.title=eventsarray[i].title;
                 				neweventobj.start=eventd+"T"+s_time+":00";
                 				neweventobj.end=eventd+"T"+e_time+":00";
+                				neweventobj.doctorId = $scope.getDoctorId(eventsarray[i].title.substring(12)); 
+                				neweventobj.clinicId = $scope.USER_INFO.orgCd;
                 				if(i==eventsarray.length-1 && j==interval){
                 					FullCalendar.put(neweventobj,function(){ 
                 						$('#calendar').fullCalendar('destroy'); 
@@ -113,6 +124,8 @@ define(function (require, exports, module) {
                 				neweventobj.title=eventsarray[i].title;
                 				neweventobj.start=eventd+"T"+s_time+":00";
                 				neweventobj.end=eventd+"T"+e_time+":00";
+                				neweventobj.doctorId =  $scope.getDoctorId(eventsarray[i].title.substring(12));  
+                				neweventobj.clinicId = $scope.USER_INFO.orgCd;
                 				if(i==eventsarray.length-1 && j==interval-1){
                 					FullCalendar.put(neweventobj,function(){ 
                 						$('#calendar').fullCalendar('destroy'); 
@@ -230,6 +243,8 @@ define(function (require, exports, module) {
        		                    params: angular.toJson(params)
        	                      },  function (list){
      		$scope.doctors =list; 
+     	 
+     		
      		setTimeout(function(){//让列表可拖动
         		$('#external-events .fc-event').each(function() {
 
