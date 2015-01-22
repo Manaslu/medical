@@ -1,22 +1,28 @@
 <div class="col-sm-12 col-md-12">
   
-<div class="container-fluid" style="margin: 20px auto;">
-		<div class="row-fluid">
+<div class="container" style="margin: 20px auto;">
+		<div class="row">
 				
 			<!-- left menu starts -->
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">上午</li>
-						<li ng-click ="clickOnUser(item.orderId,item.orderUserId)"  ng-repeat="item in userAppointment" style="margin-left: -2px;">
+						<li ng-click ="clickOnUser(item.orderId,item.orderUserId)"  ng-repeat="item in userAppointmentBeforeNoon" style="margin-left: -2px;">
 						      <a  href="" > 
 						       <i  class="{{item.orderStatus=='0'?'icon-ok':'icon-time'}}">  </i>
 						      <span  >{{item.mUserName}} </span>
 						      </a> 
 						</li>
-						<li class="nav-header hidden-tablet" >   </li>
+						<li class="nav-header hidden-tablet" >    </li>
  						 
 						<li class="nav-header hidden-tablet" >   下午  </li>
+						<li ng-click ="clickOnUser(item.orderId,item.orderUserId)"  ng-repeat="item in userAppointmentAfterNoon" style="margin-left: -2px;">
+						      <a  href="" > 
+						       <i  class="{{item.orderStatus=='0'?'icon-ok':'icon-time'}}">  </i>
+						      <span  >{{item.mUserName}} </span>
+						      </a> 
+						</li>
 					</ul>
 					
 				</div><!--/.well -->

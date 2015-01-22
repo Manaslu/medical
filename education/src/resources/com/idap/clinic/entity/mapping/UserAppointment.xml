@@ -91,9 +91,19 @@
 				<if test="doctorId!=null">
 					AND t.ORDER_DOCTOR_ID = #{doctorId}
 				</if>
-				<if test="orderDate!=null">
-					AND t.ORDER_DATE = #{orderDate}
+				 
+				AND date_format(t.ORDER_DATE,'%Y-%m-%d')  = date_format(curdate(), '%Y-%m-%d')
+			 
+				
+				<if test="beforeNoon!=null">
+					AND   t.ORDER_DATE
+					 <![CDATA[<]]>  date_format(concat( date_format(curdate(), '%Y-%m-%d'),' 12:00:00'),'%Y-%m-%d %H:%m:%s')
 				</if>
+				<if test="afterNoon!=null">
+					AND   t.ORDER_DATE
+					 <![CDATA[>=]]>  date_format(concat( date_format(curdate(), '%Y-%m-%d'),' 12:00:00'),'%Y-%m-%d %H:%m:%s')
+				</if>
+				 
 			</trim>
 	</sql>
 	

@@ -3,18 +3,31 @@ define(function (require, exports, module) {
         app.controller('ClinicDoctorPatientresultCtrl', ['$scope','$http' ,'$filter','DiagnoseResult','UserAppointment','$timeout',function ($scope,$http,$filter,DiagnoseResult,UserAppointment,$timeout) { 
  
   
-       	 
+        	var dateFIlter = $filter('date'); 
+        	 
  
-         var params = {
+         var paramsBefore = {
         		 clinicId : $scope.USER_INFO.orgCd,
-        		 doctorId : $scope.USER_INFO.id 
+        		 doctorId : $scope.USER_INFO.id,
+        		 beforeNoon:    1
+         };
+         var paramsAfter = {
+        		 clinicId : $scope.USER_INFO.orgCd,
+        		 doctorId : $scope.USER_INFO.id,
+        		 afterNoon:    1
          };
        	UserAppointment.query({ //初始化用户列表
        		                    isArray:true,
-       		                    params: angular.toJson(params)
+       		                    params: angular.toJson(paramsBefore)
        	                      },  function (list){
-     		$scope.userAppointment =list; 
+     		$scope.userAppointmentBeforeNoon =list; 
          });
+       	UserAppointment.query({ //初始化用户列表
+				               isArray:true,
+				               params: angular.toJson(paramsAfter)
+				             },  function (list){
+		   $scope.userAppointmentAfterNoon =list; 
+		});
        	
        	
         $scope.clickOnUser =  function(orderid,userid){  //点击用户名
