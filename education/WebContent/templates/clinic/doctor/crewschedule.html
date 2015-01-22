@@ -49,14 +49,10 @@
 		text-align: left;
 	}
 		
-	#external-events h4 {
-		font-size: 16px;
-		margin-top: 0;
-		padding-top: 1em;
-	}
+ 
 		
 	#external-events .fc-event {
-		margin: 10px 0;
+		margin: 20px 0;
 		cursor: pointer;
 	}
 		
@@ -84,10 +80,15 @@
           
          </div>
         <div class="row">
-            <div style="padding: 50px;" >
-                <div id='external-events'>
-					<h4>医生列表</h4>
-					<div ng-repeat="item in doctors" class='fc-event' id="{{item.doctorId}}">{{item.doctorName}}</div>
+            <div style="padding: 50px;" class="main-menu-span" >
+                <div id='external-events' class="well nav-collapse sidebar-nav">
+                <ul class="nav nav-tabs nav-stacked main-menu">
+                <li class="nav-header hidden-tablet" > 医生  </li>
+                <li style="margin-left: -2px;" ng-repeat="item in doctors" ng-click="clickOnUser(item.orderId,item.orderUserId)" class="ng-scope">
+						      <span class='fc-event'> <i class="icon-white-user">  </i>{{item.doctorName}} </span>
+						</li>
+                </ul>
+					 
 		
 				</div>
             </div>
