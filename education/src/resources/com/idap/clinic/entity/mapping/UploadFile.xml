@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    
+<mapper namespace="com.idap.clinic.entity.UploadFile" >
+    <resultMap id="UploadFile" type="com.idap.clinic.entity.UploadFile">
+    
+    	     
+    	    <result property="fileName"    column="FILENAME"    jdbcType="VARCHAR" />
+    	    <result property="fileType"    column="FILETYPE"    jdbcType="VARCHAR" />
+    	    <result property="filePath"    column="FILEPATH"    jdbcType="VARCHAR" />
+    	    <result property="orgFileName" column="ORGFILENAME" jdbcType="VARCHAR" />
+    	    <result property="success"     column="SUCCESS"     jdbcType="VARCHAR" />
+  
+	</resultMap>
+	 
+ 
+	
+	<sql id="queryBody">
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			 from
+			UPLOADFILE  t
+			<include refid="dynamicWhere" />
+			<include refid="dynamicOrderBy" />
+			limit ${sno-1},${eno}
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			 from
+			UPLOADFILE t
+			<include refid="dynamicWhere" />
+			limit ${sno-1},${eno}
+		</if>
+	</sql>	
+	   <sql id="allColumn">
+	           t.ID,
+	           t.FILENAME,
+	           t.FILETYPE,
+	           t.FILEPATH,
+	           t.ORGFILENAME, 
+	           t.SUCCESS 
+	</sql>
+ 
+ 	<select id="query" parameterType="java.util.Map" resultMap="UploadFile">
+		    select t.ID,
+	           t.FILENAME,
+	           t.FILETYPE,
+	           t.FILEPATH,
+	           t.ORGFILENAME, 
+	           t.SUCCESS   from UPLOADFILE t
+	           <include refid="dynamicWhere" />
+	 
+	</select>
+ 
+	<select id="findByPager" parameterType="java.util.Map" resultMap="UploadFile">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="uploadFilequery" parameterType="java.util.Map" resultMap="UploadFile">
+		<include refid="queryBody" />
+	</select>
+	
+
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select
+		count(1)
+		from
+		UPLOADFILE
+		<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+	<sql id="dynamicWhere">
+			<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="id!=null">
+					 ID =#{id}
+				</if>
+				 
+			</trim>
+	</sql>
+	
+ 	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+	
+
+	<insert id="insert" parameterType="com.idap.clinic.entity.UploadFile" >
+	    INSERT INTO 
+	    UPLOADFILE(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+	<sql id="allapplColumn">
+	           ID,
+	           FILENAME,
+	           FILETYPE,
+	           FILEPATH,
+	           ORGFILENAME, 
+	           SUCCESS 
+
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+				#{id,jdbcType=VARCHAR},
+				#{fileName,jdbcType=VARCHAR},
+				#{fileType,jdbcType=VARCHAR},
+				#{filePath,jdbcType=VARCHAR},
+				#{orgFileName,jdbcType=VARCHAR},
+				#{success,jdbcType=VARCHAR}  
+		     )
+	</sql>
+	
+	<update id="update" parameterType="com.idap.clinic.entity.UploadFile">
+			update UPLOADFILE
+			<trim prefix=" SET " prefixOverrides=",">
+				<if test="departmentName!=null">
+					  ,DEPARTMENT_NAME=#{departmentName,jdbcType=VARCHAR}
+				</if>
+				<if test="departmentDesc!=null">
+					  ,DEPARTMENT_DESC=#{departmentDesc,jdbcType=VARCHAR}
+				</if>
+				 
+			</trim>
+			WHERE 
+				DEPARTMENT_ID=#{departmentId}
+	</update>
+
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM UPLOADFILE 
+		where ID =#{id}
+	</delete>	
+
+
+</mapper>
+
+
+
+

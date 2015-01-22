@@ -214,7 +214,7 @@ define(function (require, exports, module) {
 						}
 					 
 					} ,
-					  
+					 
 					  eventMouseover: function(event, jsEvent, view){ //监听不止一个元素！.fc-event及初始加载两个子元素均可能
 					      var $h = $(jsEvent.target);
 					      $h.attr("_id",event.id);

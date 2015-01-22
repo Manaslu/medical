@@ -458,5 +458,11 @@ define(function() {
 	app.factory('CommonDrug', [ '$resource', function($resource) {
 		return $resource('commonDrug.shtml');
 	} ]);
+	//附件
+	app.factory('UploadFile', [ '$resource', function($resource) {
+		return $resource('uploadFile.shtml');
+	} ]);
+	
+	
 	
 });

@@ -1,6 +1,6 @@
 define(function (require, exports, module) {
     return function setApp(app) {
-        app.controller('ClinicHealthfoodCtrl', ['$scope','$http' ,'$filter','HealthFood','$timeout',function ($scope,$http,$filter,HealthFood,$timeout) { 
+        app.controller('ClinicHealthfoodCtrl', ['$scope','$http' ,'$filter','HealthFood','UploadFile','$timeout',function ($scope,$http,$filter,HealthFood,UploadFile,$timeout) { 
      //------------------gridlist--------- 	 
        	 $scope.pager =  HealthFood;
        	 $scope.params = {};// normally "$scope.pager =  HealthFood" is already enough for listgrid  ,but here we need to use clinicId to identify user's authority  
@@ -9,42 +9,101 @@ define(function (require, exports, module) {
         	 
      //------------reset botton---------------------
             $scope.clearForm = function(){//reset botton
-                $scope.key="";
+
+                //$scope.key="";
 //                $scope.tempeatPic=[];
             }
             
      //------------------add/edit--------- ----------- 	
             $scope.edithealthfood =function(healthfood){ //click on edit link
+            	
+                var paramsPic = {
+                  		 id : healthfood.eatPic 
+                   };
+                UploadFile.query({ //初始化用户列表
+                 		                    isArray:true,
+                 		                    params: angular.toJson(paramsPic)
+                 	                      },  function (list){
+               		$scope.uploadPic =list[0]; 
+               		$scope.keye= angular.copy(healthfood);
+                   }); 
+            	
             	$scope.clearForm(); 
-              	$scope.keye= angular.copy(healthfood);
+              	
  
 //              	$scope.tempeatPic=[];
 //              	$scope.tempeatPic[0]=healthfood.eatPic
                };     
                
              $scope.create = function(item) {//add and edit
-
-            	 $scope.newentity = angular.copy(item);
-                 if( $scope.newentity.eatPic &&  $scope.newentity.eatPic.length>0){
-                	 var tt=  $scope.newentity.eatPic[0].filePath;
-                	 $scope.newentity.eatPic =tt;
-                 }
-                   if($scope.newentity.eatId){
-                	   $scope.newentity.eatDate=''; //update time now is number,it cause error of mismatch
-                	   var t= $scope.newentity.eatPic[0]
+ 
+            	  
+                
+                   if(item.eatId){
+                	 var newid = Math.floor(Math.random() * 10000000)+'';//for both
+                	   
+                  	 var healthfood={};
+                  	 var uploadfile={};
+                	   
+                  
+                  	 healthfood.eatTitle = item.eatTitle;
+                  	 healthfood.eatContent = item.eatContent;
+                  	 healthfood.eatPic = newid;
+                  	 healthfood.clinicId = $scope.USER_INFO.orgCd;
+                  	 
+                  	 uploadfile.id=	 newid;
+                  	 uploadfile.fileName = $scope.uploadPic[0].fileName;
+                  	 uploadfile.fileType = $scope.uploadPic[0].fileType;
+                  	 uploadfile.filePath = $scope.uploadPic[0].filePath;
+                  	 uploadfile.orgFileName = $scope.uploadPic[0].orgFileName;
+                  	 uploadfile.success = $scope.uploadPic[0].success;
+                	   
+                	   
                    	HealthFood.save($scope.newentity,function(){
                        	$scope.refresh('current',true);//refresh listgrid
-                       	$scope.newentity="";
                       	$('#editonly').modal('hide');
                       	     
                       });
-               	}else{ 
-               		$scope.newentity.clinicId =  $scope.USER_INFO.orgCd; 
-               		HealthFood.put($scope.newentity,function(){
+                   	
+                    var params = {
+    	            		id : item.eatPic
+    	            };
+                    UploadFile.remove({
+    	                params : angular.toJson(params)
+    	            }, function(jsonData) {
+    	                 
+    	            });
+               		UploadFile.put(uploadfile,function(){
+                  		 
+                    });
+               	}else{// add 
+               		
+               	 var newid = Math.floor(Math.random() * 10000000)+'';//for both
+            	 var healthfood={};
+            	 var uploadfile={};
+            	 
+            	 healthfood.eatId = newid;
+            	 healthfood.eatTitle = item.eatTitle;
+            	 healthfood.eatContent = item.eatContent;
+            	 healthfood.eatPic = newid;
+            	 healthfood.clinicId = $scope.USER_INFO.orgCd;
+            	 
+            	 uploadfile.id=	 newid;
+            	 uploadfile.fileName = $scope.uploadPic[0].fileName;
+            	 uploadfile.fileType = $scope.uploadPic[0].fileType;
+            	 uploadfile.filePath = $scope.uploadPic[0].filePath;
+            	 uploadfile.orgFileName = $scope.uploadPic[0].orgFileName;
+            	 uploadfile.success = $scope.uploadPic[0].success;
+            	 
+ 
+               		HealthFood.put(healthfood,function(){
                        	$scope.refresh('current',true);//refresh listgrid
-                       	$scope.newentity="";
                         $('#addandedit').modal('hide');
                        });
+               		
+               		UploadFile.put(uploadfile,function(){
+               		 
+                    });
                	}
                }
  
