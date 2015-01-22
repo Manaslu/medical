@@ -54,6 +54,7 @@ define(function (require, exports, module) {
  
         	$scope.saveCalendar = function(){
         		var eventsarray = $('#calendar').fullCalendar('clientEvents');
+        		var tobesaveobjects=[];
 
         		for(var i =0;i<eventsarray.length;i++){
     				var s_time = eventsarray[i].title.substring(0,5);
@@ -68,14 +69,7 @@ define(function (require, exports, module) {
             				neweventobj.end=eventdate+"T"+e_time+":00";
             				neweventobj.doctorId =$scope.getDoctorId(eventsarray[i].title.substring(12)); 
             				neweventobj.clinicId = $scope.USER_INFO.orgCd;
-            				if(i==eventsarray.length-1){
-            					FullCalendar.put(neweventobj,function(){
-            						$('#calendar').fullCalendar('destroy'); 
-            						initialCaendar();
-            					});
-            				}else{
-            					FullCalendar.put(neweventobj,function(){ });
-            				}
+            				tobesaveobjects.push(neweventobj);
             			}
 
         			}else{
@@ -85,7 +79,7 @@ define(function (require, exports, module) {
             				var interval =  $scope.GetDateDiff(s_date,e_date,'day') ;
             				var eventdate = dateFIlter(eventsarray[i].start._d,"yyyy-MM-dd");
             				currenteventdate = new Date(eventdate);
-            				for(var j=1;j<=interval;j++){
+            				for(var j=1;j<=interval;j++){//new from the second one
             					 
             					currenteventdate.addDays(j);
             					var eventd=dateFIlter(currenteventdate,"yyyy-MM-dd");
@@ -98,14 +92,7 @@ define(function (require, exports, module) {
                 				neweventobj.end=eventd+"T"+e_time+":00";
                 				neweventobj.doctorId = $scope.getDoctorId(eventsarray[i].title.substring(12)); 
                 				neweventobj.clinicId = $scope.USER_INFO.orgCd;
-                				if(i==eventsarray.length-1 && j==interval){
-                					FullCalendar.put(neweventobj,function(){ 
-                						$('#calendar').fullCalendar('destroy'); 
-                						initialCaendar();
-                					});
-                				}else{
-                					FullCalendar.put(neweventobj,function(){ });
-                				}
+                				tobesaveobjects.push(neweventobj);
             				}
             			}else{ //totally new
             				var s_date = dateFIlter(eventsarray[i].start._d,"yyyy-MM-dd HH:mm:ss");
@@ -126,19 +113,24 @@ define(function (require, exports, module) {
                 				neweventobj.end=eventd+"T"+e_time+":00";
                 				neweventobj.doctorId =  $scope.getDoctorId(eventsarray[i].title.substring(12));  
                 				neweventobj.clinicId = $scope.USER_INFO.orgCd;
-                				if(i==eventsarray.length-1 && j==interval-1){
-                					FullCalendar.put(neweventobj,function(){ 
-                						$('#calendar').fullCalendar('destroy'); 
-                						initialCaendar();
-                					});
-                				}else{
-                					FullCalendar.put(neweventobj,function(){ });
-                				}
+                				tobesaveobjects.push(neweventobj);
+
             				}
             			}
         				
 
         			}
+        		}
+        		
+        		for(var t=0;t<tobesaveobjects.length;t++){
+    				if(t==tobesaveobjects.length-1){
+					FullCalendar.put(tobesaveobjects[t],function(){ 
+						$('#calendar').fullCalendar('destroy'); 
+						initialCaendar();
+					});
+				}else{
+					FullCalendar.put(tobesaveobjects[t],function(){ });
+				}
         		}
         	}
         	
