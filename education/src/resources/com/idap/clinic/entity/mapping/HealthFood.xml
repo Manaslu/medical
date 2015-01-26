@@ -10,7 +10,10 @@
     	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
     	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
     	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
-    	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
+    	    <association property="clinic" javaType="com.idap.clinic.entity.ClinicInformation">
+    	    	<id column="clinic_id" property="clinicId"/>
+    	    	<result column="clinic_name" property="clinicName"/>
+    	    </association>
 	</resultMap>
 	 
  
@@ -20,7 +23,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			EAT t
+			EAT t left join Clinic c on t.clinic_id=c.clinic_id
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -30,7 +33,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			EAT t
+			EAT t left join Clinic c on t.clinic_id=c.clinic_id
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>
@@ -41,7 +44,7 @@
 	           t.EAT_CONTENT,
 	           t.EAT_PIC,
 	           t.EAT_DATE,
-	           t.CLINIC_ID
+	           c.CLINIC_NAME
 	</sql>
  
 	

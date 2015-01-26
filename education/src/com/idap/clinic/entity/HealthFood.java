@@ -13,7 +13,7 @@ public class HealthFood implements java.io.Serializable {
 	private String  eatContent;//EAT_CONTENT
 	private String  eatPic;//EAT_PIC --> only address
 	private Date    eatDate;//EAT_DATE
-	private String     clinicId;//CLINIC_ID 
+	private ClinicInformation     clinic;//CLINIC_ID 
 	
 	public String getEatId() {
 		return eatId;
@@ -45,12 +45,13 @@ public class HealthFood implements java.io.Serializable {
 	public void setEatDate(Date eatDate) {
 		this.eatDate = eatDate;
 	}
-	public String getClinicId() {
-		return clinicId;
+	public ClinicInformation getClinic() {
+		return clinic;
 	}
-	public void setClinicId(String clinicId) {
-		this.clinicId = clinicId;
+	public void setClinic(ClinicInformation clinic) {
+		this.clinic = clinic;
 	}
+	
 	
 	 
 	
