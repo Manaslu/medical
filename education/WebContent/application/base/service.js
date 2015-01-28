@@ -462,6 +462,10 @@ define(function() {
 	app.factory('UploadFile', [ '$resource', function($resource) {
 		return $resource('uploadFile.shtml');
 	} ]);
+	//附件
+	app.factory('GeneratedKey', [ '$resource', function($resource) {
+		return $resource('generatedKey.shtml');
+	} ]);
 	
 	
 	
