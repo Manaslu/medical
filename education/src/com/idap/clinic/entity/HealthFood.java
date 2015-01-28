@@ -13,6 +13,16 @@ public class HealthFood implements java.io.Serializable {
 	private String  eatContent;//EAT_CONTENT
 	private String  eatPic;//EAT_PIC --> only address
 	private Date    eatDate;//EAT_DATE
+	private String  clinicId;//EAT_CONTENT
+	
+	
+	
+	public String getClinicId() {
+		return clinicId;
+	}
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
+	}
 	private ClinicInformation     clinic;//CLINIC_ID 
 	
 	public String getEatId() {

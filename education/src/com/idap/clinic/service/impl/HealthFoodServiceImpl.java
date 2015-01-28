@@ -41,14 +41,9 @@ public class HealthFoodServiceImpl extends DefaultBaseService<HealthFood, String
 	 @Override
 	public HealthFood save(HealthFood entity) {
 		  
-		 HealthFood hf = new HealthFood();
-		 hf.setEatId(entity.getEatId());
-		 hf.setEatTitle(entity.getEatTitle());
-		 hf.setEatContent(entity.getEatContent());
-		 hf.setEatPic(entity.getEatPic());
-		 hf.setEatDate(new Date());
-		 hf.setClinicId(entity.getClinicId());
-	 	 return  this.getBaseDao().save(hf);
+		  
+		 entity.setEatDate(new Date());
+	 	 return  this.getBaseDao().save(entity);
 	    }
 		 
 	 @Override
