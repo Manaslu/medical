@@ -11,7 +11,7 @@
     	    <result property="fileType"    column="FILETYPE"    jdbcType="VARCHAR" />
     	    <result property="filePath"    column="FILEPATH"    jdbcType="VARCHAR" />
     	    <result property="orgFileName" column="ORGFILENAME" jdbcType="VARCHAR" />
-    	    <result property="success"     column="SUCCESS"     jdbcType="VARCHAR" />
+    	     
   
 	</resultMap>
 	 
@@ -42,8 +42,7 @@
 	           t.FILENAME,
 	           t.FILETYPE,
 	           t.FILEPATH,
-	           t.ORGFILENAME, 
-	           t.SUCCESS 
+	           t.ORGFILENAME 
 	</sql>
  
  	<select id="query" parameterType="java.util.Map" resultMap="UploadFile">
@@ -51,8 +50,7 @@
 	           t.FILENAME,
 	           t.FILETYPE,
 	           t.FILEPATH,
-	           t.ORGFILENAME, 
-	           t.SUCCESS   from UPLOADFILE t
+	           t.ORGFILENAME    from UPLOADFILE t
 	           <include refid="dynamicWhere" />
 	 
 	</select>
@@ -108,8 +106,7 @@
 	           FILENAME,
 	           FILETYPE,
 	           FILEPATH,
-	           ORGFILENAME, 
-	           SUCCESS 
+	           ORGFILENAME 
 
 	</sql>
 	
@@ -119,8 +116,7 @@
 				#{fileName,jdbcType=VARCHAR},
 				#{fileType,jdbcType=VARCHAR},
 				#{filePath,jdbcType=VARCHAR},
-				#{orgFileName,jdbcType=VARCHAR},
-				#{success,jdbcType=VARCHAR}  
+				#{orgFileName,jdbcType=VARCHAR} 
 		     )
 	</sql>
 	
