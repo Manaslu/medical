@@ -40,8 +40,10 @@ define(function (require, exports, module) {
 	   		                       UploadFile.remove({
 	   		       	                params : angular.toJson(params)
 	   		       	            }, function(jsonData) {
+	   		       	             
 				   		       	            var healthfood={};
 					                     	 var uploadfile={};
+					                     	 healthfood.eatId = $scope.tempitem.eatId;
 					                     	 healthfood.eatTitle = $scope.tempitem.eatTitle;
 					                     	 healthfood.eatContent = $scope.tempitem.eatContent;
 					                     	 healthfood.eatPic = newid;
@@ -52,44 +54,30 @@ define(function (require, exports, module) {
 					                     	 uploadfile.fileType = $scope.uploadPic[0].fileType;
 					                     	 uploadfile.filePath = $scope.uploadPic[0].filePath;
 					                     	 uploadfile.orgFileName = $scope.uploadPic[0].orgFileName;
-					                     	 
 					                   	   
 					                  		UploadFile.put(uploadfile,function(){
 				                     		 
 					                       });
-					                      	HealthFood.save($scope.newentity,function(){
-					                          	$scope.refresh('current',true);
+					                      	HealthFood.save(healthfood,function(){
+					                      		$scope.refresh('current',true);//refresh listgrid
 					                         	$('#editonly').modal('hide');
 					                         	     
 					                         });
 	   		       	                 
 	   		       	            });
-         				    	 
-    		                   	 
-    		                     	
-    		                      	
-
-
                       	}else{// add 
-                      		
-    				                 
     				               	 var healthfood={};
     				               	 var uploadfile={};
-    				               	 
     				               	 healthfood.eatId = newid;
     				               	 healthfood.eatTitle = $scope.tempitem.eatTitle;
     				               	 healthfood.eatContent = $scope.tempitem.eatContent;
     				               	 healthfood.eatPic = newid;
     				               	 healthfood.clinicId = $scope.USER_INFO.orgCd;
-    				               	 
     				               	 uploadfile.id=	 newid;
     				               	 uploadfile.fileName = $scope.uploadPic[0].fileName;
     				               	 uploadfile.fileType = $scope.uploadPic[0].fileType;
     				               	 uploadfile.filePath = $scope.uploadPic[0].filePath;
     				               	 uploadfile.orgFileName = $scope.uploadPic[0].orgFileName;
-    				               	 
-                   	 
-        
     		                  		HealthFood.put(healthfood,function(){
     		                          	$scope.refresh('current',true);//refresh listgrid
     		                           $('#pushDialog').modal('hide');
@@ -99,6 +87,7 @@ define(function (require, exports, module) {
                       		 
                            });
                       	}
+         				   
                           }
              	      );   
                		 
