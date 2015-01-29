@@ -38,7 +38,7 @@
             <td>{{it.eatDate|date:'yyyy-MM-dd'}}</td>
             <td>
                 <a    href="javascript:" data-toggle="modal" data-target="#seeDialog"      ng-click="preview(it)"> 预览</a>
-                <a    href="javascript:" data-toggle="modal" data-target="#editonly"       upload-refresh="true"    ng-click="edit(it)" >修改</a> 
+                <a    href="javascript:" data-toggle="modal" data-target="#edit"       upload-refresh="true"    ng-click="edit(it)" >修改</a> 
                 <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"   ng-click="todelete(it.eatId,it.eatPic)">删除</a>
                  
             </td>
@@ -132,62 +132,87 @@
     <!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
- <div class="modal fade" id="editonly" tabindex="-1" role="dialog" aria-hidden="true">
-     <div class="modal-dialog" style="width: 800px;">
+
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">                                                                                               
-                     <p> 修改</p>                                                        
+                                                                  修改
                 </h4>
-            </div>   
-				<form class="form-horizontal" name="addSyncApplForm" novalidate="novalidate" auto-file-upload   ng-submit="create(keye)" >
-				            <div class="modal-body">
-				                <div class="row">
-				                    <div class="col-sm-12 col-md-12">
-				                            <div class="alert alert-danger alert-dismissable"   style="padding-left:80px">
-												<a data-dismiss="alert" class="close">×</a>
-												<strong>友情提示：</strong> 图片文件大小不要超过2M
-											</div>
-				                        <div class="form-group">
-							                <label class="col-lg-2 control-label">标题</label>
-							                <div class="col-lg-9">
-							                    <input type="text" class="form-control" required ng-model="keye.eatTitle" ng-maxlength="50" ng-trim maxlength="50" />
-							                </div>
-							                 <span class="mustItem">*</span>
-				                        </div>
-										    <div class="form-group">
-										        <label class="col-lg-2 control-label">图片</label>
-										        <div class="col-lg-9">
-								 					<div uploader  
-								 						thumb
-								 						ng-model="uploadPic" 
-								 						name="manyFiles" 
-								 						server="upload.shtml" 
-								 						extensions="png,jpeg,jpg,bmp"
-								 					></div>
-										        </div>
-										    </div>
-										<div class="form-group">
-				                            <label class="col-lg-2 control-label">内容</label>
-				                            <div class="col-lg-9">
-				                                <textarea class="form-control" rows="8" required ng-model="keye.eatContent"  data-valid-pos="bottom" ></textarea>
-				                            </div>
-				                            <span class="mustItem">*</span>
-				                             
-				                        </div>
-				                    </div>
-				                </div>
-				            </div>
-				            <div class="modal-footer">
-				                <button type="submit" class="btn btn-primary"     ng-disabled="addSyncApplForm.$invalid">保存</button>
-				                <button type="button" class="btn btn-danger"     ng-click="clearForm()">重置</button>
-				                <button type="button" class="btn btn-default"    data-dismiss="modal">取消</button>
-				            </div>
-				    </form>
-            </div>
+            </div>            
+            <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="create(keye)"     novalidate="novalidate"  >    
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" >标题:</label>
+                                <div class="col-lg-8">
+                                    <input type="text" name="knowname"  
+	                                               ng-model="keye.eatTitle" id="roleDefault" 
+	                                     class="form-control"
+	                                      required  valid-tip="{required:'字段是必填的',maxlength:'最大长度不能超过30个字符'}"     
+	                                      valid-pos="bottom"
+	                                      ng-maxlength="30" /> 
+                                	  
+                                </div>
+                                <span class="mustItem">*</span>   
+                            </div>                  
+                                                                     
+                           
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">内容:</label>
+                                <div class="col-lg-8">                 
+                                    <textarea class="form-control" rows="9"    name="knownContent"   ng-model="keye.eatContent"
+                                     required    ng-maxlength="5000"    valid-tip="{required:'字段是必填的',maxlength:'最大长度不能超过5000个字符'}"     valid-pos="bottom"  ></textarea>
+                                   
+                              
+                                </div> 
+                                <span class="mustItem">*</span> 
+                            </div>    
+                                         
+						   <div class="form-group">                                  
+				                 <label class="col-lg-3 control-label">附件: </label>             
+				                <div class="col-lg-8 ">                
+					                    <div uploader  ng-model="uploadPic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png，jpeg"  
+					                         files="files">
+					                    </div>	         
+				                    
+				                     
+				                </div>                         
+				           </div>
+	                                    
+	                    </div>
+	                </div>
+	            </div>  
+	            <div class="modal-footer">       
+	              <button type="reset" class="btn btn-default">重置</button>
+	              
+	              <button type="submit" class="btn btn-primary"   ng-disabled="shareFm.$invalid" ng-click=""> 保存</button>
+	              
+	             
+	                                 
+	              <button type="button" class="btn btn-default" data-dismiss="modal"    ng-click="delAddObj()"> 取消</button>
+	            </div>
+	            
+	          
+	            
+	            
+	            
+	            
+            </form>
+        </div>
+        <!-- /.modal-content -->
     </div>
-</div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 
 <!-- 下载连接 -->
 <a id="download-link" target="_blank"></a>    

@@ -60,7 +60,7 @@ define(function (require, exports, module) {
 					                       });
 					                      	HealthFood.save(healthfood,function(){
 					                      		$scope.refresh('current',true);//refresh listgrid
-					                         	$('#editonly').modal('hide');
+					                         	$('#edit').modal('hide');
 					                         	     
 					                         });
 	   		       	                 
