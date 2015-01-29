@@ -13,9 +13,17 @@ public class CommonDrug implements java.io.Serializable {
 	private ClinicInformation     clinic;   //CLINIC_ID clinic_id
 	private String     drugPic;  //DRUG_PIC drug_pic
 	private Date       drugDate;  //DRUG_PIC drug_pic
+	private String clinicId;
 	
 	
 	
+	
+	public String getClinicId() {
+		return clinicId;
+	}
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
+	}
 	public Date getDrugDate() {
 		return drugDate;
 	}

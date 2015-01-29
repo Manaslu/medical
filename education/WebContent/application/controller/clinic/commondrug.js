@@ -1,71 +1,130 @@
 define(function (require, exports, module) {
+
+    //知识库管理
     return function setApp(app) {
-        app.controller('ClinicCommondrugCtrl', ['$scope','$http' ,'$filter','CommonDrug','$timeout',function ($scope,$http,$filter,CommonDrug,$timeout) { 
-     //------------------gridlist--------- 	 
-       	 $scope.pager =  CommonDrug;
-       	 $scope.params = {};  
-       	 $scope.params.clinicId = $scope.USER_INFO.orgCd;
-       	 $scope.refresh && $scope.refresh('first' , true);	
-        	 
-     //------------reset botton---------------------
-            $scope.clearForm = function(){//reset botton
-                $scope.key="";
-//                $scope.tempeatPic=[];
-            }
-            
-     //------------------add/edit--------- ----------- 	
-            $scope.edithealthfood =function(healthfood){ //click on edit link
-            	$scope.clearForm(); 
-              	$scope.keye= angular.copy(healthfood);
+        app.controller('ClinicCommondrugCtrl', ['$scope','$http' ,'$filter','CommonDrug','UploadFile','GeneratedKey','$timeout',function ($scope,$http,$filter,CommonDrug,UploadFile,GeneratedKey,$timeout) { 
+            //------------------gridlist--------- 	 
+          	 $scope.pager =  CommonDrug;
+          	 $scope.params = {};// normally "$scope.pager =  HealthFood" is already enough for listgrid  ,but here we need to use clinicId to identify user's authority  
+          	 $scope.params.clinicId = $scope.USER_INFO.orgCd;//default clinic id for current user
+          	 $scope.refresh && $scope.refresh('first' , true);	
+           	 
  
-//              	$scope.tempeatPic=[];
-//              	$scope.tempeatPic[0]=healthfood.eatPic
-               };     
                
-             $scope.create = function(item) {//add and edit
+        //------------------add/edit--------- ----------- 	
+               $scope.edit =function(item){ //click on edit link
+                  		$scope.keye= angular.copy(item);
+             
+                  };
+               $scope.preview =function(item){ //click on edit link
+                		$scope.keyv= angular.copy(item);
+           
+                }; 
+                  
+                $scope.create = function(item) {//add and edit
+                	$scope.tempitem = angular.copy(item);
+                  
+                	GeneratedKey.get({ //单图片的思维                                        
+         		   			method:'genKey'     
+         			      },function(result){                     
+         				     var newid = result.newId;  
+         				     if($scope.tempitem.drugId){//edit
+	  		                   var params = {
+	   		       	            		id : $scope.tempitem.drugPic
+	   		       	            };
+	   		                       UploadFile.remove({
+	   		       	                params : angular.toJson(params)
+	   		       	            }, function(jsonData) {
+	   		       	             
+				   		       	            var healthfood={};
+					                     	 var uploadfile={};
+					                     	 healthfood.drugId = $scope.tempitem.drugId;
+					                     	 healthfood.drugName = $scope.tempitem.drugName;
+					                     	 healthfood.drugContent = $scope.tempitem.drugContent;
+					                     	 healthfood.drugPic = newid;
+					                     	 healthfood.clinicId = $scope.USER_INFO.orgCd;
+					                     	 
+					                     	 uploadfile.id=	 newid;
+					                     	 uploadfile.fileName = $scope.uploadPic[0].fileName;
+					                     	 uploadfile.fileType = $scope.uploadPic[0].fileType;
+					                     	 uploadfile.filePath = $scope.uploadPic[0].filePath;
+					                     	 uploadfile.orgFileName = $scope.uploadPic[0].orgFileName;
+					                   	   
+					                  		UploadFile.put(uploadfile,function(){
+				                     		 
+					                       });
+					                  		CommonDrug.save(healthfood,function(){
+					                      		$scope.refresh('current',true);//refresh listgrid
+					                         	$('#edit').modal('hide');
+					                         	     
+					                         });
+	   		       	                 
+	   		       	            });
+                      	}else{// add 
+    				               	 var healthfood={};
+    				               	 var uploadfile={};
+    				               	 healthfood.drugId = newid;
+    				               	 healthfood.drugName = $scope.tempitem.drugName;
+    				               	 healthfood.drugContent = $scope.tempitem.drugContent;
+    				               	 healthfood.drugPic = newid;
+    				               	 healthfood.clinicId = $scope.USER_INFO.orgCd;
+    				               	 uploadfile.id=	 newid;
+    				               	 uploadfile.fileName = $scope.uploadPic[0].fileName;
+    				               	 uploadfile.fileType = $scope.uploadPic[0].fileType;
+    				               	 uploadfile.filePath = $scope.uploadPic[0].filePath;
+    				               	 uploadfile.orgFileName = $scope.uploadPic[0].orgFileName;
+    				               	UploadFile.put(uploadfile,function(){  });
+    				               	CommonDrug.put(healthfood,function(){
+    		                          	$scope.refresh('current',true);//refresh listgrid
+    		                           $('#add').modal('hide');
+    		                          });
+                      		
+                      		
+                      	}
+         				   
+                          }
+             	      );   
+               		 
+		               
+                  };
+    
+               
+       //-------------delete----------        
+               $scope.todelete = function(hid,eid) {//click on DELETE link
+                   $scope.tobedeleteId = hid;
+                   $scope.tobedeleteFileId = eid;
+               };
 
-            	 $scope.newentity = angular.copy(item);
-                 if( $scope.newentity.drugPic &&  $scope.newentity.drugPic.length>0){
-                	 var tt=  $scope.newentity.drugPic[0].filePath;
-                	 $scope.newentity.drugPic =tt;
-                 }
-                   if($scope.newentity.drugId){
-                	    
-                	    
-                	   CommonDrug.save($scope.newentity,function(){
-                       	$scope.refresh('current',true); 
-                       	$scope.newentity="";
-                      	$('#editonly').modal('hide');
-                      	     
-                      });
-               	}else{ 
-               		$scope.newentity.clinicId =  $scope.USER_INFO.orgCd; 
-               		CommonDrug.put($scope.newentity,function(){
-                       	$scope.refresh('current',true);//refresh listgrid
-                       	$scope.newentity="";
-                        $('#addandedit').modal('hide');
-                       });
-               	}
-               }
+               $scope.comfirmDelete = function() {//confirm to delete on dialog
+  	            var params = {
+   	            		id : $scope.tobedeleteFileId
+   	            };
+  	          UploadFile.remove({
+   	                params : angular.toJson(params)
+   	            }, function(jsonData) {
+   	            	
+   	   	            var params = {
+   	   	            		drugId : $scope.tobedeleteId
+   	   	            };
+   	   	         CommonDrug.remove({
+   	   	                params : angular.toJson(params)
+   	   	            }, function(jsonData) {
+   	   	                $scope.refresh('current', true);
+   	   	            });
+   	            });
+               }; 
+               
+               $scope.imgShow = function(fileId){ 
+            	   if(!fileId){
+            		   return;
+            	   }
+             	   return '/education/uploadFile.shtml?method=download&fileId='+fileId; 
+             	}
+               
+           }]);
+    };
+              
+}); 
  
-            
-    //-------------delete----------        
-            $scope.todeletehealthfood = function(hid) {//click on DELETE link
-                $scope.tobedeleteId = hid;
-            };
 
-            $scope.comfirmDelete = function() {//confirm to delete on dialog
-	            var params = {
-	            		drugId : $scope.tobedeleteId
-	            };
-	            CommonDrug.remove({
-	                params : angular.toJson(params)
-	            }, function(jsonData) {
-	                $scope.refresh('current', true);
-	            });
-            }; 
- 
-        }]);
-    }
 
-});

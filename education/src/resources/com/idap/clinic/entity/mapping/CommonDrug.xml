@@ -6,7 +6,7 @@
 <mapper namespace="com.idap.clinic.entity.CommonDrug" >
     <resultMap id="CommonDrug" type="com.idap.clinic.entity.CommonDrug">
     
-    	    <result property="drugId" column="DRUG_ID" jdbcType="INTEGER" />
+    	    <result property="drugId" column="DRUG_ID" jdbcType="VARCHAR" />
     	    <result property="drugName" column="DRUG_NAME" jdbcType="VARCHAR" />
     	    <result property="drugContent" column="DRUG_CONTENT" jdbcType="VARCHAR" />
     	    <result property="drugPic" column="DRUG_PIC" jdbcType="VARCHAR" />
@@ -69,7 +69,7 @@
 		select
 		count(1)
 		from
-		DRUG
+		DRUG t
 		<include refid="dynamicWhere" />
 		    
 	</select>
@@ -81,7 +81,7 @@
 					OR DRUG_CONTENT like concat('%',#{querykeyword},'%')  )
 				</if>
 				<if test="clinicId!=null">
-					AND CLINIC_ID = #{clinicId}
+					AND t.CLINIC_ID = #{clinicId}
 				</if>
 			</trim>
 	</sql>
@@ -115,7 +115,28 @@
 			 
 				DRUG_ID=#{drugId}
 	</update>
-
+	<insert id="insert" parameterType="com.idap.clinic.entity.CommonDrug" >
+	    INSERT INTO 
+	    DRUG(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	<sql id="allapplColumn">
+			   DRUG_ID,
+	           DRUG_NAME,
+	           DRUG_CONTENT,
+	           DRUG_PIC,
+	           CLINIC_ID
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+				#{drugId,jdbcType=VARCHAR},
+				#{drugName,jdbcType=VARCHAR},
+				#{drugContent,jdbcType=DATE},
+				#{drugPic,jdbcType=DATE},
+				#{clinicId,jdbcType=VARCHAR}
+		     )
+	</sql>
 	<delete id="delete" parameterType="java.util.Map">
 		DELETE FROM DRUG 
 		where DRUG_ID =#{drugId}

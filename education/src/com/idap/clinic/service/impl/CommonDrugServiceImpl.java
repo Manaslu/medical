@@ -40,8 +40,7 @@ public class CommonDrugServiceImpl extends DefaultBaseService<CommonDrug, String
 	
 	 @Override
 	public CommonDrug save(CommonDrug entity) {
-		 String eatid =  generateKeyService.getNextGeneratedKey(null).getNextKey();//produce an id
-		 entity.setDrugId(eatid);
+		 
 	 	 return  this.getBaseDao().save(entity);
 	    }
 		 
