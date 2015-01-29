@@ -40,8 +40,7 @@ public class DoctorsManagementServiceImpl extends DefaultBaseService<DoctorsMana
 	
 	 @Override
 	public DoctorsManagement save(DoctorsManagement entity) {
-		 String eatid =  generateKeyService.getNextGeneratedKey(null).getNextKey();//produce an id
-		 entity.setDoctorId(eatid);
+		 
 		 entity.setDoctorDate(new Date());
 	 	 return  this.getBaseDao().save(entity);
 	    }

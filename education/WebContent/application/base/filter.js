@@ -356,4 +356,8 @@ define(function (require) {
         5: '副主任医师',
         6: '主任医师'
     });
+    filterFactory('DSL_humangender', {
+        1: '男 ',
+        0: '女'
+    });
 });
