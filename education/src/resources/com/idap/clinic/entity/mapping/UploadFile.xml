@@ -137,7 +137,7 @@
 
 	<delete id="delete" parameterType="java.util.Map">
 		DELETE FROM UPLOADFILE 
-		where ID =#{id}
+		where ID in  (${id})
 	</delete>	
 
 

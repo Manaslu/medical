@@ -138,11 +138,11 @@
 				<if test="doctorName!=null">
 					  ,DOCTOR_NAME=#{doctorName,jdbcType=VARCHAR}
 				</if>
-				<if test="doctorPic!=null">
-					  ,DOCTOR_DESC=#{doctorPic,jdbcType=VARCHAR}
+				<if test="doctorDesc!=null">
+					  ,DOCTOR_DESC=#{doctorDesc,jdbcType=VARCHAR}
 				</if>
-				<if test="eatPic!=null">
-					  ,DOCTOR_PIC=#{eatPic,jdbcType=VARCHAR}
+				<if test="doctorPic!=null">
+					  ,DOCTOR_PIC=#{doctorPic,jdbcType=VARCHAR}
 				</if>
 				<if test="doctorDegree!=null">   
 				      , DOCTOR_DEGREE=#{doctorDegree,jdbcType=VARCHAR}  

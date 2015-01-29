@@ -58,6 +58,8 @@ public class UploadFileController extends BaseController<UploadFile, String> {
         	 oldFileName = attachmentList.get(0).getOrgFileName();
         	 fileType = attachmentList.get(0).getFileType();
         	 filePath = attachmentList.get(0).getFilePath();
+          }else{
+        	 return null;
           }
 		
  

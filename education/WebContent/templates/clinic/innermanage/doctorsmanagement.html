@@ -7,7 +7,7 @@
 			    
 	        <div class="col-sm-2 col-md-2">
 	            <label>知识名称</label>
-	            <input class="form-control"  type="text" placeholder="标题,内容" ng-model="params.querykeyword"/>       
+	            <input class="form-control"  type="text" placeholder="姓名,专长，简介" ng-model="params.querykeyword"/>       
 	        </div>   
 	        <div class="col-sm-4 col-md-4   pull-right">                 
 	            <label>&nbsp;</label>                    
@@ -38,10 +38,10 @@
         <tr class="rowlink" ng-repeat="it in limitArr">
             <td>{{current*limit+$index+1}}</td>
             <td>{{it.doctorName}}</td>
-            <td title="{{it.doctorDesc}}">{{it.doctorDesc|limitTo:20}}......  </td>
+            <td title="{{it.doctorDesc}}">{{it.doctorDesc|limitTo:10}}  </td>
             <td>{{it.doctorDegree | DSL_doctorlevel}}</td>
             <td>{{it.doctorTel}}</td>
-            <td title="{{it.doctorSpeciality}}">{{it.doctorSpeciality|limitTo:20}}</td>
+            <td title="{{it.doctorSpeciality}}">{{it.doctorSpeciality|limitTo:10}}</td>
             <td>{{it.doctorDepartment}}</td>
             <td>{{it.doctorDate|date:'yyyy-MM-dd'}}</td>
             <td>
@@ -220,44 +220,89 @@
 	            <div class="modal-body">
 	                <div class="row">
 	                    <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label" >标题:</label>
-                                <div class="col-lg-8">
-                                    <input type="text" name="knowname"  
-	                                               ng-model="keye.drugName" id="roleDefault" 
-	                                     class="form-control"
-	                                      required  valid-tip="{required:'字段是必填的',maxlength:'最大长度不能超过30个字符'}"     
-	                                      valid-pos="bottom"
-	                                      ng-maxlength="30" /> 
-                                	  
-                                </div>
-                                <span class="mustItem">*</span>   
-                            </div>                  
-                                                                     
-                           
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">内容:</label>
-                                <div class="col-lg-8">                 
-                                    <textarea class="form-control" rows="9"    name="knownContent"   ng-model="keye.drugContent"
-                                     required    ng-maxlength="5000"    valid-tip="{required:'字段是必填的',maxlength:'最大长度不能超过5000个字符'}"     valid-pos="bottom"  ></textarea>
-                                   
-                              
-                                </div> 
-                                <span class="mustItem">*</span> 
-                            </div>    
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">姓名</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="keye.doctorName" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
+			                 
+			                 <label class="col-lg-2 control-label">性别</label>
+			                <div class="col-lg-3">
+			                     <select id="pro"  select2 data-live-search="false" class="form-control" name="anatype"  ng-model="keye.doctorGender"  >
+                                        <option value="1">男</option>
+                                        <option value="0">女</option>
+                                 </select>
+                             </div>
+			                  
+		 
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">级别</label>
+                            <div class="col-lg-3">
+                                 <select id="prodree"   select2 data-live-search="false" class="form-control" name="degree"  ng-model="keye.doctorDegree"  >
+                                        <option value="1">实习医师</option>
+                                        <option value="2">助理医师</option>
+                                        <option value="3">医师</option>
+                                        <option value="4">主治医师</option>
+                                        <option value="5">副主任医师-</option>
+                                        <option value="6">主任医师</option>
+                                 </select>
+                            </div>
+                            
+                            
+                            <label class="col-lg-2 control-label">电话</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control"  ng-model="keye.doctorTel" ng-maxlength="20" ng-trim maxlength="20" />
+                            </div>
+                             
+                             
+                        </div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">身份证</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="keye.doctorIdcard" ng-maxlength="20" ng-trim maxlength="20" />
+			                </div>
+			                  
+			                <label class="col-lg-2 control-label">科室</label>
+			                <div class="col-lg-3">
+			                
+			                    <select class="form-control" ng-model="keye.doctorDepartment" name="department" required  select2 data-live-search="true"  ng-options="item.departmentId as item.departmentName for item  in departments">
+			                    </select>       
+                             </div>
+			                  
+                        </div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">主治</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control"  ng-model="keye.doctorSpeciality"  />
+			                </div>
+                        </div>  
                                          
 						   <div class="form-group">                                  
-				                 <label class="col-lg-3 control-label">附件: </label>             
-				                <div class="col-lg-8 ">                
-					                    <div uploader  ng-model="uploadPic"
+				               <label class="col-lg-2 control-label" title="不选代表删除原有照片">照片: </label>             
+				                <div class="col-lg-4">                
+					                    <div uploader  thumb ng-model="uploadProfilePic"
 					                         server="upload.shtml"
-					                         extensions="jpg,gif,png，jpeg"  
+					                         extensions="jpg,gif,png,jpeg"  
 					                         files="files">
 					                    </div>	         
-				                    
-				                     
+				                </div>  
+				               <label class="col-lg-2 control-label" title="不选代表删除原有证书">证书: </label>             
+				                <div class="col-lg-3">                
+					                    <div uploader  thumb ng-model="uploadCertificatePic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png,jpeg"  
+					                         files="files">
+					                    </div>	         
 				                </div>                         
 				           </div>
+				           
+				        <div class="form-group">
+                            <label class="col-lg-2 control-label">简介</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="4"  ng-model="keye.doctorDesc"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                        </div>
 	                                    
 	                    </div>
 	                </div>
@@ -340,7 +385,7 @@
 	                            <label class="col-lg-2 control-label">基本信息:</label>
 	                                
 	                                   <p class="col-lg-6">  
-										     {{keyv.doctorName}},{{keyv.doctorGender | DSL_humangender}},{{keyv.doctorDegree | DSL_doctorlevel}},电话：{{keyv.doctorTel}}
+										     {{keyv.doctorGender | DSL_humangender}},{{keyv.doctorDegree | DSL_doctorlevel}},电话：{{keyv.doctorTel}}
 										      <br>
 										     身份证号：{{keyv.doctorIdcard}}
 										      <br>

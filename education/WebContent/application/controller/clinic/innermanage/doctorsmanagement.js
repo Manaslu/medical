@@ -22,17 +22,13 @@ define(function (require, exports, module) {
                 		$scope.keyv= angular.copy(item);
            
                 }; 
-                
-                
-                 
-               
-//                $scope.keys = GeneratedKey.post({
-//                    optype : "genKeyN",
-//                    n : 2
-//                },function(result){
-//                });
-                
-                  
+                $scope.clearForm = function(){//reset botton
+                    $scope.key="";
+                    $scope.keye="";
+                    $scope.uploadProfilePic="";
+                    $scope.uploadCertificatePic="";
+                   
+                };
                 $scope.create = function(item) {//add and edit
                 	$scope.tempitem = angular.copy(item);
                   
@@ -43,33 +39,59 @@ define(function (require, exports, module) {
          				     var newids = result.newIds.split(",");  
          				     if($scope.tempitem.doctorId){//edit
 	  		                   var params = {
-	   		       	            		id : $scope.tempitem.drugPic
+	   		       	            		id : "'"+$scope.tempitem.doctorPic+"','"+$scope.tempitem.doctorCertificate+"'"
 	   		       	            };
 	   		                       UploadFile.remove({
 	   		       	                params : angular.toJson(params)
 	   		       	            }, function(jsonData) {
 	   		       	             
-				   		       	            var healthfood={};
-					                     	 var uploadfile={};
-					                     	 healthfood.drugId = $scope.tempitem.drugId;
-					                     	 healthfood.drugName = $scope.tempitem.drugName;
-					                     	 healthfood.drugContent = $scope.tempitem.drugContent;
-					                     	 healthfood.drugPic = newid;
-					                     	 healthfood.clinicId = $scope.USER_INFO.orgCd;
-					                     	 
-					                     	 uploadfile.id=	 newid;
-					                     	 uploadfile.fileName = $scope.uploadPic[0].fileName;
-					                     	 uploadfile.fileType = $scope.uploadPic[0].fileType;
-					                     	 uploadfile.filePath = $scope.uploadPic[0].filePath;
-					                     	 uploadfile.orgFileName = $scope.uploadPic[0].orgFileName;
-					                   	   
-					                  		UploadFile.put(uploadfile,function(){
-				                     		 
-					                       });
-					                  		CommonDrug.save(healthfood,function(){
+				   		       	         var doctor={};
+				   		       	         var uploadProfilefile={};
+	    				               	 var uploadcertificatefile={};
+	    				               	    doctor.doctorId = $scope.tempitem.doctorId;
+		    				               	doctor.doctorName = $scope.tempitem.doctorName;
+		    				               	doctor.doctorDesc = $scope.tempitem.doctorDesc;
+		    				               	doctor.doctorDegree = $scope.tempitem.doctorDegree;
+		    				               	doctor.doctorTel = $scope.tempitem.doctorTel;
+		    				               	doctor.doctorSpeciality = $scope.tempitem.doctorSpeciality;
+		    				               	doctor.doctorDepartment = $scope.tempitem.doctorDepartment;
+		    				               	doctor.clinicId = $scope.USER_INFO.orgCd;
+		    				               	doctor.doctorGender = $scope.tempitem.doctorGender;
+		    				               	doctor.doctorIdcard = $scope.tempitem.doctorIdcard;
+		    				               	
+		    				               	doctor.doctorPic = "blank";
+		    				               	doctor.doctorCertificate = "blank";
+		    				               	
+		    				               	
+		    				               	
+		    				               	
+		    				               	if($scope.uploadProfilePic.length>0){
+		    				               		doctor.doctorPic = newids[0];
+			    				  	             
+			    				               	uploadProfilefile.id=	 newids[0];
+			    				               	uploadProfilefile.fileName = $scope.uploadProfilePic[0].fileName;
+			    				               	uploadProfilefile.fileType = $scope.uploadProfilePic[0].fileType;
+			    				               	uploadProfilefile.filePath = $scope.uploadProfilePic[0].filePath;
+			    				               	uploadProfilefile.orgFileName = $scope.uploadProfilePic[0].orgFileName;
+			    				               	UploadFile.put(uploadProfilefile,function(){  });
+		    				               	}
+		    				               	
+		    				               	if($scope.uploadCertificatePic.length>0){
+		    				               		doctor.doctorCertificate = newids[1];
+		    				               	  
+			    				               	uploadcertificatefile.id=	 newids[1];
+			    				               	uploadcertificatefile.fileName = $scope.uploadCertificatePic[0].fileName;
+			    				               	uploadcertificatefile.fileType = $scope.uploadCertificatePic[0].fileType;
+			    				               	uploadcertificatefile.filePath = $scope.uploadCertificatePic[0].filePath;
+			    				               	uploadcertificatefile.orgFileName = $scope.uploadCertificatePic[0].orgFileName;
+			    				               	UploadFile.put(uploadcertificatefile,function(){  });
+		    				               		
+		    				               	}
+		    				               	
+		    				               	DoctorsManagement.save(doctor,function(){
 					                      		$scope.refresh('current',true);//refresh listgrid
+					                      		$scope.clearForm();
 					                         	$('#edit').modal('hide');
-					                         	     
 					                         });
 	   		       	                 
 	   		       	            });
@@ -109,6 +131,7 @@ define(function (require, exports, module) {
     				               	
     				               	DoctorsManagement.put(doctor,function(){
     		                          	$scope.refresh('current',true);//refresh listgrid
+    		                          	$scope.clearForm();
     		                           $('#add').modal('hide');
     		                          });
                       		
@@ -131,15 +154,8 @@ define(function (require, exports, module) {
 
                $scope.comfirmDelete = function() {//confirm to delete on dialog
   	            var params1 = {
-   	            		id : $scope.tobedeleteProfileId
+   	            		id : "'"+$scope.tobedeleteProfileId+"','"+$scope.tobedeleteCertificateId+"'"
    	            };
-  	            var params2 = {
-   	            		id : $scope.tobedeleteCertificateId
-   	            };
-  	          UploadFile.remove({
- 	                params : angular.toJson(params2)
- 	            }, function(jsonData) {});
-  	          
   	          UploadFile.remove({
    	                params : angular.toJson(params1)
    	            }, function(jsonData) {
