@@ -170,9 +170,23 @@
            limit 1) PROV_NAME,
        pageTab.ORG_NAME
 	</sql>
-	
+	<sql id="addappColumn">
+	 
+		LOG_NAME,
+		USR_NAME,
+		EMAIL,
+		PHONE,
+		PASSWD,
+		STATE,
+		PASSWD_END,
+		CREATE_TIME,
+		UPDATE_TIME,
+		REMARKS,
+		ORG_CD,
+		PROV_CODE
+	</sql>	
 	<sql id="addColumn">
-		u.USER_ID,
+	 
 		u.LOG_NAME,
 		u.USR_NAME,
 		u.EMAIL,
@@ -190,7 +204,7 @@
 	<!-- 单条插入：动态生成可插入字段 对应的变量列表 -->
 	<sql id="allColumnVar">
 		values(
-		null,
+		 
 		#{logName,jdbcType=VARCHAR},
 		#{userName,jdbcType=VARCHAR},
 		#{email,jdbcType=VARCHAR},
@@ -368,8 +382,8 @@
 	<!-- 5.1对像插入 -->
 	<insert id="insert" parameterType="com.idp.sysmgr.user.entity.User">
 		INSERT INTO
-		T02_USER_BASE u(
-		<include refid="addColumn" />
+		T02_USER_BASE (
+		<include refid="addappColumn" />
 		)
 		<include refid="allColumnVar" />
 	</insert>
