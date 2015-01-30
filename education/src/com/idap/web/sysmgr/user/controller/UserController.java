@@ -39,9 +39,10 @@ public class UserController extends BaseController<User, Long> {
 		Map<String, Object> results = Constants.MAP();
 		try {
 			//密码加密
-			if(!"".equals(entity.getPassword())){
-				entity.setPassword(MD5Utils.md5(entity.getPassword()));
-			}
+//			if(!"".equals(entity.getPassword())){
+//				entity.setPassword(MD5Utils.md5(entity.getPassword()));
+//				entity.setPassword( entity.getPassword());
+//			}
 			this.getBaseService().update(entity);
 			results.put(Constants.SUCCESS, Constants.TRUE);
 		} catch (Exception e) {
@@ -59,9 +60,10 @@ public class UserController extends BaseController<User, Long> {
 		try {
 			
 			//密码加密
-			if(!"".equals(entity.getPassword())){
-				entity.setPassword(MD5Utils.md5(entity.getPassword()));
-			}
+//			if(!"".equals(entity.getPassword())){
+//				entity.setPassword(MD5Utils.md5(entity.getPassword()));
+//				entity.setPassword( entity.getPassword());
+//			}
 			this.getBaseService().save(entity);
 			results.put(Constants.SUCCESS, Constants.TRUE);
 		} catch (Exception e) {
