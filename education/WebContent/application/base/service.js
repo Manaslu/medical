@@ -462,11 +462,15 @@ define(function() {
 	app.factory('UploadFile', [ '$resource', function($resource) {
 		return $resource('uploadFile.shtml');
 	} ]);
-	//附件
+	//产生key
 	app.factory('GeneratedKey', [ '$resource', function($resource) {
 		return $resource('generatedKey.shtml');
 	} ]);
-	
+	//
+	app.factory('ClinicInformation', [ '$resource', function($resource) {
+		return $resource('clinicInformation.shtml');
+	} ]);
+		
 	
 	
 });

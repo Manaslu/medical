@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    
+<mapper namespace="com.idap.clinic.entity.ClinicInformation" >
+    <resultMap id="ClinicInformation" type="com.idap.clinic.entity.ClinicInformation">
+    
+		<result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
+		<result property="clinicName" column="CLINIC_NAME" jdbcType="VARCHAR" />
+		<result property="clinicAddress" column="CLINIC_ADDRESS" jdbcType="VARCHAR" />
+		<result property="clinicDesc" column="CLINIC_DESC" jdbcType="VARCHAR" />
+		<result property="clinicPic" column="CLINIC_PIC" jdbcType="VARCHAR" />
+		<result property="clinicLicense" column="CLINIC_LICENSE" jdbcType="VARCHAR" />
+		<result property="clinicTel" column="CLINIC_TEL" jdbcType="VARCHAR" />
+		<result property="clinicLongitude" column="CLINIC_LONGITUDE" jdbcType="VARCHAR" />
+		<result property="clinicLatitude" column="CLINIC_LATITUDE" jdbcType="VARCHAR" />
+		<result property="clinicSpeciality" column="CLINIC_SPECIALITY" jdbcType="VARCHAR" />
+		<result property="clinicDate" column="CLINIC_DATE" jdbcType="DATE" />
+		<result property="tenementId" column="TENEMENT_ID" jdbcType="VARCHAR" />
+    	 
+	</resultMap>
+	 
+ 
+	
+	<sql id="queryBody">
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			 from
+			CLINIC  t
+			<include refid="dynamicWhere" />
+			<include refid="dynamicOrderBy" />
+			limit ${sno-1},${eno}
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			 from
+			CLINIC t
+			<include refid="dynamicWhere" />
+			limit ${sno-1},${eno}
+		</if>
+	</sql>	
+	   <sql id="allColumn">
+	           t.DEPARTMENT_ID,
+	           t.DEPARTMENT_NAME,
+	           t.DEPARTMENT_DESC 
+	</sql>
+ 
+ 	<select id="query" parameterType="java.util.Map" resultMap="ClinicInformation">
+		select t.DEPARTMENT_ID,
+	           t.DEPARTMENT_NAME,
+	           t.DEPARTMENT_DESC  from CLINIC t
+	 
+	</select>
+ 
+	<select id="findByPager" parameterType="java.util.Map" resultMap="ClinicInformation">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="clinicInformationquery" parameterType="java.util.Map" resultMap="ClinicInformation">
+		<include refid="queryBody" />
+	</select>
+	
+
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select
+		count(1)
+		from
+		CLINIC
+		<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+	<sql id="dynamicWhere">
+			<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="querykeyword!=null">
+					AND (DEPARTMENT_NAME like concat('%',#{querykeyword},'%') 
+					OR   DEPARTMENT_DESC like concat('%',#{querykeyword},'%')  )
+				</if>
+				 
+			</trim>
+	</sql>
+	
+ 	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+	
+
+	<insert id="insert" parameterType="com.idap.clinic.entity.ClinicInformation" >
+	    INSERT INTO 
+	    CLINIC(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+	<sql id="allapplColumn">
+	            CLINIC_ID,
+				CLINIC_DATE,
+				TENEMENT_ID
+ 
+
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+		#{clinicId,jdbcType=VARCHAR},
+		#{clinicDate,jdbcType=DATE},
+		#{tenementId,jdbcType=VARCHAR}
+				 
+				
+		     )
+	</sql>
+	
+	<update id="update" parameterType="com.idap.clinic.entity.ClinicInformation">
+			update CLINIC
+			<trim prefix=" SET " prefixOverrides=",">
+				<if test="clinicName!=null">
+					  ,CLINIC_NAME=#{clinicName,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicAddress!=null">
+					  ,CLINIC_ADDRESS=#{clinicAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicDesc!=null">
+					  , CLINIC_DESC=#{clinicDesc ,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicPic!=null">
+					  , CLINIC_PIC=#{ clinicPic,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicLicense!=null">
+					  ,CLINIC_LICENSE =#{ clinicLicense,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicTel!=null">
+					  , CLINIC_TEL=#{ clinicTel,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicLongitude!=null">
+					  , CLINIC_LONGITUDE=#{clinicLongitude ,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicLatitude!=null">
+					  , CLINIC_LATITUDE=#{ clinicLatitude,jdbcType=VARCHAR}
+				</if>
+				<if test="clinicSpeciality!=null">
+					  , CLINIC_SPECIALITY=#{clinicSpeciality ,jdbcType=VARCHAR}
+				</if>
+				 
+			</trim>
+			WHERE 
+			 
+				CLINIC_ID=#{clinicId}
+	</update>
+
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM CLINIC 
+		where TENEMENT_ID =#{tenementId}
+	</delete>	
+
+
+</mapper>
+
+
+
+
