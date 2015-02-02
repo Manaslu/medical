@@ -314,7 +314,7 @@ define(function (require, exports, module) {
                 	},function(){  });
                 	
                 	User.put({
-                		logName:user.logName,
+                		logName:user.log_Name,
                 		userName:user.userName,
 //                		provCode:code,
                 		password:user.password,

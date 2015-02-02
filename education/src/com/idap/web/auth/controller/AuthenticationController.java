@@ -36,9 +36,10 @@ public class AuthenticationController extends BaseController<User, String> {
 		try {
 			final IUser user = this.authenticationService.authentication(
 					userName, password);
+			request.getSession().setAttribute(Constants.USER_INFO, user);
 			results.put(Constants.SUCCESS, Constants.TRUE);
 			results.put(Constants.USER_INFO, user);
-			request.getSession().setAttribute(Constants.USER_INFO, user);
+			
 			results.put(Constants.CONTEXT_PATH, request.getContextPath());
 		} catch (Exception e) {
 			logger.debug("登录系统发生错误:" + e.getMessage());

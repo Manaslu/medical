@@ -119,10 +119,10 @@
 	                    <div class="col-sm-12 col-md-12">
 	                        
                             <div class="form-group" ng-if="!user.id">
-                                <label class="col-lg-2 control-label" for="logName2">用户名:</label>
+                                <label class="col-lg-2 control-label" for="logName">用户名:</label>
                                 <div class="col-lg-9">
                          
-                                    <input type="text" placeholder="用户名" required name="logName1" required  ng-model="user.logName" class="form-control"
+                                    <input type="text" placeholder="用户名" required name="logName1" required  ng-model="user.log_Name" class="form-control"
                                     maxlength="20"
                                     remote-valid="{server : 'User' , valid : 'valid' , params : 'getParams' , name : 'user.logName' , fn : 'query'}"
                                     my-valid="{valid:'myLogName', name:'reg'}"

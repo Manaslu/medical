@@ -182,24 +182,8 @@
 		CREATE_TIME,
 		UPDATE_TIME,
 		REMARKS
-<!-- 		ORG_CD, -->
-<!-- 		PROV_CODE -->
 	</sql>	
-	<sql id="addColumn">
-	 
-		u.LOG_NAME,
-		u.USR_NAME,
-		u.EMAIL,
-		u.PHONE,
-		u.PASSWD,
-		u.STATE,
-		u.PASSWD_END,
-		u.CREATE_TIME,
-		u.UPDATE_TIME,
-		u.REMARKS,
-<!-- 		u.ORG_CD, -->
-		u.PROV_CODE
-	</sql>
+ 
 
 	<!-- 单条插入：动态生成可插入字段 对应的变量列表 -->
 	<sql id="allColumnVar">
@@ -214,9 +198,7 @@
 		#{pwdDate,jdbcType=TIMESTAMP},
 		#{createTime,jdbcType=TIMESTAMP},
 		#{updateTime,jdbcType=TIMESTAMP},
-		#{remark,jdbcType=VARCHAR},
-<!-- 		#{orgCd,jdbcType=VARCHAR}, -->
-		#{provCode,jdbcType=VARCHAR}
+		#{remark,jdbcType=VARCHAR} 
 		)
 	</sql>
 
