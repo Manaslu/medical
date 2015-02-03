@@ -41,7 +41,7 @@ public class CommonIllnessServiceImpl extends DefaultBaseService<CommonIllness, 
 	public CommonIllness save(CommonIllness entity) {
 		 String keyid =  generateKeyService.getNextGeneratedKey(null).getNextKey();//produce an id
 		  
-		 entity.setIllnessId(keyid);
+		 entity.setDiseaseId(keyid);
 	 	 return  this.getBaseDao().save(entity);
 	    }
 		 
