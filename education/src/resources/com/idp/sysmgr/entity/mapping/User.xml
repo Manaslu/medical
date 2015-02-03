@@ -37,35 +37,35 @@
 			<if test="inRoleId!=null">
 				AND u.IN_ROLE_ID = #{inRoleId}
 			</if>
-			<if test="orgCd!=null">
-				AND u.ORG_CD  in ( 
+<!-- 			<if test="orgCd!=null"> -->
+<!-- 				AND u.ORG_CD  in (  -->
 				
-				SELECT t.org_cd
-					FROM T02_INT_ORG t
-					WHERE t.org_cd = #{orgCd}
-					UNION
-					SELECT t.org_cd
-					FROM T02_INT_ORG t
-					WHERE t.PARENT_ORG_CD IN
-					        (SELECT t.org_cd
-					         FROM T02_INT_ORG t
-					         WHERE t.org_cd = #{orgCd} )
-					UNION
-					SELECT t3.org_cd
-					FROM T02_INT_ORG t3
-					WHERE t3.PARENT_ORG_CD IN
-					        ( SELECT t.org_cd
-					         FROM T02_INT_ORG t
-					         WHERE t.PARENT_ORG_CD IN
-					                 (SELECT t.org_cd
-					                  FROM T02_INT_ORG t
-					                  WHERE t.org_cd = #{orgCd} ) )
-					ORDER BY org_cd
+<!-- 				SELECT t.org_cd -->
+<!-- 					FROM T02_INT_ORG t -->
+<!-- 					WHERE t.org_cd = #{orgCd} -->
+<!-- 					UNION -->
+<!-- 					SELECT t.org_cd -->
+<!-- 					FROM T02_INT_ORG t -->
+<!-- 					WHERE t.PARENT_ORG_CD IN -->
+<!-- 					        (SELECT t.org_cd -->
+<!-- 					         FROM T02_INT_ORG t -->
+<!-- 					         WHERE t.org_cd = #{orgCd} ) -->
+<!-- 					UNION -->
+<!-- 					SELECT t3.org_cd -->
+<!-- 					FROM T02_INT_ORG t3 -->
+<!-- 					WHERE t3.PARENT_ORG_CD IN -->
+<!-- 					        ( SELECT t.org_cd -->
+<!-- 					         FROM T02_INT_ORG t -->
+<!-- 					         WHERE t.PARENT_ORG_CD IN -->
+<!-- 					                 (SELECT t.org_cd -->
+<!-- 					                  FROM T02_INT_ORG t -->
+<!-- 					                  WHERE t.org_cd = #{orgCd} ) ) -->
+<!-- 					ORDER BY org_cd -->
 
 			 
                     
-                    )  
-			</if>
+<!--                     )   -->
+<!-- 			</if> -->
 			<if test="id!=null">
 				AND u.USER_ID=#{id}
 			</if>
@@ -161,17 +161,17 @@
        pageTab.PASSWD_END,
        pageTab.CREATE_TIME,
        pageTab.UPDATE_TIME,
-       pageTab.REMARKS,
-       pageTab.ORG_CD,
-       pageTab.PROV_CODE,
-       (SELECT NAME
-          FROM T99_PROV_CODE
-         WHERE ID = pageTab.PROV_CODE
-           limit 1) PROV_NAME,
-       pageTab.ORG_NAME
+       pageTab.REMARKS
+<!--        pageTab.ORG_CD, -->
+<!--        pageTab.PROV_CODE, -->
+<!--        (SELECT NAME -->
+<!--           FROM T99_PROV_CODE -->
+<!--          WHERE ID = pageTab.PROV_CODE -->
+<!--            limit 1) PROV_NAME, -->
+<!--        pageTab.ORG_NAME -->
 	</sql>
 	<sql id="addappColumn">
-	 
+	    USER_ID,
 		LOG_NAME,
 		USR_NAME,
 		EMAIL,
@@ -181,30 +181,14 @@
 		PASSWD_END,
 		CREATE_TIME,
 		UPDATE_TIME,
-		REMARKS,
-		ORG_CD,
-		PROV_CODE
+		REMARKS
 	</sql>	
-	<sql id="addColumn">
-	 
-		u.LOG_NAME,
-		u.USR_NAME,
-		u.EMAIL,
-		u.PHONE,
-		u.PASSWD,
-		u.STATE,
-		u.PASSWD_END,
-		u.CREATE_TIME,
-		u.UPDATE_TIME,
-		u.REMARKS,
-		u.ORG_CD,
-		u.PROV_CODE
-	</sql>
+ 
 
 	<!-- 单条插入：动态生成可插入字段 对应的变量列表 -->
 	<sql id="allColumnVar">
 		values(
-		 
+		#{id,jdbcType=INTEGER}, 
 		#{logName,jdbcType=VARCHAR},
 		#{userName,jdbcType=VARCHAR},
 		#{email,jdbcType=VARCHAR},
@@ -214,9 +198,7 @@
 		#{pwdDate,jdbcType=TIMESTAMP},
 		#{createTime,jdbcType=TIMESTAMP},
 		#{updateTime,jdbcType=TIMESTAMP},
-		#{remark,jdbcType=VARCHAR},
-		#{orgCd,jdbcType=VARCHAR},
-		#{provCode,jdbcType=VARCHAR}
+		#{remark,jdbcType=VARCHAR} 
 		)
 	</sql>
 
@@ -224,46 +206,10 @@
 
 	<!-- oracle 查询有三种情况：1.单表直接查询 2.单表无排序分页查询 3.单表排序分页查询 -->
 	<sql id="queryBody">
-		<!-- 有orderby -->
-		<if test="sno!=null and eno!=null and orderBy!=null">
-			select
-			   pageTab.USER_ID,
-		       pageTab.LOG_NAME,
-		       pageTab.USR_NAME,
-		       pageTab.EMAIL,
-		       pageTab.PHONE,
-		       pageTab.PASSWD,
-		       pageTab.STATE,
-		       pageTab.PASSWD_END,
-		       pageTab.CREATE_TIME,
-		       pageTab.UPDATE_TIME,
-		       pageTab.REMARKS,
-		       pageTab.ORG_CD,
-		       pageTab.PROV_CODE,
-		       (SELECT NAME
-		          FROM T99_PROV_CODE
-		         WHERE ID = pageTab.PROV_CODE
-		           limit 1) PROV_NAME,
-		       t.ORG_NAME
-			from
-			(
-			select orderContentTab.* 
-			from
-			(
-		</if>
-		<!-- 无orderby -->
-		<if test="sno!=null and eno!=null and orderBy==null">
-			select
-			<include refid="allColumn" />
-			from
-			(
-		</if>
-		<!-- 查询的主体内容：start -->
+	 
+	 
 		select
-		<!-- 无orderby -->
-		<if test="sno!=null and eno!=null and orderBy==null">
-			 
-		</if>
+ 
 					   u.USER_ID,
                        u.LOG_NAME,
                        u.USR_NAME,
@@ -275,39 +221,15 @@
                        u.CREATE_TIME,
                        u.UPDATE_TIME,
                        u.REMARKS,
-                       u.ORG_CD,
-                       u.PROV_CODE,
-                       (SELECT NAME
-                          FROM T99_PROV_CODE
-                         WHERE ID = u.PROV_CODE
-                           limit 1) PROV_NAME,
-                       t.ORG_NAME
+                       t.clinic_id  ORG_CD, 
+                       t.clinic_name  ORG_NAME
 		from
 		T02_USER_BASE u 
-		left join t02_int_org t on t.org_cd = u.org_cd
+		left join CLINIC t on t.TENEMENT_ID  = CAST(u.USER_ID AS CHAR) 
 		<include refid="dynamicWhere" />
 		<include refid="dynamicOrderBy" />
-		<!-- 查询的主体内容：end -->
-		<!-- 无orderBy -->
-		<if test="sno!=null and eno!=null and orderBy==null">
-			) pageTab 
-			left join t02_int_org t on t.org_cd = pageTab.org_cd
-		 
-			<if test="byOrgCd==null">
-			pageTab.CREATE_TIME desc 
-			</if>
-			<if test="byOrgCd!=null">
-			pageTab.ORG_CD desc 
-			</if> 
-		</if>
-		<!-- 有orderBy -->
-		<if test="sno!=null and eno!=null and orderBy!=null">
-			) orderContentTab
-			 
-			) pageTab 
-			left join t02_int_org t on t.org_cd = pageTab.org_cd
-			 order by pageTab.CREATE_TIME desc
-		</if>
+	 
+	  
 	</sql>
 
 

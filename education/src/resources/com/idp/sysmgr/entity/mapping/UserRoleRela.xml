@@ -48,10 +48,20 @@
 
 	<!-- 4.删除 -->
 	<delete id="delete" parameterType="com.idp.sysmgr.user.entity.UserRoleRela">
-		DELETE FROM T02_USER_ROLE_RELA t
-		<include refid="dynamicWhere" />
+		DELETE FROM T02_USER_ROLE_RELA 
+		<include refid="dynamicWhereFordelete" />
 	</delete>
-	
+		<sql id="dynamicWhereFordelete">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="userId!=null">
+				AND USER_ID=#{userId,jdbcType=INTEGER} 
+			</if>
+			<if test="roleId!=null">
+				AND ROLE_ID=#{roleId,jdbcType=INTEGER} 
+			</if>
+ 
+		</trim>
+	</sql>
 	<sql id="dynamicWhere">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="userId!=null">

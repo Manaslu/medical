@@ -2,8 +2,8 @@ define(function (require, exports, module) {
 
     	//用户管理
     	return function setApp(app) {
-            app.controller('OmsUserCtrl', ['$scope'  , 'User' , 'UserRoleRela','Institution', 'Role' ,'Common','Journal', 
-                                           function ($scope  , User ,UserRoleRela, Institution,Role ,Common,Journal) {
+            app.controller('OmsUserCtrl', ['$scope'  , 'ClinicInformation','User' , 'UserRoleRela','Institution', 'Role' ,'Common','Journal', 
+                                           function ($scope ,ClinicInformation , User ,UserRoleRela, Institution,Role ,Common,Journal) {
             	
             	//按条件分页查询数据
             	$scope.pager=User;
@@ -300,23 +300,36 @@ define(function (require, exports, module) {
            		
            		//新增用户
                 $scope.create = function(user){
-                	if($scope.USER_INFO.orgCd =="AA0000000000"){
-                		var code = user.provCode;
-                	}else{
-                		var code = $scope.USER_INFO.provCode;
-                	}
+//                	if($scope.USER_INFO.orgCd =="AA0000000000"){
+//                		var code = user.provCode;
+//                	}else{
+//                		var code = $scope.USER_INFO.provCode;
+//                	}
+//                	
+                	var newidn = Math.floor(Math.random() * 1000000);//两个表使用同一个id
+                	var newids = newidn+'';
+                	
+                	ClinicInformation.put({//clinic information will be updated by user themselfes.
+                		tenementId:newids
+                	},function(){  });
+                	
                 	User.put({
-                		logName:user.logName,
+                		logName:user.log_Name,
                 		userName:user.userName,
-                		provCode:code,
+//                		provCode:code,
                 		password:user.password,
                 		remark:user.remark,
                 		email:user.email,
                 		state:user.state,
                 		phone:user.phone,
-                		orgCd:user.orgCd,
-                		id:user.id
+//                		orgCd:user.orgCd,
+//                		id:user.id
+                		id:newidn
+                		
                 	},$scope.refresh.bind(null , 'first',true));
+                	
+                 
+                	
                 };
                 
                 //修改用户
@@ -371,15 +384,15 @@ define(function (require, exports, module) {
            		$scope.toDelete=function(user){
            			$scope.user=angular.copy(user);
            			//判断该用户是否正在使用，如果正在使用则不可以删除
-           			Journal.query({isArray:true,params:{
-           					id:user.id
-                		}},function (list){
-           				if(list.length){
-                   			 $scope.$validate = '该用户正在使用中...，不能删除';
-                   		 }else{
-                   			$scope.$validate = "";
-                   		 }
-                    });
+//           			Journal.query({isArray:true,params:{
+//           					id:user.id
+//                		}},function (list){
+//           				if(list.length){
+//                   			 $scope.$validate = '该用户正在使用中...，不能删除';
+//                   		 }else{
+//                   			$scope.$validate = "";
+//                   		 }
+//                    });
            		}
            		
                 
@@ -387,9 +400,11 @@ define(function (require, exports, module) {
                 $scope.remove = function(user){
                 	//id是用户实体类的id，userId是用户角色实体类的id
                 	var params={id:user.id , userId:user.id};
+                	var params1={tenementId:user.id};
                 	//删除用户前，先把给该用户赋的角色权限删掉，避免垃圾数据
-                	UserRoleRela.remove({params:angular.toJson(params)},$scope.refresh.bind(null , 'current',true));
+                	//UserRoleRela.remove({params:angular.toJson(params)},$scope.refresh.bind(null , 'current',true));
                 	User.remove({params:angular.toJson(params)},$scope.refresh.bind(null , 'current',true));
+                	ClinicInformation.remove({params:angular.toJson(params1)},function(){  });
                 };
         }]);
     }

@@ -44,8 +44,9 @@
             <th>序号</th>
             <th width="140">用户名</th>
             <th width="120">姓名</th>
-            <th width="80">所属省份</th>
-            <th width="230">所属机构</th>
+            <th width="120">联系号码</th>
+  
+            <th width="230">所属诊所</th>
             <th width="80">用户状态</th>
             <th width="120">注册时间</th>
             <th>操作</th>
@@ -56,7 +57,8 @@
             <td align="center">{{$index+1+current*limit}}</td>
             <td align="center">{{item.logName}}</td>
             <td align="center">{{item.userName}}</td>
-            <td align="center">{{item.provName}}</td>
+            <td align="center">{{item.phone}}</td>
+       
             <td align="center">{{item.orgName}}</td>
             <td align="center">
 				<span ng-show="{{item.state == '1'}}">启用</span>
@@ -119,7 +121,8 @@
                             <div class="form-group" ng-if="!user.id">
                                 <label class="col-lg-2 control-label" for="logName">用户名:</label>
                                 <div class="col-lg-9">
-                                    <input type="text" placeholder="用户名" required name="user.logName" required  ng-model="user.logName" class="form-control"
+                         
+                                    <input type="text" placeholder="用户名" required name="logName1" required  ng-model="user.log_Name" class="form-control"
                                     maxlength="20"
                                     remote-valid="{server : 'User' , valid : 'valid' , params : 'getParams' , name : 'user.logName' , fn : 'query'}"
                                     my-valid="{valid:'myLogName', name:'reg'}"
@@ -202,30 +205,30 @@
 	                        		border:1px solid #f2f2f2;
 	                        	}
 	                        </style>
-	                        <div class="form-group">
-	                            <label class="col-lg-2 control-label" for="orgCd">所属机构:</label>
-	                            <div class="col-lg-6">
-            						<div class="input-group">     
-						            	<input type="text" ng-model="user.orgName" required readonly="readonly" class="form-control"
-						            	my-valid="{valid:'myValid', name:'reg'}"
-                                    	valid-tip="{required:'这个是必填的'}"
-                            			valid-pos="bottom"
-						            	/>
-										 <div class="input-group-btn">   
-				          				  	<button class="btn btn-default" ng-click="showTree($event.target)">选择</button>
-				       					 </div><font color="red">*</font>
-				       					 <div id="ztree-box" class="float-box">
-				       					 	<ul class="ztree" data-ztree="zTreeApi" id="ztree-ui" data-setting="settings" data-data="data"></ul>
-				       					 </div>
-				               		 </div>
-        						</div>
-	                        </div>
-	                        <div class="form-group">
-	                            <label class="col-lg-2 control-label">所属省份:</label>
-	                            <div class="col-lg-9" ng-repeat="item in model" ng-show="item.id==user.provCode">
-	                            	{{item.name}}
-	                            </div>
-	                        </div>
+<!-- 	                        <div class="form-group"> -->
+<!-- 	                            <label class="col-lg-2 control-label" for="orgCd">所属机构:</label> -->
+<!-- 	                            <div class="col-lg-6"> -->
+<!--             						<div class="input-group">      -->
+<!-- 						            	<input type="text" ng-model="user.orgName" required readonly="readonly" class="form-control" -->
+<!-- 						            	my-valid="{valid:'myValid', name:'reg'}" -->
+<!--                                     	valid-tip="{required:'这个是必填的'}" -->
+<!--                             			valid-pos="bottom" -->
+<!-- 						            	/> -->
+<!-- 										 <div class="input-group-btn">    -->
+<!-- 				          				  	<button class="btn btn-default" ng-click="showTree($event.target)">选择</button> -->
+<!-- 				       					 </div><font color="red">*</font> -->
+<!-- 				       					 <div id="ztree-box" class="float-box"> -->
+<!-- 				       					 	<ul class="ztree" data-ztree="zTreeApi" id="ztree-ui" data-setting="settings" data-data="data"></ul> -->
+<!-- 				       					 </div> -->
+<!-- 				               		 </div> -->
+<!--         						</div> -->
+<!-- 	                        </div> -->
+<!-- 	                        <div class="form-group"> -->
+<!-- 	                            <label class="col-lg-2 control-label">所属省份:</label> -->
+<!-- 	                            <div class="col-lg-9" ng-repeat="item in model" ng-show="item.id==user.provCode"> -->
+<!-- 	                            	{{item.name}} -->
+<!-- 	                            </div> -->
+<!-- 	                        </div> -->
                             
                             <div class="form-group">
                                 <label class="col-lg-2 control-label" for="remark">备注</label>
@@ -432,27 +435,27 @@
                             
                             <div class="form-group split">
                         		<label class="col-lg-4 control-label">用户名:</label>
-                                <div class="col-lg-8"> <p class="form-control-static">{{user.logName}}</p> </div>
+                                <div class="col-lg-7"> <p class="form-control-static">{{user.logName}}</p> </div>
                             </div>
                    			<div class="form-group split">
                         		<label class="col-lg-4 control-label">姓名:</label>
-                                <div class="col-lg-8"> <p class="form-control-static">{{user.userName}}</p> </div>
+                                <div class="col-lg-7"> <p class="form-control-static">{{user.userName}}</p> </div>
                             </div>
                            	<div class="form-group split">
                         		<label class="col-lg-4 control-label">手机号:</label>
-                                <div class="col-lg-8"> <p class="form-control-static">{{user.phone}}</p> </div>
+                                <div class="col-lg-7"> <p class="form-control-static">{{user.phone}}</p> </div>
                             </div>
                             <div class="form-group split">
                         		<label class="col-lg-4 control-label">email:</label>
-                                <div class="col-lg-8"> <p class="form-control-static">{{user.email}}</p> </div>
+                                <div class="col-lg-7"> <p class="form-control-static">{{user.email}}</p> </div>
                             </div>
                             <div class="form-group split">
                         		<label class="col-lg-4 control-label">所属省份:</label>
-                                <div class="col-lg-8"> <p class="form-control-static">{{user.provName}}</p> </div>
+                                <div class="col-lg-7"> <p class="form-control-static">{{user.provName}}</p> </div>
                             </div>
                             <div class="form-group split">
                         		<label class="col-lg-4 control-label">备注:</label>
-                                <div class="col-lg-8"> <p class="form-control-static  break-all">{{user.remark}}</p> </div>
+                                <div class="col-lg-7"> <p class="form-control-static  break-all">{{user.remark}}</p> </div>
                             </div>
 
                         </form>

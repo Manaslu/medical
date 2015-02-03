@@ -64,6 +64,7 @@ public class UserController extends BaseController<User, Long> {
 //				entity.setPassword(MD5Utils.md5(entity.getPassword()));
 //				entity.setPassword( entity.getPassword());
 //			}
+			entity.setId((Long)entity.getId());
 			this.getBaseService().save(entity);
 			results.put(Constants.SUCCESS, Constants.TRUE);
 		} catch (Exception e) {

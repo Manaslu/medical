@@ -40,8 +40,8 @@ public class AuthenticationService extends DefaultBaseService<User, String>
 		}
 
 		// 校验用户密码
-		if (StringUtils.isEmpty(password)
-				|| !MD5Utils.md5(password).equals(user.getPassword())) {
+//		if (StringUtils.isEmpty(password)|| !MD5Utils.md5(password).equals(user.getPassword())) {
+		if (StringUtils.isEmpty(password)||  !password .equals(user.getPassword())) {
 			throw new Exception("用户名或密码错误，请重新输入!");
 		}
 
