@@ -57,12 +57,12 @@ public class AuthenticationService extends DefaultBaseService<User, String>
 		}
 		
 		//查询该用户是不是超级管理员,是的话把inRoleId设置好
-		List<User> listUser = this.userService.getFlowType(""+user.getId());
-		for(User u:listUser){
-			if("admin".equals(u.getInRoleId())){
-				user.setInRoleId("admin");
-			}
-		}
+//		List<User> listUser = this.userService.getFlowType(""+user.getId());
+//		for(User u:listUser){
+//			if("admin".equals(u.getInRoleId())){
+//				user.setInRoleId("admin");
+//			}
+//		}
 		
 		return user;
 	}

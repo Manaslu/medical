@@ -16,18 +16,18 @@
                 </select>
             </div>
             
-            <div class="col-sm-3 col-md-3">
-                <label>所属机构</label>
-                <div class="input-group">     
-					<input type="text" ng-model="params.orgName" readonly="readonly" class="form-control">
-					<div class="input-group-btn">   
-				  		<button class="btn btn-default" ng-click="showTree($event.target , 'params')">选择</button>
-					</div>
-					<div id="ztree-box2" class="float-box">
-						<ul class="ztree" data-ztree="zTreeApi2" id="ztree-ui2" data-setting="settings" data-data="data"></ul>
-					</div>
-   				</div>
-            </div>
+<!--             <div class="col-sm-3 col-md-3"> -->
+<!--                 <label>所属机构</label> -->
+<!--                 <div class="input-group">      -->
+<!-- 					<input type="text" ng-model="params.orgName" readonly="readonly" class="form-control"> -->
+<!-- 					<div class="input-group-btn">    -->
+<!-- 				  		<button class="btn btn-default" ng-click="showTree($event.target , 'params')">选择</button> -->
+<!-- 					</div> -->
+<!-- 					<div id="ztree-box2" class="float-box"> -->
+<!-- 						<ul class="ztree" data-ztree="zTreeApi2" id="ztree-ui2" data-setting="settings" data-data="data"></ul> -->
+<!-- 					</div> -->
+<!--    				</div> -->
+<!--             </div> -->
             <div class="col-sm-5 col-md-5">
                	<label >&nbsp;</label>
                 <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
