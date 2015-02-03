@@ -14,6 +14,34 @@
     	    <result property="mUserId"         column="M_USER_ID"         jdbcType="VARCHAR" />
     	    <result property="userOrderId"     column="USER_ORDER_ID"     jdbcType="VARCHAR" />
     	    <result property="userIllnessDesc" column="USER_ILLNESS_DESC" jdbcType="VARCHAR" />
+    	    <result column="clinic_name" property="clinicName" jdbcType="VARCHAR"/>
+    	    <result column="doctor_name" property="doctorName" jdbcType="VARCHAR"/>
+    	    <result column="doctor_degree" property="doctorDegree" jdbcType="VARCHAR"/>
+    	    <result column="doctor_pic" property="doctorPic" jdbcType="VARCHAR"/>
+    	    
+    	    
+    	 
+	</resultMap>
+	    <resultMap id="DiagnoseResultAsso" type="com.idap.clinic.entity.DiagnoseResult">
+    
+    	    <result property="seeDoctorId"     column="SEE_DOCTOR_ID"     jdbcType="VARCHAR" />
+    	    <result property="seeDoctorDate"   column="SEE_DOCTOR_DATE"   jdbcType="DATE" />
+    	    <result property="seeDoctorResult" column="SEE_DOCTOR_RESULT" jdbcType="VARCHAR" />
+    	    <result property="doctorId"        column="DOCTOR_ID"         jdbcType="VARCHAR" />
+    	    <result property="clinicId"        column="CLINIC_ID"         jdbcType="VARCHAR" />
+    	    <result property="mUserId"         column="M_USER_ID"         jdbcType="VARCHAR" />
+    	    <result property="userOrderId"     column="USER_ORDER_ID"     jdbcType="VARCHAR" />
+    	    <result property="userIllnessDesc" column="USER_ILLNESS_DESC" jdbcType="VARCHAR" />
+    	    <association property="clinic" javaType="com.idap.clinic.entity.ClinicInformation">
+    	    	<id column="clinic_id" property="clinicId"/>
+    	    	<result column="clinic_name" property="clinicName"/>
+    	    </association>
+    	    <association property="doctor" javaType="com.idap.clinic.entity.DoctorsManagement">
+    	    	<id column="doctor_id" property="doctorId"/>
+    	    	<result column="doctor_name" property="doctorName"/>
+    	    	<result column="doctor_degree" property="doctorDegree"/>
+    	    	<result column="doctor_pic" property="doctorPic"/>
+    	    </association>
     	 
 	</resultMap>
 	 
@@ -24,7 +52,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			SEE_DOCTOR_RESULT  t
+			SEE_DOCTOR_RESULT  t left join Clinic c on t.clinic_id=c.clinic_id left join doctor d on d.doctor_id=t.doctor_id
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -34,7 +62,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			SEE_DOCTOR_RESULT t
+			SEE_DOCTOR_RESULT t  left join Clinic c on t.clinic_id=c.clinic_id left join doctor d on d.doctor_id=t.doctor_id
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>
@@ -47,7 +75,12 @@
 	           t.CLINIC_ID,
 	           t.M_USER_ID, 
 	           t.USER_ORDER_ID,
-	           t.USER_ILLNESS_DESC 
+	           t.USER_ILLNESS_DESC,
+	           c.CLINIC_NAME as clinicName,
+	           d.DOCTOR_NAME as doctorName,
+	           d.DOCTOR_PIC as doctorPic,
+	           d.DOCTOR_DEGREE as doctorDegree
+	           
 	</sql>
  
  	<select id="query" parameterType="java.util.Map" resultMap="DiagnoseResult">
@@ -59,7 +92,7 @@
 	           t.M_USER_ID, 
 	           t.USER_ORDER_ID,
 	           t.USER_ILLNESS_DESC   
-	     from SEE_DOCTOR_RESULT t
+	     from SEE_DOCTOR_RESULT t 
 	           <include refid="dynamicWhere" />
 	 
 	</select>
@@ -83,11 +116,22 @@
 		<include refid="dynamicWhere" />
 		    
 	</select>
+	
+	<select id="getById" parameterType="java.util.Map" resultMap="DiagnoseResultAsso">
+			select
+			<include refid="allColumn" />
+			 from
+			SEE_DOCTOR_RESULT t left join Clinic c on t.clinic_id=c.clinic_id
+			where t.see_doctor_id=#{see_doctor_id}
+	</select>
 	 
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="orderId!=null">
 					AND USER_ORDER_ID = #{orderId} 
+				</if>
+				<if test="m_user_id!=null">
+					AND m_user_id = #{m_user_id} 
 				</if>
 				 
 			</trim>
