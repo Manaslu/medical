@@ -61,6 +61,14 @@
 		<include refid="queryBody" />
 	</select>
 	
+	<select id="getById" parameterType="java.util.Map" resultMap="HealthFood">
+			select
+			<include refid="allColumn" />
+			 from
+			EAT t left join Clinic c on t.clinic_id=c.clinic_id
+			where t.EAT_ID=#{eatId}
+	</select>
+	
 		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
 	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
 		select

@@ -26,9 +26,14 @@ public class CommonDrugController extends BaseController<CommonDrug, String> {
 	public void setBaseService(IBaseService<CommonDrug, String> baseService) {
 		super.setBaseService(baseService);
 	}
+	/**
+	 * 手机端服务
+	 * @param pageno
+	 * @return
+	 */
 	@RequestMapping(value="queryCommonDrug")
 	@ResponseBody
-	public List<CommonDrug> queryHealthFood(@RequestParam int pageno){
+	public List<CommonDrug> queryDrug(@RequestParam int pageno){
 		Pager<CommonDrug> pdrug=new Pager<CommonDrug>();
 		pdrug.setCurrent(pageno);
 		Map<String,Object> hmap=new HashMap<String,Object>();
@@ -36,6 +41,14 @@ public class CommonDrugController extends BaseController<CommonDrug, String> {
 		Pager<CommonDrug> p=this.getBaseService().findByPager(pdrug, hmap);
 		return p.getData();
 		
+	}
+	/**
+	 * 手机端服务
+	 */
+	@RequestMapping(value="queryDrugById")
+	@ResponseBody
+	public CommonDrug queryDrugById(String id){
+		return this.getBaseService().getById(id);
 	}
  
 }
