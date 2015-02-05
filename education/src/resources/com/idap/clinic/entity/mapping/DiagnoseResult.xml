@@ -53,6 +53,7 @@
 			<include refid="allColumn" />
 			 from
 			SEE_DOCTOR_RESULT  t left join Clinic c on t.clinic_id=c.clinic_id left join doctor d on d.doctor_id=t.doctor_id
+			  left join uploadfile u on d.doctor_pic=u.id
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -78,7 +79,7 @@
 	           t.USER_ILLNESS_DESC,
 	           c.CLINIC_NAME as clinicName,
 	           d.DOCTOR_NAME as doctorName,
-	           d.DOCTOR_PIC as doctorPic,
+	           u.FILEPATH as doctorPic,
 	           d.DOCTOR_DEGREE as doctorDegree
 	           
 	</sql>
