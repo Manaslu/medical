@@ -1,0 +1,366 @@
+ <div class="col-sm-12 col-md-12" upload-refresh="true">
+   
+  
+
+</div>
+  
+<!-- 新增对话框 -->
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">                                                                                               
+                     <p>诊所信息</p>                                                        
+                </h4>
+            </div>            
+            <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="create(key)"  novalidate="novalidate">    
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-12 col-md-12">
+	                       <div class="alert alert-danger alert-dismissable"   style="padding-left:80px">
+								<a data-dismiss="alert" class="close">×</a>
+								<strong>友情提示：</strong> 图片文件大小不要超过1M
+							</div>
+						<div class="form-group">
+			                <label class="col-lg-2 control-label">姓名</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="key.doctorName" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
+			                 
+			                 <label class="col-lg-2 control-label">性别</label>
+			                <div class="col-lg-3">
+			                     <select id="pro" ng-init="key.doctorGender = '1'" select2 data-live-search="false" class="form-control" name="anatype"  ng-model="key.doctorGender"  >
+                                        <option value="1">男</option>
+                                        <option value="0">女</option>
+                                 </select>
+                             </div>
+			                  
+		 
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">级别</label>
+                            <div class="col-lg-3">
+                                 <select id="prodree" ng-init="key.doctorDegree = '3'" select2 data-live-search="false" class="form-control" name="degree"  ng-model="key.doctorDegree"  >
+                                        <option value="1">实习医师</option>
+                                        <option value="2">助理医师</option>
+                                        <option value="3">医师</option>
+                                        <option value="4">主治医师</option>
+                                        <option value="5">副主任医师-</option>
+                                        <option value="6">主任医师</option>
+                                 </select>
+                            </div>
+                            
+                            
+                            <label class="col-lg-2 control-label">电话</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control"  ng-model="key.doctorTel" ng-maxlength="20" ng-trim maxlength="20" />
+                            </div>
+                             
+                             
+                        </div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">身份证</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="key.doctorIdcard" ng-maxlength="20" ng-trim maxlength="20" />
+			                </div>
+			                  
+			                <label class="col-lg-2 control-label">科室</label>
+			                <div class="col-lg-3">
+			                
+			                    <select class="form-control" ng-model="key.doctorDepartment" name="department" required  select2 data-live-search="true"  ng-options="item.departmentId as item.departmentName for item  in departments">
+			                    </select>       
+                             </div>
+			                  
+                        </div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">主治</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control"  ng-model="key.doctorSpeciality"  />
+			                </div>
+                        </div> 
+                                         
+               
+						   <div class="form-group">                                  
+				               <label class="col-lg-2 control-label">照片: </label>             
+				                <div class="col-lg-4">                
+					                    <div uploader  thumb ng-model="uploadProfilePic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png,jpeg"  
+					                         files="files">
+					                    </div>	         
+				                </div>  
+				               <label class="col-lg-2 control-label">证书: </label>             
+				                <div class="col-lg-3">                
+					                    <div uploader  thumb ng-model="uploadCertificatePic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png,jpeg"  
+					                         files="files">
+					                    </div>	         
+				                </div>                         
+				           </div>
+				           
+				        <div class="form-group">
+                            <label class="col-lg-2 control-label">简介</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="4"  ng-model="key.doctorDesc"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                        </div>
+				      
+	                    </div>
+	                </div>
+	            </div>  
+	            <div class="modal-footer">   
+	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="submit" class="btn btn-primary" > 保 存</button>
+	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
+	            </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 删除对话框 -->
+<div class="modal fade" id="newuserdia" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h4 class="modal-title">欢迎新用户</h4>
+            </div>
+            <div class="modal-body">
+                                                     亲爱的{{USER_INFO.userName}}，在您开始使用系统之前，我们需要您先完善诊所信息。
+                  <br>
+                                                     提示：为了业务的良好发展，请确保信息的完整和准确。创建诊所信息后您也可以稍后在个人信息里进行更新。
+            </div>
+            <div class="modal-footer">
+                <button type="button" upload-refresh="true" class="btn btn-danger" ng-click="comfirmNewClinic()" data-dismiss="modal" >开始创建诊所信息</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">                                                                                               
+                                                                  修改
+                </h4>
+            </div>            
+            <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="create(keye)"     novalidate="novalidate"  >    
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">姓名</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="keye.doctorName" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
+			                 
+			                 <label class="col-lg-2 control-label">性别</label>
+			                <div class="col-lg-3">
+			                     <select id="pro"  select2 data-live-search="false" class="form-control" name="anatype"  ng-model="keye.doctorGender"  >
+                                        <option value="1">男</option>
+                                        <option value="0">女</option>
+                                 </select>
+                             </div>
+			                  
+		 
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">级别</label>
+                            <div class="col-lg-3">
+                                 <select id="prodree"   select2 data-live-search="false" class="form-control" name="degree"  ng-model="keye.doctorDegree"  >
+                                        <option value="1">实习医师</option>
+                                        <option value="2">助理医师</option>
+                                        <option value="3">医师</option>
+                                        <option value="4">主治医师</option>
+                                        <option value="5">副主任医师-</option>
+                                        <option value="6">主任医师</option>
+                                 </select>
+                            </div>
+                            
+                            
+                            <label class="col-lg-2 control-label">电话</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control"  ng-model="keye.doctorTel" ng-maxlength="20" ng-trim maxlength="20" />
+                            </div>
+                             
+                             
+                        </div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">身份证</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="keye.doctorIdcard" ng-maxlength="20" ng-trim maxlength="20" />
+			                </div>
+			                  
+			                <label class="col-lg-2 control-label">科室</label>
+			                <div class="col-lg-3">
+			                
+			                    <select class="form-control" ng-model="keye.doctorDepartment" name="department" required  select2 data-live-search="true"  ng-options="item.departmentId as item.departmentName for item  in departments">
+			                    </select>       
+                             </div>
+			                  
+                        </div>
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">主治</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control"  ng-model="keye.doctorSpeciality"  />
+			                </div>
+                        </div>  
+                                         
+						   <div class="form-group">                                  
+				               <label class="col-lg-2 control-label" title="不选代表删除原有照片">照片: </label>             
+				                <div class="col-lg-4">                
+					                    <div uploader  thumb ng-model="uploadProfilePic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png,jpeg"  
+					                         files="files">
+					                    </div>	         
+				                </div>  
+				               <label class="col-lg-2 control-label" title="不选代表删除原有证书">证书: </label>             
+				                <div class="col-lg-3">                
+					                    <div uploader  thumb ng-model="uploadCertificatePic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png,jpeg"  
+					                         files="files">
+					                    </div>	         
+				                </div>                         
+				           </div>
+				           
+				        <div class="form-group">
+                            <label class="col-lg-2 control-label">简介</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="4"  ng-model="keye.doctorDesc"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                        </div>
+	                                    
+	                    </div>
+	                </div>
+	            </div>  
+	            <div class="modal-footer">       
+	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="submit" class="btn btn-primary"   ng-disabled="shareFm.$invalid" ng-click=""> 保存</button>
+	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
+	            </div>
+	            
+	          
+	            
+	            
+	            
+	            
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+   
+
+<!-- 预览知识 -->
+<div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;height:392px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">预览</h4>
+            </div>    
+            
+           <div class="modal-body">     
+            	<div class="col-sm-12 col-md-12">
+	                  <form role="form" class="form-horizontal">                                      
+		                <h4 class="heading">         姓名： {{keyv.doctorName}}
+		                     
+		                </h4> 
+		                  
+		                  <div class="form-group"> 
+		                  &nbsp;                                                                     
+		                  </div>
+		                                                                                      
+	                  	<style type="text/css">
+		                        	.float-img{              
+		                        		display:  visible;
+		                        		position: absolute;
+		                        		margin-top:-40px;                                                                   
+		                        		width: 152px;                                                               
+		                        		height:152px;             
+		                        	    right:28px;        
+		                        		overflow:auto;
+		                        		background-color: #ff;                
+		                        		z-index:1;
+		                        		border:1px solid #f2f2f2;
+		                        	}  
+		                        	.float-img1{              
+		                        		display:  visible;
+		                        		position: absolute;
+		                        		margin-top:-136px;                                                                   
+		                        		width: 152px;                                                               
+		                        		height:152px;             
+		                        	    right:28px;        
+		                        		overflow:auto;
+		                        		background-color: #ff;                
+		                        		z-index:1;
+		                        		border:1px solid #f2f2f2;
+		                        	}              
+		              	</style>                                                                                                           
+	                  <div >    
+	                       <div     class="float-img"   >    
+	                          <img class="img-thumbnail"  ng-src="{{imgShow(keyv.doctorPic)}}"  style="width: 150px; height:149px;"/>            
+	                       </div>   
+	                  </div>
+
+	           			<div class="form-group"  style=" height:332px; "> 
+	                     	<div >
+	                            <label class="col-lg-2 control-label">基本信息:</label>
+	                                
+	                                   <p class="col-lg-6">  
+										     {{keyv.doctorGender | DSL_humangender}},{{keyv.doctorDegree | DSL_doctorlevel}},电话：{{keyv.doctorTel}}
+										      <br>
+										     身份证号：{{keyv.doctorIdcard}}
+										      <br>
+										     主治：{{keyv.doctorSpeciality}}
+										     <br>
+										     简介：{{keyv.doctorDesc}}
+	                                   </p>  
+	                                    
+	                               
+	                     
+	                     	</div>  
+	                  	</div> 
+	                  	 <div >    
+	                       <div     class="float-img1"   >    
+	                          <img class="img-thumbnail"  ng-src="{{imgShow(keyv.doctorCertificate)}}"  style="width: 150px; height:149px;"/>            
+	                       </div>   
+	                  </div>    
+                   <div class="form-group"> 
+		                  &nbsp;                                                                     
+		             </div>
+	                 </form>                 
+	            </div> <!-- col-sm-12 col-md-12 end -->                 
+                
+                 
+            </div><!-- modal-conteng end -->
+               
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+ 
