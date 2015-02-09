@@ -13,7 +13,6 @@ define(function (require, exports, module) {
        		                    params: angular.toJson(params)
        	                      },  function (list){
      		$scope.clinicinfo =list[0];
-     		console.log($scope.clinicinfo.clinicName && $scope.clinicinfo.clinicLongitude && $scope.clinicinfo.clinicLatitude);
      		if(!$scope.clinicinfo.clinicName || !$scope.clinicinfo.clinicLongitude  || !$scope.clinicinfo.clinicLatitude){// if clinic name is null then it is a new user
      			$('#newuserdia').modal('show');
      		} 
