@@ -9,7 +9,7 @@
     <div class="modal-dialog" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                
                 <h4 class="modal-title">                                                                                               
                      <p>诊所信息</p>                                                        
                 </h4>
@@ -23,66 +23,47 @@
 								<strong>友情提示：</strong> 图片文件大小不要超过1M
 							</div>
 						<div class="form-group">
-			                <label class="col-lg-2 control-label">姓名</label>
+			                <label class="col-lg-2 control-label">诊所名</label>
 			                <div class="col-lg-3">
-			                    <input type="text" class="form-control" required ng-model="key.doctorName" ng-maxlength="50" ng-trim maxlength="50" />
+			                    <input type="text" class="form-control" required ng-model="key.clinicName" ng-maxlength="50" ng-trim maxlength="50" />
 			                </div>
-			                 
-			                 <label class="col-lg-2 control-label">性别</label>
-			                <div class="col-lg-3">
-			                     <select id="pro" ng-init="key.doctorGender = '1'" select2 data-live-search="false" class="form-control" name="anatype"  ng-model="key.doctorGender"  >
-                                        <option value="1">男</option>
-                                        <option value="0">女</option>
-                                 </select>
-                             </div>
-			                  
-		 
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">级别</label>
-                            <div class="col-lg-3">
-                                 <select id="prodree" ng-init="key.doctorDegree = '3'" select2 data-live-search="false" class="form-control" name="degree"  ng-model="key.doctorDegree"  >
-                                        <option value="1">实习医师</option>
-                                        <option value="2">助理医师</option>
-                                        <option value="3">医师</option>
-                                        <option value="4">主治医师</option>
-                                        <option value="5">副主任医师-</option>
-                                        <option value="6">主任医师</option>
-                                 </select>
-                            </div>
-                            
-                            
+			             
                             <label class="col-lg-2 control-label">电话</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control"  ng-model="key.doctorTel" ng-maxlength="20" ng-trim maxlength="20" />
+                                <input type="text" class="form-control"  ng-model="key.clinicTel" ng-maxlength="20" ng-trim maxlength="20" />
                             </div>
-                             
+                          
                              
                         </div>
-                        <div class="form-group">
-			                <label class="col-lg-2 control-label">身份证</label>
-			                <div class="col-lg-3">
-			                    <input type="text" class="form-control" required ng-model="key.doctorIdcard" ng-maxlength="20" ng-trim maxlength="20" />
+                         <div class="form-group">
+			                <label class="col-lg-2 control-label">地址</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control" placeholder="例如：北京市海淀区信息中路26号709室" ng-model="key.clinicAddress"  />
 			                </div>
-			                  
-			                <label class="col-lg-2 control-label">科室</label>
+                        </div>  
+                       <div class="form-group">
+			                <label class="col-lg-2 control-label">经度</label>
 			                <div class="col-lg-3">
-			                
-			                    <select class="form-control" ng-model="key.doctorDepartment" name="department" required  select2 data-live-search="true"  ng-options="item.departmentId as item.departmentName for item  in departments">
-			                    </select>       
-                             </div>
-			                  
+			                    <input type="text" class="form-control" required ng-model="key.clinicLongitude" ng-maxlength="20" ng-trim   />
+			                </div>
+			             
+                            <label class="col-lg-2 control-label">纬度</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control"  ng-model="key.clinicLatitude" ng-maxlength="20" ng-trim maxlength="20" />
+                            </div>
+                          
+                             
                         </div>
-                        <div class="form-group">
+                       <div class="form-group">
 			                <label class="col-lg-2 control-label">主治</label>
 			                <div class="col-lg-9">
-			                    <input type="text" class="form-control"  ng-model="key.doctorSpeciality"  />
+			                    <input type="text" class="form-control"  ng-model="key.clinicSpeciality"  />
 			                </div>
-                        </div> 
-                                         
+                        </div>  
+                         
                
 						   <div class="form-group">                                  
-				               <label class="col-lg-2 control-label">照片: </label>             
+				               <label class="col-lg-2 control-label">诊所照片 </label>             
 				                <div class="col-lg-4">                
 					                    <div uploader  thumb ng-model="uploadProfilePic"
 					                         server="upload.shtml"
@@ -90,7 +71,7 @@
 					                         files="files">
 					                    </div>	         
 				                </div>  
-				               <label class="col-lg-2 control-label">证书: </label>             
+				               <label class="col-lg-2 control-label">诊所执照</label>             
 				                <div class="col-lg-3">                
 					                    <div uploader  thumb ng-model="uploadCertificatePic"
 					                         server="upload.shtml"
@@ -101,9 +82,9 @@
 				           </div>
 				           
 				        <div class="form-group">
-                            <label class="col-lg-2 control-label">简介</label>
+                            <label class="col-lg-2 control-label">诊所介绍</label>
                             <div class="col-lg-9">
-                                <textarea class="form-control" rows="4"  ng-model="key.doctorDesc"  data-valid-pos="bottom" ></textarea>
+                                <textarea class="form-control" rows="4"  ng-model="key.clinicDesc"  data-valid-pos="bottom" ></textarea>
                             </div>
                         </div>
 				      
@@ -131,9 +112,9 @@
                 <h4 class="modal-title">欢迎新用户</h4>
             </div>
             <div class="modal-body">
-                                                     亲爱的{{USER_INFO.userName}}，在您开始使用系统之前，我们需要您先完善诊所信息。
+                                                     亲爱的{{USER_INFO.userName}}，在您开始使用系统之前，我们需要您先完善诊所信息。请您先准备一张诊所的图片和营业执照的图片。
                   <br>
-                                                     提示：为了业务的良好发展，请确保信息的完整和准确。创建诊所信息后您也可以稍后在个人信息里进行更新。
+                                                     提示：为了业务的良好发展，请确保信息的完整和准确。创建诊所信息后您也可以稍后在个人信息(点击右上角您的名字)里进行更新。
             </div>
             <div class="modal-footer">
                 <button type="button" upload-refresh="true" class="btn btn-danger" ng-click="comfirmNewClinic()" data-dismiss="modal" >开始创建诊所信息</button>
