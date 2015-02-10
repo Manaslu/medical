@@ -75,13 +75,160 @@ define(function(require) {
 							$rootScope.announceNumber = list.length;
 							$rootScope.announceList = list;
 					});
+		        	$rootScope.updateclinic = function(key){
+		        		//add and edit
+		            	 $rootScope.tempitem = angular.copy(key);
+		                 
+		                		   $rootScope.keys = GeneratedKey.post({
+		                               optype : "genKeyN",
+		                               n : 2
+		                           },function(result){                    
+		                				 var newids = result.newIds.split(",");  
+		                				
+		                				 var ids= "";
+		                				 if($rootScope.tempitem.clinicPic && $rootScope.tempitem.clinicLicense){
+		                					 ids = "'"+$rootScope.tempitem.clinicPic+"','"+$rootScope.tempitem.clinicLicense+"'";
+		                				 }else if($rootScope.tempitem.clinicPic){
+		                					 ids="'"+$rootScope.tempitem.clinicPic+"'";
+		                				 }else if($rootScope.tempitem.clinicLicense){
+		                					 ids="'"+$rootScope.tempitem.clinicLicense+"'";
+		                				 }
+		                				 if(ids){
+		                					 var params = {
+		        	   		       	            		id : ids
+		        	   		       	            };
+		        	   		                       UploadFile.remove({
+		        	   		       	                params : angular.toJson(params)
+		        	   		       	            }, function(jsonData) {
+		        	   		       	             
+		        				   		       	         var clinicadmin={};
+		        				   		       	        
+		 	       	    				               	clinicadmin.clinicId = $rootScope.tempitem.clinicId;
+		 	       	    				              	clinicadmin.clinicName = $rootScope.tempitem.clinicName;
+		 	       	    				           		clinicadmin.clinicAddress = $rootScope.tempitem.clinicAddress;
+		 	       	    				        		clinicadmin.clinicDesc = $rootScope.tempitem.clinicDesc;
+		 	       	    				     			clinicadmin.clinicTel = $rootScope.tempitem.clinicTel;		
+		 					       	    				clinicadmin.clinicLongitude = $rootScope.tempitem.clinicLongitude;
+		 					       	    				clinicadmin.clinicLatitude = $rootScope.tempitem.clinicLatitude;
+		 					       	    				clinicadmin.clinicSpeciality = $rootScope.tempitem.clinicSpeciality;
+		 					       	    				clinicadmin.clinicPic = "blank";
+		 					       	    				clinicadmin.clinicLicense = "blank";
+		        		    				               	
+		        		    				               	
+		        		    				               	
+		        		    				               	
+		        		    				               	if($rootScope.uploadProfilePic.length>0){
+		        		    				               	   clinicadmin.clinicPic = newids[0];
+		        		    				               	    var uploadProfilefile={};
+		        			    				               	uploadProfilefile.id=	 newids[0];
+		        			    				               	uploadProfilefile.fileName = $rootScope.uploadProfilePic[0].fileName;
+		        			    				               	uploadProfilefile.fileType = $rootScope.uploadProfilePic[0].fileType;
+		        			    				               	uploadProfilefile.filePath = $rootScope.uploadProfilePic[0].filePath;
+		        			    				               	uploadProfilefile.orgFileName = $rootScope.uploadProfilePic[0].orgFileName;
+		        			    				               	UploadFile.put(uploadProfilefile,function(){  });
+		        		    				               	}
+		        		    				               	
+		        		    				               	if($rootScope.uploadCertificatePic.length>0){
+		        		    				               		clinicadmin.clinicLicense = newids[1];
+		        		    				               	   var uploadcertificatefile=[];
+		        			    				               	uploadcertificatefile.id=	 newids[1];
+		        			    				               	uploadcertificatefile.fileName = $rootScope.uploadCertificatePic[0].fileName;
+		        			    				               	uploadcertificatefile.fileType = $rootScope.uploadCertificatePic[0].fileType;
+		        			    				               	uploadcertificatefile.filePath = $rootScope.uploadCertificatePic[0].filePath;
+		        			    				               	uploadcertificatefile.orgFileName = $rootScope.uploadCertificatePic[0].orgFileName;
+		        			    				               	UploadFile.put(uploadcertificatefile,function(){  });
+		        		    				               		
+		        		    				               	}
+		        		    				               	
+		        		    				             ClinicInformation.save(clinicadmin,function(){
+		        					                         	$('#clinicedit').modal('hide');
+		        					                         });
+		        	   		       	                 
+		        	   		       	            });
+		                				 }else{
+		                					    var clinicadmin={};
+						   		       	       
+		   	    				               	clinicadmin.clinicId = $rootScope.tempitem.clinicId;
+		   	    				              	clinicadmin.clinicName = $rootScope.tempitem.clinicName;
+		   	    				           		clinicadmin.clinicAddress = $rootScope.tempitem.clinicAddress;
+		   	    				        		clinicadmin.clinicDesc = $rootScope.tempitem.clinicDesc;
+		   	    				     			clinicadmin.clinicTel = $rootScope.tempitem.clinicTel;		
+					       	    				clinicadmin.clinicLongitude = $rootScope.tempitem.clinicLongitude;
+					       	    				clinicadmin.clinicLatitude = $rootScope.tempitem.clinicLatitude;
+					       	    				clinicadmin.clinicSpeciality = $rootScope.tempitem.clinicSpeciality;
+					       	    				clinicadmin.clinicPic = "blank";
+					       	    				clinicadmin.clinicLicense = "blank";
+				    				               	
+				    				               	
+				    				               	
+				    				               	
+				    				               	if($rootScope.uploadProfilePic.length>0){
+				    				               	   clinicadmin.clinicPic = newids[0];
+					    				  	             var uploadProfilefile={};
+					    				               	uploadProfilefile.id=	 newids[0];
+					    				               	uploadProfilefile.fileName = $rootScope.uploadProfilePic[0].fileName;
+					    				               	uploadProfilefile.fileType = $rootScope.uploadProfilePic[0].fileType;
+					    				               	uploadProfilefile.filePath = $rootScope.uploadProfilePic[0].filePath;
+					    				               	uploadProfilefile.orgFileName = $rootScope.uploadProfilePic[0].orgFileName;
+					    				               	UploadFile.put(uploadProfilefile,function(){  });
+				    				               	}
+				    				               	
+				    				               	if($rootScope.uploadCertificatePic.length>0){
+				    				               		clinicadmin.clinicLicense = newids[1];
+				    				               	   var  uploadcertificatefile={};
+					    				               	uploadcertificatefile.id=	 newids[1];
+					    				               	uploadcertificatefile.fileName = $rootScope.uploadCertificatePic[0].fileName;
+					    				               	uploadcertificatefile.fileType = $rootScope.uploadCertificatePic[0].fileType;
+					    				               	uploadcertificatefile.filePath = $rootScope.uploadCertificatePic[0].filePath;
+					    				               	uploadcertificatefile.orgFileName = $rootScope.uploadCertificatePic[0].orgFileName;
+					    				               	UploadFile.put(uploadcertificatefile,function(){  });
+				    				               		
+				    				               	}
+				    				               	
+				    				             ClinicInformation.save(clinicadmin,function(){
+							                         	$('#clinicedit').modal('hide');
+							                         });
+		                				 }
+		       	  		                   
+		                               
+		                				   
+		                                 }
+		                    	      ); 
+		                		   
+		             
+		               
+		        	   	
+		        	}
+		        	
+		        	$rootScope.previewClinicInfo =function(){ //click on edit link
+		        		
+		        		$('#editUserInfo').modal('hide');
+		        		$('#previewClinic').modal('show');
+		                var params = {
+		               		 clinicId : $rootScope.USER_INFO.orgCd    
+		                };
+		                ClinicInformation.query({  
+		              		                    isArray:true,
+		              		                    params: angular.toJson(params)
+		              	                      },  function (list){
+		              	    $rootScope.clinicinfo =list[0];
+		              	    $rootScope.keyv=$rootScope.clinicinfo;
+		            		
+		               });  
+		        	}
+		        	$rootScope.imgShow = function(fileId){ 
+		            	   if(!fileId){
+		            		   return;
+		            	   }
+		             	   return '/education/uploadFile.shtml?method=download&fileId='+fileId; 
+		             	}
 		        	
 		        	$rootScope.showEditPswd = function(){
 		        		$('#clinicedit').modal('hide');
 		        		$('#editUserPwd').modal('show');
 		        	}
 		        	$rootScope.showEdit =function(){
-		        		
+		        		$('#clinicedit').modal('hide');
 		                var params = {
 		               		 clinicId : $rootScope.USER_INFO.orgCd    
 		                };
@@ -139,7 +286,7 @@ define(function(require) {
 						if(result.success==='false'){
 							alert(result.message);
 						}else{
-							alert('密码已修改，请重新登录!');
+							 
 							$scope.logout();
 						}
 					});
@@ -159,7 +306,7 @@ define(function(require) {
 						if(result.success === 'false'){
 							alert(result.message);
 						}else{
-							alert('个人信息修改成功!');
+							 
 		    				sessionStorage.userName = $scope.user.userName;
 		    				sessionStorage.email = $scope.user.email;
 		    				sessionStorage.phone = $scope.user.phone;

@@ -83,14 +83,15 @@
       </div>
     </div>
 
-
+ 
 
 	<!-- 左侧菜单 开关 -->
-	<div class="toggle-sub-menu" ng-hide="path == '/at/index'">
+	<div class="toggle-sub-menu"   ng-hide="path == '/at/index'">
 		<a href="javascript:" ng-click="toggleSidebar()"></a>
 	</div>
 	<!-- 左侧菜单 -->
-	<div class="sub-menu" ng-hide="isHideSidebar()" sliderbar nav-list>
+	<div class="sub-menu"   ng-hide="isHideSidebar()" sliderbar nav-list>
+	 
         <ul class="topMenu">
             <li ng-repeat="lm in subMenu.children">
                 <a href="{{lm.route}}" ng-class="{'active-menu':checkActive(lm , 1)}" title="{{lm.name}}">{{lm.name}}</a>
@@ -298,6 +299,7 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label"></label> 
 								    <div class="col-md-9 ">
+								         <button type="button" class="btn btn-primary"  ng-click="previewClinicInfo()" >预览诊所信息</button>
                                          <button type="button" class="btn btn-primary"  upload-refresh="true" data-dismiss="modal" ng-click="showEdit()" >更新诊所信息</button>
                                          <button type="button" class="btn btn-primary"   ng-click="showEditPswd()" >修改密码</button>
                                           
@@ -372,7 +374,98 @@
 	</div>
 	<!-- /.modal -->
 
+ <div class="modal fade" id="previewClinic" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;height:392px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">预览</h4>
+            </div>    
+            
+           <div class="modal-body">     
+            	<div class="col-sm-12 col-md-12">
+	                  <form role="form" class="form-horizontal">                                      
+		                <h4 class="heading">    {{keyv.clinicName}}
+		                     
+		                </h4> 
+		                  
+		                  <div class="form-group"> 
+		                  &nbsp;                                                                     
+		                  </div>
+		                                                                                      
+	                  	<style type="text/css">
+		                        	.float-img{              
+		                        		display:  visible;
+		                        		position: absolute;
+		                        		margin-top:-40px;                                                                   
+		                        		width: 152px;                                                               
+		                        		height:152px;             
+		                        	    right:28px;        
+		                        		overflow:auto;
+		                        		background-color: #ff;                
+		                        		z-index:1;
+		                        		border:1px solid #f2f2f2;
+		                        	}  
+		                        	.float-img1{              
+		                        		display:  visible;
+		                        		position: absolute;
+		                        		margin-top:-136px;                                                                   
+		                        		width: 152px;                                                               
+		                        		height:152px;             
+		                        	    right:28px;        
+		                        		overflow:auto;
+		                        		background-color: #ff;                
+		                        		z-index:1;
+		                        		border:1px solid #f2f2f2;
+		                        	}              
+		              	</style>                                                                                                           
+	                  <div >    
+	                       <div     class="float-img"   >    
+	                          <img class="img-thumbnail"  ng-src="{{imgShow(keyv.clinicPic)}}"  style="width: 150px; height:149px;"/>            
+	                       </div>   
+	                  </div>
+
+	           			<div class="form-group"  style=" height:332px; "> 
+	                     	<div >
+	                            <label class="col-lg-2 control-label">基本信息:</label>
+	                                
+	                                   <p class="col-lg-6">  
+										  地址：  {{keyv.clinicAddress}}
+										      <br>
+										  电话：  {{keyv.clinicTel}}
+										      <br>
+										   主治：  {{keyv.clinicSpeciality}}
+										      <br>
+										   描述：  {{keyv.clinicDesc}}
+										      <br>          
+										     经纬度：{{keyv.clinicLongitude+',' + keyv.clinicLongitude}}
+										      <br>
+	                                   </p>  
  
+	                     	</div>  
+	                  	</div> 
+	                  	 <div >    
+	                       <div     class="float-img1"   >    
+	                          <img class="img-thumbnail"  ng-src="{{imgShow(keyv.clinicLicense)}}"  style="width: 150px; height:149px;"/>            
+	                       </div>   
+	                  </div>    
+                   <div class="form-group"> 
+		                  &nbsp;                                                                     
+		             </div>
+	                 </form>                 
+	            </div> <!-- col-sm-12 col-md-12 end -->                 
+                
+                 
+            </div><!-- modal-conteng end -->
+               
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 	<!-- 查看详情 -->
 	<div class="modal fade" id="noReadAnnounce" tabindex="-1" role="dialog"
@@ -457,7 +550,7 @@
                      <p>诊所信息</p>                                                        
                 </h4>
             </div>            
-            <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="create(key)"  novalidate="novalidate">    
+            <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="updateclinic(key)"  novalidate="novalidate">    
 	            <div class="modal-body">
 	                <div class="row">
 	                    <div class="col-sm-12 col-md-12">
@@ -492,20 +585,25 @@
 			               
                         </div>  
                         <script  type="text/javascript">
-                        $("a#baidumap").fancybox({
-                        	'width'				: '75%',
-            				'height'			: '80%',
-            				'autoScale'			: false,
-            				'transitionIn'		: 'elastic',
-            				'transitionOut'		: 'elastic',
-            				 'enableEscapeButton':true,
-            				 'title':'提示：坐标中逗号前面一个数字是经度，逗号后面一个数字是纬度',
-            				 'titleShow': true,
-            				 'titlePosition':'outside',
-            				 'speedOut':600,
-            				 'overlayColor': 	'#333',
-            				'type'				: 'iframe'
-                    	});
+                         
+                        if(!typeof($)=='undefined'){
+                        	 $("a#baidumap").fancybox({
+                             	'width'				: '75%',
+                 				'height'			: '80%',
+                 				'autoScale'			: false,
+                 				'transitionIn'		: 'elastic',
+                 				'transitionOut'		: 'elastic',
+                 				 'enableEscapeButton':true,
+                 				 'title':'提示：坐标中逗号前面一个数字是经度，逗号后面一个数字是纬度',
+                 				 'titleShow': true,
+                 				 'titlePosition':'outside',
+                 				 'speedOut':600,
+                 				 'overlayColor': 	'#333',
+                 				'type'				: 'iframe'
+                         	});
+                        	
+                        }
+                       
             			 
                         </script>
            
