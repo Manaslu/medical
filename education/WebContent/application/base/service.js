@@ -470,7 +470,9 @@ define(function() {
 	app.factory('ClinicInformation', [ '$resource', function($resource) {
 		return $resource('clinicInformation.shtml');
 	} ]);
-		
+	app.factory('UserEvaluate', [ '$resource', function($resource) {
+		return $resource('userEvaluate.shtml');
+	} ]);		
 	
 	
 });
