@@ -21,7 +21,9 @@ public class DoctorsManagement implements java.io.Serializable {
 	private String     doctorGender;//DOCTOR_GENDER
 	private String     doctorIdcard;//DOCTOR_IDCARD
 	private String     doctorCertificate;//DOCTOR_CERTIFICATE
-	
+	private String clinicName;
+	private String clinicTel;
+
 
 
 	

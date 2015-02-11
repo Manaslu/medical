@@ -10,6 +10,13 @@
     	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
     	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
     	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
+	</resultMap>
+	    <resultMap id="HealthFoodAssClinic" type="com.idap.clinic.entity.HealthFood">
+    	    <result property="eatId" column="EAT_ID" jdbcType="VARCHAR" />
+    	    <result property="eatTitle" column="EAT_TITLE" jdbcType="VARCHAR" />
+    	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
+    	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
+    	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
     	    <association property="clinic" javaType="com.idap.clinic.entity.ClinicInformation">
     	    	<id column="clinic_id" property="clinicId"/>
     	    	<result column="clinic_name" property="clinicName"/>
@@ -61,7 +68,7 @@
 		<include refid="queryBody" />
 	</select>
 	
-	<select id="getById" parameterType="java.util.Map" resultMap="HealthFood">
+	<select id="getById" parameterType="java.util.Map" resultMap="HealthFoodAssClinic">
 			select
 			<include refid="allColumn" />
 			 from
