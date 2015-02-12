@@ -38,7 +38,7 @@
 	           t.DOCTOR_IDCARD,
 	           t.DOCTOR_CERTIFICATE,
 	           c.CLINIC_NAME,
-	           c。CLINIC_TEL
+	           c.CLINIC_TEL
 	           
 	</sql>
  
@@ -67,6 +67,13 @@
 		DOCTOR
 		<include refid="dynamicWhere" />
 		    
+	</select>
+	<select id="getById" parameterType="java.util.Map" resultMap="DoctorsManagement">
+			select
+			<include refid="allColumn" />
+			 from
+			DOCTOR t left join Clinic c on t.clinic_id=c.clinic_id left join DEPARTMENT d on(t.doctor_department=d.department_id )
+			where t.doctor_id=#{id}
 	</select>
 	 
 	<sql id="dynamicWhere">

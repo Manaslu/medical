@@ -97,6 +97,7 @@ public class DiagnoseResult implements java.io.Serializable {
 		this.doctorPic = doctorPic;
 	}
 
+
 	
 	
 	 

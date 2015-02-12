@@ -107,6 +107,18 @@ public class DoctorsManagement implements java.io.Serializable {
 	public void setClinicId(String clinicId) {
 		this.clinicId = clinicId;
 	}
+	public String getClinicName() {
+		return clinicName;
+	}
+	public void setClinicName(String clinicName) {
+		this.clinicName = clinicName;
+	}
+	public String getClinicTel() {
+		return clinicTel;
+	}
+	public void setClinicTel(String clinicTel) {
+		this.clinicTel = clinicTel;
+	}
 
  
 	

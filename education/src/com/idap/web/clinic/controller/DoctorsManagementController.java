@@ -38,7 +38,7 @@ public class DoctorsManagementController extends BaseController<DoctorsManagemen
 	}
 	@RequestMapping(value="queryDoctorById")
 	@ResponseBody
-	public DoctorsManagement queryDoctorsManagement(@RequestParam String id){
+	public DoctorsManagement queryDoctorsManagement(@RequestParam(value="id") String id){
 		return this.getBaseService().getById(id);
 		
 	}
