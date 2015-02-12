@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.idap.clinic.entity.UploadFile;
 import com.idap.clinic.service.IUploadFile;
-import com.idap.intextservice.repository.entity.KnowledgeBaseAtt;
-import com.idap.intextservice.repository.service.IKnowledgeBaseAttService;
+import com.idap.web.common.controller.Commons;
 import com.idp.pub.constants.Constants;
 import com.idp.pub.service.IBaseService;
 import com.idp.pub.web.controller.BaseController;
@@ -34,6 +33,9 @@ public class UploadFileController extends BaseController<UploadFile, String> {
 	public void setBaseService(IBaseService<UploadFile, String> baseService) {
 		super.setBaseService(baseService);
 	}
+	
+	@Resource(name = "commons")
+	private Commons commons;
 	
 	@Resource(name = "uploadFileService")
 	public   IUploadFile   uploadFileService;
@@ -52,14 +54,26 @@ public class UploadFileController extends BaseController<UploadFile, String> {
 		String fileType="";
 		String filePath="";
 		Map<String, Object> params = Constants.MAP();
+		if(fileId.equals("blank")){
+		  String blankPic= commons.getFileUploadPath()+"/blank.jpg";
+      	  headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+      	  headers.setContentType(MediaType.IMAGE_JPEG);
+      	  return new ResponseEntity<byte[]>(
+    				FileUtils.readFileToByteArray(new File(blankPic)), headers,HttpStatus.OK);
+		}
 		params.put("id", fileId);
 		List<UploadFile> attachmentList = uploadFileService.query(params);
-          if(null!=attachmentList   ){
+          if(null!=attachmentList ){
         	 oldFileName = attachmentList.get(0).getOrgFileName();
         	 fileType = attachmentList.get(0).getFileType();
         	 filePath = attachmentList.get(0).getFilePath();
           }else{
-        	 return null;
+        	  String blankPic= commons.getFileUploadPath()+"/blank.jpg";
+        	  headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        	  headers.setContentType(MediaType.IMAGE_JPEG);
+        	  return new ResponseEntity<byte[]>(
+      				FileUtils.readFileToByteArray(new File(blankPic)), headers,HttpStatus.OK);
+        	  
           }
 		
  

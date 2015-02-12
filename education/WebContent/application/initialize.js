@@ -193,8 +193,11 @@ define(function (require) {
         });
 
         //是否隐藏左侧菜单
-        $rootScope.isHideSidebar = function () {
-            return  $rootScope.path == '/at/index' || $rootScope.hideSlider;
+        $rootScope.isHideSidebar = function () {//将不需要左侧菜单的页面列入
+            return  $rootScope.path == '/at/index' || $rootScope.path =='/at/doctorsmanagement' 
+                    || $rootScope.path == '/at/patientresult'  || $rootScope.path == '/at/crewschedule' 
+                	|| $rootScope.path == '/at/userevaluate' 
+                	|| $rootScope.hideSlider;
         };
         //切换左侧菜单的显示或隐藏
         $rootScope.toggleSidebar = function () {

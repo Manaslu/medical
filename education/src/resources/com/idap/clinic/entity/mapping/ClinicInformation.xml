@@ -44,15 +44,33 @@
 		</if>
 	</sql>	
 	   <sql id="allColumn">
-	           t.DEPARTMENT_ID,
-	           t.DEPARTMENT_NAME,
-	           t.DEPARTMENT_DESC 
+	           t.CLINIC_ID,
+	           t.CLINIC_NAME,
+	           t.CLINIC_ADDRESS, 
+	           t.CLINIC_DESC,
+	           t.CLINIC_PIC,
+	           t.CLINIC_LICENSE,
+	           t.CLINIC_TEL,
+	           t.CLINIC_LONGITUDE,
+	           t.CLINIC_LATITUDE,
+	           t.CLINIC_SPECIALITY,
+	           t.TENEMENT_ID
 	</sql>
  
  	<select id="query" parameterType="java.util.Map" resultMap="ClinicInformation">
-		select t.DEPARTMENT_ID,
-	           t.DEPARTMENT_NAME,
-	           t.DEPARTMENT_DESC  from CLINIC t
+		select t.CLINIC_ID,
+	           t.CLINIC_NAME,
+	           t.CLINIC_ADDRESS, 
+	           t.CLINIC_DESC,
+	           t.CLINIC_PIC,
+	           t.CLINIC_LICENSE,
+	           t.CLINIC_TEL,
+	           t.CLINIC_LONGITUDE,
+	           t.CLINIC_LATITUDE,
+	           t.CLINIC_SPECIALITY,
+	           t.TENEMENT_ID
+	    from CLINIC t
+	    <include refid="dynamicWhere" />
 	 
 	</select>
  
@@ -79,8 +97,11 @@
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="querykeyword!=null">
-					AND (DEPARTMENT_NAME like concat('%',#{querykeyword},'%') 
-					OR   DEPARTMENT_DESC like concat('%',#{querykeyword},'%')  )
+					AND (CLINIC_NAME like concat('%',#{querykeyword},'%') 
+					OR   CLINIC_ADDRESS like concat('%',#{querykeyword},'%')  )
+				</if>
+				<if test="clinicId!=null">
+					AND CLINIC_ID = #{clinicId}
 				</if>
 				 
 			</trim>

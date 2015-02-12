@@ -103,7 +103,9 @@ define(function (require, exports, module) {
     				               	doctor.doctorId = newids[2];
     				               	doctor.doctorName = $scope.tempitem.doctorName;
     				               	doctor.doctorDesc = $scope.tempitem.doctorDesc;
-    				               	doctor.doctorPic = newids[0];
+    				               	doctor.doctorPic = "blank";
+    				               	doctor.doctorCertificate = "blank";
+    				               	
     				               	doctor.doctorDegree = $scope.tempitem.doctorDegree;
     				               	doctor.doctorTel = $scope.tempitem.doctorTel;
     				               	doctor.doctorSpeciality = $scope.tempitem.doctorSpeciality;
@@ -111,23 +113,31 @@ define(function (require, exports, module) {
     				               	doctor.clinicId = $scope.USER_INFO.orgCd;
     				               	doctor.doctorGender = $scope.tempitem.doctorGender;
     				               	doctor.doctorIdcard = $scope.tempitem.doctorIdcard;
-    				               	doctor.doctorCertificate = newids[1];
+    				               	
+    				               	
+    				               	
     				           
     				              
-    				               	 
-    				               	uploadProfilefile.id=	 newids[0];
-    				               	uploadProfilefile.fileName = $scope.uploadProfilePic[0].fileName;
-    				               	uploadProfilefile.fileType = $scope.uploadProfilePic[0].fileType;
-    				               	uploadProfilefile.filePath = $scope.uploadProfilePic[0].filePath;
-    				               	uploadProfilefile.orgFileName = $scope.uploadProfilePic[0].orgFileName;
-    				               	UploadFile.put(uploadProfilefile,function(){  });
- 
-    				               	uploadcertificatefile.id=	 newids[1];
-    				               	uploadcertificatefile.fileName = $scope.uploadCertificatePic[0].fileName;
-    				               	uploadcertificatefile.fileType = $scope.uploadCertificatePic[0].fileType;
-    				               	uploadcertificatefile.filePath = $scope.uploadCertificatePic[0].filePath;
-    				               	uploadcertificatefile.orgFileName = $scope.uploadCertificatePic[0].orgFileName;
-    				               	UploadFile.put(uploadcertificatefile,function(){  });
+    				               	if($scope.uploadProfilePic.length>0){
+    				               		doctor.doctorPic = newids[0];
+    				               		uploadProfilefile.id=	 newids[0];
+        				               	uploadProfilefile.fileName = $scope.uploadProfilePic[0].fileName;
+        				               	uploadProfilefile.fileType = $scope.uploadProfilePic[0].fileType;
+        				               	uploadProfilefile.filePath = $scope.uploadProfilePic[0].filePath;
+        				               	uploadProfilefile.orgFileName = $scope.uploadProfilePic[0].orgFileName;
+        				               	UploadFile.put(uploadProfilefile,function(){  });
+    				               	} 
+    				               	
+    				               	if($scope.uploadCertificatePic.length>0){
+    				               		doctor.doctorCertificate = newids[1];
+    				               		uploadcertificatefile.id=	 newids[1];
+        				               	uploadcertificatefile.fileName = $scope.uploadCertificatePic[0].fileName;
+        				               	uploadcertificatefile.fileType = $scope.uploadCertificatePic[0].fileType;
+        				               	uploadcertificatefile.filePath = $scope.uploadCertificatePic[0].filePath;
+        				               	uploadcertificatefile.orgFileName = $scope.uploadCertificatePic[0].orgFileName;
+        				               	UploadFile.put(uploadcertificatefile,function(){  });
+    				               	}
+    				               	
     				               	
     				               	DoctorsManagement.put(doctor,function(){
     		                          	$scope.refresh('current',true);//refresh listgrid

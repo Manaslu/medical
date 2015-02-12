@@ -1,65 +1,6 @@
- <div class="col-sm-12 col-md-12">
-                          
-    <div class="row">
-        
-     	<div class="col-sm-12 col-md-12">
-			<form class="form-custom clearfix">
-			    
-	        <div class="col-sm-2 col-md-2">
-	            <input class="form-control"  type="text" placeholder="姓名,专长，简介" ng-model="params.querykeyword"/>       
-	        </div>   
-	        <div class="col-sm-4 col-md-4">                 
-	            <button class="btn btn-custom" type="submit"  ng-click="refresh('first',true)">查询</button>            
-	            <button class="btn btn-custom" type="button"  data-toggle="modal" data-target="#add" upload-refresh="true">新增</button> 
-	       
-	        </div>
-            </form>
-        </div> 
-    </div>
-             
-   <table class="table table-striped table-bordered table-condensed index-center  table-costom">
-        <thead>
-        <tr>
-            <th>序号</th>
-            <th>姓名</th>
-            <th>简介</th>
-            <th>级别</th>
-            <th>电话</th>
-            <th>主治</th>
-            <th>科室</th>
-            <th>时间</th>
-            <th>操作</th>
-          
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="rowlink" ng-repeat="it in limitArr">
-            <td>{{current*limit+$index+1}}</td>
-            <td>{{it.doctorName}}</td>
-            <td title="{{it.doctorDesc}}">{{it.doctorDesc|limitTo:10}}  </td>
-            <td>{{it.doctorDegree | DSL_doctorlevel}}</td>
-            <td>{{it.doctorTel}}</td>
-            <td title="{{it.doctorSpeciality}}">{{it.doctorSpeciality|limitTo:10}}</td>
-            <td>{{it.doctorDepartment}}</td>
-            <td>{{it.doctorDate|date:'yyyy-MM-dd'}}</td>
-            <td>
-                <a    href="javascript:" data-toggle="modal" data-target="#preview"      ng-click="preview(it)"> 预览</a>
-                <a    href="javascript:" data-toggle="modal" data-target="#edit"           upload-refresh="true"    ng-click="edit(it)" >修改</a> 
-                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"   ng-click="todelete(it.doctorId,it.doctorPic,it.doctorCertificate)">删除</a>
-                 
-            </td>
-    
-        </tr>
-        </tbody>
-    </table>
-            <div   data-remote-paging="pager" 
-					data-refresh="refresh" 
-					data-current="current" 
-					data-total="total" 
-					data-data="limitArr"
-					data-limit="limit"
-					data-params="params"
-			></div>
+ <div class="col-sm-12 col-md-12" upload-refresh="true">
+   
+  
 
 </div>
   
@@ -68,9 +9,9 @@
     <div class="modal-dialog" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                
                 <h4 class="modal-title">                                                                                               
-                     <p> 新增</p>                                                        
+                     <p>诊所信息</p>                                                        
                 </h4>
             </div>            
             <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="create(key)"  novalidate="novalidate">    
@@ -82,66 +23,72 @@
 								<strong>友情提示：</strong> 图片文件大小不要超过1M
 							</div>
 						<div class="form-group">
-			                <label class="col-lg-2 control-label">姓名</label>
+			                <label class="col-lg-2 control-label">诊所名</label>
 			                <div class="col-lg-3">
-			                    <input type="text" class="form-control" required ng-model="key.doctorName" ng-maxlength="50" ng-trim maxlength="50" />
+			                    <input type="text" class="form-control" required ng-model="key.clinicName" ng-maxlength="50" ng-trim maxlength="50" />
 			                </div>
-			                 
-			                 <label class="col-lg-2 control-label">性别</label>
-			                <div class="col-lg-3">
-			                     <select id="pro" ng-init="key.doctorGender = '1'" select2 data-live-search="false" class="form-control" name="anatype"  ng-model="key.doctorGender"  >
-                                        <option value="1">男</option>
-                                        <option value="0">女</option>
-                                 </select>
-                             </div>
-			                  
-		 
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">级别</label>
-                            <div class="col-lg-3">
-                                 <select id="prodree" ng-init="key.doctorDegree = '3'" select2 data-live-search="false" class="form-control" name="degree"  ng-model="key.doctorDegree"  >
-                                        <option value="1">实习医师</option>
-                                        <option value="2">助理医师</option>
-                                        <option value="3">医师</option>
-                                        <option value="4">主治医师</option>
-                                        <option value="5">副主任医师-</option>
-                                        <option value="6">主任医师</option>
-                                 </select>
-                            </div>
-                            
-                            
+			             
                             <label class="col-lg-2 control-label">电话</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control"  ng-model="key.doctorTel" ng-maxlength="20" ng-trim maxlength="20" />
+                                <input type="text" class="form-control"  ng-model="key.clinicTel" ng-maxlength="20" ng-trim maxlength="20" />
                             </div>
-                             
+                          
                              
                         </div>
-                        <div class="form-group">
-			                <label class="col-lg-2 control-label">身份证</label>
-			                <div class="col-lg-3">
-			                    <input type="text" class="form-control" required ng-model="key.doctorIdcard" ng-maxlength="20" ng-trim maxlength="20" />
-			                </div>
-			                  
-			                <label class="col-lg-2 control-label">科室</label>
-			                <div class="col-lg-3">
-			                
-			                    <select class="form-control" ng-model="key.doctorDepartment" name="department" required  select2 data-live-search="true"  ng-options="item.departmentId as item.departmentName for item  in departments">
-			                    </select>       
-                             </div>
-			                  
-                        </div>
-                        <div class="form-group">
-			                <label class="col-lg-2 control-label">主治</label>
+                         <div class="form-group">
+			                <label class="col-lg-2 control-label">地址</label>
 			                <div class="col-lg-9">
-			                    <input type="text" class="form-control"  ng-model="key.doctorSpeciality"  />
+			                    <input type="text" class="form-control" placeholder="例如：北京市海淀区信息中路26号709室" ng-model="key.clinicAddress"  />
 			                </div>
                         </div> 
-                                         
+                         <div class="form-group">
+			                <label class="col-lg-2 control-label"></label>
+			                <div class="col-lg-9">
+			                                                     用地址查询经纬度点击<a id="baidumap" class="iframe" href="http://api.map.baidu.com/lbsapi/getpoint/index.html">这里</a>
+			                </div>
+			               
+                        </div>  
+                        <script  type="text/javascript">
+                        $("a#baidumap").fancybox({
+                        	'width'				: '75%',
+            				'height'			: '80%',
+            				'autoScale'			: false,
+            				'transitionIn'		: 'elastic',
+            				'transitionOut'		: 'elastic',
+            				 'enableEscapeButton':true,
+            				 'title':'提示：坐标中逗号前面一个数字是经度，逗号后面一个数字是纬度',
+            				 'titleShow': true,
+            				 'titlePosition':'outside',
+            				 'speedOut':600,
+            				 'overlayColor': 	'#333',
+            				'type'				: 'iframe'
+                    	});
+            			 
+                        </script>
+           
+                       <div class="form-group">
+			                <label class="col-lg-2 control-label">经度</label>
+			                <div class="col-lg-3">
+			                    <input type="text" class="form-control" required ng-model="key.clinicLongitude" ng-maxlength="20" ng-trim   />
+			                </div>
+			             
+                            <label class="col-lg-2 control-label">纬度</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control"  ng-model="key.clinicLatitude" ng-maxlength="20" ng-trim maxlength="20" />
+                            </div>
+                          
+                             
+                        </div>
+                       <div class="form-group">
+			                <label class="col-lg-2 control-label">主治</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control"  ng-model="key.clinicSpeciality"  />
+			                </div>
+                        </div>  
+                         
                
 						   <div class="form-group">                                  
-				               <label class="col-lg-2 control-label">照片: </label>             
+				               <label class="col-lg-2 control-label">诊所照片 </label>             
 				                <div class="col-lg-4">                
 					                    <div uploader  thumb ng-model="uploadProfilePic"
 					                         server="upload.shtml"
@@ -149,7 +96,7 @@
 					                         files="files">
 					                    </div>	         
 				                </div>  
-				               <label class="col-lg-2 control-label">证书: </label>             
+				               <label class="col-lg-2 control-label">诊所执照</label>             
 				                <div class="col-lg-3">                
 					                    <div uploader  thumb ng-model="uploadCertificatePic"
 					                         server="upload.shtml"
@@ -160,9 +107,9 @@
 				           </div>
 				           
 				        <div class="form-group">
-                            <label class="col-lg-2 control-label">简介</label>
+                            <label class="col-lg-2 control-label">诊所介绍</label>
                             <div class="col-lg-9">
-                                <textarea class="form-control" rows="4"  ng-model="key.doctorDesc"  data-valid-pos="bottom" ></textarea>
+                                <textarea class="form-control" rows="4"  ng-model="key.clinicDesc"  data-valid-pos="bottom" ></textarea>
                             </div>
                         </div>
 				      
@@ -172,7 +119,7 @@
 	            <div class="modal-footer">   
 	              <button type="reset" class="btn btn-default">重置</button>
 	              <button type="submit" class="btn btn-primary" > 保 存</button>
-	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
+	        
 	            </div>
             </form>
         </div>
@@ -182,19 +129,21 @@
 </div><!-- /.modal -->
 
 <!-- 删除对话框 -->
-<div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="newuserdia" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">删除</h4>
+                
+                <h4 class="modal-title">欢迎新用户</h4>
             </div>
             <div class="modal-body">
-                                                     确认要删除么？
+                                                     亲爱的{{USER_INFO.userName}}，在您开始使用系统之前，我们需要您先完善诊所信息。请您先准备一张诊所的图片和营业执照的图片。
+                  <br>
+                                                     提示：为了业务的良好发展，请确保信息的完整和准确。创建诊所信息后您也可以稍后在个人信息(点击右上角您的名字)里进行更新。
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" ng-click="comfirmDelete()" data-dismiss="modal">确认删除</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" upload-refresh="true" class="btn btn-danger" ng-click="comfirmNewClinic()" data-dismiss="modal" >开始创建诊所信息</button>
+                
             </div>
         </div>
         <!-- /.modal-content -->

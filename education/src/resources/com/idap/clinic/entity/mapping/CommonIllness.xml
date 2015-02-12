@@ -5,11 +5,13 @@
     
 <mapper namespace="com.idap.clinic.entity.CommonIllness" >
     <resultMap id="CommonIllness" type="com.idap.clinic.entity.CommonIllness">
-    	    <result property="illnessId" column="ILLNESS_ID" jdbcType="VARCHAR" />
-    	    <result property="illnessName" column="ILLNESS_NAME" jdbcType="VARCHAR" />
-    	    <result property="illnessDesc" column="ILLNESS_DESC" jdbcType="VARCHAR" />
-    	    <result property="illnessTypeId" column="ILLNESS_TYPE_ID" jdbcType="VARCHAR" />
-    	    <result property="illnessTypeName" column="ILLNESS_TYPE_NAME" jdbcType="VARCHAR" />
+    	    <result property="diseaseId"      column="DISEASE_ID"      jdbcType="VARCHAR" />
+    	    <result property="diseaseName"    column="DISEASE_NAME"    jdbcType="VARCHAR" />
+    	    <result property="diseaseContent" column="DISEASE_CONTENT" jdbcType="VARCHAR" />
+    	    <result property="diseasePic"     column="DISEASE_PIC"     jdbcType="VARCHAR" />
+    	    <result property="diseaseDate"    column="DISEASE_DATE"    jdbcType="DATE" />
+    	    <result property="clinicId"       column="CLINIC_ID"       jdbcType="VARCHAR" />
+    	     
     	     <association property="clinic" javaType="com.idap.clinic.entity.ClinicInformation">
     	    	<id column="clinic_id" property="clinicId"/>
     	    	<result column="clinic_name" property="clinicName"/>
@@ -23,8 +25,8 @@
 			select
 			<include refid="allColumn" />
 			 from
-			ILLNESS t
-			left join ILLNESS_TYPE  ty on(t.ILLNESS_TYPE_ID=ty.ILLNESS_TYPE_ID) left join Clinic c on t.clinic_id=c.clinic_id
+			COMMONDISEASE t
+			 
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -34,19 +36,18 @@
 			select
 			<include refid="allColumn" />
 			 from
-			ILLNESS t
-			left join ILLNESS_TYPE  ty on(t.ILLNESS_TYPE_ID=ty.ILLNESS_TYPE_ID) left join Clinic c on t.clinic_id=c.clinic_id
+			COMMONDISEASE t
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>
 	</sql>	
 	   <sql id="allColumn">
-	           t.ILLNESS_ID,
-	           t.ILLNESS_NAME,
-	           t.ILLNESS_DESC,
-	           t.ILLNESS_TYPE_ID,
-	           ty.ILLNESS_TYPE_NAME,
-	           c.CLINIC_NAME
+	           t.DISEASE_ID,
+	           t.DISEASE_NAME,
+	           t.DISEASE_CONTENT,
+	           t.DISEASE_PIC,
+	           t.DISEASE_DATE,
+	           t.CLINIC_ID
 	</sql>
  
 	
@@ -68,7 +69,7 @@
 		select
 		count(1)
 		from
-		ILLNESS
+		COMMONDISEASE
 		<include refid="dynamicWhere" />
 		    
 	</select>
@@ -76,8 +77,11 @@
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="querykeyword!=null">
-					AND (ILLNESS_NAME like concat('%',#{querykeyword},'%') 
-					OR ILLNESS_DESC like concat('%',#{querykeyword},'%')  )
+					AND (DISEASE_NAME like concat('%',#{querykeyword},'%') 
+					OR DISEASE_CONTENT like concat('%',#{querykeyword},'%')  )
+				</if>
+				<if test="clinicId!=null">
+					AND CLINIC_ID = #{clinicId}
 				</if>
 				 
 			</trim>
@@ -96,50 +100,50 @@
 
 	<insert id="insert" parameterType="com.idap.clinic.entity.CommonIllness" >
 	    INSERT INTO 
-	    ILLNESS(<include refid="allapplColumn"/>	)
+	    COMMONDISEASE(<include refid="allapplColumn"/>	)
 		<include refid="allapplColumnVar"/>
 	</insert>
 	
 	<sql id="allapplColumn">
-	            ILLNESS_ID,
-	            ILLNESS_NAME,
-	            ILLNESS_DESC,
-	            ILLNESS_TYPE_ID 
- 
-
+	            DISEASE_ID,
+	            DISEASE_NAME,
+	            DISEASE_CONTENT,
+	            DISEASE_PIC,
+	            CLINIC_ID
 	</sql>
 	
 	<sql id="allapplColumnVar">
 		values(
-				#{illnessId,jdbcType=VARCHAR},
-				#{illnessName,jdbcType=VARCHAR},
-				#{illnessDesc,jdbcType=VARCHAR},
-				#{illnessTypeId,jdbcType=VARCHAR} 
+				#{diseaseId,jdbcType=VARCHAR},
+				#{diseaseName,jdbcType=VARCHAR},
+				#{diseaseContent,jdbcType=VARCHAR},
+				#{diseasePic,jdbcType=VARCHAR},
+				#{clinicId,jdbcType=VARCHAR}
 		     )
 	</sql>
 	
 	<update id="update" parameterType="com.idap.clinic.entity.CommonIllness">
-			update ILLNESS
+			update COMMONDISEASE
 			<trim prefix=" SET " prefixOverrides=",">
-				<if test="illnessName!=null">
-					  ,ILLNESS_NAME=#{illnessName,jdbcType=VARCHAR}
+				<if test="diseaseName!=null">
+					  ,DISEASE_NAME=#{diseaseName,jdbcType=VARCHAR}
 				</if>
-				<if test="illnessDesc!=null">
-					  ,ILLNESS_DESC=#{illnessDesc,jdbcType=VARCHAR}
+				<if test="diseaseContent!=null">
+					  ,DISEASE_CONTENT=#{diseaseContent,jdbcType=VARCHAR}
 				</if>
-				<if test="illnessTypeId!=null">
-					  ,ILLNESS_TYPE_ID=#{illnessTypeId,jdbcType=VARCHAR}
+				<if test="diseasePic!=null">
+					  ,DISEASE_PIC=#{diseasePic,jdbcType=VARCHAR}
 				</if>
 				 
 			</trim>
 			WHERE 
 			 
-				ILLNESS_ID=#{illnessId}
+				DISEASE_ID=#{diseaseId}
 	</update>
 
 	<delete id="delete" parameterType="java.util.Map">
-		DELETE FROM ILLNESS 
-		where ILLNESS_ID =#{illnessId}
+		DELETE FROM COMMONDISEASE 
+		where DISEASE_ID =#{diseaseId}
 	</delete>	
 
 

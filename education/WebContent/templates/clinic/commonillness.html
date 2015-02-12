@@ -1,43 +1,42 @@
-<div class="col-sm-12 col-md-12">
-
-<div class="row">
-        <div class="col-sm-12 col-md-12">
-            <form class="form-custom clearfix">
-                <div class="col-sm-3 col-md-3">
-                     
-                    <input class="form-control" type="text" placeholder="标题,内容" ng-model="params.querykeyword"/>
-                </div>
-                
-                <div class="col-sm-3 col-md-3">
-                  
-                    <button class="btn btn-custom" type="button" ng-click="refresh('first',true)">查询</button>
-                    <button class="btn btn-custom" type="button" data-toggle="modal" data-target="#addandedit" on-click="clearForm()"  upload-refresh>新增</button>
-                </div>
+ <div class="col-sm-12 col-md-12">
+                          
+    <div class="row">
+        
+     	<div class="col-sm-12 col-md-12">
+			<form class="form-custom clearfix">
+			    
+	        <div class="col-sm-2 col-md-2">
+	            <input class="form-control"  type="text" placeholder="名称，内容" ng-model="params.querykeyword"/>       
+	        </div>   
+	        <div class="col-sm-4 col-md-4">                 
+	            <button class="btn btn-custom" type="submit"  ng-click="refresh('first',true)">查询</button>            
+	            <button class="btn btn-custom" type="button"  data-toggle="modal" data-target="#add" upload-refresh="true">新增</button> 
+	        </div>
             </form>
-        </div>
-     </div>   
-
-    <table class="table table-striped table-bordered table-condensed index-center  table-costom">
+        </div> 
+    </div>
+             
+   <table class="table table-striped table-bordered table-condensed index-center  table-costom">
         <thead>
         <tr>
             <th>序号</th>
-            <th style="width:280px">名称</th>
-            <th >内容预览</th>
-            <th style="width:160px">类别</th>
-            <th style="width:100px">操作</th>
+            <th>名称</th>
+            <th>内容预览</th>
+            <th>跟新日期</th>
+            <th>操作</th>
           
         </tr>
         </thead>
         <tbody>
-        <tr class="rowlink" ng-repeat="item in limitArr">
+        <tr class="rowlink" ng-repeat="it in limitArr">
             <td>{{current*limit+$index+1}}</td>
-            <td>{{item.illnessName}}</td>
-            <td title="{{item.illnessDesc}}">{{item.illnessDesc|limitTo:50}}  </td>
-            <td>{{item.illnessTypeName}}</td>
+            <td>{{it.diseaseName}}</td>
+            <td title="{{it.diseaseContent}}">{{it.diseaseContent|limitTo:10}}  </td>
+            <td>{{it.diseaseDate|date:'yyyy-MM-dd'}}</td>
             <td>
-
-                <a    href="javascript:" data-toggle="modal" data-target="#addandedit"    ng-click="edithealthfood(item)" >修改</a> 
-                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"  ng-click="todelete(item.illnessId)">删除</a>
+                <a    href="javascript:" data-toggle="modal" data-target="#preview"      ng-click="preview(it)"> 预览</a>
+                <a    href="javascript:" data-toggle="modal" data-target="#edit"           upload-refresh="true"    ng-click="edit(it)" >修改</a> 
+                <a    href="javascript:" data-toggle="modal" data-target="#removeDialog"   ng-click="todelete(it.diseaseId,it.diseasePic)">删除</a>
                  
             </td>
     
@@ -52,64 +51,68 @@
 					data-limit="limit"
 					data-params="params"
 			></div>
-</div>
 
-<!-- 新增修改对话框 -->
-<div class="modal fade" id="addandedit" tabindex="-1" role="dialog" aria-hidden="true">
-<form class="form-horizontal" name="addSyncApplForm" novalidate="novalidate"    ng-submit="create(key)" >
+</div>
+  
+<!-- 新增对话框 -->
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4  class="modal-title">新增/修改</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                        <div class="form-group">
-			                <label class="col-lg-2 control-label">名称</label>
-			                <div class="col-lg-9">
-			                    <input type="text" class="form-control" required ng-model="key.illnessName" ng-maxlength="50" ng-trim maxlength="50" />
-			                </div>
-			                 <span class="mustItem">*</span>
-		 
-                        </div>
-						    <div class="form-group">
-						        <label class="col-lg-2 control-label">描述</label>
-						        <div class="col-lg-9">
-						             <textarea class="form-control" rows="8" required ng-model="key.illnessDesc" ></textarea>
-						        </div>
-						        <span class="mustItem">*</span>
-						    </div>
+                <h4 class="modal-title">                                                                                               
+                     <p> 新增</p>                                                        
+                </h4>
+            </div>            
+            <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="create(key)"  novalidate="novalidate">    
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-12 col-md-12">
+	                       <div class="alert alert-danger alert-dismissable"   style="padding-left:80px">
+								<a data-dismiss="alert" class="close">×</a>
+								<strong>友情提示：</strong> 图片文件大小不要超过1M
+							</div>
 						<div class="form-group">
-                            <label class="col-lg-2 control-label">类别</label>
-                            <div class="col-lg-9">
-                                
-                            <select name="anaThemeRepId" select2 data-live-search="true" 
-                                    ng-model="key.illnessTypeId" required 
-                                    ng-options="c.illnessTypeId as c.illnessTypeName for c in illnessType" class="form-control">
-				                 <option value="">-----select------</option>
-				            </select>
-                            </div>
-                            <span class="mustItem">*</span>
-                             
+			                <label class="col-lg-2 control-label">标题</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control" required ng-model="key.diseaseName" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary"     ng-disabled="addSyncApplForm.$invalid">保存</button>
-                <button type="button" class="btn btn-danger"     ng-click="clearForm()">重置</button>
-                <button type="button" class="btn btn-default"    data-dismiss="modal">取消</button>
-            </div>
+                                         
+  				        <div class="form-group">
+                            <label class="col-lg-2 control-label">内容</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="4"  ng-model="key.diseaseContent"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                        </div>             
+						   <div class="form-group">                                  
+				               <label class="col-lg-2 control-label">图片: </label>             
+				                <div class="col-lg-9">                
+					                    <div uploader  thumb ng-model="uploadProfilePic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png,jpeg"  
+					                         files="files">
+					                    </div>	         
+				                </div>  
+				                                       
+				           </div>
+				           
+
+				      
+	                    </div>
+	                </div>
+	            </div>  
+	            <div class="modal-footer">   
+	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="submit" class="btn btn-primary" > 保 存</button>
+	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
+	            </div>
+            </form>
         </div>
         <!-- /.modal-content -->
     </div>
-    </form>
     <!-- /.modal-dialog -->
-</div>
-
- 
+</div><!-- /.modal -->
 
 <!-- 删除对话框 -->
 <div class="modal fade" id="removeDialog" tabindex="-1" role="dialog" aria-hidden="true">
@@ -132,5 +135,147 @@
     <!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
- 
+
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">                                                                                               
+                                                                  修改
+                </h4>
+            </div>            
+            <form name="shareFm" class="form-horizontal"   auto-file-upload  ng-submit="create(keye)"     novalidate="novalidate"  >    
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+			                <label class="col-lg-2 control-label">名称</label>
+			                <div class="col-lg-9">
+			                    <input type="text" class="form-control" required ng-model="keye.diseaseName" ng-maxlength="50" ng-trim maxlength="50" />
+			                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">简介</label>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" rows="4"  ng-model="keye.diseaseContent"  data-valid-pos="bottom" ></textarea>
+                            </div>
+                        </div>               
+						   <div class="form-group">                                  
+				               <label class="col-lg-2 control-label" title="不选代表删除原有照片">图片: </label>             
+				                <div class="col-lg-9">                
+					                    <div uploader  thumb ng-model="uploadProfilePic"
+					                         server="upload.shtml"
+					                         extensions="jpg,gif,png,jpeg"  
+					                         files="files">
+					                    </div>	         
+				                </div>  
+				                                        
+				           </div>
+				           
+
+	                                    
+	                    </div>
+	                </div>
+	            </div>  
+	            <div class="modal-footer">       
+	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="submit" class="btn btn-primary"   ng-disabled="shareFm.$invalid" ng-click=""> 保存</button>
+	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
+	            </div>
+	            
+	          
+	            
+	            
+	            
+	            
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+   
+
+<!-- 预览知识 -->
+<div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;height:392px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">预览</h4>
+            </div>    
+            
+           <div class="modal-body">     
+            	<div class="col-sm-12 col-md-12">
+	                  <form role="form" class="form-horizontal">                                      
+		                <h4 class="heading">         名称： {{keyv.diseaseName}}
+		                     
+		                </h4> 
+		                  
+		                  <div class="form-group"> 
+		                  &nbsp;                                                                     
+		                  </div>
+		                                                                                      
+	                  	<style type="text/css">
+		                        	.float-img{              
+		                        		display:  visible;
+		                        		position: absolute;
+		                        		margin-top:-40px;                                                                   
+		                        		width: 152px;                                                               
+		                        		height:152px;             
+		                        	    right:28px;        
+		                        		overflow:auto;
+		                        		background-color: #ff;                
+		                        		z-index:1;
+		                        		border:1px solid #f2f2f2;
+		                        	}  
+		                        	              
+		              	</style>                                                                                                           
+	                  <div >    
+	                       <div     class="float-img"   >    
+	                          <img class="img-thumbnail"  ng-src="{{imgShow(keyv.diseasePic)}}"  style="width: 150px; height:149px;"/>            
+	                       </div>   
+	                  </div>
+
+	           			<div class="form-group"  style=" height:332px; "> 
+	                     	<div >
+	                            <label class="col-lg-2 control-label">内容:</label>
+	                                
+	                                   <p class="col-lg-6">  
+										     
+										      {{keyv.diseaseContent}}
+										 
+	                                   </p>  
+	                                    
+	                               
+	                     
+	                     	</div>  
+	                  	</div> 
+	                  	 <div >    
+	                       
+	                  </div>    
+                   <div class="form-group"> 
+		                  &nbsp;                                                                     
+		             </div>
+	                 </form>                 
+	            </div> <!-- col-sm-12 col-md-12 end -->                 
+                
+                 
+            </div><!-- modal-conteng end -->
+               
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
  

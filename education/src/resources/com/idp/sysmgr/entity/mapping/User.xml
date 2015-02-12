@@ -296,9 +296,41 @@
 
 	<!-- 4.删除 -->
 	<delete id="delete" parameterType="java.util.Map">
-		DELETE FROM T02_USER_BASE u
-		<include refid="dynamicWhere" />
+		DELETE FROM T02_USER_BASE 
+		<include refid="dynamicWhereForDelete" />
 	</delete>
+	
+		<sql id="dynamicWhereForDelete">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="logName!=null">
+				AND  LOG_NAME = #{logName}
+			</if>
+			<if test="inRoleId!=null">
+				AND IN_ROLE_ID = #{inRoleId}
+			</if>
+ 
+			<if test="id!=null">
+				AND  USER_ID=#{id}
+			</if>
+			<if test="userName!=null">
+				AND ( USR_NAME like '%'||#{userName}||'%' OR
+				 LOG_NAME like '%'||#{userName}||'%')
+			</if>
+			<if test="state!=null">
+				AND  STATE=#{state}
+			</if>
+
+ 
+			<if test="ids!=null and ids.length>0">
+				AND  USER_ID in
+				<foreach item="id" index="index" collection="ids" open="("
+					separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			 
+		</trim>
+	</sql>
 
 
 	<!-- 5.1对像插入 -->

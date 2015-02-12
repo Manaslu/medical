@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+    
+<mapper namespace="com.idap.clinic.entity.UserEvaluate" >
+    <resultMap id="UserEvaluate" type="com.idap.clinic.entity.UserEvaluate">
+    
+            <result property="evaluateId"          column="EVALUATE_ID"              jdbcType="VARCHAR" />
+    	    <result property="mUserId"             column="M_USER_ID"                jdbcType="VARCHAR" />
+    	    <result property="evaluateContent"     column="EVALUATE_CONTENT"         jdbcType="VARCHAR" />
+    	    <result property="evaluateTime"        column="EVALUATE_TIME"            jdbcType="TIMESTAMP"/>
+    	    <result property="doctorId"            column="DOCTOR_ID"                jdbcType="VARCHAR" />
+    	    <result property="clinicId"            column="CLINIC_ID"                jdbcType="VARCHAR" />
+    	    <result property="evaluateDoctScore"   column="EVALUATE_DOCT_SCORE"      jdbcType="NUMERIC" />
+    	    <result property="evaluateClinicScore" column="EVALUATE_CLINIC_SCORE"    jdbcType="NUMERIC" />
+    	    <result property="mUserName"           column="M_USER_NAME"              jdbcType="VARCHAR" />
+    	    <result property="doctorName"          column="DOCTOR_NAME"              jdbcType="VARCHAR" />
+    	    <result property="clinicName"          column="CLINIC_NAME"              jdbcType="VARCHAR" />
+    	    <result property="evaluateFeedback"    column="EVALUATE_FEEDBACK"        jdbcType="VARCHAR" />
+    	    
+	</resultMap>
+	 
+ 
+	
+	<sql id="queryBody">
+		<if test="sno!=null and eno!=null and orderBy!=null">
+			select
+			<include refid="allColumn" />
+			 from
+			EVALUATE  t
+			left join MOBILE_USER u on(t.M_USER_ID=u.M_USER_ID)
+			left join DOCTOR d on(t.DOCTOR_ID=d.DOCTOR_ID)
+			left join CLINIC c on(t.CLINIC_ID=c.CLINIC_ID)
+			<include refid="dynamicWhere" />
+			<include refid="dynamicOrderBy" />
+			limit ${sno-1},${eno}
+		</if>
+		<!-- 无orderby -->
+		<if test="sno!=null and eno!=null and orderBy==null">
+			select
+			<include refid="allColumn" />
+			 from
+			EVALUATE t
+			left join MOBILE_USER u on(t.M_USER_ID=u.M_USER_ID)
+			left join DOCTOR d on(t.DOCTOR_ID=d.DOCTOR_ID)
+			left join CLINIC c on(t.CLINIC_ID=c.CLINIC_ID)
+			<include refid="dynamicWhere" />
+			limit ${sno-1},${eno}
+		</if>
+	</sql>	
+	   <sql id="allColumn">
+	           t.EVALUATE_ID,
+	           t.M_USER_ID,
+	           t.EVALUATE_CONTENT,
+	           t.EVALUATE_TIME,
+	           t.DOCTOR_ID, 
+	           t.CLINIC_ID,
+	           t.EVALUATE_DOCT_SCORE,
+	           t.EVALUATE_CLINIC_SCORE,
+	           t.EVALUATE_FEEDBACK,
+	           u.M_USER_NAME,
+	           d.DOCTOR_NAME,
+	           c.CLINIC_NAME
+	</sql>
+ 
+ 	<select id="query" parameterType="java.util.Map" resultMap="UserEvaluate">
+		select 
+		       t.EVALUATE_ID,
+		       t.M_USER_ID,
+	           t.EVALUATE_CONTENT,
+	           t.EVALUATE_TIME,
+	           t.DOCTOR_ID, 
+	           t.CLINIC_ID,
+	           t.EVALUATE_DOCT_SCORE,
+	           t.EVALUATE_CLINIC_SCORE,
+	           t.EVALUATE_FEEDBACK,
+	           u.M_USER_NAME,
+	           d.DOCTOR_NAME,
+	           c.CLINIC_NAME
+	           
+	       from EVALUATE t
+	       left join MOBILE_USER u on(t.M_USER_ID=u.M_USER_ID)
+			left join DOCTOR d on(t.DOCTOR_ID=d.DOCTOR_ID)
+			left join CLINIC c on(t.CLINIC_ID=c.CLINIC_ID)
+	       <include refid="dynamicWhere" />
+	 
+	</select>
+ 
+	<select id="findByPager" parameterType="java.util.Map" resultMap="UserEvaluate">
+		<include refid="queryBody" />
+	</select>
+	
+	<select id="UserEvaluatequery" parameterType="java.util.Map" resultMap="UserEvaluate">
+		<include refid="queryBody" />
+	</select>
+	
+
+	
+		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->
+	<select id="findByPagerCount" parameterType="java.util.Map" resultType="int" >
+		select
+		count(1)
+		from
+		EVALUATE t
+		<include refid="dynamicWhere" />
+		    
+	</select>
+	 
+	<sql id="dynamicWhere">
+			<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="querykeyword!=null">
+					AND  EVALUATE_CONTENT like concat('%',#{querykeyword},'%') 
+				</if>
+				<if test="clinicId!=null">
+					AND  t.CLINIC_ID = #{clinicId}
+				</if>
+				 
+			</trim>
+	</sql>
+	
+ 	<!-- order by 排序 -->
+	<sql id="dynamicOrderBy">
+		<if test="orderBy!=null">
+			order by ${orderBy}
+			<if test="order!=null">
+				${order}
+		</if>
+		</if>
+	</sql>
+	
+
+	<insert id="insert" parameterType="com.idap.clinic.entity.UserEvaluate" >
+	    INSERT INTO 
+	    EVALUATE(<include refid="allapplColumn"/>	)
+		<include refid="allapplColumnVar"/>
+	</insert>
+	
+	<sql id="allapplColumn">
+	            EVALUATE_ID,
+	            M_USER_ID,
+	            EVALUATE_CONTENT,
+	            DOCTOR_ID,
+	            CLINIC_ID,
+	            EVALUATE_DOCT_SCORE,
+	            EVALUATE_CLINIC_SCORE
+
+	</sql>
+	
+	<sql id="allapplColumnVar">
+		values(
+		        #{evaluateId,         jdbcType=VARCHAR},
+				#{mUserId,            jdbcType=VARCHAR},
+				#{evaluateContent,    jdbcType=VARCHAR},
+				#{doctorId,           jdbcType=VARCHAR},
+				#{clinicId,           jdbcType=VARCHAR},
+				#{evaluateDoctScore,  jdbcType=NUMERIC},
+				#{evaluateClinicScore,jdbcType=NUMERIC}
+		     )
+	</sql>
+	
+	<update id="update" parameterType="com.idap.clinic.entity.UserEvaluate">
+			update EVALUATE
+			<trim prefix=" SET " prefixOverrides=",">
+				<if test="evaluateContent!=null">
+					  ,EVALUATE_CONTENT=#{evaluateContent,jdbcType=VARCHAR}
+				</if>
+				<if test="evaluateDoctScore!=null">
+					  ,EVALUATE_DOCT_SCORE=#{evaluateDoctScore,jdbcType=NUMERIC}
+				</if>
+				<if test="evaluateClinicScore!=null">
+					  ,EVALUATE_CLINIC_SCORE=#{evaluateClinicScore,jdbcType=NUMERIC}
+				</if>
+				<if test="evaluateFeedback!=null">
+					  ,EVALUATE_FEEDBACK=#{evaluateFeedback,jdbcType=NUMERIC}
+				</if>
+				
+			</trim>
+			WHERE 
+				EVALUATE_ID = #{evaluateId}
+	</update>
+
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM EVALUATE 
+		where EVALUATE_ID = #{evaluateId}
+	</delete>	
+
+
+</mapper>
+
+
+
+
