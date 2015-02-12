@@ -15,6 +15,13 @@ public class DiagnoseResult implements java.io.Serializable {
 	private String mUserId;//M_USER_ID m_user_id
 	private String userOrderId;//USER_ORDER_ID user_order_id
 	private String userIllnessDesc;//USER_ILLNESS_DESC user_illness_desc
+//	private ClinicInformation clinic;
+//	private DoctorsManagement doctor;
+	private String clinicName;
+	private String doctorName;
+	private String doctorDegree;
+	private String doctorPic;
+	
 	
 	public String getSeeDoctorId() {
 		return seeDoctorId;
@@ -65,6 +72,32 @@ public class DiagnoseResult implements java.io.Serializable {
 	public void setUserIllnessDesc(String userIllnessDesc) {
 		this.userIllnessDesc = userIllnessDesc;
 	}
+	public String getClinicName() {
+		return clinicName;
+	}
+	public void setClinicName(String clinicName) {
+		this.clinicName = clinicName;
+	}
+	public String getDoctorName() {
+		return doctorName;
+	}
+	public void setDoctorName(String doctorName) {
+		this.doctorName = doctorName;
+	}
+	public String getDoctorDegree() {
+		return doctorDegree;
+	}
+	public void setDoctorDegree(String doctorDegree) {
+		this.doctorDegree = doctorDegree;
+	}
+	public String getDoctorPic() {
+		return doctorPic;
+	}
+	public void setDoctorPic(String doctorPic) {
+		this.doctorPic = doctorPic;
+	}
+
+
 	
 	
 	 

@@ -3,8 +3,10 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.idap.clinic.entity.HealthFood;
 import com.idp.pub.dao.IBaseDao;
 import com.idp.pub.dao.IPagerDao;
@@ -63,6 +65,11 @@ public class HealthFoodServiceImpl extends DefaultBaseService<HealthFood, String
     public Integer delete(Map<String, Object> params) {
         return this.getBaseDao().delete(params); 
     }
+
+//	@Override
+//	public HealthFood getById(String id) {
+//		return this.getBaseDao().get(id);
+//	}
     
 
 }

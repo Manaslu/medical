@@ -10,6 +10,13 @@
     	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
     	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
     	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
+	</resultMap>
+	    <resultMap id="HealthFoodAssClinic" type="com.idap.clinic.entity.HealthFood">
+    	    <result property="eatId" column="EAT_ID" jdbcType="VARCHAR" />
+    	    <result property="eatTitle" column="EAT_TITLE" jdbcType="VARCHAR" />
+    	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
+    	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
+    	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
     	    <association property="clinic" javaType="com.idap.clinic.entity.ClinicInformation">
     	    	<id column="clinic_id" property="clinicId"/>
     	    	<result column="clinic_name" property="clinicName"/>
@@ -59,6 +66,14 @@
 	
 	<select id="query" parameterType="java.util.Map" resultMap="HealthFood">
 		<include refid="queryBody" />
+	</select>
+	
+	<select id="getById" parameterType="java.util.Map" resultMap="HealthFoodAssClinic">
+			select
+			<include refid="allColumn" />
+			 from
+			EAT t left join Clinic c on t.clinic_id=c.clinic_id
+			where t.EAT_ID=#{eatId}
 	</select>
 	
 		<!-- 3.1.根据对像条件查询记录数 MAP参数 -->

@@ -35,5 +35,11 @@ public class HealthFoodController extends BaseController<HealthFood, String> {
 		return p.getData();
 		
 	}
+	@RequestMapping(value="queryHealthFoodById")
+	@ResponseBody
+	public HealthFood queryHealthFoodById(@RequestParam String id){
+		return this.getBaseService().getById(id);
+		
+	}
  
 }

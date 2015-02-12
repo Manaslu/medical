@@ -24,9 +24,14 @@ public class CommonIllnessController extends BaseController<CommonIllness, Strin
 	public void setBaseService(IBaseService<CommonIllness, String> baseService) {
 		super.setBaseService(baseService);
 	}
+	/**
+	 * 手机端服务
+	 * @param pageno
+	 * @return
+	 */
 	@RequestMapping(value="queryCommonIllness")
 	@ResponseBody
-	public List<CommonIllness> queryHealthFood(@RequestParam int pageno){
+	public List<CommonIllness> queryIllness(@RequestParam int pageno){
 		Pager<CommonIllness> pillness=new Pager<CommonIllness>();
 		pillness.setCurrent(pageno);
 		Map<String,Object> hmap=new HashMap<String,Object>();
@@ -35,5 +40,16 @@ public class CommonIllnessController extends BaseController<CommonIllness, Strin
 		return p.getData();
 		
 	}
+	/**
+	 * 手机端服务
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="queryIllnessById")
+	@ResponseBody
+	public CommonIllness queryCommonIllnessById(String id){
+		return this.getBaseService().getById(id);
+	}
+	
  
 }

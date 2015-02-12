@@ -18,6 +18,8 @@
     	    <result property="doctorGender" column="DOCTOR_GENDER" jdbcType="VARCHAR" />
     	    <result property="doctorIdcard" column="DOCTOR_IDCARD" jdbcType="VARCHAR" />
     	    <result property="doctorCertificate" column="DOCTOR_CERTIFICATE" jdbcType="VARCHAR" />
+    	    <result property="clinicName" column="clinic_Name" jdbcType="VARCHAR" />
+    	    <result property="clinicTel" column="clinic_Tel" jdbcType="VARCHAR" />
     	    
 	</resultMap>
 	
@@ -34,7 +36,9 @@
 	           t.CLINIC_ID,
 	           t.DOCTOR_GENDER,
 	           t.DOCTOR_IDCARD,
-	           t.DOCTOR_CERTIFICATE
+	           t.DOCTOR_CERTIFICATE,
+	           c.CLINIC_NAME,
+	           c.CLINIC_TEL
 	           
 	</sql>
  
@@ -63,6 +67,13 @@
 		DOCTOR
 		<include refid="dynamicWhere" />
 		    
+	</select>
+	<select id="getById" parameterType="java.util.Map" resultMap="DoctorsManagement">
+			select
+			<include refid="allColumn" />
+			 from
+			DOCTOR t left join Clinic c on t.clinic_id=c.clinic_id left join DEPARTMENT d on(t.doctor_department=d.department_id )
+			where t.doctor_id=#{id}
 	</select>
 	 
 	<sql id="dynamicWhere">
@@ -187,6 +198,7 @@
 			<include refid="allColumn" />
 			 from
 			DOCTOR t left join DEPARTMENT d on(t.doctor_department=d.department_id )
+			 left join clinic c on t.clinic_id=c.clinic_id
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -197,6 +209,7 @@
 			<include refid="allColumn" />
 			 from
 			DOCTOR t left join DEPARTMENT d on(t.doctor_department=d.department_id )
+			 left join clinic c on t.clinic_id=c.clinic_id
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>
