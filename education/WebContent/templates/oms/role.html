@@ -3,26 +3,15 @@
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <form class="form-custom clearfix">
-                 <div class="col-sm-2 col-md-2">
-                    <label>角色名称:</label>
-                    <input class="form-control" ng-model="params.roleName" type="text"/>
-                </div>
-                <div class="col-sm-2 col-md-2">
-                    <label>角色状态:</label>
-	                    <select id="state" select2 ng-model="params.state" class="form-control">
-	                        <option value="">- 请选择 -</option>
-	                        <option value="1">启用</option>
-	                        <option value="2">禁用</option>
-	                    </select>
-                </div>
+            
                  <div class="col-sm-4 col-md-4">
                  
                     <label>&nbsp;</label>
-                    <button class="btn btn-custom" type="submit" ng-click="refresh('first',true)">查询</button>
-                    <span ng-show="USER_INFO.inRoleId=='admin'">
+        
+                    <span ng-show="USER_INFO.id=='1'">
                     	<button class="btn btn-custom" type="submit" data-toggle="modal" data-target="#pushDialog" ng-click="toUpdate()">新增角色</button>
                     </span>
-                    <button class="btn btn-custom" type="reset" ng-click="reset(params)">重置</button>
+                  
                    	
                 </div>
                 <div class="col-sm-4 col-md-4" align="right">
@@ -97,8 +86,8 @@
                     <div class="col-sm-12 col-md-12">
                         <form class="form-horizontal" name="mm"  novalidate="novalidate">
                             <div class="form-group">
-                                <label class="col-lg-2 control-label">角色名称:</label>
-                                <div class="col-lg-9">
+                                <label class="col-md-2 control-label">角色名称:</label>
+                                <div class="col-md-8">
                                     <input type="text" placeholder="角色名称" required ng-model="role.roleName" id="roleName" class="form-control"
                             			maxlength="20"
                             			remote-valid="{server : 'Role' , valid : 'valid' , params : 'getParams' , name : 'roleName' , fn : 'query'}"
@@ -109,8 +98,8 @@
                                 </div><font color="red">*</font>
                             </div>
                             <div class="form-group" ng-show="role.roleId">
-                                <label class="col-lg-2 control-label">角色状态:</label>
-                                <div class="col-lg-9">
+                                <label class="col-md-2 control-label">角色状态:</label>
+                                <div class="col-md-8">
 		                            <select id="state" ng-model="role.state" class="form-control">
 				                        <option value="1">启用</option>
 				                        <option value="2">禁用</option>
@@ -118,8 +107,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 control-label">角色描述:</label>
-                                <div class="col-lg-9">
+                                <label class="col-md-2 control-label">角色描述:</label>
+                                <div class="col-md-8">
                                     <textarea class="form-control" required ng-model="role.roleDesc" id="roleDesc" rows="3"
                                     	maxlength="20"
                             			my-valid="{valid:'myValid'}"
