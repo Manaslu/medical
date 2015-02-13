@@ -53,7 +53,8 @@
 	<!-- 4.删除 -->
 	<delete id="delete" parameterType="com.idp.sysmgr.role.entity.RolePermissions">
 		DELETE FROM t02_function_role 
-		where ROLE_ID =#{roleId} 
+		<include refid="dynamicWhere" />
+		 
 	 
 	</delete>
 	

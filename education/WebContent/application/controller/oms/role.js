@@ -223,7 +223,7 @@
             
             //删除角色
             $scope.remove = function(role){
-            	var params={roleId:role.roleId};
+            	var params={roleId: parseInt(role.roleId)};
             	//删除角色前，先把给该角色赋的菜单权限和用户赋的角色删掉，避免垃圾数据
             	UserRoleRela.remove({params:angular.toJson(params)},$scope.refresh.bind(null , 'current',true));
             	RolePermissions.remove({params:angular.toJson(params)},$scope.refresh.bind(null , 'current',true));

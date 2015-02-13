@@ -45,8 +45,8 @@
             <td>{{item.createDate | date : 'yyyy-MM-dd'  }}</td> 
 	                                                         
             <td>                                                                                                                                                                                   
-                <a href="javascript:"  ng-if=" USER_INFO.inRoleId=='admin' ||item.userId==USER_INFO.id"     data-toggle="modal" data-target="#pushDialog"   ng-click="modify(item,'true')">修改</a>
-                <a href="javascript:"  ng-if=" USER_INFO.inRoleId=='admin' ||item.userId==USER_INFO.id"   data-toggle="modal" data-target="#removeDialog" ng-click="toRemoveDialog(item)" >删除</a>
+                <a href="javascript:"  ng-if=" USER_INFO.id=='1' ||item.userId==USER_INFO.id"     data-toggle="modal" data-target="#pushDialog"   ng-click="modify(item,'true')">修改</a>
+                <a href="javascript:"  ng-if=" USER_INFO.id=='1' ||item.userId==USER_INFO.id"   data-toggle="modal" data-target="#removeDialog" ng-click="toRemoveDialog(item)" >删除</a>
             </td>
         </tr>           
         </tbody>

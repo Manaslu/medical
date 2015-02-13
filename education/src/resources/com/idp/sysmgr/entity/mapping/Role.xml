@@ -155,10 +155,21 @@
 
 	<!-- 4.删除 -->
 	<delete id="delete" parameterType="com.idp.sysmgr.role.entity.Role">
-		DELETE FROM T02_SYS_ROLE t
-		<include refid="dynamicWhere" />
+		DELETE FROM T02_SYS_ROLE 
+		<include refid="dynamicWherefordelete" />
 	</delete>
+	
+	<sql id="dynamicWherefordelete">
+		<trim prefix="where" prefixOverrides="AND|OR">
+			 
+			<if test="roleId!=null">
+				AND ROLE_ID=#{roleId,jdbcType=INTEGER}
+			</if>
 
+		</trim>
+	 
+
+	</sql>
 
 	<sql id="dynamicWhere">
 		<trim prefix="where" prefixOverrides="AND|OR">
