@@ -63,7 +63,7 @@ public class UploadFileController extends BaseController<UploadFile, String> {
 		}
 		params.put("id", fileId);
 		List<UploadFile> attachmentList = uploadFileService.query(params);
-          if(null!=attachmentList ){
+          if(0!=attachmentList.size() ){
         	 oldFileName = attachmentList.get(0).getOrgFileName();
         	 fileType = attachmentList.get(0).getFileType();
         	 filePath = attachmentList.get(0).getFilePath();
