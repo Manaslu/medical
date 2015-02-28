@@ -3,33 +3,29 @@
         <div class="col-sm-12 col-md-12">
             <form class="form-custom form-inline clearfix">
                 <div class="form-group">
-                    <label>请选择年份</label>
+                    <label>请选择时间</label>
 
-                    <div data-datetimepicker="years" view-mode="years" format="yyyy" end-date="today"></div>
-                    years = {{years}}
+                    <div data-datetimepicker range start="params.startTime" end="params.endTime"></div>
+<!--                     <div data-datetimepicker="years" view-mode="years" format="yyyy" end-date="today"></div> -->
+                  
                 </div>
-                <div class="form-group" ng-show="prov">
-                    <label>省份</label>
-                    <select select2 data-live-search="true"
-                            ng-model="provCode"
-                            ng-options="item.id as item.name for item in provList">
-                        <option value="">请选择</option>
-                    </select>
-                </div>
+<!--                 <div class="form-group" ng-show="prov"> -->
+<!--                     <label>省份</label> -->
+<!--                     <select select2 data-live-search="true" -->
+<!--                             ng-model="provCode" -->
+<!--                             ng-options="item.id as item.name for item in provList"> -->
+<!--                         <option value="">请选择</option> -->
+<!--                     </select> -->
+<!--                 </div> -->
             </form>
         </div>
     </div>
     <div class="row" ng-if="chart">
         <div class="col-sm-12 col-md-12">
-            <iframe load-frame="{{resultPath}}/ThunderChart3/chart/jsp/chart.jsp?file={{file}}&param={year:'{{years}}',org:'{{provCode||99}}'}"
+            <iframe load-frame="{{resultPath}}/ThunderChart3/chart/jsp/chart.jsp?file={{file}}&param={startTime:'{{startTime}}',endTime:'{{endTime}}',org:'{{provCode||99}}'}"
                     frameborder="0" border="0" width="100%" height="{{height}}"></iframe>
         </div>
     </div>
-    <div class="row" ng-if="table">
-        <div class="col-sm-12 col-md-12">
-            <iframe load-frame="{{resultPath}}/ThunderReportEZ/RepresentAction?filename={{file}}.xml&index=8&year={{years}}&org={{provCode||99}}"
-                    frameborder="0" border="0" width="100%" height="{{hei}}"></iframe>
-        </div>
-    </div>
+  
 
 </div>
