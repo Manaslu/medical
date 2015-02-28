@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="900" height="450" >
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm223001" pos="0" sort="f1|f2" colwidth="60" width="240" height="145" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_sum_bg:top.window.sale.v_sum_bg,v_sum_ed:top.window.sale.v_sum_ed}">
+		<ts:RowDims>
+			<ts:Dim name="排名" code="rank"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>		
+		
+                <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm223002"  pos="1" width="735" height="168" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_sum_bg:top.window.sale.v_sum_bg,v_sum_ed:top.window.sale.v_sum_ed}">
+                    <ts:dataset d1="region"  d2="type" value="value" line="同比" sAxis="同比" ></ts:dataset>
+                    
+                    <ts:chart customerColor="1" colorsFile="indexArea.xml"  caption=""  Stagger="1"  labelDisplay='WRAP' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+                    showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='10' showMedian="1"
+                showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+             </ts:cmpnt>
+
+		
+    </ts:layout>
+</ts:page>

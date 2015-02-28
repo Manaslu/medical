@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="850" height="450" >
+	
+
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm2200001"  pos="0" width="410" height="215" para="{v_cycle:'4',v_time:'200907',v_col:'col1'}" >
+	    	<ts:dataset d1="region"  d2="type" value="value" line="销售量同比" sAxis="销售量同比" ></ts:dataset>
+	    	
+	    	<ts:chart   customerColor="1" colorsFile="Column.xml" lineThickness="3" caption="" bgColor="0xffffff" showBorder="0" numVisiblePlot="0" sNumberSuffix="%25" showValues='0' placeValuesInside='1' rotateValues='1' 
+	    	          baseFontSize='12' numberSuffix="%" showLegend="1" legendPosition="buttom" legendBorderColor="0xffffff" useRoundEdges="1" showMedian="1" MedianSeries="计划完成率" medianDisplay="  " anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+
+	    
+    </ts:layout>
+</ts:page>

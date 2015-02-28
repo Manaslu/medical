@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160" unit="1">
+	    <ts:cmpnt type="ext-listgrid" datamodel="report" pos="0" width="1000" height="450"  hideHeaders="0" para="{}" columnCount="3">
+		<ts:Columns>
+			<ts:Column name="指标名称"  code="dispName" width="120" renderer="this.readKpiStyle"/>
+			<ts:Column name="机构编号" code="orgName" width="10" hidden="1"/>
+			<ts:Column name="当前值" code="curValue" width="105"/>
+			<ts:Column name="上期值"  code="bfValue" width="105"/>
+			<ts:Column name="同期值"  code="coValue" width="100"/>
+			<ts:Column name="缩进深度" code="indLvl" width="10" hidden="1"/>
+			<ts:Column name="指标" code="indName" width="100"  hidden="1"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>

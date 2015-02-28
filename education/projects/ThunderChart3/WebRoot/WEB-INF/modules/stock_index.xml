@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="stock_index" hasLine="false" width="480" height="470">
+
+		 <ts:cmpnt type="text"   pos="0" width="490" height="42" style="font-size:11pt" >
+                        <text>
+                        <td align="right" > 时间:</td> <td><input name="textfield" type="text" value="2013年1月1日" size="15" /></td>
+                        		
+                        		<td align="right" >名称: </td> <td><input name="textfield" type="text" value="昆东油库" size="10" /></td>
+                        		
+                        		<td align="right" >油品: </td>
+                        		<td><select name="menu1" onChange="MM_jumpMenu('parent',this,0)" > <option>汽油</option> <option>柴油</option></select>
+                        		</td>                  
+                        </text>
+                </ts:cmpnt>	
+		 <ts:cmpnt type="text"   pos="1" width="150" height="180" style="font-size:11pt" >
+                        <text>
+<table>
+<tr> <td align="right" >汽油库存:</td><td><b><font color="#204383">3000吨</font></b></td> </tr>
+<tr> <td align="right" >其中:</td> </tr>
+<tr> <td align="right" >90#:</td><td><b><font color="#204383">1000吨</font></b></td> </tr>
+<tr> <td align="right" >93#:</td><td><b><font color="#204383">1000吨</font></b></td></tr>   
+<tr> <td align="right" >97#:</td><td><b><font color="#204383">1000吨</font></b></td></tr> 
+</table>              
+                        </text>
+                </ts:cmpnt>		    
+<!-- 油品分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm224101"  pos="2" width="150" height="180" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="60" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm224101"  pos="3" width="150" height="100" para="{v_cycle:'4',v_time:'200901' }">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+		 <ts:cmpnt type="text"   pos="4" width="150" height="150" style="font-size:11pt" >
+                        <text>
+                        <table>
+<tr> <td align="right" >90#可发量:</td><td><b><font color="#204383">800吨</font></b></td> </tr>
+<tr> <td align="right" >空容量:</td><td><b><font color="#204383">100吨</font></b></td> </tr>
+<tr> <td align="right" >93#可发量:</td><td><b><font color="#204383">800吨</font></b></td> </tr>
+<tr> <td align="right" >空容量:</td><td><b><font color="#204383">100吨</font></b></td></tr>   
+<tr> <td align="right" >97#可发量:</td><td><b><font color="#204383">800吨</font></b></td> </tr>
+<tr> <td align="right" >空容量:</td><td><b><font color="#204383">100吨</font></b></td></tr> 
+</table>                
+                        </text>
+                </ts:cmpnt>
+<ts:cmpnt  type="MSColumn2D" datamodel="dm224201"  pos="5" width="340" height="150" para="{v_begin_time:'200911',v_time:'200912',v_org:'0010'}">
+                    <ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+                    <ts:chart  caption=""  customerColor="1" colorsFile="MSColumn2D.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+                               legendPosition="bottom"  baseFontSize="10" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+                               useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+            </ts:cmpnt>
+<ts:cmpnt type="StackedColumn2D" datamodel="dm223201"  pos="6" width="480" height="190" para="{v_cycle:'4',v_org:'0010',v_time:'200912'}">
+	    	<ts:dataset d1="name" d2="type" value="value" ></ts:dataset>
+<ts:chart colorsFile="Stacked.xml"  caption="库存量趋势" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+	    	          legendPosition="bottom" showSum='1' decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt><!--dm943-->
+	
+	
+
+
+	    </ts:layout>
+
+</ts:page>

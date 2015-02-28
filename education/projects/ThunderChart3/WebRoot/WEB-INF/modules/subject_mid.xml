@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="sale_plan" hasLine="false" width="150" height="470">
+
+
+		
+	<ts:cmpnt type="text"  pos="0" width="850" height="18"  >
+<text><table width="500" style="text-align:left;margin-left:200;font-size:10pt"><tr><td>
+      <input name="radiobutton" type="radio" onclick="radioCheck('jingyinglinag')" value="radiobutton" checked="checked" />经营量</td>
+      <td>
+      <input type="radio" name="radiobutton" onclick="radioCheck('jihuawanchenglv')" value="radiobutton" />计划完成率</td>
+      <td>
+      <input type="radio" name="radiobutton" onclick="radioCheck('jingyingliangtongbi')" value="radiobutton"/>经营量同比增长</td>
+      <td>
+      <input type="radio" name="radiobutton"  onclick="radioCheck('jiagedaoweilv')" value="radiobutton" />价格到位率</td>
+      </tr></table>
+</text>
+		</ts:cmpnt>	 
+
+    <ts:cmpnt  type="MSLine" datamodel="dm913001"  pos="2" width="460" height="220" para="{v_type:top.window.kpiorder.v_type}">
+                    <ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+                    <ts:chart  caption="时间趋势分析"  customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0" chartRightMargin="30" chartBottomMargin="10" labelDisplay='WRAP'
+                               legendPosition="bottom"  baseFontSize="10" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+             checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+            </ts:cmpnt> 
+
+
+   <ts:cmpnt  type="MSColumn2D" datamodel="dm913002"  pos="5" width="480" height="220" para="{v_type:top.window.kpiorder.v_type}">
+	    	<ts:dataset d1="region"  d2="type" value="value"></ts:dataset>
+	    	 <ts:chart  caption="经营情况地市排名分析"   showLimits="0" charLeftMargin="0"  chartBottomMargin="15" labelDisplay='WRAP' 
+              showAverage="1" legendPosition="bottom"  baseFontSize="10" showLegend="0" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+                               useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'>
+                               </ts:chart>
+	    </ts:cmpnt>	
+	    </ts:layout>
+
+</ts:page>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="fore_whatif" hasLine="false" width="790" height="510" >
+	  <ts:cmpnt type="AngularGaugeRPM" 
+		           datamodel="dm9005060101"  pos="0" width="200" height="180" >
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	    	<ts:chart radius="45" 
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColorCenterBest.xml" 
+	    	          
+	    	          displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                  
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="text" pos="1" datamodel="dm9005060301" style="text-align:left;font-size:11" width="200" height="100" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB" >
+			<text>
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" datamodel="dm9005060302" pos="2" style="font-size:14;font-weight:bold;" width="140" height="20" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB"  >
+			<text>
+			</text>
+		</ts:cmpnt>
+	    <ts:cmpnt type="MSLine" datamodel="dm9005060102"  pos="3" width="500" height="290"  >
+	    	<ts:dataset d1="ind_date"  d2="mode_name" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:chart chartRightMargin="2" colorsFile="MSLine.xml" setAdaptiveYMin="1" anchorRadius="4" customerColor="1"  caption="" Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" labelDisplay="ROTATE"></ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="text"  pos="4" width="900" height="100" style="font-size:9pt" para="{}">
+			<text>
+				<div>
+				<iframe id="fac" src="/MDSS/portlets/forecast/desc/fore_whatif_table.jsp" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+				</div>
+			</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

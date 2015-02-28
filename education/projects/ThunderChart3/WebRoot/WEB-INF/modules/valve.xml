@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160" unit="0">
+	    <ts:cmpnt type="AngularGauge" datamodel="valve" pos="0" width="300" height="200" para="{}" hasShowValue="true" message="{'chart.showValue':'setAttribute'}">
+	    	<!-- <ts:htmlDom>
+				<div style="font-size:9pt;">
+					<input type="checkbox" name="pie" value="1" onclick="Thunder.showValue(this,'chart.showValue')" />显示数值
+				</div>
+			</ts:htmlDom> -->
+	    	<ts:dataset  v1="v1"  ></ts:dataset>
+	    	<!-- caption 根据情况自己写 即显示标题-->
+	    	<ts:chart caption="" showBorder="0"  showValues="0"  radius="80"></ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>

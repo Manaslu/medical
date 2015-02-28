@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="cross" >
+<ts:cmpnt type="text"   pos="0" width="900" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>
+                 		订户发展状况
+					 </text>  
+		</ts:cmpnt>  
+<!-- 订户数对比 -->		  
+ <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110051"  pos="1" width="450" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="户均流转额（元）" sAxis="户均流转额（元）" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile=""  caption="订户数对比"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="right" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt> 
+<!-- 重点行业订户覆盖率 -->	     
+ <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110052"  pos="2" width="500" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="上年覆盖率,覆盖率" sAxis="上年覆盖率,覆盖率" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Pie.xml"  caption="重点行业订户覆盖率"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt> 
+<!-- 重点行业订户数及增幅 -->	    
+ <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110053"  pos="3" width="450" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="订户数增幅" sAxis="订户数增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Pie.xml"  caption="重点行业订户数及增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt> 	
+<!-- 重点省市的订阅饱和度 -->	        	    
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110054"  pos="4" width="500" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.table}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="上年饱和度,饱和度" sAxis="上年饱和度,饱和度" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="重点省市的订阅饱和度"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="%" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+ 		
+      		
+    </ts:layout>
+</ts:page>

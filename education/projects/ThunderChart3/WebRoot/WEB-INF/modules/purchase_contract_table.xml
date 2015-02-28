@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="790" height="255">
+	 <ts:cmpnt type="text" datamodel="dm220002" pos="0"  width="50" height="120" bgColor="D4E5FB" borderColor="D4E5FB" margin="20 0 0 5" para="{v_time:'200812',v_org:'0010',v_begin_time:'200808'}">
+		<text>
+		</text>
+     </ts:cmpnt>
+	  <ts:cmpnt type="ext-crossgrid" datamodel="dm220002" pos="2" sort="f1|f2" width = "867" height="145" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_begin_time:'200808',v_time:'200812',v_org:'0010'}">
+		<ts:RowDims>
+			<ts:Dim name="时间" code="dim" width = "51"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim  code="datatype" width = "80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre code="datavalue" />
+		</ts:Measures>
+	</ts:cmpnt>
+	
+ 	<ts:cmpnt type="text"  datamodel="dm7001030302" pos="3"  width="550" height="15"  style="font-size:9pt;text-align:left;margin-left:5px;margin-top:0px;"  para="{v_time:'200812',v_org:'0010'}">
+		<text>
+		</text>
+	</ts:cmpnt>
+    </ts:layout>
+</ts:page>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	    <ts:cmpnt type="ext-listgrid" datamodel="dm1" pos="0" width="620" height="310"  hideHeaders="1" para="{}">
+		<ts:Columns>
+			<ts:Column name="机构"  code="org_name" />
+			<ts:Column name="当前值" code="cur_value" />
+			<ts:Column name="去年同期" code="co_value" />
+			<ts:Column name="本年累计"  code="sum_value" />
+			<ts:Column name="环比"  code="ring_value" />
+			<ts:Column name="同比" code="like_value" />
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

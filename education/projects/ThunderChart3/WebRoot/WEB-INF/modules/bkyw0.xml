@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="dasp2" >
+    <ts:cmpnt type="text"   pos="10" width="450" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>报刊总体情况分析</text>  
+	</ts:cmpnt>     
+ 	    <ts:cmpnt type="Legend" datamodel="dm110003"  pos="0" width="100" height="200" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="datatype" value="datatype" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>	    
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110003"  pos="1" width="380" height="265" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="订户数增幅,机构订户数增幅" sAxis="订户数增幅,机构订户数增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Pie.xml"  caption="全国订户数量及其增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="0" legendPosition="buttom" useRoundEdges="1" anchorRadius='4' ></ts:chart>
+	    </ts:cmpnt> 
+ <!-- 饼图    -->        
+ <ts:cmpnt type="Pie2D" datamodel="dm110009"  pos="2" width="300" height="150" para="{org:window.dasp.org,year:window.dasp.year}">
+                    <ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='1'></ts:chart>
+            </ts:cmpnt>	
+ 	    <ts:cmpnt type="Legend" datamodel="dm110009"  pos="3" width="100" height="150" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt> 
+ <!-- 文字说明    -->  		               
+ <ts:cmpnt type="text" datamodel="dm110004" pos="4" width="150" height="45" style="text-align:left;margin-left:5;font-size:10pt" para="{org:window.dasp.org,year:window.dasp.year}">
+			<text></text>
+		</ts:cmpnt> 	    
+ <!-- 表格    -->   	    		
+<ts:cmpnt type="ext-crossgrid" datamodel="dm110003" pos="5" sort="f1|f2"  width="480"  height="115" showBorder="0" useRoundEdge="0" 
+                        measurepos="col" para="{org:window.dasp.org,year:window.dasp.year}">
+                <ts:RowDims>
+                        <ts:Dim name="" code="datatype"  width="100" />
+                </ts:RowDims>
+                <ts:ColDims>
+                        <ts:Dim name="type" code="dim" width="118"/>
+                </ts:ColDims>
+                <ts:Measures>
+                        <ts:Meausre name="value" code="value" />
+                </ts:Measures>
+</ts:cmpnt>	
+ <!-- 文字说明    --> 
+ <ts:cmpnt type="text" datamodel="dm110007" pos="6" width="180" height="45" style="text-align:left;margin-left:5;font-size:10pt" para="{org:window.dasp.org,year:window.dasp.year}">
+			<text></text>
+		</ts:cmpnt>
+<!-- 文字说明    --> 
+ <ts:cmpnt type="text" datamodel="dm110008" pos="7" width="180" height="45" style="text-align:left;margin-left:5;font-size:10pt" para="{org:window.dasp.org,year:window.dasp.year}">
+			<text></text>
+		</ts:cmpnt>	
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110001"  pos="8" width="400" height="280" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="流转额增幅" sAxis="流转额增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="流转额及其增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4' ></ts:chart>
+	    </ts:cmpnt> 
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110002"  pos="9" width="620" height="280" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="流转额增幅,去年流转额增幅" sAxis="流转额增幅,去年流转额增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="省流转额及其增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11' labelDisplay='WRAP' 
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4' ></ts:chart>
+	    </ts:cmpnt> 
+       		
+    </ts:layout>
+</ts:page>

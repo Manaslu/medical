@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="270" height="260">
+
+	    
+
+  <ts:cmpnt type="StackedColumn2D" datamodel="dm211003"  pos="0" width="260" height="240" para="{v_cycle:'4',v_org:'0010',v_time:'200912'}">
+                    <ts:dataset d1="name" d2="type" value="value" ></ts:dataset>
+                    
+                    <ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+                              labelDisplay="ROTATE" legendPosition="bottom" showSum='1' decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+                              useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+                </ts:cmpnt><!--dm943-->
+
+	                 
+
+
+	    </ts:layout>
+
+</ts:page>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="0">
+	   <ts:cmpnt type="mapChina" datamodel="index_gis"  pos="0" width="950" height="500">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:chart 
+	    	          showShadow='0' 
+	    	          showBevel='1'
+	    	          showLabels='0' 
+	    	          fillColor='FFFFFF' 
+	    	          showCanvasBorder="0"
+	    	          borderColor='609a9b' 
+	    	          mapLeftMargin='0'
+	    	          mapRightMargin='0'
+	    	          mapTopMargin='0'
+	    	          mapBottomMargin='0'
+	    	          >
+	        </ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>
+
+

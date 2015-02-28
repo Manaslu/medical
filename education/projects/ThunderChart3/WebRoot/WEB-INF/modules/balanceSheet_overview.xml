@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="150" height="480">
+		
+	   <!--  总资产构成饼图   7006020101   -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm7006020101"  pos="0" width="150" height="150"  para=" {v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"  caption="总资产构成" chartTopMargin="0" baseFontSize="12" showPercentValues="0" showLabels="0" showValues="1"  pieRadius="35" smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='10'></ts:chart>
+	    </ts:cmpnt>
+		
+		<!--  总负债构成饼图文字说明   7006020301   
+        <ts:cmpnt type="text"  datamodel="dm7006020301" pos="1"  width="150" height="80" style="font-size:9pt;text-align:left;margin-top:5;margin-left:0;margin-right:5"  para="{v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+			<text>
+			  
+			</text>
+		</ts:cmpnt> -->
+		 
+		 	 <!--  图例   -->  
+	   	    <ts:cmpnt type="Legend" datamodel="dm7006020101"  pos="1" width="150" height="40" para=" {v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>    
+		
+		<!--  横线text       -->
+	    <ts:cmpnt type="text"  pos="2" width="160" height="10" style="font-size:9pt;text-align:left;margin-top:0;margin-left:0;margin-right:0" para="{}">
+			<text>
+	           <div style="margin-top:5;height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;overflow: hidden;"></div>
+			</text>
+		</ts:cmpnt>
+		
+		<!--  总负债构成饼图    7006020102  -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm7006020102"  pos="3" width="150" height="150"  para="{v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0"  customerColor="1" colorsFile="Pie.xml"  caption="总负债构成" chartTopMargin="0" baseFontSize="12" showPercentValues="0" showLabels="0" showValues="1"  pieRadius="35" smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='10'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    	 	 <!--  图例   -->  
+	   	    <ts:cmpnt type="Legend" datamodel="dm7006020102"  pos="4" width="150" height="40" para=" {v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>    
+	    
+	    <!--  总负债构成饼图文字说明   7006020302  
+	    <ts:cmpnt type="text" datamodel="dm7006020302" pos="5"  width="150" height="50" style="font-size:9pt;text-align:left;margin-top:5;margin-left:0;margin-right:5"  para="{v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+			<text>
+			   <div style="margin-left:5">上图为总负债构成的展示。其中流动负债占36%，非流动负债占64%</div>
+			</text>
+		</ts:cmpnt> --> 
+		
+		<!--  横线text       -->
+	    <ts:cmpnt type="text"  pos="5" width="155" height="10" style="font-size:9pt;text-align:left;margin-top:0;margin-left:0;margin-right:0" para="{}">
+			<text>
+	           <div style="margin-top:5;height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;overflow: hidden;"></div>
+			</text>
+		</ts:cmpnt>
+		
+		<!--  表格标题       -->
+	    <ts:cmpnt type="text"  pos="6" width="160" height="20" style="font-size:10pt;text-align:left;margin-top:0;margin-left:0;margin-right:0" para="{}">
+			<text>
+	           <div style="font-size:9pt;fontWeight:bolder;text-align:center;margin-top:5;margin-left:0;margin-right:0"><b>指标摘要</b></div>
+			</text>
+		</ts:cmpnt>
+		
+		<!--  指标摘要表格    7006020201  		-->
+		 <ts:cmpnt type="ext-crossgrid" datamodel="dm7006020201" pos="7" sort="f1|f2"  width="160" height="230" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}"  >
+		<ts:RowDims>
+			<ts:Dim name="指标" code="lines" width="70"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="90"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		     
+	</ts:layout>
+</ts:page>

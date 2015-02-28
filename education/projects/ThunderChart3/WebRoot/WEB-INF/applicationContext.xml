@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	
+ 	<bean id="dataSource_metadata" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		
+<!-- 测试131 -->		
+<!--		<property name="jdbcUrl" value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.17.181.131)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=orcl)))" />		-->
+<!--		<property name="username" value="c##dasp_test" />-->
+<!--		<property name="password" value="dasp_test" />-->
+
+<!-- mysql -->		
+		<property name="jdbcUrl" value="jdbc:mysql://172.18.64.21/education?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8" />		
+		<property name="username" value="admin1" />
+		<property name="password" value="admin1" />
+ 
+
+		<property name="idleConnectionTestPeriodInMinutes" value="60" />
+		<property name="idleMaxAgeInMinutes" value="240" />
+		<property name="maxConnectionsPerPartition" value="2" />
+		<property name="minConnectionsPerPartition" value="1" />
+		<property name="partitionCount" value="1" />
+		<property name="acquireIncrement" value="1" />
+		<property name="statementsCacheSize" value="5" />
+		<property name="releaseHelperThreads" value="1" />
+	</bean>
+	
+	<bean id="jdbcSupport_oracle" class="com.teamsun.framework.dao.JdbcSupport">
+		<property name="dataSource">
+			<ref bean="dataSource_metadata" />
+		</property>
+	</bean>
+	
+	<bean id="beanLoader" class="com.teamsun.framework.util.BeanLoader" />
+
+	 
+</beans>

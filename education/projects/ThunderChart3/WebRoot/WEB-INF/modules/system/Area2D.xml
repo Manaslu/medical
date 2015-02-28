@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	    <ts:cmpnt type="Area2D" datamodel="dm1"  pos="0" width="620" height="400" para="{}" hasShowValue="true" message="{'chart.showValue':'setAttribute'}">
+	    	<ts:htmlDom>
+				<div style="font-size:9pt;">
+					<input type="checkbox" name="pie" value="1" onclick="Thunder.showValue(this,'chart.showValue')" />显示数值
+				</div>
+			</ts:htmlDom>
+	    	<ts:dataset d1="org_name" value="cur_value" ></ts:dataset>
+	    	<ts:chart caption="成本总额" baseFontSize="12" showValues="0" pieRadius="25" isSmartLineSlanted='1' smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="0"></ts:chart>
+	    </ts:cmpnt>
+	    
+    </ts:layout>
+</ts:page>
+
+

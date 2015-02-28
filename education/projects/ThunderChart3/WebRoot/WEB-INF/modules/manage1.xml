@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="manage1" >
+  <ts:cmpnt type="Legend" datamodel="dm110003"  pos="0" width="90" height="150" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="datatype" value="datatype" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>	    
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110003"  pos="1" width="400" height="300" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="订户数增幅,机构订户数增幅" sAxis="订户数增幅,机构订户数增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Pie.xml"  caption="全国订户数量及其增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="0" legendPosition="buttom" useRoundEdges="1" anchorRadius='4' ></ts:chart>
+	    </ts:cmpnt>  
+ <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110100"  pos="2" width="600" height="300" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="订阅量增幅" sAxis="订阅量增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="pie.xml"  caption="总体订阅量及增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="%" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+<ts:cmpnt type="ext-crossgrid" datamodel="dm110003" pos="3" sort="f1|f2"  width="400"  height="300" showBorder="0" useRoundEdge="0" 
+                        measurepos="col" para="{org:window.dasp.org,year:window.dasp.year}">
+                <ts:RowDims>
+                        <ts:Dim name="" code="datatype"  width="100" />
+                </ts:RowDims>
+                <ts:ColDims>
+                        <ts:Dim name="type" code="dim" width="88"/>
+                </ts:ColDims>
+                <ts:Measures>
+                        <ts:Meausre name="value" code="value" />
+                </ts:Measures>
+</ts:cmpnt>		    
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110101"  pos="4" width="600" height="300" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="流转额增幅" sAxis="流转额增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="总体流转额及增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="%" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  		
+       		
+    </ts:layout>
+</ts:page>

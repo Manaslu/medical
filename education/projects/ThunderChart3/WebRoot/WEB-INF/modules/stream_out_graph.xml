@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="406" height="218">
+	
+
+	    <ts:cmpnt  type="MSColumn2D" datamodel="dm7001060101"  pos="0" width="400" height="185" para="{v_begin_time:'200901',v_time:'200905',v_org:'0010'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption=""  customerColor="1" colorsFile="MSColumn2D.xml" 
+	    	checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt  type="MSColumn2D" datamodel="dm7001060101"  pos="1" width="400" height="185" para="{v_begin_time:'200901',v_time:'200908',v_org:'0010'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption=""  customerColor="1" colorsFile="MSColumn2D.xml" 
+	    	checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+
+	    
+    </ts:layout>
+</ts:page>

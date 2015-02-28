@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+   <ts:layout template="stock_index" hasLine="false" width="480" height="470">
+
+		 <ts:cmpnt type="text"   pos="0" width="490" height="45" style="font-size:11pt" >
+                        <text>
+                        <td align="right" > 时间:</td> <td><input name="textfield" type="text" value="2013年1月1日" size="15" /></td>
+                        		
+                        		<td align="right" >名称: </td> <td><input name="textfield" type="text" value="昆东油库" size="10" /></td>
+                        		
+                        		<td align="right" >油品: </td>
+                        		<td><select name="menu1" onChange="MM_jumpMenu('parent',this,0)" > <option>汽油</option> <option>柴油</option></select>
+                        		</td>                  
+                        </text>
+                </ts:cmpnt>	
+		 <ts:cmpnt type="text"   pos="1" width="180" height="180"  >
+                        <text>
+<table style="font-size:10pt" >
+<tr> <td align="right" >综合损耗:</td><td><b><font color="#204383">3000吨</font></b></td><td>损耗率1‰</td> </tr>
+<tr> <td align="right" >其中:</td> </tr>
+<tr> <td align="right" >进货损耗:</td><td><b><font color="#204383">1000吨</font></b></td><td>损耗率1‰</td></tr>
+<tr> <td align="right" >保管损耗:</td><td><b><font color="#204383">1000吨</font></b></td><td>损耗率1‰</td></tr>   
+<tr> <td align="right" >运输损耗:</td><td><b><font color="#204383">1000吨</font></b></td><td>损耗率1‰</td></tr> 
+</table>              
+                        </text>
+                </ts:cmpnt>	
+
+	    
+
+		<ts:cmpnt type="Pie2D" datamodel="dm224301"  pos="2" width="180" height="150" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="60" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm224301"  pos="3" width="80" height="100" para="{v_cycle:'4',v_time:'200901' }">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+
+     <ts:cmpnt  type="MSLine" datamodel="dm222009"  pos="6" width="480" height="330" para="{v_begin_time:'200901',v_time:'200912',v_org:'0010'}">
+                    <ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+                    <ts:chart  caption="损耗率趋势分析" labelDisplay="ROTATE" customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+                               legendPosition="bottom"  baseFontSize="11" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+                               checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+            </ts:cmpnt>  	
+	
+
+
+	    </ts:layout>
+
+</ts:page>

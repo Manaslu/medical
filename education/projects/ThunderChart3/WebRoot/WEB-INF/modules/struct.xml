@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="kpi" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="1" zoom="1">
+    	    <!-- ts:cmpnt type="text"  pos="0" width="240" height="40" para="{}" style="text-align:left;">
+	    	<text>
+	    	<div style="text-align:left;font-size:11px;font-weight:bold;">
+	    		<span id="unitText">单位：万件</span>
+	    		<input type="radio" name="pie" value="万件"  checked="true" onclick="Thunder.changeData(10000)" />万计
+	    		<input type="radio" name="pie" value="个件" onclick="Thunder.changeData(1)" />个计
+	    	</div>
+	    	</text>
+	     </ts:cmpnt-->
+	     <ts:cmpnt  type="Pie3D"  datamodel="struct"  pos="0" width="900" height="350" >
+	    	<ts:dataset d1="dim1"  value="curval"  ></ts:dataset>
+	    	<ts:chart caption="结构分析" slicingDistance="5"  baseFontSize="12"  pieRadius="200" isSmartLineSlanted='1' 
+	    	 customerColor="1" colorset="0" colorsFile="PiePMM.xml"     
+	    	 showLegend='1' legendPosition="bottom" 
+	    	 smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="0" showPercentInToolTip="0" 
+	    	 yAxisName="" xportAction="download"  legendStyle="1"
+	    	 exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+     <ts:cmpnt type="ext-listgrid" datamodel="struct" pos="1" showBorder="1" useRoundEdge="0" width="850" height="150"  hideHeaders="0" enableColumnResize="0" para="{}">
+		<ts:Columns>
+			<ts:Column name="{dim}"  code="dim1" width="200" sortable="1"/>
+			<ts:Column name="指标值" code="curval" width="200" sortable="1" renderer="Thunder.changeUnit" type="float" align="right"/>
+			<ts:Column name="比例(%)" code="val"  width="200" sortable="1" type="float" align="right"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>

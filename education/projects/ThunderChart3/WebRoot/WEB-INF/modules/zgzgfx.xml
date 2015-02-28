@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="zgzgfx" hasLine="true" width="480"
+		height="160">
+		
+	   <!--  性别构成饼图    8002040101  smartLabelClearance  slicingDistance   -->
+	   <ts:cmpnt type="Pie2D" datamodel="dm8002040101"  pos="00" width="155" height="180" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0"  customerColor="1" colorsFile="Pie.xml" caption="性别构成" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	   
+	    <ts:cmpnt type="Legend" datamodel="dm8002040401"  pos="01" width="75" height="40" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>
+		
+		 <!--  年龄构成饼图    8002040102  -->
+		 <ts:cmpnt type="Pie2D" datamodel="dm8002040102"  pos="02" width="160" height="180"   para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+            <ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0"  customerColor="1" colorsFile="Pie.xml" caption="     年龄构成"  showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm8002040402"  pos="03" width="75" height="130" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' ></ts:chart>
+		</ts:cmpnt>
+		 
+		 <!-- 司龄构成饼图    8002040103 -->
+		 <ts:cmpnt type="Pie2D" datamodel="dm8002040103"  pos="04" width="180" height="180"  para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0"  customerColor="1" colorsFile="Pie.xml" caption="司龄构成"  showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm8002040403"  pos="05" width="65" height="100" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' ></ts:chart>
+		</ts:cmpnt>
+		
+		 <!-- 学历构成饼图    8002040104 -->
+	   <ts:cmpnt type="Pie2D" datamodel="dm8002040104"  pos="10" width="155" height="180"  para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0"  customerColor="1" colorsFile="Pie.xml" caption="学历构成"  showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	  
+	   <ts:cmpnt type="Legend" datamodel="dm8002040404"  pos="11" width="75" height="170" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' ></ts:chart>
+		</ts:cmpnt>
+		 
+		 <!-- 岗位构成饼图    8002040105 -->
+		 <ts:cmpnt type="Pie2D" datamodel="dm8002040105"  pos="12" width="160" height="180" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0"  customerColor="1" colorsFile="Pie.xml" caption="岗位构成"  showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	     <ts:cmpnt type="Legend" datamodel="dm8002040405"  pos="13" width="75" height="90" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>
+		
+		<!-- 层级构成饼图  8002040106   -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm8002040106"  pos="14" width="180" height="180"  para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0"  customerColor="1" colorsFile="Pie.xml" caption="层级构成"  showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	     
+	     
+	    <ts:cmpnt type="Legend" datamodel="dm8002040406"  pos="15" width="65" height="90" para="{v_cycle:'4',v_org:'0000',v_time:top.window.hr.stuct_time}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' ></ts:chart>
+		</ts:cmpnt>
+	   
+	    <!-- 此处空一个动态text控件  8002040301--> 
+	    
+	     <ts:cmpnt type="text" datamodel="dm8002040301" pos="2"  width="120" height="120" margin="10 0 30 0"  bgColor="D4E5FB" borderColor="D4E5FB"  para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+	     
+	    
+	    <!-- 岗位分布堆积图 --> 
+	    <ts:cmpnt type="StackedColumn2D" datamodel="dm8002040107"  pos="3" width="320" height="180" para="{v_cycle:'4',v_begin_time:top.window.hr.stuct_begin_time,v_time:top.window.hr.stuct_time,v_org:'0000'}">
+	    	<ts:dataset d1="year" d2="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml" xAxisName="" labelDisplay="ROTATE" Stagger="1"  slantLabels='1' PYAxisName="人数" SYAxisName="比例" showValues="0" showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1" useRoundEdges="1"></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <!-- 岗位分布表格 8002040201--> 
+	    <ts:cmpnt type="ext-listgrid" datamodel="dm8002040201" pos="4" width="355" height="180"  para="{v_cycle:'4',v_begin_time:top.window.hr.stuct_begin_time,v_time:top.window.hr.stuct_time,v_org:'0000'}">
+			<ts:Columns>
+				<ts:Column name=""  width="55" code="year" ></ts:Column>
+				<ts:Column name="人数" width="55" code="v1" />
+				<ts:Column name="占比" width="55" code="b1" />
+				<ts:Column name="人数"  width="55"  code="v2" />
+				<ts:Column name="占比" width="55"  code="b2" />
+				<ts:Column name="人数"  width="55" code="v3" />
+				<ts:Column name="占比"  width="55" code="b3" />
+				<ts:Column name="人数"  width="55" code="v4" />
+				<ts:Column name="占比"  width="55" code="b4" />
+			</ts:Columns>
+			<ts:ColPlugins> 
+			    <ts:ColPlugin /> 
+			    <ts:ColPlugin name="技术" colspan="2"/> 
+			    <ts:ColPlugin name="管理" colspan="2"/> 
+			    <ts:ColPlugin name="后勤" colspan="2"/> 
+			    <ts:ColPlugin name="业务" colspan="2"/> 
+			</ts:ColPlugins> 
+		</ts:cmpnt> 
+		
+	     <!-- ? 岗位描述文字 8002040302--> 
+	    <ts:cmpnt type="text" datamodel="dm8002040302" pos="5"  width="800" height="30" style="font-size:9pt;text-align:left;margin-left:10px;"  para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    
+	    
+	    <!-- 各省在职职工数  dm8002040108 -->
+	    <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8002040108"  pos="6"  width="550" height="230" para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+	    	<ts:dataset d1="shengfen" d2="type" value="value" line="在岗职工占比" sAxis="在岗职工占比"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="" numVisiblePlot="0"    placeValuesInside='1' rotateValues='1' numberPrefix=" " showLegend="1" legendPosition="bottom"  useRoundEdges="1" showValues="0" sNumberSuffix="%25" baseFontSize='10' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <!--  ? 各省在职职工数的文字注释控件 8002040303-->
+	    <ts:cmpnt type="text"  datamodel="dm8002040303" pos="7"  width="500" height="30" style="font-size:9pt;text-align:left;margin-left:10px;"  para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+	    
+	    <ts:cmpnt type="ext-crossgrid" datamodel="dm8002040202" pos="8" sort="f1|f2"    width="225" height="230" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}"  >
+		<ts:RowDims>
+			<ts:Dim name="地域" code="lines" width="55"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+	</ts:layout>
+</ts:page>

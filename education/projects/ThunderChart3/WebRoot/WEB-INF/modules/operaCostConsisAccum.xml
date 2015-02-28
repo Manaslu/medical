@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="operaCostConsisAccum" hasLine="true" width="480" height="160">
+	
+		 <!-- 累计运营支出构成分析成分图    -->	
+		<ts:cmpnt type="StackedColumn2D" datamodel="dm7003030101"  pos="0" width="160" height="280" para="{v_cycle:'#top.window.finance_cost.v_cycle',v_time:'#top.window.finance_cost.v_time',v_org:'#top.window.finance_cost.v_org'}">
+	    	<ts:dataset d1="name" d2="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="1"  bgcolor="FFFFFF" 
+	    	          showYAxisValues="0" showBorder ='0' numDivLines='0' plotSpacePercent="30" showPlotBorder ='0' 
+	    	          canvasBorderColor ='FFFFFF' chartLeftMargin ='3' chartRightMargin = '7' showCanvasBase ='000000' decimals = '2'
+	    	          useRoundEdges="1" canvasBgAlpha = '0'></ts:chart>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7003030201" pos="1" sort="f1|f2"  width="150"  height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_cycle:'#top.window.finance_cost.v_cycle',v_time:'#top.window.finance_cost.v_time',v_org:'#top.window.finance_cost.v_org'}">
+		<ts:RowDims>
+			<ts:Dim name="支出构成" code="name"  width="67" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		 <!-- 累计运营支出构成分析注释    -->	
+		<ts:cmpnt type="text" datamodel="dm7003030301" pos="2" width="150" height="250" style="font-size:9pt" para="{v_cycle:'#top.window.finance_cost.v_cycle',v_time:'#top.window.finance_cost.v_time',v_org:'#top.window.finance_cost.v_org'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+		<!--ts:cmpnt type="text"  pos="3" width="150" height="120" style="font-size:9pt" para="{}">
+			<text>
+				<div style="margin-left:5;margin-top:5;margin-right:5;">人工成本、结算支出、折旧及摊销、SGA及其它分别占运营支出比重为4.3%、15.3%、5.4%、9.9%，分别较去年同期下降0.5pp、0.3pp、0.4pp、0.5pp</div>
+			</text>
+		</ts:cmpnt-->
+	    
+	</ts:layout>
+</ts:page>

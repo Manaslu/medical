@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="252" height="218">
+		
+		<ts:cmpnt type="text"  datamodel="dm1001000000" pos="0" width="240" height="20" style="font-size:9pt;text-align:right;" para="{v_time:'#top.app.time'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  datamodel="dm1001000001" pos="1" width="240" height="20" style="font-size:9pt;text-align:right;" para="{v_metric:'#top.app.metric3'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    <ts:cmpnt type="AngularGaugeRPM" 
+		           datamodel="dm1001030301"  pos="2" width="200" height="130" para="{v_metric:'#top.app.metric3',v_type:'cur_value',v_time:'#top.app.time',v_org:'0010'}">
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	    	<ts:chart radius="45" 
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColor.xml" 
+	    	          
+	    	          displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                  
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="text" datamodel="dm1001030303"  pos="3"  width="252" height="100"  style="font-size:12;text-align:left;margin-left:5;margin-top:10;margin-right:5"  para="{v_metric:'#top.app.metric3',v_type:'cur_value',v_time:'#top.app.time',v_org:'0010'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

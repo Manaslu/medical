@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="sub_index" hasLine="false" width="150" height="470">
+
+
+	<ts:cmpnt type="text"  pos="1" width="180" height="12" style="text-align:center;margin-left:15;font-size:10pt">
+			<text><b>油品构成分析</b></text>
+		</ts:cmpnt>	 
+	<ts:cmpnt type="text"  pos="2" width="180" height="12" style="text-align:center;margin-left:5;font-size:10pt">
+			<text><b>销售方式分析</b></text>
+		</ts:cmpnt>	
+
+		<ts:cmpnt type="Pie2D" datamodel="dm912001"  pos="4" width="220" height="180" para="{}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1"  pieRadius="60" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm912001"  pos="5" width="90" height="100" para="{}">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+<!-- 销售方式分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm912002"  pos="6" width="200" height="180" para="{}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1"  pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm912002"  pos="7" width="80" height="100" para="{}">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+ 
+	    </ts:layout>
+
+</ts:page>

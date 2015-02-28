@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="900" height="450" >
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm413001" pos="0" sort="f1|f2" width="270" height="145" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_oil:top.window.loss.v_oil,v_begin_time:top.window.loss.v_begin_time,v_time:top.window.loss.v_time,v_depot:top.window.loss.v_depot,v_trans:top.window.loss.v_trans,v_value_bg:top.window.loss.v_value_bg,v_value_ed:top.window.loss.v_value_ed,v_rate_bg:top.window.loss.v_rate_bg,v_rate_ed:top.window.loss.v_rate_ed}">
+		<ts:RowDims>
+			<ts:Dim name="排名" code="rank" width="40"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="65"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>		
+		
+                <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm413002"  pos="1" width="700" height="168" para="{v_oil:top.window.loss.v_oil,v_begin_time:top.window.loss.v_begin_time,v_time:top.window.loss.v_time,v_depot:top.window.loss.v_depot,v_trans:top.window.loss.v_trans,v_value_bg:top.window.loss.v_value_bg,v_value_ed:top.window.loss.v_value_ed,v_rate_bg:top.window.loss.v_rate_bg,v_rate_ed:top.window.loss.v_rate_ed}">
+                    <ts:dataset d1="region"  d2="type" value="value" line="同比" sAxis="同比" ></ts:dataset>
+                    
+                    <ts:chart customerColor="1" colorsFile="indexArea.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+                    showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11' showMedian="1"
+                showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+             </ts:cmpnt>
+
+		
+    </ts:layout>
+</ts:page>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="150" height="470">
+	    <ts:cmpnt type="text" datamodel="dm7001020304" pos="0" width="150" height="20"  para="{v_time:'200901'}" style="font-size:9pt;text-align:right;margin-right:5;margin-top:0;margin-buttom:0;">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    
+	    <ts:cmpnt type="Pie2D" datamodel="dm7001020101"  pos="1" width="150" height="130" para="{v_time:'200901' ,v_org:'0010'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" colorsFile="Pie.xml" caption="收入构成" customerColor="1"  pieRadius="35" isSmartLineSlanted='0' 
+	    	   showPercentValues="0" showLabels="0" showValues="1"  baseFontSize='11' smartLabelClearance="2"  slicingDistance ="5" enableSmartLabels="1" skipOverlapLabels="0"></ts:chart>
+	    </ts:cmpnt> <!--  customerColor="1" colorsFile="test.xml" 更新颜色文件的配置 -->
+	    
+	    <ts:cmpnt type="text" pos="2" width="150" height="50"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/incom.jpg"/>
+			</text>
+		</ts:cmpnt>
+	    <ts:cmpnt type="text" datamodel="dm7001020301" pos="3" width="150" height="5"  para="{v_time:'200901',v_org:'0010'}" style="font-size:9pt">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    
+	    <ts:cmpnt type="text"  pos="4" width="800" height="2" style="font-size:9pt" para="{}">
+			<text>
+			<div style="height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;"></div>
+			</text>
+		</ts:cmpnt>
+		
+	    <ts:cmpnt type="Pie2D" datamodel="dm7001020102"  pos="5" width="150" height="130" para="{v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" colorsFile="Pie.xml" caption="资产构成" customerColor="1"  pieRadius="35" isSmartLineSlanted='0' 
+	    	   showPercentValues="0" showLabels="0" showValues="1"  baseFontSize='11' smartLabelClearance="2"  slicingDistance ="5" enableSmartLabels="1" skipOverlapLabels="0"></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="text" pos="6" width="30" height="40"  para="" style="font-size:9pt">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+	    <ts:cmpnt type="Legend" datamodel="dm7001020102"  pos="7" width="80" height="40" para="{v_time:'200901' ,v_org:'0010'}">
+	    	<ts:dataset d1="dim" value="dim" ></ts:dataset>
+	    	<ts:chart     customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                ></ts:chart>
+		</ts:cmpnt>
+	    
+	    <ts:cmpnt type="text" datamodel="dm7001020302" pos="8" width="150" height="33"  para="{v_time:'200801',v_org:'0010'}" style="font-size:9pt">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    
+	    <ts:cmpnt type="text"  pos="9" width="800" height="2" style="font-size:9pt" para="{}">
+			<text>
+			<div style="height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;"></div>
+			</text>
+		</ts:cmpnt>
+		
+	    <ts:cmpnt type="Pie2D" datamodel="dm7001020103"  pos="10" width="150" height="130" para="{v_time:'200801',v_org:'0010'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart  formatNumberScale="1"  radius3D="10" showPlotBorder="0" colorsFile="Pie.xml" caption="负债构成" customerColor="1"  pieRadius="35" isSmartLineSlanted='0' 
+	    	    showPercentValues="0" showLabels="0" showValues="1"  baseFontSize='11' smartLabelClearance="2"  slicingDistance ="5" enableSmartLabels="1" skipOverlapLabels="0"></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="text" pos="11" width="30" height="40"  para="" style="font-size:9pt">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+	    <ts:cmpnt type="Legend" datamodel="dm7001020103"  pos="12" width="80" height="40" para="{v_time:'200801',v_org:'0010'}">
+	    	<ts:dataset d1="dim" value="dim" ></ts:dataset>
+	    	<ts:chart   customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' ></ts:chart>
+		</ts:cmpnt>
+		
+	     <ts:cmpnt type="text" datamodel="dm7001020303" pos="13" width="150" height="33"  para="{v_time:'200801',v_org:'0010'}" style="font-size:9pt">
+			<text>
+			</text>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>

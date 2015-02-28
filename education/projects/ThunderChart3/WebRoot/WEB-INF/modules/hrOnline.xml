@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="160" height="1400">
+		<!--   8004020101 -->
+		<ts:cmpnt type="Pie2D" datamodel="dm8004020101"  pos="0" width="160" height="180" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml" caption="按职级" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    	    <ts:cmpnt type="text" pos="1" width="150" height="50"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/jingli.jpg"/>
+			</text>
+		</ts:cmpnt>
+	    
+	    <!--   8004020101 
+	    <ts:cmpnt type="Legend" datamodel="dm8004020101"  pos="1" width="80" height="100" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000' }">
+	    	<ts:dataset d1="dim" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>	
+		-->
+		
+		
+		<!--  横线text       -->
+	    <ts:cmpnt type="text"  pos="2" width="160" height="10" style="font-size:9pt;text-align:left;margin-top:0;margin-left:0;margin-right:0" para="{}">
+			<text>
+	           <div style="margin-top:5;height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;overflow: hidden;"></div>
+			</text>
+		</ts:cmpnt>
+	    
+	    <!--
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8004020201" pos="1" sort="f1|f2" width="150" height="180" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<ts:RowDims>
+				<ts:Dim name="职级" code="dim" width="55"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="70"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>-->
+		
+		<!--   8004020102 -->
+		<ts:cmpnt type="Pie2D" datamodel="dm8004020102"  pos="3" width="160" height="170" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml" caption="按岗位" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>	
+	    
+	    <!--   8004020102 
+	    <ts:cmpnt type="Legend" datamodel="dm8004020102"  pos="4" width="80" height="80" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000' }">
+	    	<ts:dataset d1="dim" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>
+	    -->
+	    
+	      	    <ts:cmpnt type="text" pos="4" width="150" height="50"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/gangwei.jpg"/>
+			</text>
+		</ts:cmpnt>
+	    
+	    <!--
+	    <ts:cmpnt type="ext-crossgrid" datamodel="dm8004020202" pos="3" sort="f1|f2" width="150"  height="180" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<ts:RowDims>
+				<ts:Dim name="岗位" code="dim" width="55"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="70"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>-->
+	</ts:layout>
+</ts:page>

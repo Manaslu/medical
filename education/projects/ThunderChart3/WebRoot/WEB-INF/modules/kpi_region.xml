@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="kpiRegion" hasLine="false" width="900" height="180">
+    <!-- para="{v_org:'0000',v_type:'sum_value',v_type_name:'本年累计',v_cycle:'4',v_metric:'20569000000',v_time:'200905'}" -->
+	     <!--ts:cmpnt type="MSColumn2D" datamodel="dm2000005"  pos="0" width="610" height="175" >
+	    	<ts:dataset d1="org_name" d2="type" value="value" line="人均人工成本(元)" ></ts:dataset>
+	    	<ts:chart caption="" showLegend="1" chartBottomMargin="1" showBorder="0" bgcolor="ffffff"  showValues="0"  baseFontSize='12' numberPrefix=" " legendPosition="bottom" useRoundEdges="1" numberScaleValue='0.01,100' numberScaleUnit='%,'></ts:chart>
+	    </ts:cmpnt-->
+	    <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm2000002"  pos="0" width="610" height="175"  >
+	    	<ts:dataset d1="org_name"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:chart  anchorRadius="4" customerColor="1" colorsFile="ColumnLine.xml" caption="" numVisiblePlot= "40" bgColor="0xffffff" showBorder="0"  sNumberSuffix="%25" showValues='0' placeValuesInside='1' rotateValues='1' 
+	    	          baseFontSize='12' chartBottomMargin="1"  numberPrefix=" " showLegend="1" legendPosition="buttom" useRoundEdges="1" numberScaleValue='1' numberScaleUnit=''></ts:chart>
+	    </ts:cmpnt>
+	 <!--para="{v_col:'cur_value',v_org:'0000',v_cycle:'4',v_metric:'20569000000',v_time:'200905'}" event='{"headerClick":"extgrid.dm1headerclick"}'-->   
+<ts:cmpnt type="ext-crossgrid" datamodel="dm2000006" pos="1" sort="f1|f2"  width="350" colWidth="20"  height="180" showBorder="0" useRoundEdge="0" 
+		measurepos="col" event='{"headerClick":"extgrid.dm2000006headerclick"}'>
+		<ts:RowDims>
+			<ts:Dim name="排名" code="rank"  width="40" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="t" code="type" width="60"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="222" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"   pos="2"  width="610" height="15"  style="font-size:9pt;text-align:left;margin-top:0px;">
+			<text>
+			<div style="font-size:12;margin-top:3;margin-left:20">鼠标点击表头对相应值进行地域排序，图形中省公司按相应顺序排列</div>
+			</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

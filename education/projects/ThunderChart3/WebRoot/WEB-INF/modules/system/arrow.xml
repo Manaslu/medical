@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	   <ts:cmpnt type="Arrow" datamodel="dm6" pos="0"  width="330" height="350" cwidth="130" cheight="140" margin="30 0 0 20" bgColor="D4E5FB" borderColor="D4E5FB"  para="{id:'1'}">
+			<text>
+			</text>
+	   </ts:cmpnt>
+
+    </ts:layout>
+</ts:page>
+
+

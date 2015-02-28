@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="150" height="470">
+
+	    
+	    <ts:cmpnt type="Pie2D" datamodel="dm220001"  pos="1" width="250" height="130" para="{v_time:'200901' ,v_org:'0010'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart  formatNumberScale="1"  radius3D="10" showPlotBorder="0" colorsFile="Pie.xml" caption="构成" customerColor="1"  pieRadius="50" 
+	    		showLegend="1" legendPosition="right" isSmartLineSlanted="0"
+	    	    showPercentValues="0" showLabels="0" showValues="1"  baseFontSize='11' smartLabelClearance="2"  slicingDistance ="5" enableSmartLabels="1" skipOverlapLabels="0"></ts:chart>
+	    </ts:cmpnt> <!--  customerColor="1" colorsFile="test.xml" 更新颜色文件的配置 -->
+
+<ts:cmpnt type="Pie2D" datamodel="dm7003020101"  pos="2" width="450" height="130" para="{v_cycle:'4',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	legendPosition="right" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>	    
+	    
+	    <ts:cmpnt type="text"  pos="4" width="800" height="2" style="font-size:9pt" para="{}">
+			<text>
+			<div style="height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;"></div>
+			</text>
+		</ts:cmpnt>
+
+
+    </ts:layout>
+</ts:page>

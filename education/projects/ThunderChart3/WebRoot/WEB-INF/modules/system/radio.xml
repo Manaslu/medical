@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	   <ts:cmpnt type="text"  pos="0" width="800" height="20" style="font-size:9pt" para="{}">
+			<text>
+				<div style="font-size:9pt">
+					<input type="radio" name="pie" value="dm1" onclick="top.app.piesend(this.value)" checked="true"/>学历分布
+					<input type="radio" name="pie" value="dm2" onclick="top.app.piesend(this.value)"/>岗位分布
+					<input type="radio" name="pie" value="dm3" onclick="top.app.piesend(this.value)"/>性别分布<br/>
+					<input type="radio" name="pie" value="dm4" onclick="top.app.piesend(this.value)"/>司龄分布
+					<input type="radio" name="pie" value="dm5" onclick="top.app.piesend(this.value)"/>年龄分布
+					<input type="radio" name="pie" value="dm6" onclick="top.app.piesend(this.value)"/>层级分布
+				</div>
+			</text>
+		</ts:cmpnt>	
+	    
+    </ts:layout>
+</ts:page>
+
+

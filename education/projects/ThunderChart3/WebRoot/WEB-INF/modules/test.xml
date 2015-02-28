@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+<!--  select t.data_date,t.bp_code,p.bp_name,t.flow_value from f_flow_m t  left join cd_bp p on t.bp_code=p.bp_code  where t.data_date=200901-->
+    <ts:layout template="hori" hasLine="false" width="300" height="160">
+	    <ts:cmpnt type="Column2D" datamodel="dm11"  pos="0" width="300" height="200" para="{time:'201001'}">
+	    	<ts:dataset d1="name" value="value" ></ts:dataset>
+	    	<ts:chart colorsFile="Column2D.xml" customerColor="1" caption="排名" chartTopMargin='2' chartRightMargin="10px" useRoundEdges="1" showValues="0" baseFontSize='12' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"></ts:chart>
+	    </ts:cmpnt>
+	    
+	     
+    </ts:layout>
+</ts:page>
+
+

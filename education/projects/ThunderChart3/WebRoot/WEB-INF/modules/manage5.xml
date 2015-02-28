@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+<ts:cmpnt type="text"   pos="0" width="730" height="40" style="text-align:center;margin-left:0;font-size:18pt">
+                        <text>
+                 		报刊品种数量发展分析
+					 </text>  
+		</ts:cmpnt> 			 
+	    <ts:cmpnt  type="MSColumn2D" datamodel="dm110024"  pos="1" width="300" height="265" para="{org:window.sale.org,year:window.sale.year}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption=""   showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+NumberSuffix='%'	  legendPosition="bottom"  baseFontSize="9" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+  useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt> 
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110023"  pos="2" width="400" height="265" para="{org:window.sale.org,year:window.sale.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="订阅量增长的品种比例" sAxis="订阅量增长的品种比例" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+	    	          		
+    </ts:layout>
+</ts:page>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" >
+ <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110041"  pos="0" width="800" height="200" para="{org:window.sale.org,year:window.sale.year,type:window.sale.type}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="订阅量增幅" sAxis="订阅量增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="pie.xml"  caption="重点省总体订阅份数"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="%" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="right" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110040"  pos="1" width="800" height="200" para="{org:window.sale.org,year:window.sale.year,type:window.sale.type,table:window.sale.table}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="流转额增幅" sAxis="流转额增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="重点省总体流转额"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="%" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="right" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+ 		
+ <ts:cmpnt type="text"  pos="2" width="800" height="45" style="text-align:left;overflow:auto;margin:0 auto;" para="{org:window.sale.org,year:window.sale.year}">
+			<text></text>
+		</ts:cmpnt>        		
+    </ts:layout>
+</ts:page>

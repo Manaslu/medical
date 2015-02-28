@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+  
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110013"  pos="1" width="400" height="265" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d2="dim"  d1="datatype" value="datavalue" line="去年订阅量增幅,订阅量增幅" sAxis="去年订阅量增幅,订阅量增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile=""  caption="五大板块订阅量及其增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110014"  pos="2" width="400" height="265" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d2="dim"  d1="datatype" value="datavalue" line="去年流转额增幅,流转额增幅" sAxis="去年流转额增幅,流转额增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile=""  caption="五大板块流转额及其增幅"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+ <ts:cmpnt type="text" datamodel="dm110015" pos="3" width="800" height="70" style="text-align:left;overflow:auto;margin:0 auto;" para="{org:window.sale.org,year:window.sale.year}">
+			<text></text>
+		</ts:cmpnt>       		
+    </ts:layout>
+</ts:page>

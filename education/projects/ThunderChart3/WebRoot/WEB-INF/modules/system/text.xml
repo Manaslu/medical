@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	   <ts:cmpnt type="text"   datamodel="dm3" category="" pos="0" width="800" height="300" style="font-size:9pt;" para="{}">
+			<text>
+				ggggggsssss
+			 </text>
+	   </ts:cmpnt>	
+	    
+    </ts:layout>
+</ts:page>
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >					 
+<ts:cmpnt type="text"   pos="0" width="900" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>竞争品种对比分析 </text>  
+		</ts:cmpnt> 
+	    <ts:cmpnt  type="MSColumn2D" datamodel="dm110068"  pos="1" width="500" height="280" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d2="dim" d1="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption=""   showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+NumberSuffix=''	  legendPosition="bottom"  baseFontSize="9" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+   useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt> 
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110069"  pos="2" width="500" height="280" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="流转额" sAxis="流转额" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>	          		
+    </ts:layout>
+</ts:page>

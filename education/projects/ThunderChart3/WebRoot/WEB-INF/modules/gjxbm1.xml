@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" > 
+  <!-- 国际小包驾驶舱  图 1-->     
+  <!-- 组合图 ：  国际小包业务量收--> 		    
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110202"  pos="0" width="580" height="270" para="{month:window.dasp.month}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="环比增长" sAxis="环比增长" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption=" 国际小包业务收入及环比"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11' labelDisplay='WRAP' 
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4' ></ts:chart>
+	    </ts:cmpnt> 	       		
+    </ts:layout>
+</ts:page>

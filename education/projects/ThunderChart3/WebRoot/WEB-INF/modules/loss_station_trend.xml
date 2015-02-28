@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="850" height="450" >
+     <ts:cmpnt  type="MSLine" datamodel="dm422001"  pos="0" width="450" height="156" para="{v_begin_time:top.window.loss.v_begin_time,v_time:top.window.loss.v_time,v_station:top.window.loss.v_station}">
+                    <ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+                    <ts:chart  caption="损耗率趋势分析" labelDisplay="ROTATE" customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+                               legendPosition="bottom"  baseFontSize="10" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+                               checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+            </ts:cmpnt>   
+
+				
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm422002"  pos="1" width="500" height="160" para="{v_oil:top.window.loss.v_oil,v_begin_time:top.window.loss.v_begin_time,v_time:top.window.loss.v_time,v_station:top.window.loss.v_station}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="同比" sAxis="同比"></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  labelDisplay='WRAP' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt> <!--dm1500-->
+	    
+	    
+	    
+    </ts:layout>
+</ts:page>

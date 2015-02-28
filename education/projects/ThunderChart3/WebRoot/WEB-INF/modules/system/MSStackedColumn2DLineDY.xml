@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="620" height="400">
+	     <ts:cmpnt type="MSStackedColumn2DLineDY" datamodel="dm1"  pos="0" width="620" height="400" para="{}" hasShowValue="true" message="{'chart.showValue':'setAttribute'}" >
+	     	<ts:htmlDom>
+				<div style="font-size:9pt;">
+					<input type="checkbox" name="pie" value="1" onclick="Thunder.showValue(this)" />显示数值
+				</div>
+			</ts:htmlDom>
+	    	<ts:dataset d1="org_name"  d2="metrics_id" value="cur_value" lineSet="20569000011"  sAxis="20569000011"></ts:dataset>
+	    	<ts:link f="MyJs" para="org_id" ></ts:link>
+	    	<ts:chart caption=""  customerColor="1" showValues='0' placeValuesInside='1' SYAxisMaxValue="100" bgColor="FFFFFF" showBorder="0" rotateValues='1' baseFontSize='12' numberPrefix=" " sNumberSuffix="" showLegend="1" legendPosition="bottom" useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>
+	    
+    </ts:layout>
+</ts:page>
+
+

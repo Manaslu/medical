@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="480" height="160">
+		
+		 <!-- 运营支出构成分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm7003020101"  pos="0" width="160" height="160" para="{v_cycle:'#top.window.finance_cost.v_cycle',v_time:'#top.window.finance_cost.v_time',v_org:'#top.window.finance_cost.v_org'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="30" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm7003020101"  pos="1" width="100" height="100" para="{v_time:'#top.window.finance_cost.v_time' ,v_org:'#top.window.finance_cost.v_org'}">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+		
+	    <ts:cmpnt type="ext-crossgrid" datamodel="dm7003020201" pos="2" sort="f1|f2"  width="150"  height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_cycle:'#top.window.finance_cost.v_cycle',v_time:'#top.window.finance_cost.v_time',v_org:'#top.window.finance_cost.v_org'}">
+		<ts:RowDims>
+			<ts:Dim name="支出构成" code="name"  width="67" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  datamodel="dm7003020301" pos="3" width="160" height="40" style="font-size:9pt" para="{v_cycle:'#top.window.finance_cost.v_cycle',v_time:'#top.window.finance_cost.v_time',v_org:'#top.window.finance_cost.v_org'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+	</ts:layout>
+</ts:page>

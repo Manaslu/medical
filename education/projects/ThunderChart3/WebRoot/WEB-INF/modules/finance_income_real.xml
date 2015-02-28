@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="150" height="790"> <!-- dm949 -->
+	    <ts:cmpnt type="MSLine" datamodel="dm7002070101"  pos="0" width="550" height="220" para="{v_cycle:'#top.window.finance_income.v_cycle',v_org:'#top.window.finance_income.v_org',v_time:'#top.window.finance_income.v_time',v_begin_time:'#top.window.finance_income.v_begin_date'}" >
+	    	<ts:dataset  d1="time"  d2="type" value="value"  ></ts:dataset>
+	    	<ts:chart  customerColor="1" colorsFile="MSLine.xml" caption="   " chartRightMargin="1"  showLimits="0" chartTopMargin="1" chartBottomMargin="1"
+	    	          slantLabels='1' legendPosition="buttom"  baseFontSize="9" showLegend="1" bgColor="0xffffff" 
+	    	          showBorder="0" setAdaptiveYMin="1" showValues='0'  labelDisplay="ROTATE" anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>	
+	    
+	    
+	    <ts:cmpnt type="text"  pos="1" width="30" height="200" style="font-size:9pt" para="{}">
+			<text>
+			</text>
+		</ts:cmpnt> <!-- dm949 -->
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7002070201" pos="2" sort="f1|f2" width="210" colWidth="70"  height="210" showBorder="1" useRoundEdge="0" 
+		measurepos="col" para="{v_cycle:'#top.window.finance_income.v_cycle',v_org:'#top.window.finance_income.v_org',v_time:'#top.window.finance_income.v_time',v_begin_time:'#top.window.finance_income.v_begin_date'}">
+		<ts:RowDims>
+			<ts:Dim name="期间" code="time" width="50"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+	    <ts:cmpnt type="text"  datamodel="dm7002070301" pos="3" width="790" height="20" style="text-align:left;margin-left:5;font-size:9pt" para="{v_cycle:'#top.window.finance_income.v_cycle',v_org:'#top.window.finance_income.v_org',v_time:'#top.window.finance_income.v_time'}">
+			<text>
+			</text>
+		</ts:cmpnt>	
+    </ts:layout>
+</ts:page>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="850" height="450" >
+<!-- 总价分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm222001"  pos="0" width="190" height="160" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_price:top.window.sale.v_price}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='1'></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="Legend" datamodel="dm222001"  pos="1" width="98" height="100" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_price:top.window.sale.v_price}">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>	
+<ts:cmpnt type="ext-crossgrid" datamodel="dm222002" pos="2" sort="f1|f2"  width="180"  height="150" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_price:top.window.sale.v_price}">
+		<ts:RowDims>
+			<ts:Dim name="油品类型" code="name"  />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>	
+				
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm222003"  pos="3" width="510" height="160" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_price:top.window.sale.v_price}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="同比" sAxis="同比"></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  labelDisplay='WRAP' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='10'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt> <!--dm1500-->
+	    
+	    
+	    
+    </ts:layout>
+</ts:page>

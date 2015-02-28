@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="400" height="250">
+
+	    
+	    <ts:cmpnt  type="MSLine" datamodel="dm210006"  pos="0" width="380" height="230" para="{v_begin_time:'200901',v_time:'200912',v_org:'0010'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart customerColor="1" colorsFile="MSLine.xml" anchorRadius="6" caption="" showShadow="1" canvasBorderThickness="1" showLegend="1"  setAdaptiveYMin="1" showBorder="0" borderAlpha="0" labelDisplay="ROTATE"  chartTopMargin="10" chartLeftMargin="1" chartRightMargin="1" chartBottomMargin="1" Stagger="1"  slantLabels='1' bgColor="0xffffff"  numVisiblePlot="0" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='10' numberPrefix=" "  useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>	
+
+	                 
+
+
+	    </ts:layout>
+
+</ts:page>

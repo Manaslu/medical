@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+<ts:cmpnt type="text"   pos="0" width="900" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>
+                 		业务量发展分析
+					 </text>  
+		</ts:cmpnt>    
+<!-- 两年业务对比 -->
+ <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110042"  pos="1" width="200" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.table}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="订阅流转额（万元）" sAxis="订阅流转额（万元）" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="两年业务对比"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+<!-- 省订阅量 -->	    
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110043"  pos="2" width="700" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.table}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="增幅" sAxis="增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="省市订阅量"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="%" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+      		
+    </ts:layout>
+</ts:page>

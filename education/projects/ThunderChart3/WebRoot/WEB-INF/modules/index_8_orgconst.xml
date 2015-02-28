@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="200" height="200">
+		<ts:cmpnt type="text"  datamodel="dm1001000000" pos="0" width="390" height="20" style="font-size:9pt;text-align:right;" para="{v_time:'#top.app.time'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+				<ts:cmpnt type="text"  datamodel="dm1001000004" pos="1" width="390" height="20" style="font-size:9pt;text-align:right;" para="{v_metric:'#top.app.metric5'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		 <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm1001080101"  pos="2" width="400" height="190" para="{v_time:'#top.app.time',v_metric:'#top.app.metric5'}" >
+	    	<ts:dataset d1="org_name"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id"></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml" caption="" numVisiblePlot= "20" showMedian = "1" MedianSeries="本期值" medianDisplay="  " showLegend="1" chartTopMargin="5" chartLeftMargin="1" chartRightMargin="1" bgColor="0xffffff" showBorder="0"  sNumberSuffix="%25" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='10' numberPrefix=" "  legendPosition="bottom" useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>

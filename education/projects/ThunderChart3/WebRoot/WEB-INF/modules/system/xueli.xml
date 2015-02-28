@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+ <Result success="1">
+ <Data>
+ <Matedata>
+  <Column name="metrics_id" type="number" /> 
+  <Column name="org_name" type="varchar2" /> 
+  <Column name="cur_value" type="number" /> 
+  <Column name="bf_value" type="number" /> 
+  <Column name="ring_value" type="number" /> 
+  <Column name="like_value" type="number" /> 
+  <Column name="sum_value" type="number" /> 
+  </Matedata>
+ <Rowset>
+ <Row>
+  <metrics_id>20569000000</metrics_id> 
+  <org_name>集团公司(上市)</org_name> 
+  <cur_value>3828165.59</cur_value> 
+  <bf_value>3753556.61</bf_value> 
+  <ring_value>0.0199</ring_value> 
+  <like_value>0.0893</like_value> 
+  <sum_value>18702513</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000000</metrics_id> 
+  <org_name>北京</org_name> 
+  <cur_value>150302.51</cur_value> 
+  <bf_value>145296.55</bf_value> 
+  <ring_value>0.0345</ring_value> 
+  <like_value>0.0136</like_value> 
+  <sum_value>717258</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000000</metrics_id> 
+  <org_name>天津</org_name> 
+  <cur_value>54491.97</cur_value> 
+  <bf_value>52778.44</bf_value> 
+  <ring_value>0.0325</ring_value> 
+  <like_value>0.0899</like_value> 
+  <sum_value>254575</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000000</metrics_id> 
+  <org_name>河北</org_name> 
+  <cur_value>180455.31</cur_value> 
+  <bf_value>175827.76</bf_value> 
+  <ring_value>0.0263</ring_value> 
+  <like_value>0.0593</like_value> 
+  <sum_value>868022</sum_value> 
+  </Row>
+<Row>
+  <metrics_id>20569000000</metrics_id> 
+  <org_name>山西</org_name> 
+  <cur_value>97227.41</cur_value> 
+  <bf_value>94470.37</bf_value> 
+  <ring_value>0.0292</ring_value> 
+  <like_value>0.0378</like_value> 
+  <sum_value>454620</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000000</metrics_id> 
+  <org_name>内蒙古</org_name> 
+  <cur_value>74148.24</cur_value> 
+  <bf_value>69328.39</bf_value> 
+  <ring_value>0.0695</ring_value> 
+  <like_value>0.1753</like_value> 
+  <sum_value>332128</sum_value> 
+   </Row>
+   <Row>
+  <metrics_id>20569000011</metrics_id> 
+  <org_name>集团公司(上市)</org_name> 
+  <cur_value>3828165.59</cur_value> 
+  <bf_value>3753556.61</bf_value> 
+  <ring_value>0.0199</ring_value> 
+  <like_value>0.0893</like_value> 
+  <sum_value>18702513</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000011</metrics_id> 
+  <org_name>北京</org_name> 
+  <cur_value>150302.51</cur_value> 
+  <bf_value>145296.55</bf_value> 
+  <ring_value>0.0345</ring_value> 
+  <like_value>0.0136</like_value> 
+  <sum_value>717258</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000011</metrics_id> 
+  <org_name>天津</org_name> 
+  <cur_value>54491.97</cur_value> 
+  <bf_value>52778.44</bf_value> 
+  <ring_value>0.0325</ring_value> 
+  <like_value>0.0899</like_value> 
+  <sum_value>254575</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000011</metrics_id> 
+  <org_name>河北</org_name> 
+  <cur_value>180455.31</cur_value> 
+  <bf_value>175827.76</bf_value> 
+  <ring_value>0.0263</ring_value> 
+  <like_value>0.0593</like_value> 
+  <sum_value>868022</sum_value> 
+  </Row>
+<Row>
+  <metrics_id>20569000011</metrics_id> 
+  <org_name>山西</org_name> 
+  <cur_value>97227.41</cur_value> 
+  <bf_value>94470.37</bf_value> 
+  <ring_value>0.0292</ring_value> 
+  <like_value>0.0378</like_value> 
+  <sum_value>454620</sum_value> 
+  </Row>
+ <Row>
+  <metrics_id>20569000011</metrics_id> 
+  <org_name>内蒙古</org_name> 
+  <cur_value>74148.24</cur_value> 
+  <bf_value>69328.39</bf_value> 
+  <ring_value>0.0695</ring_value> 
+  <like_value>0.1753</like_value> 
+  <sum_value>332128</sum_value> 
+   </Row>
+  </Rowset>
+  </Data>
+  </Result>

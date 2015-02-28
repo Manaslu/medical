@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	  <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm1"  pos="0" width="620" height="400" para="{month:'200902',metrics_id:'top.app.kpiID'}" >
+	    	<ts:dataset d1="org_name"  d2="metrics_id" value="cur_value" area="20569000000" line="20569000011" sAxis="20569000011,20569000000" ></ts:dataset>
+	    	<ts:chart caption="分布"  bgcolor="ffffff" numVisiblePlot="8" showMedian="1" MedianSeries="全部从业人员" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='12' numberPrefix=" " showLegend="1" legendPosition="bottom" useRoundEdges="1" numberScaleValue='10000,100000000' numberScaleUnit='万,亿'></ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>
+
+

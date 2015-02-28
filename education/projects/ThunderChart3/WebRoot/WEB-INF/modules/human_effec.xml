@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="145" height="300">
+		
+		<ts:cmpnt type="Radar" datamodel="dm8003030101" pos="0" width="492" height="180" para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+			<ts:dataset d1="type" d2="name" value="value"> </ts:dataset>
+			<ts:chart caption="劳动生产率分析图" yAxisMaxValue='5' chartRightMargin="80" anchorAlpha="0" showBorder="0"
+				      baseFontSize="12" bgColor="0xffffff" legendPosition="RIGHT">
+			</ts:chart>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8003030201" pos="1" sort="f1|f2"  width="300" height="180" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+		<ts:RowDims>
+			<ts:Dim name="岗位" code="name"  width="100" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="55"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text"  pos="2" width="800" height="80" style="text-align:left;margin-left:5;font-size:9pt">
+			<text>
+				<div>
+					员工按岗位分为四大类（管理、业务、技术和后勤）12个小类（见雷达图）。各类岗位的劳动生产率定义如下：
+				</div>
+
+				<div style="padding-left:18px">
+					1、面向客户的岗位包括客户服务、市场营销、业务支持等共三小类，每类的劳动生产率=客户数/该类员工数
+
+
+				</div>
+				<div style="padding-left:18px">
+					2、面向员工的岗位包括行政事务、综合和行政、人力资源、财务、信息技术等共五小类，每类的劳动生产率=员工数/该类员工数
+
+
+				</div>
+
+				<div style="padding-left:18px">
+					3、面向生产的岗位包括计划建设、网络运行维护、技术研究开发、技术管理等共四小类，每类的劳动生产率=基站数/该类员工数
+
+
+				</div>
+
+				<div style="padding-left:18px">
+					各小类的劳动生产率对各省按从大到小排列，前1~6第五档、7~12第四档、13~18第三档、19~24第二档、25~31第一档
+
+
+				</div>
+			</text>
+		</ts:cmpnt>
+	</ts:layout>
+</ts:page>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="480"
+		height="160">
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm4"  pos="0" width="620" height="240" para="{month:'200902',metrics_id:'top.app.kpiID'}" >
+	    	<ts:dataset d1="data_time"  d2="aa" value="tt" line="ring_value,like_value" sAxis="ring_value,like_value" ></ts:dataset>
+	    	<ts:chart caption=""  bgcolor="ffffff" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='12' numberPrefix=" " showLegend="0" legendPosition="right" useRoundEdges="1" numberScaleValue='10000,100000000' numberScaleUnit='万,亿'></ts:chart>
+	    </ts:cmpnt>
+		    <ts:cmpnt type="ext-listgrid" datamodel="dm32" pos="1" width="620" height="200"  para="{}">
+		<ts:Columns>
+			<ts:Column name="指标"  code="node_name" />
+			<ts:Column name="当前值" code="cur_value" />
+			<ts:Column name="去年同期" code="co_value" />
+			<ts:Column name="本年累计"  code="sum_value" />
+			<ts:Column name="环比"  code="ring_value" />
+			<ts:Column name="同比" code="like_value" />
+		</ts:Columns>
+	</ts:cmpnt> 
+	</ts:layout>
+</ts:page>

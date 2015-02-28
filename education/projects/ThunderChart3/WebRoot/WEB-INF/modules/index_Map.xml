@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="240" height="210">
+	    <ts:cmpnt type="text"  pos="0" width="240" height="20" para="{}">
+	    	<text><div style="text-align:left;margin-left:10;margin-top:0;">
+	    		<a style="cursor:pointer;font-size:10pt;font-family:宋体;color:#000000" href="JavaScript:getUnitId('0010')" >全国</a>
+	    	</div>
+	    	</text>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="mapChina" datamodel="dm211"  pos="1" width="240" height="160" para="{}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:chart 
+	    	          showShadow='0' 
+	    	          showBevel='1'
+	    	          showLabels='0' 
+	    	          fillColor='FFFFFF' 
+	    	          showCanvasBorder="0"
+	    	          borderColor='609a9b' 
+	    	          mapLeftMargin='0'
+	    	          mapRightMargin='0'
+	    	          mapTopMargin='0'
+	    	          mapBottomMargin='0'
+	    	          >
+	        </ts:chart>
+	    </ts:cmpnt>
+	     <ts:cmpnt type="text" datamodel="dm10101"  pos="2" width="240" height="30" para="{v_time:'#top.app.time',v_org:'0010'}" >
+	    	<text>
+	    	</text>
+	    </ts:cmpnt>
+	    <ts:marquee id="2" direction="0" step="1" width="300" height="32" timer="50" delayTime="3000" waitTime="500"  scrollStep="32"></ts:marquee> 
+    </ts:layout>
+</ts:page>

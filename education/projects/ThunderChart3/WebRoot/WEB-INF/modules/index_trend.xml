@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="index" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="0">
+	     <ts:cmpnt hasShowValue="true" message="{'chart.showValue':'setAttribute'}" type="ScrollLine2D" datamodel="trend"  
+	   pos="0" width="600" height="300" >
+	    	<ts:dataset d1="dataTime" d2="secodedim" value="budgetvalue"  ></ts:dataset>
+	    	<ts:htmlDom>
+				<div style="font-size:9pt;margin-left:300px;">
+					<input type="checkbox" name="pie" value="1" onclick="Thunder.showValue(this,'chart.showValue')" />显示数值
+				</div>
+			</ts:htmlDom>
+	    	<ts:chart  canvasPadding="60" chartRightMargin="50"  customerColor="0" colorsFile="MSLine.xml" showValues="0" slantLabels ="1" rotateLabels="1" labelDisplay="ROTATE" setAdaptiveYMin="1" caption="历史趋势分析"  
+	    	showBorder="0" bgcolor="ffffff"  bgAlpha="10" placeValuesInside='0'  rotateValues='0' showLegend='1' baseFontSize='12' numberPrefix=" " legendPosition="bottom" 
+	    	useRoundEdges="1" numberScaleValue='10000,100000000' numberScaleUnit='万,亿' yAxisName="" xportAction="download"     exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+	   <!-- ts:cmpnt type="text" pos="1" width="800" height="5"><text><div style="width:800px;;height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;overflow: hidden;"></div></text></ts:cmpnt-->
+	   <ts:cmpnt type="ext-crossgrid" datamodel="trend" pos="1" sort="f1|f2"   width="500"  height="200" showBorder="0" useRoundEdge="0" init="true" 
+		measurepos="col"  para='{}'>
+		<ts:RowDims>
+			<ts:Dim name="时间" code="dataTime" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="" code="secodedim" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="" code="budgetvalue" renderer="Thunder.changeUnit"/>
+		</ts:Measures>
+	 </ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

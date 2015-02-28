@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="zcfx" hasLine="false" width="500" height="480">
+	
+	<!--  负债分析选择      -->
+	    <ts:cmpnt type="text"  pos="0" width="150" height="160" style="font-size:9pt;text-align:left;margin-top:10;margin-left:25;margin-right:5" para="{}">
+			<text>
+				可选择按总负债查看，按流动负债查看和按非流动负债查看<br/><br/>
+				<div style="font-size:9pt">
+					<input type="radio" name="finance.liabilities.type" value="52200000000" onclick="top.window.banlance.pub_msg('2',this.value)" checked="true"/>总负债
+					<br/><br/>
+					<input type="radio" name="finance.liabilities.type" value="52220000000" onclick="top.window.banlance.pub_msg('2',this.value)"/>流动负债
+					<br/><br/>
+					<input type="radio" name="finance.liabilities.type" value="52210000000" onclick="top.window.banlance.pub_msg('2',this.value)" />非流动负债
+
+				</div>
+			</text>
+		</ts:cmpnt>
+	 
+	 <!--  负债构成饼图    7006050101  -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm7006050101"  pos="1" width="240" height="160"  para=" {v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" chartTopMargin="0" baseFontSize="12"  showPercentValues="0" showLabels="0" showValues="1"  pieRadius="40" smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='10'></ts:chart>
+	    </ts:cmpnt>
+	    
+	 	 <!--  图例   -->  
+	   	    <ts:cmpnt type="Legend" datamodel="dm7006050101"  pos="2" width="100" height="140" para=" {v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>    
+	    
+	 <!--  负债占比数据表格   7006050201  
+		<ts:cmpnt type="ext-listgrid" datamodel="dm7006050201" pos="3" width="230" height="160"  para="{tag:'7'}">
+			<ts:Columns>
+				<ts:Column name="负债类型" width="80" code="type" />
+				<ts:Column name="本年累计" width="70" code="value" />
+				<ts:Column name="占比" width="70" code="rate" />
+			</ts:Columns>
+		</ts:cmpnt> 
+		 -->
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7006050201" pos="3" sort="f1|f2"  width="230" height="200" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}"  >
+		<ts:RowDims>
+			<ts:Dim name="指标" code="lines" width="140"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>		
+	
+	<!--  负债占比文字说明  7006050301 -->
+	    <ts:cmpnt type="text" datamodel="dm7006050301" pos="4" width="600" height="25" style="font-size:9pt;text-align:left;margin-top:10;margin-left:10;margin-right:5" para="{v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+			<text>
+			     <div style="margin-left:60">2009年10月份固定资本本年累计值达830796万元，占总负债的37.04%</div>
+	        </text>
+		</ts:cmpnt>	  
+		
+	<!--  时间趋势图    7006050102   -->
+	    <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm7006050102"  pos="5" width="500" height="180" para="{v_type:'52200000000',v_cycle:'4',v_begin_time:top.window.financemy.al_begin_time,v_time:top.window.financemy.al_time,v_org:'0010'}">
+	    	<ts:dataset d1="time" d2="type" value="value" line="同比" sAxis="同比"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml"  labelDisplay="ROTATE" Stagger="1"  slantLabels='1' caption="" chartLeftMargin="10" chartTopMargin="5" plotSpacePercent="42"   useRoundEdges="1" showValues="0" sNumberSuffix="%25" baseFontSize='12' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"></ts:chart>
+	    </ts:cmpnt>
+	    
+	
+	<!--  时间数据表格  7006050202  		 -->
+        <ts:cmpnt type="ext-crossgrid" datamodel="dm7006050202" pos="6" sort="f1|f2"  width="230" height="200" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_type:'52200000000',v_cycle:'4',v_begin_time:top.window.financemy.al_begin_time,v_time:top.window.financemy.al_time,v_org:'0010'}"  >
+		<ts:RowDims>
+			<ts:Dim name="期间" code="lines" width="70"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>	
+		
+	<!--  时间趋势文字说明 7006050302 -->
+		<ts:cmpnt type="text" datamodel="dm7006050302" pos="7" width="600" height="20" style="font-size:9pt;text-align:left;margin-top:5;margin-left:10;margin-right:5" para="{v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+			<text>
+			     <div style="margin-left:10">2009年总负债的本年累计值达3151千万元，同比增长18.5%</div>
+	        </text>
+		</ts:cmpnt>
+		
+					
+	<!--  地域对比图    7006050103 -->
+	    <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm7006050103"  pos="8"  width="556" height="200"  para="{v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_col:'col2',v_org:'0010'}">
+	    	<ts:dataset d1="shengfen" d2="type" value="value" line="同比" sAxis="同比"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml"  caption="" chartLeftMargin="10" chartTopMargin="5" numVisiblePlot="0"    placeValuesInside='1' rotateValues='1' numberPrefix=" " showLegend="1" legendPosition="bottom"  useRoundEdges="1" showValues="0" sNumberSuffix="%25" baseFontSize='12' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"></ts:chart>
+	    </ts:cmpnt>
+		
+	<!--  地域数据表格  7006050203  		--> 
+		 <ts:cmpnt type="ext-crossgrid" datamodel="dm7006050203" pos="9" sort="f1|f2"  width="230" height="250" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_col:'col2',v_org:'0010'}"   event='{"headerClick":"extgrid.dm7006050203headerclick"}'>
+		<ts:RowDims>
+			<ts:Dim name="排名" code="lines" width="40"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>	
+	
+	<!--  地域对比文字说明 7006050303 -->
+		<ts:cmpnt type="text"  datamodel="dm7006050303"  pos="10" width="650" height="20" style="font-size:9pt;text-align:left;margin-top:5;margin-left:10;margin-right:5" para="{v_type:'52200000000',v_cycle:'4',v_time:top.window.financemy.al_time,v_org:'0010'}">
+			<text>
+			     <div style="margin-left:10">上图为各省总负债的对比展示，其中总负债总额前三位的是北京、天津、河北；后三位的是宁夏、新疆、西藏</div>
+	        </text>
+		</ts:cmpnt>	    	
+	    
+	</ts:layout>
+</ts:page>

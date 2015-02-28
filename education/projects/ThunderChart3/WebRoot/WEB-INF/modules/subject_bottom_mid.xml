@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="300" height="250">
+
+	<ts:cmpnt type="text"  pos="0" width="200" height="15" style="text-align:center;font-size:10pt">
+			<text><b>库存量告警</b> </text>
+		</ts:cmpnt>	
+		
+		 <ts:cmpnt type="AngularGaugeRPM" datamodel="dm915001"  pos="1" width="280" height="200" para="{}">
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	   	<ts:chart radius="55" 
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColor.xml" 
+	    	          
+	    	               displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                baseFontSize='10'
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+                       
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>
+	   
+  
+
+	    
+    </ts:layout>
+</ts:page>

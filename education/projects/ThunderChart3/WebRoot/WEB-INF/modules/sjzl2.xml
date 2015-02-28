@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+  
+ <ts:cmpnt type="Pie3D" datamodel="dm110038"  pos="1" width="500" height="280" para="{org:window.sale.org,year:window.sale.year}">
+                    <ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="本年度卡片中地址数据质量" baseFontSize="10" showValues="1" pieRadius="80" smartLabelClearance="0" enableSmartLabels="1" showLabels='1'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='1'></ts:chart>
+            </ts:cmpnt>
+ <ts:cmpnt  type="Bar2D" datamodel="dm110039"  pos="2" width="500" height="280" para="{org:window.sale.org,year:window.sale.year}">
+	    	<ts:dataset d1="type" value="value"  ></ts:dataset>
+	    	<ts:chart  caption=""    charLeftMargin="0"  tickValueDecimals="4" 
+NumberSuffix='%'	  legendPosition="bottom"  baseFontSize="9" showLegend="1" limitsDecimalPrecision="4"
+ useRoundEdges="1"  bgColor="0xffffff" showBorder="0" showValues='1' ></ts:chart>
+	    </ts:cmpnt>  
+
+ 		       		
+    </ts:layout>
+</ts:page>

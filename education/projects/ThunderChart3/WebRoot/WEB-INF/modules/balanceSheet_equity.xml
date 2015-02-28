@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="500"
+		height="480">    
+		
+
+	    <!--  股本时间趋势图   7006060101 -->
+		<ts:cmpnt type="MSLine" datamodel="dm7006060101"  pos="0" width="390" height="200" para="  {v_cycle:'4',v_begin_time:top.window.financemy.al_begin_time,v_time:top.window.financemy.al_time,v_org:'0010'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value"  ></ts:dataset>
+	    	<ts:chart setAdaptiveYMin="1" customerColor="1" colorsFile="MSLine.xml"  labelDisplay="ROTATE" Stagger="1" caption="" chartTopMargin="5" chartBottomMargin="1"  slantLabels='1'   baseFontSize="12" showLegend="1" checkboxFontsize="12" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0'  ></ts:chart>
+	    </ts:cmpnt>	
+	    
+	    <!--  时间趋势图   7006060102 -->
+		<ts:cmpnt type="MSLine" datamodel="dm7006060102"  pos="1" width="390" height="200" para="  {v_cycle:'4',v_begin_time:top.window.financemy.al_begin_time,v_time:top.window.financemy.al_time,v_org:'0010'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value"  ></ts:dataset>
+	    	<ts:chart setAdaptiveYMin="1" customerColor="1" colorsFile="MSLine.xml" labelDisplay="ROTATE" Stagger="1" caption="" chartTopMargin="5" chartBottomMargin="1"  slantLabels='1'   baseFontSize="12" showLegend="1" checkboxFontsize="12" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0'  ></ts:chart>
+	    </ts:cmpnt>	
+	    
+	    <!--  占位空text       -->
+	    <ts:cmpnt type="text"  pos="2" width="40" height="180" style="font-size:9pt;text-align:left;margin-top:0;margin-left:0;margin-right:0" para="{}">
+			<text>
+	           <br/>
+			</text>
+		</ts:cmpnt> 
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7006060201" pos="3" sort="f1|f2"   width="730" height="200" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="  {v_cycle:'4',v_begin_time:'200811',v_time:top.window.financemy.al_time,v_org:'0010'}"  >
+		<ts:RowDims>
+			<ts:Dim name="指标" code="lines" width="60"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+	    
+				     
+	</ts:layout>
+</ts:page>

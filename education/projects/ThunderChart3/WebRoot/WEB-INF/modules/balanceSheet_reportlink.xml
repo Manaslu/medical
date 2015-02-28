@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="500"
+		height="725">    
+				
+		<!--  总负债构成饼图文字说明      -->
+        <ts:cmpnt type="text"  pos="0"  width="150" height="50" style="font-size:9pt;text-align:left;margin-top:8;margin-left:5;margin-right:5"  para="{}">
+			<text>
+			   <div style="font-size:9pt;text-align:left;margin-top:8;margin-left:0;margin-right:5">中国移动集团主要财务指标表一（资产负债表)</div>
+			</text>
+		</ts:cmpnt>
+				     
+	</ts:layout>
+</ts:page>

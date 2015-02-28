@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="indexCash" hasLine="false" width="440" height="300">
+	    <ts:cmpnt  type="MSLine" datamodel="dm7001060101"  pos="0" width="310" height="185" para="{v_begin_time:'200801',v_time:'200812',v_org:'0010'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption="" labelDisplay="ROTATE" customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+	    	           legendPosition="bottom"  baseFontSize="9" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+	    	           checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+		 <ts:cmpnt type="text" datamodel="dm7001060301" pos="1"  width="120" height="120" bgColor="D4E5FB" borderColor="D4E5FB"  para="{v_time:'200812',v_org:'0010'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" datamodel="dm7001060302" pos="2" width="400" height="140"  para="{v_time:'200812',v_org:'0010'}" style="font-size:9pt;margin-left:5;margin-top:5;margin-right:5;text-align:left">
+			<text></text>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>

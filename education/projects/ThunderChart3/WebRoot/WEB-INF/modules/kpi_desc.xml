@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="480"
+		height="160">
+		<!--para="{v_org:'1100',v_cycle:'4',v_metric:'20569000000',v_time:'200905'}"-->
+		<ts:cmpnt type="text" datamodel="dm2000001" pos="0"  width="120" height="120" margin="10 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB"  >
+			<text>
+			</text>
+		</ts:cmpnt>
+		<!--ts:cmpnt type="text"  pos="1"  width="160" height="80"  >
+			<text>
+			<div style="height:20"> </div>
+			<div style="font-size:9pt;text-align:left;margin-left:5">右图为运营收入时间对比的展示，同比增幅达到了2.12%，环比增长达到了3.57%</div>
+			</text>
+		</ts:cmpnt-->
+	</ts:layout>
+</ts:page>

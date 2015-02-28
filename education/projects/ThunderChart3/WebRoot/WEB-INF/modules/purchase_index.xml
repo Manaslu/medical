@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="stock_index" hasLine="false" width="480" height="470">
+
+		 <ts:cmpnt type="text"   pos="0" width="490" height="42" style="font-size:11pt" >
+                        <text>
+                        <td align="right" > 时间:</td> <td><input name="textfield" type="text" value="2013年1月" size="10" /></td>
+                        		
+                        		<td align="right" >名称: </td> <td><input name="textfield" type="text" value="云南石油昆明公司" size="15" /></td>
+                        		
+                        		<td align="right" >油品: </td>
+                        		<td><select name="menu1" onChange="MM_jumpMenu('parent',this,0)" > <option>汽油</option> <option>柴油</option></select>
+                        		</td>                     		
+                        		                        
+                        </text>
+                </ts:cmpnt>		    
+<!-- 油品分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm211001"  pos="1" width="200" height="180" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="60" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm211001"  pos="2" width="100" height="100" para="{v_cycle:'4',v_time:'200901' }">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+
+ <ts:cmpnt type="text"  datamodel="dm211000" pos="3" width="490" height="13"  style="text-align:left;margin-left:5;font-size:10pt"  para="{v_cycle:'4',v_time:'200907',v_org:'0010'}">
+                        <text>
+                        </text>
+                </ts:cmpnt>			
+	
+    <ts:cmpnt type="StackedColumn2D" datamodel="dm211003"  pos="6" width="480" height="330" para="{v_cycle:'4',v_org:'0010',v_time:'200912'}">
+	    	<ts:dataset d1="name" d2="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="趋势分析" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+	    	          legendPosition="bottom" showSum='1' decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt><!--dm943-->
+	                 
+
+
+	    </ts:layout>
+
+</ts:page>

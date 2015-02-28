@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="indexCash" hasLine="false" width="540" height="300">
+	    <ts:cmpnt  type="MSLine" datamodel="dm113001"  pos="0" width="480" height="170" para="{v_oil:top.window.purchase.v_oil,v_begin_time:top.window.purchase.v_begin_time,v_time:top.window.purchase.v_time}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption="外采合同执行率"  customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+	    	           legendPosition="bottom"  baseFontSize="10" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+	    	           NumberSuffix="%" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+	    
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm113002"  pos="1" width="500" height="165" para="{v_oil:top.window.purchase.v_oil,v_begin_time:top.window.purchase.v_begin_time,v_time:top.window.purchase.v_time}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="外采合同履约率" sAxis="外采合同履约率"></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt> <!--dm1500-->
+    </ts:layout>
+</ts:page>

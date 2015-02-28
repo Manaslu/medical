@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="kpi" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="1" zoom="1">
+    	     <!-- ts:cmpnt type="text"  pos="0" width="240" height="40" para="{}" style="text-align:left;">
+	    	<text>
+	    	<div style="font-size:11px;font-weight:bold;">
+	    		<span id="unitText">单位：件</span>
+	    		<input type="radio" name="pie" value="万计"  checked="true" onclick="Thunder.changeData(10000)" />万计
+	    		<input type="radio" name="pie" value="个计" onclick="Thunder.changeData(1)" />个计
+	    	</div>
+	    	</text>
+	     </ts:cmpnt--> 
+	     <ts:cmpnt   type="MSColumn2D" datamodel="plan-chart"  init="false" 
+	  	 pos="0" width="900" height="300" para="">
+	    	<ts:dataset d3="secodedim" d1="secodedim" d2="valuekind" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  showAverage="1" AverageSeries="实际值"  use3DLighting="1" customerColor="1" colorsFile="triColor.xml"   formatNumberScale="0" 
+	    	 setAdaptiveYMin="1" caption="计划监测"  labelDisplay='WRAP' decimals="2"  legendStyle="1"
+	    	showBorder="0" bgcolor="ffffff"  bgAlpha="10" placeValuesInside='0'  rotateValues='0' showLegend='1' baseFontSize='12' numberPrefix=" " legendPosition="bottom" 
+	    	useRoundEdges="1"  yAxisName="" xportAction="download"     exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+	   <ts:cmpnt type="ext-listgrid" showBorder="1" useRoundEdge="0" enableColumnResize="0" datamodel="plan-grid" pos="1" width="850" height="160"  hideHeaders="0" para="{}">
+		<ts:Columns>
+			<ts:Column name="机构名称"  code="secodedim" width="100" sortable="1" />
+			<ts:Column name="预警状态" code="alarmcolor" width="80" renderer="Thunder.alterType"/>
+			
+			<ts:Column name="当期值" type="number" code="actualvalue" width="80" sortable="1" renderer="Thunder.changeUnit" align="right"/>
+			
+			
+			<ts:Column name="年预算值" type="number" code="yearplanvalue" width="80" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="累计完成" type="number" code="yearactualvalue"  width="80" sortable="1" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="累计完成比例(%)" type="number" code="yearrate" width="120" sortable="1" align="right"/>
+			<ts:Column name="时间进度(%)" type="number" code="dateprogress" width="80" sortable="1" align="right"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

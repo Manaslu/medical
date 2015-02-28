@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="portlet4" hasLine="false" width="200" height="200">
+    		<ts:cmpnt type="text"  datamodel="dm1001000005" pos="text_line" width="240" height="40" style="font-size:9pt;text-align:right;" para="{v_metric:top.window.kpiorder.v_metric4}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  datamodel="dm1001000005" pos="text_column" width="240" height="20" style="font-size:9pt;text-align:right;" para="{v_metric:top.window.kpiorder.v_metric4}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		 <ts:cmpnt type="MSLine" datamodel="dm1001110101"  pos="line" width="250" height="180" para="{v_type:top.window.kpiorder.v_type4,v_metric:top.window.kpiorder.v_metric4,v_org:top.window.kpiorder.v_org,v_begin_time:top.window.kpiorder.v_begin_time,v_time:top.window.kpiorder.v_time}" >
+	    	<ts:dataset d1="display_time"  d2="node_name" value="value"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id"></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="MSLine.xml" anchorRadius="6" caption="" showShadow="1" canvasBorderThickness="1" showLegend="0"  setAdaptiveYMin="1" showBorder="0" borderAlpha="0" labelDisplay="ROTATE"  chartTopMargin="10" chartLeftMargin="1" chartRightMargin="1" chartBottomMargin="1" Stagger="1"  slantLabels='1' bgColor="0xffffff"  numVisiblePlot="0" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='10' numberPrefix=" "  useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="MSColumn2D" datamodel="dm1001040101"  pos="column" width="250" height="180" para="{v_type:top.window.kpiorder.v_type4,v_metric:top.window.kpiorder.v_metric4,v_org:top.window.kpiorder.v_org,v_begin_time:top.window.kpiorder.v_begin_time,v_time:top.window.kpiorder.v_time}" >
+	    	<ts:dataset d1="display_time"  d2="node_name" value="value"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id"></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml" caption="" showLegend="0" setAdaptiveYMin="1" labelDisplay="ROTATE"  chartTopMargin="10" chartLeftMargin="10" chartRightMargin="10" chartBottomMargin="1" Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='10' numberPrefix=" "  useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>

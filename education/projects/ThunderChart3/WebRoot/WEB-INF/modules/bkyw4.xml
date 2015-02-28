@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+<!-- 板块流转额的占比对比 -->      
+<ts:cmpnt  type="MSColumn2D" datamodel="dm110075"  pos="1" width="400" height="265" para="{org:window.sale.org,year:window.sale.year}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption="板块流转额的占比对比"   showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+NumberSuffix='%'	  legendPosition="bottom"  baseFontSize="11" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+  useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt> 
+<!-- 板块净增流转额对比 -->   	    
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110016"  pos="2" width="600" height="280" para="{org:window.sale.org,year:window.sale.year}">
+	    	<ts:dataset d2="dim"  d1="datatype" value="datavalue" line="去年净增流转额增幅,净增流转额增幅" sAxis="去年净增流转额增幅,净增流转额增幅" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile=""  caption="板块净增流转额对比"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>      		
+    </ts:layout>
+</ts:page>

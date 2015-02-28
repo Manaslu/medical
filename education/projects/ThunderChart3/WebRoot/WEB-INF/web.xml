@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<!-- spring文件注册 -->
+	 
+	<!-- 字符过滤 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>
+			org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- spring监听 -->
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	<!-- 程序所需servlet注册 -->
+	<servlet>
+		<servlet-name>dataService</servlet-name>
+		<servlet-class>com.teamsun.service.DataService</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>XmlReader</servlet-name>
+		<servlet-class>com.teamsun.xmlProcess.XmlReader</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>FCExport</servlet-name>
+		<servlet-class>com.teamsun.chartExport.FCExport</servlet-class>
+	</servlet>
+<servlet>
+		<servlet-name>exportSinleChartAction</servlet-name>
+		<servlet-class>com.teamsun.export.action.ExportSinleChartAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>exportSinleChartAction</servlet-name>
+		<url-pattern>/exportSinleChartAction</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>exportAction</servlet-name>
+		<servlet-class>com.teamsun.export.action.ExportAction</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>exportAction</servlet-name>
+		<url-pattern>/exportAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>XmlReader</servlet-name>
+		<url-pattern>/XmlReader</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FCExport</servlet-name>
+		<url-pattern>/FCExport</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dataService</servlet-name>
+		<url-pattern>/dataservice/query</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>ExportGridAction</servlet-name>
+	    <servlet-class>com.teamsun.export.action.ExportGridAction</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	    <servlet-name>ExportGridAction</servlet-name>
+	    <url-pattern>/ExportGridAction</url-pattern>
+  	</servlet-mapping>
+	
+</web-app>

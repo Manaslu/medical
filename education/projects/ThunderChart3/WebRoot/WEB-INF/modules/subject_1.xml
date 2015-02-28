@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="sub_index" hasLine="false" width="150" height="470">
+
+	<ts:cmpnt type="text"  pos="0" width="180" height="12" style="text-align:left;margin-left:5;font-size:8pt">
+			<text>配置计划完成 75% </text>
+		</ts:cmpnt>	 
+	<ts:cmpnt type="text"  pos="1" width="180" height="12" style="text-align:left;margin-left:15;font-size:8pt">
+			<text>油品构成分析</text>
+		</ts:cmpnt>	 
+	<ts:cmpnt type="text"  pos="2" width="180" height="12" style="text-align:left;margin-left:15;font-size:8pt">
+			<text>购进方式分析</text>
+		</ts:cmpnt>	
+<!-- 配置计划完成子弹图    -->				
+    <ts:cmpnt type="HLinearGauge" datamodel="dm10010601011" pos="3" width="350" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml" radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1"  
+	   		   showGaugeBorder = "0" >
+            </ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="Pie2D" datamodel="dm200002"  pos="4" width="180" height="160" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="12" showValues="1" pieRadius="65" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm200002"  pos="5" width="100" height="100" para="{v_cycle:'4',v_time:'200901' }">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '12'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+<!-- 购进方式分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm212001"  pos="6" width="220" height="160" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="12" showValues="1" pieRadius="65" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm212001"  pos="7" width="100" height="100" para="{v_cycle:'4',v_time:'200901' }">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '12'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+ <ts:cmpnt type="text"  pos="8" width="180" height="12" style="text-align:left;margin-left:5;font-size:8pt">
+			<text> 外采计划完成 75%</text>
+		</ts:cmpnt>
+		
+    <ts:cmpnt type="HLinearGauge" datamodel="dm10010601011" pos="9" width="350" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml"  radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1" 
+	   		   showGaugeBorder = "0">
+            </ts:chart>
+	    </ts:cmpnt>
+	    </ts:layout>
+
+</ts:page>

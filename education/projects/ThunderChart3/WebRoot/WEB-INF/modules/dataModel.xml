@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ts:models xmlns:ts="http://www.w3.org/TR/html4/">
+<!-- test Map -->
+<ts:model id="dm211" dataurl="chinamapdata.xml"/>
+
+<!--9概览 -->
+<!--91主题分析概览 -->
+<ts:model id="dm911001" dataurl="/MDSS/dataservice/query?instance=911001&amp;otype=xml"/>
+<ts:model id="dm911002" dataurl="/MDSS/dataservice/query?instance=911002&amp;otype=xml"/>
+<ts:model id="dm911003" dataurl="/MDSS/dataservice/query?instance=911003&amp;otype=xml"/>
+<ts:model id="dm911004" dataurl="/MDSS/dataservice/query?instance=911004&amp;otype=xml"/>
+<ts:model id="dm912001" dataurl="/MDSS/dataservice/query?instance=912001&amp;otype=xml"/>
+<ts:model id="dm912002" dataurl="/MDSS/dataservice/query?instance=912002&amp;otype=xml"/>
+<ts:model id="dm913001" dataurl="/MDSS/dataservice/query?instance=913001&amp;otype=xml"/>
+<ts:model id="dm913002" dataurl="/MDSS/dataservice/query?instance=913002&amp;otype=xml"/>
+<ts:model id="dm914001" dataurl="/MDSS/dataservice/query?instance=914001&amp;otype=xml"/>
+<ts:model id="dm914002" dataurl="/MDSS/dataservice/query?instance=914002&amp;otype=xml"/>
+<ts:model id="dm914003" dataurl="/MDSS/dataservice/query?instance=914003&amp;otype=xml"/>
+<ts:model id="dm914004" dataurl="/MDSS/dataservice/query?instance=914004&amp;otype=xml"/>
+<ts:model id="dm915001" dataurl="/MDSS/dataservice/query?instance=915001&amp;otype=xml"/>
+<ts:model id="dm916001" dataurl="/MDSS/dataservice/query?instance=916001&amp;otype=xml"/>
+
+<!--90首页 -->
+<ts:model id="dm901001" dataurl="/MDSS/dataservice/query?instance=901001&amp;otype=xml"/>
+
+<!--1采购分析 -->
+<!--11采购计划 -->
+<ts:model id="dm111001" dataurl="/MDSS/dataservice/query?instance=111001&amp;otype=xml"/>
+<ts:model id="dm111002" dataurl="/MDSS/dataservice/query?instance=111002&amp;otype=xml"/>
+<ts:model id="dm111003" dataurl="/MDSS/dataservice/query?instance=111003&amp;otype=xml"/>
+<ts:model id="dm112001" dataurl="/MDSS/dataservice/query?instance=112001&amp;otype=xml"/>
+<ts:model id="dm112002" dataurl="/MDSS/dataservice/query?instance=112002&amp;otype=xml"/>
+<ts:model id="dm112003" dataurl="/MDSS/dataservice/query?instance=112003&amp;otype=xml"/>
+<ts:model id="dm113001" dataurl="/MDSS/dataservice/query?instance=113001&amp;otype=xml"/>
+<ts:model id="dm113002" dataurl="/MDSS/dataservice/query?instance=113002&amp;otype=xml"/>
+<!--2销售分析 -->
+<!--21销售计划 -->
+<ts:model id="dm211001" dataurl="/MDSS/dataservice/query?instance=211001&amp;otype=xml"/>
+<ts:model id="dm211002" dataurl="/MDSS/dataservice/query?instance=211002&amp;otype=xml"/>
+<ts:model id="dm211003" dataurl="/MDSS/dataservice/query?instance=211003&amp;otype=xml"/>
+<ts:model id="dm212000" dataurl="/MDSS/dataservice/query?instance=212000&amp;otype=xml"/>
+<ts:model id="dm212001" dataurl="/MDSS/dataservice/query?instance=212001&amp;otype=xml"/>
+<ts:model id="dm212002" dataurl="/MDSS/dataservice/query?instance=212002&amp;otype=xml"/>
+<ts:model id="dm212003" dataurl="/MDSS/dataservice/query?instance=212003&amp;otype=xml"/>
+<ts:model id="dm213001" dataurl="/MDSS/dataservice/query?instance=213001&amp;otype=xml"/>
+<!--22直销分析 -->
+<ts:model id="dm221001" dataurl="/MDSS/dataservice/query?instance=221001&amp;otype=xml"/>
+<ts:model id="dm221002" dataurl="/MDSS/dataservice/query?instance=221002&amp;otype=xml"/>
+<ts:model id="dm221003" dataurl="/MDSS/dataservice/query?instance=221003&amp;otype=xml"/>
+<ts:model id="dm222001" dataurl="/MDSS/dataservice/query?instance=222001&amp;otype=xml"/>
+<ts:model id="dm222002" dataurl="/MDSS/dataservice/query?instance=222002&amp;otype=xml"/>
+<ts:model id="dm222003" dataurl="/MDSS/dataservice/query?instance=222003&amp;otype=xml"/>
+<ts:model id="dm223001" dataurl="/MDSS/dataservice/query?instance=223001&amp;otype=xml"/>
+<ts:model id="dm223002" dataurl="/MDSS/dataservice/query?instance=223002&amp;otype=xml"/>
+<!--23零售分析 -->
+<ts:model id="dm231001" dataurl="/MDSS/dataservice/query?instance=231001&amp;otype=xml"/>
+<ts:model id="dm231002" dataurl="/MDSS/dataservice/query?instance=231002&amp;otype=xml"/>
+<ts:model id="dm231003" dataurl="/MDSS/dataservice/query?instance=231003&amp;otype=xml"/>
+<ts:model id="dm231004" dataurl="/MDSS/dataservice/query?instance=231004&amp;otype=xml"/>
+<ts:model id="dm232001" dataurl="/MDSS/dataservice/query?instance=232001&amp;otype=xml"/>
+<ts:model id="dm232002" dataurl="/MDSS/dataservice/query?instance=232002&amp;otype=xml"/>
+<ts:model id="dm233001" dataurl="/MDSS/dataservice/query?instance=233001&amp;otype=xml"/>
+<ts:model id="dm233002" dataurl="/MDSS/dataservice/query?instance=233002&amp;otype=xml"/>
+<ts:model id="dm234001" dataurl="/MDSS/dataservice/query?instance=234001&amp;otype=xml"/>
+<ts:model id="dm234002" dataurl="/MDSS/dataservice/query?instance=234002&amp;otype=xml"/>
+<!--24非油品分析 -->
+<ts:model id="dm241001" dataurl="/MDSS/dataservice/query?instance=241001&amp;otype=xml"/>
+<ts:model id="dm241002" dataurl="/MDSS/dataservice/query?instance=241002&amp;otype=xml"/>
+<ts:model id="dm241003" dataurl="/MDSS/dataservice/query?instance=241003&amp;otype=xml"/>
+<ts:model id="dm242001" dataurl="/MDSS/dataservice/query?instance=242001&amp;otype=xml"/>
+<ts:model id="dm242002" dataurl="/MDSS/dataservice/query?instance=242002&amp;otype=xml"/>
+<ts:model id="dm243001" dataurl="/MDSS/dataservice/query?instance=243001&amp;otype=xml"/>
+<!--25价格到位分析 -->
+<ts:model id="dm251001" dataurl="/MDSS/dataservice/query?instance=251001&amp;otype=xml"/>
+<ts:model id="dm251002" dataurl="/MDSS/dataservice/query?instance=251002&amp;otype=xml"/>
+<ts:model id="dm252001" dataurl="/MDSS/dataservice/query?instance=252001&amp;otype=xml"/>
+<ts:model id="dm252002" dataurl="/MDSS/dataservice/query?instance=252002&amp;otype=xml"/>
+<ts:model id="dm252003" dataurl="/MDSS/dataservice/query?instance=252003&amp;otype=xml"/>
+
+<!--3库存分析 -->
+<!--31油库库存 -->
+<ts:model id="dm311001" dataurl="/MDSS/dataservice/query?instance=311001&amp;otype=xml"/>
+<ts:model id="dm311002" dataurl="/MDSS/dataservice/query?instance=311002&amp;otype=xml"/>
+<ts:model id="dm311003" dataurl="/MDSS/dataservice/query?instance=311003&amp;otype=xml"/>
+<ts:model id="dm312001" dataurl="/MDSS/dataservice/query?instance=312001&amp;otype=xml"/>
+<ts:model id="dm312002" dataurl="/MDSS/dataservice/query?instance=312002&amp;otype=xml"/>
+<ts:model id="dm312003" dataurl="/MDSS/dataservice/query?instance=312003&amp;otype=xml"/>
+<ts:model id="dm313001" dataurl="/MDSS/dataservice/query?instance=313001&amp;otype=xml"/>
+<ts:model id="dm313002" dataurl="/MDSS/dataservice/query?instance=313002&amp;otype=xml"/>	
+<!--32油站库存 -->
+<ts:model id="dm321001" dataurl="/MDSS/dataservice/query?instance=321001&amp;otype=xml"/>
+<ts:model id="dm321002" dataurl="/MDSS/dataservice/query?instance=321002&amp;otype=xml"/>
+<ts:model id="dm321003" dataurl="/MDSS/dataservice/query?instance=321003&amp;otype=xml"/>
+<ts:model id="dm322001" dataurl="/MDSS/dataservice/query?instance=322001&amp;otype=xml"/>
+<ts:model id="dm322002" dataurl="/MDSS/dataservice/query?instance=322002&amp;otype=xml"/>
+<ts:model id="dm322003" dataurl="/MDSS/dataservice/query?instance=322003&amp;otype=xml"/>
+<ts:model id="dm323001" dataurl="/MDSS/dataservice/query?instance=323001&amp;otype=xml"/>
+<ts:model id="dm323002" dataurl="/MDSS/dataservice/query?instance=323002&amp;otype=xml"/>
+
+<!--4 损耗分析 -->
+<!--41油库损耗 -->
+<ts:model id="dm411001" dataurl="/MDSS/dataservice/query?instance=411001&amp;otype=xml"/>
+<ts:model id="dm411002" dataurl="/MDSS/dataservice/query?instance=411002&amp;otype=xml"/>
+<ts:model id="dm411003" dataurl="/MDSS/dataservice/query?instance=411003&amp;otype=xml"/>	
+<ts:model id="dm411004" dataurl="/MDSS/dataservice/query?instance=411004&amp;otype=xml"/>
+<ts:model id="dm412001" dataurl="/MDSS/dataservice/query?instance=412001&amp;otype=xml"/>
+<ts:model id="dm412002" dataurl="/MDSS/dataservice/query?instance=412002&amp;otype=xml"/>
+<ts:model id="dm413001" dataurl="/MDSS/dataservice/query?instance=413001&amp;otype=xml"/>
+<ts:model id="dm413002" dataurl="/MDSS/dataservice/query?instance=413002&amp;otype=xml"/>
+<!--42油站损耗 -->
+<ts:model id="dm421001" dataurl="/MDSS/dataservice/query?instance=421001&amp;otype=xml"/>
+<ts:model id="dm421002" dataurl="/MDSS/dataservice/query?instance=421002&amp;otype=xml"/>
+<ts:model id="dm421003" dataurl="/MDSS/dataservice/query?instance=421003&amp;otype=xml"/>	
+<ts:model id="dm421004" dataurl="/MDSS/dataservice/query?instance=421004&amp;otype=xml"/>
+<ts:model id="dm422001" dataurl="/MDSS/dataservice/query?instance=422001&amp;otype=xml"/>
+<ts:model id="dm422002" dataurl="/MDSS/dataservice/query?instance=422002&amp;otype=xml"/>
+<ts:model id="dm423001" dataurl="/MDSS/dataservice/query?instance=423001&amp;otype=xml"/>
+<ts:model id="dm423002" dataurl="/MDSS/dataservice/query?instance=423002&amp;otype=xml"/>
+</ts:models>

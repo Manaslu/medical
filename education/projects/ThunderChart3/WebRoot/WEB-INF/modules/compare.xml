@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="kpi" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="1" zoom="1">
+	     <ts:cmpnt  type="MSColumn2D" datamodel="compare-chart"  init="false" 
+	  	 pos="0" width="900" height="300" para="">
+	    	<ts:dataset d3="secodedimcd" d1="secodedim" d2="data_time" value="curvalue"  ></ts:dataset>
+	    	
+	    	<ts:chart  customerColor="1" colorsFile="CompareColor.xml"  setAdaptiveYMin="1" caption="基期分析"  labelDisplay='WRAP' decimals="2"  legendStyle="1"
+	    	showBorder="0" bgcolor="ffffff"  bgAlpha="0" placeValuesInside='0'  rotateValues='0' showLegend='1' baseFontSize='12' numberPrefix=" " legendPosition="bottom" 
+	    	useRoundEdges="1" formatNumberScale="0" yAxisName="" xportAction="download"     exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+	   <ts:cmpnt type="ext-listgrid" datamodel="compare-grid" pos="1" enableColumnResize="0" width="850" height="160" showBorder="1" useRoundEdge="0"  hideHeaders="0" para="{}">
+		<ts:Columns>
+			<ts:Column name="指标"  code="secodedim" width="200" sortable="1"/>
+			<ts:Column name="基期" code="base" type="number" width="100" sortable="1" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="现期" code="cur"  type="number" width="100" sortable="1" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="差额" code="balance" type="number" width="100" sortable="1" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="增幅(%)" code="amplitude"  type="number" width="100" sortable="1" align="right"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

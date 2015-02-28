@@ -1,0 +1,36 @@
+<data>
+		<entity id='CN.AH'    toolText='安徽' link='JavaScript:getUnitId("3400")'/>
+		<entity id='CN.BJ'    toolText='北京' link='JavaScript:getUnitId("1100")' />
+		<entity id='CN.CQ'    toolText='重庆' link='JavaScript:getUnitId("5000")' />
+		<entity id='CN.FJ'    toolText='福建' link='JavaScript:getUnitId("3500")' />
+		<entity id='CN.GS'    toolText='甘肃' link='JavaScript:getUnitId("6200")' />
+		<entity id='CN.GD'    toolText='广东' link='JavaScript:getUnitId("4400")' />
+		<entity id='CN.GX'    toolText='广西' link='JavaScript:getUnitId("4500")' />
+		<entity id='CN.GZ'    toolText='贵州' link='JavaScript:getUnitId("5200")' />
+		<entity id='CN.HA'  value='300' color='000000'  toolText='HN1100' link='JavaScript:getUnitId("4600")' />
+		<entity id='CN.HB'    toolText='河北' link='JavaScript:getUnitId("1300")' />
+		<entity id='CN.HE'    toolText='河南' link='JavaScript:getUnitId("4100")' />
+		<entity id='CN.HU'    toolText='湖北' link='JavaScript:getUnitId("4200")' />
+		<entity id='CN.HL'    toolText='黑龙江' link='JavaScript:getUnitId("2300")' />
+		<entity id='CN.HN'    toolText='湖南' link='JavaScript:getUnitId("4300")' />
+		<entity id='CN.JS'    toolText='江苏' link='JavaScript:getUnitId("3200")' />
+		<entity id='CN.JX'    toolText='江西' link='JavaScript:getUnitId("3600")' />
+		<entity id='CN.JL'    toolText='吉林' link='JavaScript:getUnitId("2200")' />
+		<entity id='CN.LN'    toolText='辽宁' link='JavaScript:getUnitId("2100")' />
+		<entity id='CN.NM'    toolText='内蒙' link='JavaScript:getUnitId("1500")' />
+		<entity id='CN.NX'    toolText='宁夏' link='JavaScript:getUnitId("6400")' />
+		<entity id='CN.QH'    toolText='青海' link='JavaScript:getUnitId("6300")' />
+		<entity id='CN.SA'    toolText='陕西' link='JavaScript:getUnitId("6100")' />
+		<entity id='CN.SD'    toolText='山东' link='JavaScript:getUnitId("3700")' />
+		<entity id='CN.SH'    toolText='上海' link='JavaScript:getUnitId("3100")' />
+		<entity id='CN.SX'    toolText='山西' link='JavaScript:getUnitId("1400")' />
+		<entity id='CN.SC'    toolText='四川' link='JavaScript:getUnitId("5100")' />
+		<entity id='CN.TJ'    toolText='天津' link='JavaScript:getUnitId("1200")' />
+		<entity id='CN.XJ'    toolText='新疆' link='JavaScript:getUnitId("6500")' />
+		<entity id='CN.XZ'    toolText='西藏' link='JavaScript:getUnitId("5400")' />
+		<entity id='CN.YN'    toolText='云南' link='JavaScript:getUnitId("5300")' />
+		<entity id='CN.ZJ'    toolText='浙江' link='JavaScript:getUnitId("3300")' />
+		<entity id='CN.MA'    toolText='澳门' link='JavaScript:getUnitId("8200")' />
+		<entity id='CN.HK'    toolText='香港' link='JavaScript:getUnitId("8100")' />
+		<entity id='CN.TA'    toolText='台湾' link='JavaScript:getUnitId("7100")' />
+</data>

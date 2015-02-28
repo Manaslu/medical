@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="240" height="210">
+	    <!-- ts:cmpnt type="text"  pos="0" width="240" height="20" para="{}">
+	    	<text><div style="text-align:left;margin-left:10;margin-top:0;">
+	    		<a style="cursor:pointer;font-size:10pt;font-family:宋体;color:#000000" href="JavaScript:getUnitId('0010')" >全国</a>
+	    	</div>
+	    	</text>
+	    </ts:cmpnt-->
+	    <ts:cmpnt type="mapChina" datamodel="gis"  pos="0" width="600" height="300" para="">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:chart  showCanvasBorder='1' canvasBorderColor='f1f1f1' canvasBorderThickness='2' baseFontSize="9" 
+	    		borderColor='00324A' fillColor='F0FAFF' hoverColor='C0D2F8' yAxisName="" xportAction="download"     exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg'>
+	        </ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>

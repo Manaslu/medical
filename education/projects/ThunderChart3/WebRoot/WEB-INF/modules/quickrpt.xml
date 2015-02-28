@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="240" height="210">
+	    <ts:cmpnt type="text"  pos="0" width="300" height="200" para="{}" datamodel="quickrpt">
+	    	<text>
+	    	</text>
+	    </ts:cmpnt>
+	   
+    </ts:layout>
+</ts:page>

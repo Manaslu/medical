@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--=================================================================-->
+<!--ThunderChart -->
+<!--ant-version 1.7.0-->
+<!--=================================================================-->
+<project name="ThunderChart" default="help" basedir=".">
+	<property environment="env"/>
+	
+	<property name="war.name" value="ThunderChart"/>
+	<property name="src.dir" value="src"/>
+	<property name="src1" value="${src.dir}/base"/>
+	<property name="src2" value="${src.dir}/dataExport"/>
+	<property name="src3" value="${src.dir}/dataService"/>
+	<property name="src4" value="${src.dir}/export"/>
+	<property name="src5" value="${src.dir}/xmlProcess"/>
+	<property name="tomcat.home" value="${env.TOMCAT_HOME}"/>
+	<property name="webroot" value="web"/>
+	<property name="lib.dir" value="${webroot}/WEB-INF/lib"/>
+	<property name="app.name" value="ThunderChart"/>
+	<property name="js.root" value="${webroot}/chart/js"/>
+	<property name="css.root" value="${webroot}/chart/css"/>
+	
+	<property name="dist.dir" value="dist"/>
+	<property name="doc.dir" value="${dist.dir}/doc/api"/>
+
+	<property name="build.dir" value="build2"/>
+	<property name="build.classes" value="${build.dir}/classes"/>
+	<property name="build.jzip" value="${build.dir}/jzip"/>
+	<property name="jzip.js" value="${build.jzip}/js"/>
+	<property name="jzip.css" value="${build.jzip}/css"/>
+	<property name="jzip.concat" value="${build.jzip}/concat"/>
+	
+	<property name="build.flag" value="on"/>
+	<property name="build.compiler" value="modern"/>
+	
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${tomcat.home}/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="prepare">
+		<mkdir dir="${build.dir}"/>
+		<tstamp/>
+		<echo message="${TSTAMP}"/>
+	</target>
+	
+	<target name="compile" depends="prepare">
+		<mkdir dir="${build.classes}"/>
+		<javac destdir="${build.classes}" 
+					 debug="${debug.flag}"
+					 fork="true"
+					 encoding="UTF-8">
+			<src path="${src1}"/>
+			<src path="${src2}"/>
+			<src path="${src3}"/>
+			<src path="${src4}"/>
+			<src path="${src5}"/>
+			<include name="**/*.java"/>
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="csscompress">
+		<mkdir dir="${jzip.css}"/>
+		
+		<apply executable="java"
+					 parallel="false"
+					 failonerror="true"
+					 dest="${jzip.css}"
+					 dir="${css.root}">
+			<fileset dir="${css.root}">
+				<include name="**/*.css"/>
+			</fileset>
+			<arg line="-jar"/>
+			<arg path="${lib.dir}/yuicompressor-2.3.5.jar"/>
+			<arg line="--charset utf-8"/>
+			<srcfile />
+			<arg line="-o"/>
+			<targetfile />
+			<mapper type="glob" from="*.css" to="*.css"/>
+		</apply>
+	</target>
+	
+	<target name="cssconcat" depends="csscompress">
+		<filelist dir="${jzip.css}" id="thunderchartcss">
+			<file name="ext-all.css"/>
+			<file name="Style.css"/>
+			<file name="layout.css"/>
+			<file name="slider.css"/>
+			<file name="columnLock.css"/>
+			<file name="grid-color.css"/>
+		</filelist>
+		<concat destfile="${build.jzip}/thunderchart.css" 
+						encoding="UTF-8"
+						outputencoding="UTF-8">
+			<filelist refid="thunderchartcss"/>
+		</concat>
+		<delete dir="${jzip.css}" includeemptydirs="true"/>
+	</target>
+	
+<target name="jscompress">
+		<mkdir dir="${jzip.js}"/>
+		<copy todir="${jzip.js}">
+			<fileset dir="${js.root}">
+				<exclude name="**/*.*"/>
+			</fileset>
+		</copy>
+		<apply executable="java" 
+					 parallel="false" 
+					 failonerror="true"
+					 dest="${jzip.js}"
+					 dir="${js.root}">
+			<fileset dir="${js.root}">
+				<include name="**/*.js"/>
+			</fileset>
+			<arg line="-jar"/>
+			<arg path="${lib.dir}/yuicompressor-2.3.5.jar"/>
+			<arg line="--charset utf-8"/>
+			<srcfile />
+			<arg line="-o"/>
+			<targetfile />
+			<mapper type="glob" from="*.js" to="*.js"/>
+		</apply>
+	</target>
+		
+	<target name="jsconcat" depends="jscompress">
+		<filelist dir="${jzip.js}" id="thunderchartjs">
+			<file name="ext2/ext-base.js"/>
+			<file name="ext2/ext-all.js"/>
+			<file name="ext2/LockingGridView.js"/>
+			<file name="util/subcaption.js"/>
+			<file name="util/gridEvent.js"/>
+			<file name="pagebus/pagebus.js"/>
+			<file name="util/FreeLayout.js"/>
+			<file name="util/MSClass.js"/>
+			<file name="util/xmlProcess.js"/>
+			<file name="util/FusionCharts.js"/>
+			<file name="util/FusionChartsExportComponent.js"/>
+			<file name="object/singleChart.js"/>
+			<file name="util/FusionMaps.js"/>
+			<file name="object/mapChina.js"/>
+			<file name="object/multiChart.js"/>
+			<file name="object/ReportGrid.js"/>
+			<file name="object/gauge.js"/>
+			<file name="object/TextParse.js"/>
+			<file name="object/GroupHeaderPlugin.js"/>
+			<file name="object/Ext.ux.XMLReaderBuilder.js"/>
+			<file name="object/extlistgrid.js"/>
+			<file name="object/CrossGridParser.js"/>
+			<file name="object/SliderTip.js"/>
+			<file name="object/LockGrid.js"/>
+			<file name="util/xmlParse.js"/>
+		</filelist>
+		<concat destfile="${build.jzip}/thunderchart.js" 
+						encoding="UTF-8"
+						outputencoding="UTF-8">
+			<filelist refid="thunderchartjs"></filelist>
+		</concat>
+		<delete dir="${jzip.js}" includeemptydirs="true" />
+	</target>
+	
+	<!--打包——无js、css压缩-->
+	<target name="war" depends="compile">
+		<mkdir dir="${dist.dir}"/>
+		<war destfile="${dist.dir}/${app.name}.war" 
+				 webxml="${webroot}/WEB-INF/web.xml" 
+				 compress="false">
+			<fileset dir="${webroot}">
+				<exclude name="WEB-INF/classes"/>
+				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="**/*.jar"/>
+				<exclude name="**/*.scc"/>
+			</fileset>
+			
+			<lib dir="${lib.dir}">
+				<include name="**/*.jar"/>
+			</lib>
+			<classes dir="${build.classes}"/>
+		</war>
+	</target>
+	<!--打包——js、css压缩-->
+	<target name="war2" depends="compile,cssconcat,jsconcat">
+		<mkdir dir="${dist.dir}"/>
+		<war destfile="${dist.dir}/${app.name}.war"
+				 webxml="${webroot}/WEB-INF/web.xml"
+				 compress="false">
+			<fileset dir="${webroot}">
+				<exclude name="WEB-INF/classes"/>
+				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="**/*.jar"/>
+				<exclude name="**/*.scc"/>
+				<exclude name="**/*.js" />
+				<exclude name="**/*.css" />
+				<exclude name="chart/jsp/chart.jsp" />
+			</fileset>
+			<zipfileset dir="${build.jzip}" prefix="chart/js">
+				<include name="thunderchart.js" />
+			</zipfileset>
+    		<zipfileset dir="${build.jzip}" prefix="chart/css">
+    			<include name="thunderchart.css"/>
+    		</zipfileset>
+			<zipfileset dir="build" prefix="chart/jsp">
+    			<include name="chart.jsp"/>
+    		</zipfileset>
+			<lib dir="${lib.dir}">
+				<include name="**/*.jar"/>
+			</lib>
+			<classes dir="${build.classes}"/> 
+		</war>
+		
+		<delete>
+			<fileset dir="${js.root}">
+				<include name="index.js"/>
+			</fileset>
+			<fileset dir="${css.root}">
+				<include name="index.css"/>
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="deploy" depends="war">
+		<copy file="${dist.dir}/${app.name}.war" todir="${tomcat.home}/webapps"/>
+	</target>
+	
+	<target name="deploy2" depends="war2">
+		<copy file="${dist.dir}/${app.name}.war" todir="${tomcat.home}/webapps"/>
+	</target>
+	
+	<target name="javadoc" depends="compile">
+		<mkdir dir="${doc.dir}"/>
+		<javadoc packagenames="*.*" 
+						 sourcepath="${src1};${src2};${src3};${src4};${src5}"
+						 classpath="${build.classes}"
+						 classpathref="classpath"
+						 destdir="${doc.dir}"
+						 Locale="zh_CN"
+						 docencoding="GBK"
+						 encoding="UTF-8"
+						 windowtitle="ThunderChart api"
+						 author="true"
+						 version="true">
+			<bottom>
+				<![CDATA[<i>Copyright &#169; 2010 Teamsun Corp. All Rights Reserved.</i>]]>
+			</bottom>
+		</javadoc>
+	</target>
+		
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="cleanall" depends="clean">
+		<delete dir="${dist.dir}"/>
+	</target>
+	
+	<target name="help">
+		<echo>该ANT build文件的各任务作用如下，请使用ant+空格+任务名完成相应构建</echo>
+		<echo>help              --------------        帮助,提示各任务功能</echo>
+		<echo>clean             --------------        清空构建遗留物</echo>
+		<echo>cleanall          --------------        清空构所有</echo>
+		<echo>compile           --------------        编译所有java源代码</echo>
+		<echo>javadoc           --------------        生成javadoc</echo>
+		<echo>war               --------------        打包成war应用</echo>
+		<echo>deploy            --------------        将war应用部署到tomcat</echo>
+	</target>
+</project>

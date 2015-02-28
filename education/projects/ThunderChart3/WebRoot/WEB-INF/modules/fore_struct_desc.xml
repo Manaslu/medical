@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="fore_struct" hasLine="false" width="790" height="510" >
+	<ts:cmpnt type="AngularGaugeRPM" 
+		           datamodel="dm9005030101"  pos="0" width="200" height="130" >
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	    	<ts:chart radius="45" 
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColorCenterBest.xml" 
+	    	          
+	    	          displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                  
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="ext-crossgrid" datamodel="dm9005030201" pos="1" sort="f1|f2"  width="210" height="190" showBorder="0" useRoundEdge="0" 
+		measurepos="col" >
+		<ts:RowDims>
+			<ts:Dim name="排序" code="mode_desc" width="40" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+	   <ts:cmpnt type="text" datamodel="dm9005030302" pos="2" style="font-size:14;font-weight:bold;" width="140" height="20" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB"  >
+			<text>
+			出租设备收入
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" pos="6"  width="220" height="40" style="font-size:11" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB"  para="{}">
+			<text>
+			红色：当本月数据超出预测上下限；<br/>
+			绿色：当本月数据介于预测上下限之间；
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" pos="7" style="font-size:14" width="140" height="20" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB"  para="{}">
+			<text>
+			模型预测精度比较
+			</text>
+		</ts:cmpnt>
+	   <ts:cmpnt type="MSLine" datamodel="dm9005030202"  pos="3" width="450" height="290" >
+	    	<ts:dataset d1="ind_date"  d2="mode_name" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:chart chartRightMargin="2" colorsFile="MSLine.xml" setAdaptiveYMin="1" anchorRadius="4" customerColor="1"  caption="" Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" labelDisplay="ROTATE"></ts:chart>
+	    </ts:cmpnt>
+	    
+		
+		
+		<ts:cmpnt type="text" pos="4" datamodel="dm9005030303" style="text-align:left;font-size:12;padding-left:40px;" width="440" height="120" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB" >
+			<text>
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" pos="8" style="text-align:left;font-size:11" width="440" height="100" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB"  para="{}">
+			<text>
+			红色：当本月实际值或预测值超出预测上下限；
+			绿色：当本月实际值或预测值介于预测上下限之间；
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="5" width="200" height="200" style="font-size:9pt" para="{}">
+			<text>
+				<div>
+				<iframe id="modename" src="/MDSS/portlets/forecast/desc/getmodename.jsp" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+				</div>
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="8" width="950" height="1" style="font-size:9pt" para="{}">
+			<text>
+				<div>
+				<!--  iframe id="cond" src="/MDSS/portlets/forecast/desc/fore.jsp" width="100%" height="100%" scrolling="no" frameborder="0"></iframe-->
+				</div>
+			</text>
+		</ts:cmpnt>
+		
+    </ts:layout>
+</ts:page>

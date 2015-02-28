@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="400" height="380">
+	    <ts:cmpnt type="text"  pos="0" datamodel="dm8001060301"  width="380" height="15"  para="{v_time:top.window.hr.index_time}" style="font-size:9pt;text-align:right;margin-right:15;margin-top:0;margin-bottom:0">
+			<text>
+			</text>
+		</ts:cmpnt> 
+		
+		
+	<!-- 
+	    <ts:cmpnt type="Radar" datamodel="dm8001060101"  pos="1" width="400" height="180" para="{orgid:'1100'}">
+	    	<ts:dataset d1="station" d2="department" value="rank"  ></ts:dataset>
+	    	<ts:chart caption="" radius="8" customerColor="1" colorsFile="PieColor.xml" yAxisMaxValue ='5' 
+	    	    anchorAlpha="0" showBorder="0" baseFontSize="12" bgColor="0xffffff" legendPosition="RIGHT"></ts:chart>
+	    </ts:cmpnt>
+	     -->	
+	    
+	    		<ts:cmpnt type="Radar" datamodel="dm8003030101" pos="1" width="470" height="180" para="{v_time:top.window.hr.index_time,v_org:'0000',v_cycle:'4'}">
+			<ts:dataset d1="type" d2="name" value="value"> </ts:dataset>
+			<ts:chart caption="" yAxisMaxValue='5' chartRightMargin="80" anchorAlpha="0" showBorder="0"
+				      baseFontSize="12" bgColor="0xffffff" legendPosition="RIGHT">
+			</ts:chart>
+		</ts:cmpnt>
+	    
+		<ts:cmpnt type="text"  pos="2" width="400" height="170"  para="{}" style="font-size:9pt">
+			<text><div style="text-align:left;margin-left:5px;margin-top:5px;margin-right:5px">员工按岗位分为四大类（管理、业务、技术和后勤）12个小类（见雷达图）。各小类的劳动生产率对各省按从大到小排列，前1~6第五档、7~12第四档、13~18第三档、19~24第二档、25~31第一档。各类岗位的<b>劳动生产率</b>定义如下,</div>
+			  <div style="text-align:left;margin-left:5px;margin-right:5px">1、面向客户的岗位包括客户服务、市场营销、业务支持等共三小类，每类的<b>劳动生产率=客户数/该类员工数</b></div>
+			  <div style="text-align:left;margin-left:5px;margin-right:5px">2、面向员工的岗位包括行政事务、综合和行政、人力资源、财务、信息技术等共五小类，每类的<b>劳动生产率=员工数/该类员工数</b></div>
+			  <div style="text-align:left;margin-left:5px;margin-right:5px">3、面向生产的岗位包括计划建设、网络运行维护、技术研究开发、技术管理等共四小类，每类的<b>劳动生产率=基站数/该类员工数</b></div>
+			</text>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>

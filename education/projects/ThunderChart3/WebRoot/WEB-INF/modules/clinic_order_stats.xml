@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="150" height="200">
+ <ts:cmpnt type="Column2D" datamodel="dm100001"  pos="0" width="400" height="400" para="{org:window.dasp.org,year:window.dasp.year}">
+                    <ts:dataset d1="name" value="id" ></ts:dataset>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='1'></ts:chart>
+            </ts:cmpnt>	
+ 	    
+    </ts:layout>
+</ts:page>

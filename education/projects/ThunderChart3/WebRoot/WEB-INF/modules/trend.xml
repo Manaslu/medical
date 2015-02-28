@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="kpi" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="1" zoom="1">
+	     <ts:cmpnt type="MSLine" datamodel="trend-budget-chart"  
+	   pos="0" width="900" height="300" >
+	    	<!-- ts:dataset d1="data_time" d2="secodedim" value="curvalue"  ></ts:dataset-->
+	    	<ts:dataset d3="dataTime" d1="dataTime" d2="secodedim" value="budgetvalue"  ></ts:dataset>
+	    	<ts:chart canvasPadding="40" chartRightMargin="50"   setAdaptiveYMin="1" caption="历史趋势分析" 
+	    	 customerColor="1" colorset="0" colorsFile="TrendColors.xml"  decimals="2" showShadow ="0"  
+	    	showBorder="0" bgColor="FFFFFF"  bgAlpha="20" borderColor="ff0000" canvasBorderColor='B9B9B9' 
+	        placeValuesInside='0'  rotateValues='0' showLegend='1' baseFontSize='12'  legendPosition="bottom"  
+	    	alternateHGridAlpha="0" divLineAlpha="30"  vDivLineisDashed="1" divLineIsDashed="1" numVDivLines='10'
+	    	labelDisplay='Rotate' slantLabels='1' anchorSides='4' anchorRadius="4"  
+	    	useRoundEdges="1" formatNumberScale="0" yAxisName=""  numberPrefix=""  legendStyle="1"
+	    	exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg' exportParameters='ttt.lll' exportHandler='exp.jsp'></ts:chart>
+	   </ts:cmpnt>
+	   <!-- ts:cmpnt type="text" pos="1" width="800" height="5"><text><div style="width:800px;;height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;overflow: hidden;"></div></text></ts:cmpnt-->
+	   <ts:cmpnt type="ext-crossgrid" datamodel="trend-budget-grid" pos="1" sort="f1|f2"  width="900"  height="160" showBorder="1" useRoundEdge="0" init="true" 
+		measurepos="col"  para='{}' autoColumnWidth="1">
+		<ts:RowDims>
+			<ts:Dim name="时间"  code="dataTime" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name=""  code="secodedim" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="" type="number" code="budgetvalue" renderer="Thunder.changeUnit"/>
+		</ts:Measures>
+	 </ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

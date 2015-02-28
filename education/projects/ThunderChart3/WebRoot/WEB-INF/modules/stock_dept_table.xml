@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="906" height="218">
+
+
+	    <ts:cmpnt  type="MSColumn2D" datamodel="dm224202"  pos="0" width="400" height="155" para="{v_begin_time:'200910',v_time:'200912',v_org:'0010'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+                   <ts:chart  caption=""  customerColor="1" colorsFile="MSColumn2D.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+                               legendPosition="bottom"  baseFontSize="10" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+                               useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+
+	  <ts:cmpnt type="ext-crossgrid" datamodel="dm224203" pos="1" sort="f1|f2" width = "500" height="165" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_begin_time:'200801',v_time:'200812',v_org:'0010'}">
+		<ts:RowDims>
+			<ts:Dim name="时间" code="dim" width = "51"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim  code="datatype" width = "80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre code="datavalue" />
+		</ts:Measures>
+	</ts:cmpnt>
+	    
+    </ts:layout>
+</ts:page>

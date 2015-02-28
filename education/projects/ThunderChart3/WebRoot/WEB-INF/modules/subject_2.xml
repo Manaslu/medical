@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="subject_index" hasLine="false" width="150" height="470">
+
+	<ts:cmpnt type="text"  pos="0" width="180" height="12" style="text-align:left;margin-left:5;font-size:8pt">
+			<text>直销计划完成 75% </text>
+		</ts:cmpnt>	 
+	<ts:cmpnt type="text"  pos="1" width="180" height="12" style="text-align:left;margin-left:15;font-size:8pt">
+			<text>油品构成分析</text>
+		</ts:cmpnt>	 
+	<ts:cmpnt type="text"  pos="2" width="180" height="12" style="text-align:left;margin-left:15;font-size:8pt">
+			<text>销售方式分析</text>
+		</ts:cmpnt>	
+<!-- 直销计划完成子弹图    -->				
+    <ts:cmpnt type="HLinearGauge" datamodel="dm10010601012" pos="3" width="350" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml" radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1"  
+	   		   showGaugeBorder = "0" >
+            </ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="Pie2D" datamodel="dm200002"  pos="4" width="180" height="160" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="12" showValues="1" pieRadius="65" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm200002"  pos="5" width="100" height="100" para="{v_cycle:'4',v_time:'200901' }">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '12'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+<!-- 销售方式分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm200003"  pos="6" width="170" height="160" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="12" showValues="1" pieRadius="65" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm200003"  pos="7" width="80" height="100" para="{v_cycle:'4',v_time:'200901' }">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '12'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+ <ts:cmpnt type="text"  pos="8" width="180" height="12" style="text-align:left;margin-left:5;font-size:8pt">
+			<text> 零售计划完成 75%</text>
+		</ts:cmpnt>
+<!-- 零售计划完成子弹图    -->			
+    <ts:cmpnt type="HLinearGauge" datamodel="dm10010601012" pos="9" width="350" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml"  radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1" 
+	   		   showGaugeBorder = "0">
+            </ts:chart>
+	    </ts:cmpnt>
+	<ts:cmpnt type="text"  pos="10" width="450" height="18" >
+<text><tr><td>
+      <input name="radiobutton" type="radio" value="radiobutton" checked="checked" />计划完成率</td>
+      <td>
+      <input type="radio" name="radiobutton" value="radiobutton" />经营量</td>
+      <td>
+      <input type="radio" name="radiobutton" value="radiobutton"/>同比增长</td>
+      <td>
+      <input type="radio" name="radiobutton" value="radiobutton" />价格到位率</td>
+      </tr>
+</text>
+		</ts:cmpnt>	 
+
+    <ts:cmpnt  type="MSLine" datamodel="dm200004"  pos="12" width="440" height="220" para="{v_begin_time:'200901',v_time:'200912',v_org:'0010'}">
+                    <ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+                    <ts:chart  caption="经营情况时间趋势分析"  customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+                               legendPosition="bottom"  baseFontSize="12" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+                               checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+            </ts:cmpnt> 
+
+
+   <ts:cmpnt  type="MSColumn2D" datamodel="dm200005"  pos="13" width="440" height="220" para="{v_cycle:'4',v_time:'200907',v_col:'col2'}">
+	    	<ts:dataset d1="region"  d2="type" value="value"></ts:dataset>
+	    	<ts:chart   customerColor="1" colorsFile="indexArea.xml" caption="经营情况地市排名分析" showLegend="0" bgColor="0xffffff"  
+	    	chartTopMargin="10" medianDisplay=" " chartRightMargin="10" chartBottomMargin="1"  showBorder="0" numVisiblePlot="0" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='12'  useRoundEdges="1"
+	    	  showMedian="1" MedianSeries="本期值"></ts:chart>
+	    </ts:cmpnt>	
+	    </ts:layout>
+
+</ts:page>

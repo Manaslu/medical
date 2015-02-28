@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ts:models xmlns:ts="http://www.w3.org/TR/html4/">
+<ts:model id="dm1" dataurl="xueli.xml"/>
+<ts:model id="dm2" dataurl="angular.xml"/>
+<ts:model id="dm3" dataurl="text.xml"/>
+<ts:model id="dm4" dataurl="cross.xml"/>
+<ts:model id="dm5" dataurl="cross1.xml"/>
+<ts:model id="dm6" dataurl="arrowdata.xml"/>
+<ts:model id="dm7" dataurl="thisdata.xml"/>
+<ts:model id="dm8" dataurl="marqueedata.xml"/>
+</ts:models>

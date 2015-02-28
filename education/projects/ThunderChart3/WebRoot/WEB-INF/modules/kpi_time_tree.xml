@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="480"
+		height="160">
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm2000003"  pos="0" width="620" height="170"  >
+	    	<ts:dataset d1="data_time"  d2="type" value="value" line="同比增幅,环比增幅" sAxis="同比增幅,环比增幅" ></ts:dataset>
+	    	<ts:chart  anchorRadius="4" customerColor="1" colorsFile="ColumnLine.xml" caption="" labelDisplay="ROTATE" sNumberSuffix="%25" chartBottomMargin="1" Stagger="1"  slantLabels='1' numVisiblePlot="0" showBorder="0" bgcolor="ffffff" showValues='0' placeValuesInside='1' legendPosition="bottom"  baseFontSize="12" showLegend="1" numberPrefix=" "  useRoundEdges="1" numberScaleValue='1' numberScaleUnit=''></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="text"  pos="1"  width="160" height="20" >
+			<text>
+			<div style="height:20"> </div>
+			</text>
+		</ts:cmpnt>
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm2000004" pos="2" sort="f1|f2"  width="620" colWidth="20"  height="140" showBorder="0" useRoundEdge="0" 
+		measurepos="col" >
+		<ts:RowDims>
+			<ts:Dim name="排名" code="type"  width="80" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="t" code="data_time" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="222" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+	</ts:layout>
+</ts:page>

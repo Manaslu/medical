@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="790" height="240">
+		<ts:cmpnt type="text" datamodel="dm7001040302" pos="0" width="790" height="13"  para="{v_time:'200907'}" style="font-size:9pt;text-align:right;margin-right:5;margin-top:0;margin-buttom:0;">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm7001040101"  pos="1" width="580" height="200" para="{v_time:'200907',v_org:'0010',v_col:'col2'}" >
+			 <ts:dataset d1="dim"  d2="datatype" value="datavalue" line="环比" sAxis="环比" ></ts:dataset>
+			 <ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+			 <ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="" bgColor="0xffffff" showBorder="0" numVisiblePlot="0" sNumberSuffix="%25" showValues='0' 
+			           placeValuesInside='1' rotateValues='1' baseFontSize='11' numberPrefix=" " showLegend="1" legendPosition="buttom" useRoundEdges="1" showMedian="1" 
+			           MedianSeries="本期值" medianDisplay="  " decimals='2' forceDecimals= '1' chartTopMargin ='4' chartBottomMargin="4" anchorRadius='4'></ts:chart>
+		</ts:cmpnt>		
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7001040201" pos="2" sort="f1|f2" width="210" height="200" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_time:'200907',v_org:'0010',v_col:'col2'}" >
+		<ts:RowDims>
+			<ts:Dim name="排名" code="dim" width = "40"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim  code="datatype" width = "70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre code="datavalue" />
+		</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" datamodel="dm7001040301" pos="3"  width="790" height="30"  style="font-size:9pt;text-align:left;margin-top:0px;margin-left:5px"  para="{v_time:'200907',v_org:'0010'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+	</ts:layout>
+</ts:page>

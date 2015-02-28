@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="index" hasLine="false" width="370" height="160" unit="0">
+	  <ts:cmpnt type="ext-listgrid" datamodel="index-busi-struct" showBorder="0" useRoundEdge="0"  pos="0" width="335" height="220"  hideHeaders="0" para="{}">
+		<ts:Columns>
+			<ts:Column name="业务类型"  code="dim1" width="110" align="center"/>
+			<ts:Column name="年累计值(万元)" code="curval" width="80" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="比例(%)" code="val"  width="70" align="right"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

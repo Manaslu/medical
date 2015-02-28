@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="150" height="470">
+
+
+		
+
+
+
+              <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm901001"  pos="0" width="410" height="210" para="{v_region:'0'}">
+                    <ts:dataset d1="region"  d2="type" value="value" line="销售量同比" sAxis="销售量同比" ></ts:dataset>
+                    
+                    <ts:chart customerColor="1" colorsFile="indexArea.xml"  caption=""  Stagger="1"  labelDisplay='WRAP'  bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+   NumberSuffix="%"     showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='0' baseFontSize='11' showAverage="1"
+                showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+             </ts:cmpnt>
+
+	    </ts:layout>
+
+</ts:page>

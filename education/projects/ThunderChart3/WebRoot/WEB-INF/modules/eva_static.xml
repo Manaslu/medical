@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="true" width="480" height="160">
+    
+   
+     
+     <ts:cmpnt type="vline" id="sv11" x="371" y="89" width="1" length="20"/>
+    
+     <ts:cmpnt type="line" id="sl11" x="182" y="113" length="381" width="1"/>
+     
+     <ts:cmpnt type="vline" id="sv21" x="182" y="113" width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv22" x="297" y="113" width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv23" x="428" y="113" width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv24" x="562" y="113" width="1" length="12"/>
+     
+     <ts:cmpnt type="vline" id="sv31" x="182" y="161" width="1" length="12"/>
+     <ts:cmpnt type="line" id="sl21" x="52" y="186" length="290" width="1"/>
+     
+     <ts:cmpnt type="vline" id="sv41" x="52" y="186"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv42" x="144" y="186"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv43" x="239" y="186"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv44" x="341" y="186"  width="1" length="12"/>
+     
+     
+     <ts:cmpnt type="vline" id="sv33" x="560" y="161" width="1" length="12"/>
+     <ts:cmpnt type="line" id="sl22" x="465" y="186" length="204" width="1"/>
+     <ts:cmpnt type="vline" id="sv45" x="465" y="186"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv46" x="560" y="186"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv47" x="668" y="186"  width="1" length="12"/>
+     
+     <ts:cmpnt type="vline" id="sv32" x="428" y="163" width="1" length="154"/>
+     <ts:cmpnt type="line" id="sl31" x="191" y="319" length="502" width="1"/>
+     <ts:cmpnt type="vline" id="sv51" x="191" y="319"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv52" x="296" y="319"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv53" x="391" y="319"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv54" x="486" y="319"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv55" x="579" y="319"  width="1" length="12"/>
+     <ts:cmpnt type="vline" id="sv56" x="693" y="319"  width="1" length="12"/>
+    
+
+		 
+
+    
+   
+
+     <ts:cmpnt type="progressbar" index=" " id="s70000000011" x="23" y="208" length="60" width="12" arrange="v" caption="非漫游通话费收入" tip="非漫游通话费收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000012" x="119" y="208" length="60" width="12" arrange="v" caption="漫游通话费收入" tip="漫游通话费收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000013" x="213" y="208" length="60" width="12" arrange="v" caption="国内长话费收入" tip="国内长话费收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000014" x="303" y="208" length="60" width="12" arrange="v" caption="国际及港澳台收入" tip="国际及港澳台收入"/>
+     
+     <ts:cmpnt type="progressbar" index=" " id="s70000000015" x="434" y="208" length="60" width="12" arrange="v" caption="话音增值业务收入" tip="话音增值业务收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000016" x="536" y="208" length="60" width="12" arrange="v" caption="短信数据业务收入" tip="短信数据业务收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000017" x="640" y="208" length="60" width="12" arrange="v" caption="非短信数据业务收入" tip="非短信数据业务收入"/>
+     
+     
+     <ts:cmpnt type="progressbar" index=" " id="s70000000018" x="165" y="340" length="60" width="12" arrange="v" caption="网内结算收入" tip="网内结算收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000019" x="269" y="340" length="60" width="12" arrange="v" caption="网间结算收入" tip="网间结算收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000020" x="372" y="340" length="60" width="12" arrange="v" caption="移动公话" tip="移动公话"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000021" x="449" y="340" length="60" width="12" arrange="v" caption="出租电路及网元收入" tip="出租电路及网元收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000022" x="558" y="340" length="60" width="12" arrange="v" caption="出租设备业务收入" tip="出租设备业务收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s70000000023" x="670" y="340" length="60" width="12" arrange="v" caption="其他" tip="其他"/>
+     
+    
+      <ts:cmpnt type="progressbar" index=" " receive="" id="s50111110000" children="70000000011;70000000012;70000000013;70000000014;v31;v41;v42;v43;v44;l21"  x="145" y="134" length="60" width="12" caption="通话费收入" arrange="v" tip="通话费收入"/>
+     <ts:cmpnt type="progressbar" index=" " id="s50111120000" x="274" y="134" length="60" width="12" arrange="v" caption="月租费收入" tip="月租费收入"/>
+     <ts:cmpnt type="progressbar" index=" " receive="" id="s50111140000" children="70000000018;70000000019;70000000020;70000000021;70000000022;70000000023;v32;v51;v52;v53;v54;v55;v56;l31"  x="388" y="134" length="60" width="12" caption="其他运营收入" arrange="v" tip="其他运营收入"/>
+     <ts:cmpnt type="progressbar" index=" " receive="" id="s50111130000" children="70000000015;70000000016;70000000017;v33;v45;v46;v47;l22"  x="525" y="134" length="60" width="12" caption="增值业务收入" arrange="v" tip="增值业务收入"/>
+    
+    
+       <ts:cmpnt type="progressbar" index=" " receive="" id="s70000000024" isroot="true" children="50111110000;50111120000;50111140000;50111130000;n_50111110000;n_50111140000;n_50111130000;v11;v21;v22;v23;v24;l11" x="330" y="60" length="60" width="12" caption="运营收入" arrange="v" tip="运营收入"/>
+   
+     </ts:layout>
+</page>

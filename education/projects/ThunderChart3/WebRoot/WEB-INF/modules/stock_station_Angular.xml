@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="906" height="218">
+		 <ts:cmpnt type="AngularGaugeRPM" datamodel="dm322001"  pos="0" width="180" height="130" para="{v_oil:top.window.stock.v_oil,v_station:top.window.stock.v_station,v_time:top.window.stock.v_time}">
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	   	<ts:chart radius="45" 
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColor.xml" 
+	    	          
+	    	          displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                  
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>
+
+ <ts:cmpnt  type="MSColumn2D" datamodel="dm322002"  pos="1" width="340" height="155" para="{v_oil:top.window.stock.v_oil,v_station:top.window.stock.v_station,v_time:top.window.stock.v_time}">
+                    <ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+                    <ts:chart  caption=""    showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+                               legendPosition="bottom"  baseFontSize="10" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+                               useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+            </ts:cmpnt>
+
+	    <ts:cmpnt  type="MSLine" datamodel="dm322003"  pos="2" width="455" height="155" para="{v_oil:top.window.stock.v_oil,v_station:top.window.stock.v_station,v_time:top.window.stock.v_time}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption=""  customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+	    	           legendPosition="bottom"  baseFontSize="9" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+	    	           checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='5' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+	    
+    </ts:layout>
+</ts:page>

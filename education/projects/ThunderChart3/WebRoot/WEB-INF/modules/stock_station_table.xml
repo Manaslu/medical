@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="900" height="450" >
+		
+		
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm224302"  pos="0" width="600" height="155" para="{v_cycle:'4',v_time:'200907',v_col:'col2'}" >
+	    	<ts:dataset d1="region"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="" bgColor="0xffffff" showBorder="0" numVisiblePlot="0" sNumberSuffix="%25" showValues='0' placeValuesInside='1' rotateValues='1' 
+	    	          baseFontSize='11' numberPrefix=" " showLegend="1" legendPosition="buttom" legendBorderColor="0xffffff" useRoundEdges="1" showMedian="1" MedianSeries="本期值" medianDisplay="  " anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm224304" pos="1" sort="f1|f2" width="315" height="145" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_cycle:'4',v_time:'200907',v_org:'0010',v_col:'col2'}" event='{"headerClick":"extgrid.dm7004030202headerclick"}'>
+		<ts:RowDims>
+			<ts:Dim name="排名" code="rank" width="40"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+    </ts:layout>
+</ts:page>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="subject_index" hasLine="false" width="150" height="200">
+
+	<ts:cmpnt type="text"  datamodel="dm902001" pos="0" width="170" height="8" style="text-align:left;margin-left:5;font-size:8pt" para="{v_region:'0'}">
+			<text></text>
+		</ts:cmpnt>	 
+<!-- 直销计划完成子弹图    -->				
+    <ts:cmpnt type="HLinearGauge" datamodel="dm902002" pos="3" width="200" height="70" para="{v_region:'0'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml" radius="40" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4" 
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1"  
+	   		   showGaugeBorder = "0" >
+            </ts:chart>
+	    </ts:cmpnt>
+		
+ <ts:cmpnt type="text" datamodel="dm902003" pos="8" width="170" height="8" style="text-align:left;margin-left:5;font-size:8pt" para="{v_region:'0'}">
+			<text></text>
+		</ts:cmpnt>
+<!-- 零售计划完成子弹图    -->			
+    <ts:cmpnt type="HLinearGauge" datamodel="dm902004" pos="9" width="200" height="70" para="{v_region:'0'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml"  radius="40" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4" 
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1" 
+	   		   showGaugeBorder = "0">
+            </ts:chart>
+	    </ts:cmpnt>
+	
+	    </ts:layout>
+
+</ts:page>

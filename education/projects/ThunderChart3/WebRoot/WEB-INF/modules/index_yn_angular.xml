@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="270" height="250">
+		 <ts:cmpnt type="AngularGaugeRPM" datamodel="dm1001060101"  pos="0" width="200" height="200" para="{v_type:'ring_value',v_metric:'50111100000',v_time:'200907',v_org:'0010'}">
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	   	<ts:chart radius="45" 
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColor.xml" 
+	    	          
+	    	          displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                  
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>		
+
+ <ts:cmpnt type="text"  datamodel="dm211000" pos="1" width="260" height="50"  style="text-align:left;margin-left:5;font-size:9pt"  para="{v_cycle:'4',v_time:'200907',v_org:'0010'}">
+                        <text>
+                        </text>
+                </ts:cmpnt>			
+	                 
+
+
+	    </ts:layout>
+
+</ts:page>

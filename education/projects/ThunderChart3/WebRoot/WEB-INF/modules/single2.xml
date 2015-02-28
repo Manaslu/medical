@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+<ts:cmpnt type="text"   pos="0" width="900" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>
+                 		重点行业流转额
+					 </text>  
+		</ts:cmpnt>   
+<!-- 饼图    -->        
+ <ts:cmpnt type="Pie2D" datamodel="dm110044"  pos="1" width="300" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+                    <ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart formatNumberScale="1"  radius3D="20" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="重点行业流转额占比" baseFontSize="10" showValues="1" pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='1'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='1'></ts:chart>
+            </ts:cmpnt>
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110045"  pos="2" width="550" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="流转额同比增长" sAxis="流转额同比增长" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption="重点行业流转额及同比"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+      		
+    </ts:layout>
+</ts:page>

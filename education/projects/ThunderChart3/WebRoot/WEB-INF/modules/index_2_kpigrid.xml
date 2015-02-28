@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="200" height="200">
+    <ts:cmpnt type="text"  datamodel="dm1001000000" pos="0" width="240" height="20" style="font-size:9pt;text-align:right;" para="{v_time:'200910'}">
+			<text>
+			<div style="text-align:right;margin-left:5"></div>
+			</text>
+		</ts:cmpnt>
+	<ts:cmpnt type="text" datamodel="dm1001020201"  pos="1" width="250" height="200" para="{v_time:'200910',v_org:'0010'}" >
+	    	<text>
+	    	</text>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>

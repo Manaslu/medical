@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="salary" hasLine="false" width="800" height="240">
+	    <!--   8001040101 -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm8001040101"  pos="01" width="125" height="160" para="{v_time:top.window.hr.index_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart  formatNumberScale="1"  radius3D="10" showPlotBorder="0" caption="单位：万元" customerColor="1" colorsFile="Pie.xml" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <!--   8001040101 -->
+	    <ts:cmpnt type="Legend" datamodel="dm8001040101"  pos="02" width="75" height="60" para="{v_time:top.window.hr.index_time,v_org:'0000' }">
+	    	<ts:dataset d1="dim" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>
+		
+	     <ts:cmpnt type="MSStackedColumn2DLineDY" datamodel="dm8001040102"  pos="1" width="320" height="190" para="{v_begin_time:'2002',v_time:'2009',v_org:'0000'}" >
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" lineSet="工资占比"  sAxis="工资占比"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart anchorRadius="4" caption="" customerColor="1" colorsFile="StackedLine1.xml" labelDisplay="ROTATE" Stagger="1"  slantLabels='1' showValues='0' 
+	    	 placeValuesInside='1' SYAxisMinValue="40" SYAxisMaxValue="90" bgColor="FFFFFF" showBorder="0" rotateValues='1' baseFontSize='12' numberPrefix=" " sNumberSuffix="%25" showLegend="1" legendPosition="bottem" useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8001040201" pos="2" sort="f1|f2"  width="230"  height="200" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_begin_time:'2002',v_time:'2009',v_org:'0000'}">
+			<ts:RowDims>
+				<ts:Dim name="时间" code="dim" width="40" />
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="70"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" datamodel="dm8001040301" pos="3" width="550" height="20" para="{v_time:'2009',v_org:'0000'}" style="font-size:9pt;margin-left:5;">
+			<text></text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

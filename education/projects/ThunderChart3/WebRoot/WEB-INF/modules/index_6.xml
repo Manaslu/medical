@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="906" height="218">
+		
+			    <ts:cmpnt  type="MSColumn2D" datamodel="dm22310011"  pos="0" width="260" height="185" para="{v_begin_time:'200910',v_time:'200912',v_org:'0020'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption="" customerColor="1" colorsFile="MSColumn2D.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+	    	           legendPosition="bottom"  baseFontSize="10" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+	    	           useRoundEdges="1" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+		
+
+
+
+	    
+    </ts:layout>
+</ts:page>

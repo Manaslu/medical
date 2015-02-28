@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+<ts:cmpnt type="text"   pos="0" width="450" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>
+                 		省报刊订阅大客户数量增长情况
+					 </text>  
+		</ts:cmpnt> 			 
+<ts:cmpnt type="Radar" datamodel="dm110026"  pos="1" width="1000" height="280" para="{org:window.dasp.org,year:window.dasp.year}">
+                    <ts:dataset d1="dim"  d2="datatype" value="datavalue" ></ts:dataset>
+                    <ts:chart caption="" anchorAlpha="0" showBorder="0" baseFontSize="12" bgColor="0xffffff" ></ts:chart>
+            </ts:cmpnt> 
+<ts:cmpnt type="text"   pos="3" width="1000" height="280" style="text-align:left;margin-left:100;font-size:10pt">
+                        <text>
+
+
+					 </text>  
+		</ts:cmpnt> 
+	    	          		
+    </ts:layout>
+</ts:page>

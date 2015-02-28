@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="manage1" >
+   <!-- 组合图 ：  报纸期刊订阅量及流转额-->   
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110074"  pos="1" width="450" height="290" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="期刊流转额,报纸流转额" sAxis="期刊流转额,报纸流转额" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Pie.xml"  caption="报纸、期刊贡献比重分析"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0'  placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="right" useRoundEdges="1" anchorRadius='4' ></ts:chart>
+	    </ts:cmpnt>   
+   <!-- 堆叠图 ：  订阅量占比分析-->	    
+    <ts:cmpnt type="StackedColumn2D" datamodel="dm110011"  pos="2" width="200" height="290" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="订阅量" baseFontSize="10" showValues="1"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='0' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+NumberSuffix="%"       useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt>
+	<!-- 堆叠图 ：  流转额占比分析-->	 	
+    <ts:cmpnt type="StackedColumn2D" datamodel="dm110012"  pos="3" width="200" height="290" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="流转额" baseFontSize="10" showValues="1"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='0' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+NumberSuffix="%"       useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt>	
+       		
+    </ts:layout>
+</ts:page>

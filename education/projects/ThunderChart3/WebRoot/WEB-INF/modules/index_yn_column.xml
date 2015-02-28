@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="270" height="250">
+
+	    
+	    <ts:cmpnt  type="MSColumn2D" datamodel="dm200001"  pos="0" width="240" height="250" para="{v_begin_time:'200901',v_time:'200912',v_org:'0010'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml" caption="" showLegend="0" setAdaptiveYMin="1" labelDisplay="ROTATE"  chartTopMargin="10" chartLeftMargin="10" chartRightMargin="10" chartBottomMargin="1" Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='10' numberPrefix=" "  useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>	
+               
+
+
+	    </ts:layout>
+
+</ts:page>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hrSalTotal" hasLine="false" width="800" height="860">
+		<!--  1      -->
+		<ts:cmpnt type="StackedColumn2D" datamodel="dm8004030101"  pos="22" width="220" height="200" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="1"  bgcolor="FFFFFF" 
+	    	          showYAxisValues="0" showBorder ='0' numDivLines='0' plotSpacePercent="30" showPlotBorder ='0' 
+	    	          canvasBorderColor ='FFFFFF' chartLeftMargin ='3' chartRightMargin = '7' showCanvasBase ='000000' decimals = '2'
+	    	          useRoundEdges="1" canvasBgAlpha = '0'></ts:chart>
+		</ts:cmpnt>
+		<!--  8004030102     -->
+		<ts:cmpnt type="Pie2D" datamodel="dm8004030102"  pos="001" width="250" height="185" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml" caption="按职级员工工资总额占比" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="11" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <!--   8002020101 -->
+	    <ts:cmpnt type="Legend" datamodel="dm8004030102"  pos="002" width="65" height="100" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000' }">
+	    	<ts:dataset d1="dim" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>	
+	    
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8004030201" pos="1" sort="f1|f2"  width="230"  height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<ts:RowDims>
+				<ts:Dim name="职级" code="dim" width="55"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="80"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text"  pos="2" width="500" height="25" style="font-size:9pt" para="{}">
+			<text>
+			   <div style="text-align:left;margin-top:10;margin-left:5;margin-right:5">
+				说明:占比=每个职级/员工工资总额*100%。</div>
+			</text>
+		</ts:cmpnt>
+		<!--  3      -->
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8004030103"  pos="3" width="543" height="200" 
+			para="{v_metrics:'60501010000',v_cycle:'4',v_begin_time:top.window.hr.deploy_begin_time,v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" line="占比" sAxis="占比" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="按职级员工工资总额" numVisiblePlot="0" chartTopMargin='2' useRoundEdges="1" showValues="0" baseFontSize='11' 
+	    	plotSpacePercent = '50' showBorder="0" sNumberSuffix="%25" bgColor="FFFFFF" canvasBorderThickness="1" labelDisplay="ROTATE" slantLabels="1"></ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8004030202" pos="4" sort="f1|f2"  width="230"  height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_metrics:'60501010000',v_cycle:'4',v_begin_time:top.window.hr.deploy_begin_time,v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<ts:RowDims>
+				<ts:Dim name="期间" code="dim" width="55"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="80"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="5" width="500" height="20" style="font-size:9pt" para="{}">
+			<text>
+				<div style="font-size:9pt">
+					<input type="radio" name="hrdeploy.level.time" value="60501010000" onclick="top.window.hrpub('hrdeploy.level.time',this.value)" checked="true"/>一级
+					<input type="radio" name="hrdeploy.level.time" value="60501020000" onclick="top.window.hrpub('hrdeploy.level.time',this.value)"/>二级
+					<input type="radio" name="hrdeploy.level.time" value="60501030000" onclick="top.window.hrpub('hrdeploy.level.time',this.value)" />三级
+					<input type="radio" name="hrdeploy.level.time" value="60501040000" onclick="top.window.hrpub('hrdeploy.level.time',this.value)" />四级
+					<input type="radio" name="hrdeploy.level.time" value="60501050000" onclick="top.window.hrpub('hrdeploy.level.time',this.value)" />五级
+				</div>
+			</text>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text" datamodel="dm8004030301" pos="6" width="500" height="25" style="font-size:9pt" para="{v_metrics:'60501010000',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		<!--  4      --> 
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8004030104"  pos="7" width="540" height="200" para="{v_metrics:'60501010000',v_col:'col2',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" line="占比" sAxis="占比" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="按职级员工工资总额" chartTopMargin='2' numVisiblePlot="0" showMedian="1" MedianSeries="当期值" 
+	    	          decimals="3" useRoundEdges="1" showValues="0" baseFontSize='11' showBorder="0" bgColor="FFFFFF" 
+	    	          canvasBorderThickness="1" sNumberSuffix="%25" chartLeftMargin='3'></ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8004030203" pos="8" sort="f1|f2"  width="230"  height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_metrics:'60501010000',v_col:'col2',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}"  event='{"headerClick":"extgrid.dm8004030203headerclick"}'>
+			<ts:RowDims>
+				<ts:Dim name="排名" code="dim" width="40"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="80"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="9" width="500" height="20" style="font-size:9pt" para="{}">
+			<text>
+				<div style="font-size:9pt">
+					<input type="radio" name="hrdeploy.level.region" value="60501010000" onclick="top.window.hrpub('hrdeploy.level.region',this.value)" checked="true"/>一级
+
+					<input type="radio" name="hrdeploy.level.region" value="60501020000" onclick="top.window.hrpub('hrdeploy.level.region',this.value)"/>二级
+					<input type="radio" name="hrdeploy.level.region" value="60501030000" onclick="top.window.hrpub('hrdeploy.level.region',this.value)" />三级
+					<input type="radio" name="hrdeploy.level.region" value="60501040000" onclick="top.window.hrpub('hrdeploy.level.region',this.value)" />四级
+					<input type="radio" name="hrdeploy.level.region" value="60501050000" onclick="top.window.hrpub('hrdeploy.level.region',this.value)" />五级
+				</div>
+			</text>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text" datamodel="dm8004030302"   pos="10" width="595" height="35" style="font-size:9pt" para="{v_metrics:'60501010000',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		<!--  5      -->
+		<ts:cmpnt type="StackedColumn2D" datamodel="dm8004030105"  pos="23" width="220" height="200" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="1"  bgcolor="FFFFFF" 
+	    	          showYAxisValues="0" showBorder ='0' numDivLines='0' plotSpacePercent="30" showPlotBorder ='0' 
+	    	          canvasBorderColor ='FFFFFF' chartLeftMargin ='3' chartRightMargin = '7' showCanvasBase ='000000' decimals = '2'
+	    	          useRoundEdges="1" canvasBgAlpha = '0'></ts:chart>
+		</ts:cmpnt>
+		<!--  8004030106  -->
+		<ts:cmpnt type="Pie2D" datamodel="dm8004030106"  pos="111" width="250" height="185" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml" caption="按岗位员工工资总额占比" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="11" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <!--   8004030106 -->
+	    <ts:cmpnt type="Legend" datamodel="dm8004030106"  pos="112" width="65" height="100" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000' }">
+	    	<ts:dataset d1="dim" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>
+	    
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8004030204" pos="12" sort="f1|f2"  width="230"  height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<ts:RowDims>
+				<ts:Dim name="岗位" code="dim" width="55"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="80"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="13" width="500" height="25" style="font-size:9pt" para="{}">
+			<text>
+			   <div style="text-align:left;margin-top:10;margin-left:5;margin-right:5">
+				说明：占比=每个岗位类别/员工工资总额*100%。</div>
+			</text>
+		</ts:cmpnt>
+		<!--  7      -->
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8004030107"  pos="14" width="543" height="200" 
+		para="{v_metrics:'60502010000',v_cycle:'4',v_begin_time:top.window.hr.deploy_begin_time,v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" line="占比" sAxis="占比" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="按岗位员工工资总额" chartTopMargin='2' useRoundEdges="1" showValues="0" baseFontSize='11' showBorder="0" 
+	    	    plotSpacePercent = '50' sNumberSuffix="%25" bgColor="FFFFFF" canvasBorderThickness="1" labelDisplay="ROTATE" slantLabels="1"></ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8004030205" pos="15" sort="f1|f2"  width="230"  height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_metrics:'60502010000',v_cycle:'4',v_begin_time:top.window.hr.deploy_begin_time,v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<ts:RowDims>
+				<ts:Dim name="期间" code="dim" width="55"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="80"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="16" width="500" height="20" style="font-size:9pt" para="{}">
+			<text>
+				<div style="font-size:9pt">
+					<input type="radio" name="hrdeploy.position.year" value="60502010000" onclick="top.window.hrpub('hrdeploy.position.year',this.value)" checked="true"/>管理类
+
+
+					<input type="radio" name="hrdeploy.position.year" value="60502020000" onclick="top.window.hrpub('hrdeploy.position.year',this.value)"/>技术类
+					<input type="radio" name="hrdeploy.position.year" value="60502030000" onclick="top.window.hrpub('hrdeploy.position.year',this.value)" />维护类
+
+
+					<input type="radio" name="hrdeploy.position.year" value="60502040000" onclick="top.window.hrpub('hrdeploy.position.year',this.value)" />后勤类
+
+
+				</div>
+			</text>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text" datamodel="dm8004030303"  pos="17" width="500" height="25" style="font-size:9pt" para="{v_metrics:'60502010000',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		<!--  8      -->
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8004030108"  pos="18" width="540" height="200" para="{v_metrics:'60502010000',v_col:'col2',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" line="占比" sAxis="占比" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="按岗位员工工资总额" numVisiblePlot="0" chartTopMargin='2' useRoundEdges="1" MedianSeries="当期值" showValues="0" 
+	    	          baseFontSize='11' showBorder="0" sNumberSuffix="%25" bgColor="FFFFFF" canvasBorderThickness="1" chartLeftMargin='3'></ts:chart>
+	    </ts:cmpnt>
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8004030206" pos="19" sort="f1|f2"  width="230" height="160" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_metrics:'60502010000',v_col:'col2',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}"    event='{"headerClick":"extgrid.dm8004030206headerclick"}'>
+			<ts:RowDims>
+				<ts:Dim name="排名" code="dim" width="40"/>
+			</ts:RowDims>
+			<ts:ColDims>
+				<ts:Dim  code="datatype" width="80"/>
+			</ts:ColDims>
+			<ts:Measures>
+				<ts:Meausre code="datavalue" />
+			</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="20" width="500" height="20" style="font-size:9pt" para="{}">
+			<text>
+				<div style="font-size:9pt">
+					<input type="radio" name="hrdeploy.position.region" value="60502010000" onclick="top.window.hrpub('hrdeploy.position.region',this.value)" checked="true"/>管理类
+
+
+					<input type="radio" name="hrdeploy.position.region" value="60502020000" onclick="top.window.hrpub('hrdeploy.position.region',this.value)"/>技术类
+					<input type="radio" name="hrdeploy.position.region" value="60502030000" onclick="top.window.hrpub('hrdeploy.position.region',this.value)" />维护类
+
+
+					<input type="radio" name="hrdeploy.position.region" value="60502040000" onclick="top.window.hrpub('hrdeploy.position.region',this.value)" />后勤类
+
+
+				</div>
+			</text>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text" datamodel="dm8004030304"  pos="21" width="595" height="35" style="font-size:9pt" para="{v_metrics:'60502010000',v_cycle:'4',v_time:top.window.hr.deploy_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+	</ts:layout>
+</ts:page>

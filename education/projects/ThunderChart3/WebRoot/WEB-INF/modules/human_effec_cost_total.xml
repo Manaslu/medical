@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="150" height="200">
+	    <!--   8003020101 -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm8003020101"  pos="0" width="160" height="160" para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml" caption="成本总额" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    	    <ts:cmpnt type="text" pos="1" width="150" height="100"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/chengben.jpg"/>
+			</text>
+		</ts:cmpnt>
+	    
+	    <!--   8003020101 
+	    <ts:cmpnt type="Legend" datamodel="dm8003020101"  pos="1" width="80" height="140" para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+	    	<ts:dataset d1="type" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>
+-->	    
+	    <ts:cmpnt type="text"  pos="2" width="150" height="20" >
+			<text>
+			<div style="height:20"> </div>
+			</text>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8003020201" pos="3" sort="f1|f2"  width="150"  height="210" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+		<ts:RowDims>
+			<ts:Dim name="成本构成" code="name"  width="60" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="65"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text" datamodel="dm8003020301" pos="4" width="150" height="80" style="font-size:9pt;text-align:left;margin-left:5" para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+			<text>
+			<div style="height:20"> </div>
+			<div>上图为成本总额构成的展示，其中其他发生费用占比最高，达到了16.21%</div>
+			</text>
+		</ts:cmpnt>	
+    </ts:layout>
+</ts:page>

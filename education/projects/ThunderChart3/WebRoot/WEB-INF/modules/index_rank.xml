@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="index" hasLine="false" width="480" height="150" style="padding-top:20px;" unit="0">
+    	    <ts:cmpnt type="text"  pos="name" width="900" height="30" para="{}">
+	    	<text>
+	    		<table style="width:100%;font:12px tahoma, arial, helvetica, sans-serif;margin:auto;"><tr><td style="text-align:left;" width="10%">收入（万元）</td><td style="text-align:center;" width="80%"><img src="/ThunderChart/chart/images/legend/legend_org.JPG" /></td><td style="text-align:left;" width="10%">增幅</td></tr></table>
+	    	</text>
+	    </ts:cmpnt>
+	     <ts:cmpnt hasShowValue="true" message="{'chart.showValue':'setAttribute'}" type="MSCombiDY2D"  datamodel="index-org-rank-chart"  
+	   pos="0" width="930" height="192" >
+	    	<ts:dataset  d1="secodedim" d2="s" value="curvalue"  sAxis="增幅" line="增幅" primitive="增幅" ></ts:dataset>
+	    	<!-- ts:htmlDom>
+				<div style="font-size:9pt;margin-left:300px;">
+					<input type="checkbox" name="pie" value="1" onclick="Thunder.showValue(this,'chart.showValue')" />显示数值
+				</div>
+			</ts:htmlDom -->
+	    	<ts:chart 
+	    	showAverage="1" 
+	    	AverageToAxis="S" 
+	    	averageDisplay="平均增幅"
+	    	AverageSeries="增幅"
+	    	AverageFormat="0.0"
+	    	numVisiblePlot='35' 
+	    	canvasPadding="10" 
+	    	showLegend='0' 
+	    	customerColor="1" 
+	    	PYAxisNameWidth="20" 
+	    	colorset="0" 
+	    	setAdaptiveYMin ="0" 
+	    	yAxisMinValue="-15"
+	    	colorsFile="ColumnLine.xml"  
+	    	showValues="0" 
+	    	showBorder="0" 
+	    	bgcolor="ffffff"  
+	    	bgAlpha="10" 
+	    	placeValuesInside='1'  
+	    	rotateValues='1' 
+	    	baseFontSize='12' 
+	    	numberPrefix=" "  
+	    	canvasBgColor ="ffffff" 
+	    	canvasBaseColor ="ffffff"
+	    	legendPosition="bottom" 
+	    	useRoundEdges="1" 
+	    	formatNumberScale="0" 
+	    	xportAction="download"  
+	    	anchorBgColor='0000ff'
+	    	anchorSides='4'
+	    	exportEnabled='1' 
+	    	exportAtClient='0' 
+	    	exportAction='download' 
+	    	valueOnRight="1" 
+	    	sNumberSuffix='%25' 
+	    	rotateYAxisName="0"  
+	    	exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+	   <ts:cmpnt type="ext-snakereport" datamodel="index-org-rank-grid" pos="1" width="780" height="220"  hideHeaders="0" para="{}" columnCount="4">
+		<ts:Columns>
+			<ts:Column name="机构"  code="secodeDim" width="70" align="center"/>
+			<ts:Column name="年累计值" code="curvalue" width="60" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="同比(%)" code="curvalue1" width="60" align="right"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+	   <ts:cmpnt type="mapChina" datamodel="index_gis"  pos="2" width="500" height="200">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:chart 
+	    	          showShadow='0' 
+	    	          showBevel='1'
+	    	          showLabels='0' 
+	    	          fillColor='FFFFFF' 
+	    	          showCanvasBorder="0"
+	    	          borderColor='609a9b' 
+	    	          mapLeftMargin='0'
+	    	          mapRightMargin='0'
+	    	          mapTopMargin='0'
+	    	          mapBottomMargin='0'
+	    	          >
+	        </ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>
+
+

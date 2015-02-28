@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" > 
+  <!-- 国内小包驾驶舱  图 1-->     
+  <!-- 组合图 ：  客户留存情况--> 		    
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110201"  pos="0" width="450" height="280" para="{month:window.dasp.month}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="客户留存率" sAxis="客户留存率" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Pie.xml"  caption="国内小包客户留存情况"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="bottom" useRoundEdges="1" anchorRadius='4' ></ts:chart>
+	    </ts:cmpnt> 
+       		
+    </ts:layout>
+</ts:page>

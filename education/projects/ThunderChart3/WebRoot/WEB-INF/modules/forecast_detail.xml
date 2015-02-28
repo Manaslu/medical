@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/"><!--dm942-->
+    <ts:layout template="vert" hasLine="false" width="1000" height="800">
+	    <ts:cmpnt type="ext-listgrid" datamodel="dm9005040201" pos="0" width="730" height="360"  
+	        para="{v_date:'#top.window.forecast_detail.v_date',v_org:'#top.window.forecast_detail.v_org',v_cur:'#top.window.forecast_detail.v_cur',v_manual:'#top.window.forecast_detail.v_manual',v_user:'#top.window.forecast_detail.v_user'}">
+			<ts:Columns>
+				<ts:Column name="" type="dim" code="node_desc" width="180"/>
+				<ts:Column name="实际值" code="cur_value" width="110"/>
+				<ts:Column name="预测值"  code="pre_value" width="110"/>
+				<ts:Column name="预算值"  code="bdgt_value" width="110"/>
+				<ts:Column name="增长额"  code="add_value" width="100"/>
+				<ts:Column name="增长率"  code="ring_value" width="80"/>
+			</ts:Columns>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

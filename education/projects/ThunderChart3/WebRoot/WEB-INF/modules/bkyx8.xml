@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" >
+<ts:cmpnt type="text"   pos="0" width="730" height="30" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>
+                 		地市流失客户分布
+					 </text>  
+		</ts:cmpnt>  
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110032"  pos="1" width="1100" height="265" para="{org:window.sale.org,year:window.sale.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="客户流失占比,单位流失占比" sAxis="客户流失占比,单位流失占比" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="MSLine.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="%" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"  
+       showLabels="1"        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+		       		
+    </ts:layout>
+</ts:page>

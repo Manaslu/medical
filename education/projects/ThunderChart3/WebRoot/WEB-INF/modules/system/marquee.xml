@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	    <ts:cmpnt type="text" datamodel="dm8"  pos="0" width="200" height="32" para="{}" style="border:#c0c0c0 1px solid ">
+	    	<text>aa
+	    	</text>
+	    </ts:cmpnt>
+	   
+	    <ts:marquee id="0" direction="0" step="1" width="200" height="32" timer="50" delayTime="3000" waitTime="500"  scrollStep="32"></ts:marquee>
+	  
+    </ts:layout>
+</ts:page>
+
+

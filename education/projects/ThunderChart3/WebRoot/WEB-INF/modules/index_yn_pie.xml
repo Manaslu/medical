@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="270" height="250">
+
+	    
+<!-- 油品分析饼图    -->	
+		<ts:cmpnt type="Pie2D" datamodel="dm211001"  pos="0" width="260" height="200" para="{v_cycle:'4',v_time:'200901'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"    baseFontSize="10" showValues="1" pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='1'
+	    	caption="采购油品构成" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='0'></ts:chart>
+	    </ts:cmpnt>
+	    
+
+ <ts:cmpnt type="text"  datamodel="dm211000" pos="1" width="260" height="50"  style="text-align:left;margin-left:5;font-size:9pt"  para="{v_cycle:'4',v_time:'200907',v_org:'0010'}">
+                        <text>
+                        </text>
+                </ts:cmpnt>			
+
+	                 
+
+
+	    </ts:layout>
+
+</ts:page>

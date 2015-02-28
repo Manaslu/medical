@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="true" width="480" height="160">
+	        <ts:cmpnt type="StackedArea2D" datamodel="dm1"  pos="0" width="620" height="400" para="{month:'200902',metrics_id:'top.app.kpiID',org_id:'1100'}">
+	    	<ts:dataset d1="org_name" d2="metrics_id" value="cur_value" line="人均人工成本(元)" ></ts:dataset>
+	    	<ts:chart caption="" showBorder="0"  bgcolor="ffffff" placeValuesInside='1' rotateValues='1' showLegend='0' baseFontSize='12' numberPrefix=" " legendPosition="right" useRoundEdges="1" numberScaleValue='10000,100000000' numberScaleUnit='万,亿'></ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>
+
+

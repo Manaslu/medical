@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hrEffect" hasLine="false" width="790" height="510" >
+	
+		<ts:cmpnt type="text" datamodel="dm8003050301" pos="0"  width="140" height="140" margin="0 0 0 0" bgColor="D4E5FB" borderColor="D4E5FB"  para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+	   
+	   <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8003050101"  pos="1" width="450" height="190" para="{v_time:top.window.hr.effec_time,v_begin_time:top.window.hr.effec_begin_time,v_org:'0000',v_cycle:'4'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="" Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" labelDisplay="ROTATE"></ts:chart>
+	    </ts:cmpnt>
+	    
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8003050201" pos="2" sort="f1|f2"  width="210" height="240" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_time:top.window.hr.effec_time,v_begin_time:top.window.hr.effec_begin_time,v_org:'0000',v_cycle:'4'}">
+		<ts:RowDims>
+			<ts:Dim name="期间" code="time" width="60" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="60"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text" datamodel="dm8003050302" pos="3" width="790" height="30"  style="text-align:left;margin-bottom:10;margin-left:5;font-size:9pt"  para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8003050102"  pos="4" width="580" height="180" para="{v_time:top.window.hr.effec_time,v_col:'col2',v_cycle:'4',v_org:'0000'}" >
+	    	<ts:dataset d1="region"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id"></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="" bgColor="0xffffff" showBorder="0" numVisiblePlot="0" sNumberSuffix="%25" showValues='0' placeValuesInside='1' rotateValues='1' 
+	    	          baseFontSize='11' numberPrefix=" " showLegend="1" legendPosition="buttom" useRoundEdges="1" showMedian="1" MedianSeries="本期值" medianDisplay="  "></ts:chart>
+	    </ts:cmpnt>
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8003050202" pos="5" sort="f1|f2"  width="210" height="240" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_time:top.window.hr.effec_time,v_col:'col2',v_cycle:'4',v_org:'0000'}" event='{"headerClick":"extgrid.dm8003050202headerclick"}'>
+		<ts:RowDims>
+			<ts:Dim name="排名" code="rank" width="40"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text" datamodel="dm8003050303" pos="6" width="180" height="40"  style="text-align:left;margin-left:5;font-size:9pt"  para="{v_time:top.window.hr.effec_time,v_org:'0000',v_cycle:'4'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+    </ts:layout>
+</ts:page>

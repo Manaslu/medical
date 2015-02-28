@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="406" height="218">
+
+<ts:cmpnt type="Pie2D" datamodel="dm241001"  pos="0" width="200" height="160" para="{v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_goods:top.window.sale.v_goods}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="50" smartLabelClearance="0" enableSmartLabels="1" showLabels='0'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='1'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="Legend" datamodel="dm241001"  pos="1" width="70" height="100" para="{v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_goods:top.window.sale.v_goods}">
+	    	<ts:dataset d1="type" value="type" ></ts:dataset>
+	    	<ts:chart
+               customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+                formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>
+<ts:cmpnt type="ext-crossgrid" datamodel="dm241002" pos="2" sort="f1|f2"  width="220"  height="110" showBorder="0" useRoundEdge="0" 
+                        measurepos="col" para="{v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_goods:top.window.sale.v_goods}">
+                <ts:RowDims>
+                        <ts:Dim name="非油品" code="name"   />
+                </ts:RowDims>
+                <ts:ColDims>
+                        <ts:Dim name="type" code="type" />
+                </ts:ColDims>
+                <ts:Measures>
+                        <ts:Meausre name="value" code="value" />
+                </ts:Measures>
+                </ts:cmpnt>
+	  <ts:cmpnt type="StackedColumn2D" datamodel="dm241003"  pos="3" width="400" height="150" para="{v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_goods:top.window.sale.v_goods}">
+	    	<ts:dataset d1="name" d2="type" value="value" ></ts:dataset>
+<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+	    	          legendPosition="bottom" showSum='1' decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt><!--dm943-->
+   
+    </ts:layout>
+</ts:page>

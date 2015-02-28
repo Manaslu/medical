@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="vert" hasLine="false" width="200" height="218">
+	
+	<ts:cmpnt type="text"  pos="0" width="180" height="12" style="text-align:left;margin-left:5;font-size:8pt">
+			<text>
+         汽油销售计划完成 75%
+        </text>
+		</ts:cmpnt>	 
+			
+    <ts:cmpnt type="HLinearGauge" datamodel="dm10010601011" pos="1" width="265" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml" radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1"  
+	   		   showGaugeBorder = "0" >
+            </ts:chart>
+	    </ts:cmpnt>
+
+ <ts:cmpnt type="text"  pos="2" width="180" height="12" style="text-align:left;margin-left:5;font-size:8pt">
+			<text>
+        柴油销售计划完成 75%
+        </text>
+		</ts:cmpnt>
+		
+    <ts:cmpnt type="HLinearGauge" datamodel="dm10010601011" pos="3" width="265" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml"  radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1" 
+	   		   showGaugeBorder = "0">
+            </ts:chart>
+	    </ts:cmpnt>
+
+	    
+    </ts:layout>
+</ts:page>

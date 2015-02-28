@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+  
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110010"  pos="1" width="800" height="300" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="value" line="人均流转额增长" sAxis="人均流转额增长" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="人均流转额分析"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+<ts:cmpnt type="ext-crossgrid" datamodel="dm110010" pos="2" sort="f1|f2"  width="300"  height="300" showBorder="0" useRoundEdge="0" 
+                        measurepos="col" para="{org:window.dasp.org,year:window.dasp.year}">
+                <ts:RowDims>
+                        <ts:Dim name="省份" code="dim"  width="80" />
+                </ts:RowDims>
+                <ts:ColDims>
+                        <ts:Dim name="type" code="datatype" width="100"/>
+                </ts:ColDims>
+                <ts:Measures>
+                        <ts:Meausre name="value" code="value" />
+                </ts:Measures>
+</ts:cmpnt>		
+ <ts:cmpnt type="text"  pos="3" width="800" height="45" style="text-align:left;overflow:auto;margin:0 auto;" para="{org:window.dasp.org,year:window.dasp.year}">
+		</ts:cmpnt>       		
+    </ts:layout>
+</ts:page>

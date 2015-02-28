@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="150" height="200">
+	    
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7004020201" pos="0" sort="f1|f2" width="150" colWidth="70"  height="130" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_cycle:'#top.window.finance_profit.v_cycle',v_time:'#top.window.finance_profit.v_time',v_org:'#top.window.finance_profit.v_org'}">
+		<ts:RowDims>
+			<ts:Dim name="指标" code="name" width="60"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="1" datamodel="dm7004020301" width="160" height="80"  para="{v_cycle:'#top.window.finance_profit.v_cycle',v_time:'#top.window.finance_profit.v_time',v_org:'#top.window.finance_profit.v_org'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

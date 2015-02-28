@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="ztfx" hasLine="true" width="790" height="160">
+		
+	    <!-- 此处空一个文本控件 8002030301 -->
+	    <ts:cmpnt type="text" datamodel="dm8002030301"   pos="011"  width="120" height="120" margin="10 0 30 5" bgColor="D4E5FB" borderColor="D4E5FB"  para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+        
+       
+	    <!-- 全部人员结构图 8002030101   -->
+	    <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8002030101"  pos="012" width="440" height="190" para="{v_cycle:'4',v_begin_time:top.window.hr.stuct_begin_time,v_time:top.window.hr.stuct_time,v_org:'0000'}">
+	    	<ts:dataset d1="year" d2="type" value="value" line="在岗职工占比" sAxis="在岗职工占比"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption="" numVisiblePlot="0" labelDisplay="ROTATE" Stagger="1"  slantLabels='1'  showMedian="0" MedianSeries="在岗职工占比"  medianDisplay=" " 
+	    	    useRoundEdges="1" showValues="0" sNumberSuffix="%25" baseFontSize='11' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"  ></ts:chart>
+	    </ts:cmpnt>
+	    
+	     <!-- 8002030302 -->
+	    <ts:cmpnt type="text"  datamodel="dm8002030302"  pos="02"  width="573" height="25" style="font-size:9pt;text-align:left;margin-left:5;margin-bottom:5;"  para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		 
+		  
+		
+	 
+	    <!-- 全部人员结构表 8002030201 -->
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8002030201" pos="1" sort="f1|f2"  width="215" height="210" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cycle:'4',v_begin_time:top.window.hr.stuct_begin_time,v_time:top.window.hr.stuct_time,v_org:'0000'}">
+		<ts:RowDims>
+			<ts:Dim name="期间" code="lines" width="50"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+	 
+		<!-- 全部人员结构同比图 8002030102 -->
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm8002030102"  pos="2" width="575" height="210" para="{v_cycle:'4',v_time:'200908',v_org:'0000'}">
+	    	<ts:dataset d1="shengfen" d2="type" value="value" line="从业人员同比" sAxis="从业人员同比"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" customerColor="1" colorsFile="indexArea.xml" caption=""  numVisiblePlot="0"    placeValuesInside='1' rotateValues='1' numberPrefix=" " showLegend="1" legendPosition="bottom"     showMedian="1" MedianSeries="全部从业人员" medianDisplay=" " showAverage="0"  useRoundEdges="1" showValues="0" sNumberSuffix="%25" baseFontSize='11' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"></ts:chart>
+	    </ts:cmpnt>
+	    
+        <!-- 全部人员结构同比文字描述   8002030303  -->
+	    <ts:cmpnt type="text" datamodel="dm8002030303"  pos="3"  width="573" height="60" style="font-size:9pt;text-align:left;margin-left:5;"  para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    
+	  
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8002030202" pos="4" sort="f1|f2"   width="215" height="240" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000'}">
+		<ts:RowDims>
+			<ts:Dim name="期间" code="lines" width="55"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="65"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+	    
+	</ts:layout>
+</ts:page>

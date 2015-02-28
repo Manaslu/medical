@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="490" height="470">
+
+		 <ts:cmpnt type="text"   pos="0" width="490" height="42" style="font-size:11pt" >
+                        <text>
+                        <td align="right" > 时间:</td> <td><input name="textfield" type="text" value="2013年1月1日" size="10" /></td>
+                        		
+                        		<td align="right" >公司: </td> <td><input name="textfield" type="text" value="云南石油昆明公司" size="15" /></td>
+                        		
+                        		<td align="right" >油品: </td>
+                        		<td><select name="menu1" onChange="MM_jumpMenu('parent',this,0)" > <option>汽油</option> <option>柴油</option></select>
+                        		</td>
+                       
+                       <p><td>销售合计：<font color="#204383"><b>3000吨</b></font>      总计划完成率：<b>90%</b></td> </p>                      		
+                        		                        
+                        </text>
+                </ts:cmpnt>	
+                
+   <ts:cmpnt type="HLinearGauge" datamodel="dm10010601011" pos="2" width="480" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml" radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1"  
+	   		   showGaugeBorder = "0" >
+            </ts:chart>
+	    </ts:cmpnt>
+	    
+ <ts:cmpnt type="text"   pos="1" width="480" height="14"  style="text-align:left;margin-left:5;font-size:8pt;">
+                        <text><u>零售计划完成率</u>
+                        </text>
+                </ts:cmpnt>  
+                	    
+  <ts:cmpnt type="HLinearGauge" datamodel="dm10010601011" pos="4" width="480" height="78" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v2"></ts:dataset>
+	   		<ts:chart customerColor="1"  colorsFile="lalala.xml" radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  
+	   		pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"
+	   		  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1"  
+	   		   showGaugeBorder = "0" >
+            </ts:chart>
+	    </ts:cmpnt>
+	    
+ <ts:cmpnt type="text"   pos="3" width="480" height="14"  style="text-align:left;margin-left:5;font-size:8pt;">
+                        <text><td><u>直销计划完成率</u></td>
+                        </text>
+                </ts:cmpnt>
+	
+		 <ts:cmpnt type="text"   pos="5" width="490" height="15" style="text-align:left;margin-left:5;font-size:11pt;" >
+                        <text>
+<td><u>直销收入</u>：<font color="#204383"><b>5000万元</b></font>      同比增长：<font color="#00CC00">90%</font> </td>                      		
+					 </text>
+         </ts:cmpnt>		
+	                 
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm222002"  pos="6" width="480" height="105" para="{v_cycle:'4',v_org:'0010',v_time:'200912',v_begin_time:'200801'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value" line="同比,计划完成率" sAxis="同比,计划完成率"></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="0" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt> 
+
+		 <ts:cmpnt type="text"   pos="7" width="490" height="15" style="text-align:left;margin-left:5;font-size:11pt;" >
+                        <text>
+<td><u>零售收入</u>：<font color="#204383"><b>4000万元</b></font>       同比增长：<font color="#00CC00">20%</font> </td>                      		
+					 </text>
+         </ts:cmpnt>		
+	                 
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm222002"  pos="8" width="480" height="105" para="{v_cycle:'4',v_org:'0010',v_time:'200912',v_begin_time:'200801'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value" line="同比,计划完成率" sAxis="同比,计划完成率"></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="0" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt> 
+
+		 <ts:cmpnt type="text"   pos="9" width="490" height="15" style="text-align:left;margin-left:5;font-size:11pt;" >
+                        <text>
+<td><u>非油品收入</u>：<font color="#204383"><b>1000万元</b></font>       同比增长：<font color="#FF3300">-5%</font> </td>                      		
+					 </text>
+         </ts:cmpnt>		
+	                 
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm222002"  pos="10" width="480" height="105" para="{v_cycle:'4',v_org:'0010',v_time:'200912',v_begin_time:'200801'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value" line="同比,计划完成率" sAxis="同比,计划完成率"></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="0" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt> 
+
+	    </ts:layout>
+
+</ts:page>

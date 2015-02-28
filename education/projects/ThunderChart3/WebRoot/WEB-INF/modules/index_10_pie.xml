@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="indexPie" hasLine="false" width="150" height="200">
+    			<ts:cmpnt type="text"  datamodel="dm1001000010" pos="0" width="220" height="40" style="font-size:9pt;text-align:right;" para="{v_time:'#top.app.humantime'}">
+			<text>
+			<div style="text-align:right;margin-left:5"></div>
+			</text>
+		</ts:cmpnt>
+	    <ts:cmpnt type="Pie2D" datamodel="dm1001100101"  pos="1" width="160" height="200" para="{v_metric:'#top.app.metric10',v_time:'#top.app.humantime',v_org:'0000'}">
+	    	<ts:dataset d1="node_name" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id"></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml" caption="" baseFontSize="10" labelSepChar=" " showToolTip="1" showLabels ="0" showPercentageValues="0" startingAngle="60" smartLabelClearance="2" slicingDistance="5" showValues="1" pieRadius="38" isSmartLineSlanted='1'  enableSmartLabels="1" skipOverlapLabels="1"></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="Legend" datamodel="dm1001100101"  pos="2" width="100" height="160" para="{v_metric:'#top.app.metric10',v_time:'#top.app.humantime',v_org:'0000'}">
+	    	<ts:dataset d1="node_name" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000' formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w'></ts:chart>
+		</ts:cmpnt>
+		<!--ts:cmpnt type="ext-crossgrid" datamodel="dm1001100201" pos="2" sort="f1|f2" width="240" colWidth="80"  height="100" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_org:'0000'}">
+		<ts:RowDims>
+			<ts:Dim name="用工情况" code="station" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="type" code="type" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="value" code="person_num" />
+		</ts:Measures>
+		</ts:cmpnt-->
+		
+    </ts:layout>
+</ts:page>

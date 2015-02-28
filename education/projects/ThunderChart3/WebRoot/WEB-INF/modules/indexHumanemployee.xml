@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="hori" hasLine="false" width="800" height="255">
+	     <ts:cmpnt type="MSStackedColumn2DLineDY" datamodel="dm8001030101"  pos="0" width="560" height="205" para="{v_time:top.window.hr.index_time,v_org:'0000'}" >
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" lineSet="劳务工占比"  sAxis="劳务工占比"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart anchorRadius="4" caption="" customerColor="1" colorsFile="StackedLine.xml"  showValues='0' placeValuesInside='1' 
+	    	    SYAxisMinValue="30" SYAxisMaxValue="90" bgColor="FFFFFF" showBorder="0" rotateValues='1' baseFontSize='11' 
+	    	    numberPrefix=" " sNumberSuffix="%25" showLegend="1" legendPosition="bottom" useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>
+	     
+	     <ts:cmpnt type="text"  pos="1" datamodel="dm8001030301"  width="220" height="15"  para="{v_time:top.window.hr.index_time}" style="font-size:9pt;text-align:right;margin-right:15;margin-top:0;margin-bottom:0">
+			<text>
+			</text>
+		</ts:cmpnt> 	     
+		
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8001030201" pos="2" sort="f1|f2" width="235"  height="188" showBorder="0" useRoundEdge="0" 
+			measurepos="col" para="{v_time:top.window.hr.index_time}">
+		<ts:RowDims>
+			<ts:Dim name="地域" code="dim" width="50"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim  code="datatype" width="50"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre code="datavalue" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+		<ts:cmpnt type="text"  pos="3" width="580" height="15"  para="{}" style="font-size:9pt;text-align:left;margin-left:5;margin-top:0;">
+			<text>柱形图显示劳务员工和长期员工数；折线图显示劳务员工占比。注：劳务工占比=劳务工人数/员工总人数
+
+			</text>
+		</ts:cmpnt> 
+		
+	</ts:layout>
+</ts:page>

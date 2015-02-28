@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="cashflow1" hasLine="true" width="480"
+		height="160">
+		
+	   <!--  现金流入饼图    7005030101  -->
+	   <ts:cmpnt type="Pie2D" datamodel="dm7005030101"  pos="11" width="260" height="200"  para="{v_cycle:'4',v_time:top.window.financemy.cf_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="现金流入" chartTopMargin="0" baseFontSize="12" showPercentValues="0" showLabels="0" showValues="1"  pieRadius="40" smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='10'></ts:chart>
+	    </ts:cmpnt>
+	   
+	   
+	   
+	     	    <ts:cmpnt type="text" pos="21" width="260" height="20"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/cashflow.jpg"/>
+			</text>
+		</ts:cmpnt>
+	   
+	    <!--  图例 
+	   <ts:cmpnt type="Legend" datamodel="dm7005030101"  pos="21" width="150" height="60" para=" {v_cycle:'4',v_time:top.window.financemy.cf_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="null_value" ></ts:dataset>
+	    	<ts:chart 
+customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+	    	 formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>   
+		
+		 --> 
+		
+		
+		 <!--  现金流出饼图    7005030102  -->
+		 <ts:cmpnt type="Pie2D" datamodel="dm7005030102"  pos="12" width="260" height="200"  para="{v_cycle:'4',v_time:top.window.financemy.cf_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="现金流出" chartTopMargin="0" baseFontSize="12" showPercentValues="0" showLabels="0" showValues="1"  pieRadius="40" smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='10'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    
+	     	    <ts:cmpnt type="text" pos="22" width="260" height="20"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/cashflow.jpg"/>
+			</text>
+		</ts:cmpnt>
+	    	    <!--  图例  
+	   <ts:cmpnt type="Legend" datamodel="dm7005030102"  pos="22" width="150" height="60" para=" {v_cycle:'4',v_time:top.window.financemy.cf_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="null_value" ></ts:dataset>
+	    	<ts:chart 
+customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'
+	    	 formatNumberScale="0" numberScaleValue='10000000' numberScaleUnit='w' ></ts:chart>
+		</ts:cmpnt>   
+		
+		-->
+	    
+		 <!-- 现金净额饼图    7005030103 
+		 <ts:cmpnt type="Pie2D" datamodel="dm7005030103"  pos="13" width="260" height="180"  para="{v_cycle:'4',v_time:top.window.financemy.cf_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart caption="现金净额" chartTopMargin="0" baseFontSize="12" showPercentValues="0" showLabels="0" showValues="1"  pieRadius="40" smartLabelClearance="0" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='10'></ts:chart>
+	    </ts:cmpnt>
+	    -->
+	    
+	     <ts:cmpnt type="MSColumn2D" datamodel="dm7005030103"  pos="13" width="260" height="230"  para="{v_cycle:'4',v_time:top.window.financemy.cf_time,v_org:'0010'}">
+	    	<ts:dataset d1="type" d2="d2" value="value"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"   caption="现金净额" chartTopMargin='2' useRoundEdges="1" showValues="0" baseFontSize='12' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"></ts:chart>
+	    </ts:cmpnt>
+   
+	     <!--      7005030201 -->
+	    <ts:cmpnt type="ext-crossgrid" datamodel="dm7005030201" pos="31" sort="f1|f2"  colWidth="70"  width="255" height="120" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_time:top.window.financemy.cf_time,v_cycle:'4',v_org:'0010'}">
+		<ts:RowDims>
+			<ts:Dim name="现金类型" code="lines" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+		
+	    <!--      7005030202		 -->
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7005030202" pos="32" sort="f1|f2"  colWidth="70"  width="255" height="120" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_time:top.window.financemy.cf_time,v_cycle:'4',v_org:'0010'}">
+		<ts:RowDims>
+			<ts:Dim name="现金类型" code="lines" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		 
+		<!--      7005030203		 -->
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7005030203" pos="33" sort="f1|f2"  colWidth="70"  width="255" height="120" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_time:top.window.financemy.cf_time,v_cycle:'4',v_org:'0010'}">
+		<ts:RowDims>
+			<ts:Dim name="现金类型" code="lines" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+	
+		 
+	   <!-- 现金流量概述  7005030104  -->
+	   <ts:cmpnt type="MSColumn2D" datamodel="dm7005030104"  pos="41" width="540" height="200" para="{v_cash_type:'55004000000',v_time:top.window.financemy.cf_time,v_begin_time:top.window.financemy.cf_begin_time,v_cycle:'4',v_org:'0010'}">
+	    	<ts:dataset d1="type" d2="year" value="value"></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption="现金流量总额概述" chartTopMargin='2' useRoundEdges="1" showValues="0" baseFontSize='12' showBorder="0" bgColor="FFFFFF" canvasBorderThickness="1"></ts:chart>
+	    </ts:cmpnt>
+	    
+	     <!--      7005030204 -->
+	    <ts:cmpnt type="ext-crossgrid" datamodel="dm7005030204" pos="42" sort="f1|f2"   width="240" height="200" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cash_type:'55004000000',v_time:top.window.financemy.cf_time,v_begin_time:top.window.financemy.cf_begin_time,v_cycle:'4',v_org:'0010'}">
+		<ts:RowDims>
+			<ts:Dim name="指标" code="lines"  width="60"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="t" code="cols" width="80"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="222" code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+	    
+	  <!--  <ts:cmpnt type="text"  pos="43" width="350" height="20" style="font-size:9pt" para="{}">
+			<text>
+				<div style="font-size:9pt">
+					<input type="radio" name="finance.cashflow.type" value="55100000000" onclick="top.window.cashflow.pub_msg('1',this.value)" checked="true"/>经营性现金
+					<input type="radio" name="finance.cashflow.type" value="55200000000" onclick="top.window.cashflow.pub_msg('1',this.value)"  />投资性现金
+					<input type="radio" name="finance.cashflow.type" value="55300000000" onclick="top.window.cashflow.pub_msg('1',this.value)" />筹资性现金
+					<input type="radio" name="finance.cashflow.type" value="55004000000" onclick="top.window.cashflow.pub_msg('1',this.value)" />现金总额
+				</div>
+			</text>
+		</ts:cmpnt>
+		
+        --> 
+        
+		 <!--      7005030304 -->
+		<ts:cmpnt type="text" datamodel="dm7005030304" pos="44"  width="500" height="30" style="font-size:9pt;text-align:left"  para="{v_cash_type:'55100000000',v_time:top.window.financemy.cf_time,v_cycle:'4',v_org:'0010'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+		 <!-- 现金流量趋势概述   7005030105 -->
+		<ts:cmpnt type="MSLine" datamodel="dm7005030105"  pos="45" width="540" height="260" para="{v_cash_type:'55100000000',v_time:top.window.financemy.cf_time,v_begin_time:top.window.financemy.cf_begin_year_time,v_cycle:'4',v_org:'0010'}">
+	    	<ts:dataset d1="year" d2="type" value="value"></ts:dataset>
+	    	<ts:chart canvasBorderThickness="1" setAdaptiveYMin="1" customerColor="1" colorsFile="MSLine.xml"  caption="现金流量趋势概述" chartRightMargin="5"  showLimits="0" chartTopMargin="1" chartBottomMargin="1" labelDisplay="ROTATE" slantLabels='1' legendPosition="bottom"  baseFontSize="12" showLegend="1" checkboxFontsize="12" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0'  ></ts:chart>
+	    </ts:cmpnt>
+	    
+	     <!--      7005030205 		 -->
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm7005030205" pos="46" sort="f1|f2"  width="240" height="250" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cash_type:'55100000000',v_begin_time:top.window.financemy.cf_begin_year_time,v_time:top.window.financemy.cf_time,v_cycle:'4',v_org:'0010'}">
+		<ts:RowDims>
+			<ts:Dim name="时间" code="lines" width="60"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="90"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+	    
+	    <ts:cmpnt type="text"  pos="47" width="350" height="20" style="font-size:9pt" para="{}">
+			<text>
+				<div style="font-size:9pt">
+					<input type="radio" name="finance.cashflow.type1" value="55100000000" onclick="top.window.cashflow.pub_msg('2',this.value)" checked="true"/>经营性现金
+					<input type="radio" name="finance.cashflow.type1" value="55200000000" onclick="top.window.cashflow.pub_msg('2',this.value)"  />投资性现金
+					<input type="radio" name="finance.cashflow.type1" value="55300000000" onclick="top.window.cashflow.pub_msg('2',this.value)" />筹资性现金
+					<input type="radio" name="finance.cashflow.type1" value="55004000000" onclick="top.window.cashflow.pub_msg('2',this.value)" />现金总额
+				</div>
+			</text>
+		</ts:cmpnt>
+		<!--      7005030305 -->
+		<ts:cmpnt type="text" datamodel="dm7005030305" pos="48"  width="500" height="30" style="font-size:9pt;text-align:left"  para="{v_cash_type:'55100000000',v_time:top.window.financemy.cf_time,v_cycle:'4',v_org:'0010'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		
+	   
+	</ts:layout>
+</ts:page>

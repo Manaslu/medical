@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" >
+<ts:cmpnt type="text"   pos="0" width="900" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>市场占有分析 </text>  
+		</ts:cmpnt>  			 
+	    <ts:cmpnt  type="MSLine" datamodel="dm110070"  pos="1" width="1100" height="285" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue"  ></ts:dataset>
+	    	<ts:chart  caption=""  customerColor="1" colorsFile="MSLine.xml"  showLimits="0" charLeftMargin="0"  chartBottomMargin="10" slantLabels='1' 
+labelDisplay="WRAP"      legendPosition="bottom"  baseFontSize="12" showLegend="1" checkboxFontsize="10" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  
+	    	           NumberSuffix="%" checkboxBgColor="FFFFFF" bgColor="0xffffff" showBorder="0" showValues='0' anchorRadius='3' canvasBorderThickness = '1'></ts:chart>
+	    </ts:cmpnt>
+    <ts:cmpnt type="StackedColumn2D" datamodel="dm110071"  pos="2" width="1100" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='1' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt>
+    <ts:cmpnt type="StackedColumn2D" datamodel="dm110072"  pos="3" width="1100" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='1' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt>
+     <ts:cmpnt type="StackedColumn2D" datamodel="dm110073"  pos="4" width="1100" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='1' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt> 
+	    	          		
+    </ts:layout>
+</ts:page>

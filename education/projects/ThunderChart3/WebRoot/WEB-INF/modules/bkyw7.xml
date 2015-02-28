@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="bkyw" >
+<ts:cmpnt type="text"   pos="0" width="730" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>
+                 		收入增长因素分析
+					 </text>  
+		</ts:cmpnt> 	
+<!-- 组合图 -->						 
+<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm110021"  pos="1" width="500" height="265" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d2="dim"  d1="datatype" value="datavalue" line="平均增长率" sAxis="平均增长率" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption=""  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+<!-- 饼图 -->		    
+<ts:cmpnt type="Pie3D" datamodel="dm110022"  pos="2" width="500" height="265" para="{org:window.dasp.org,year:window.dasp.year}">
+                    <ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:chart formatNumberScale="1"  radius3D="20" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml"   caption="" baseFontSize="10" showValues="1" pieRadius="80" smartLabelClearance="0" enableSmartLabels="1" showLabels='1'
+	    	skipOverlapLabels="1" enableRotation="1" slicingDistance ='3' showPercentValues='1'></ts:chart>
+            </ts:cmpnt>
+       		
+    </ts:layout>
+</ts:page>

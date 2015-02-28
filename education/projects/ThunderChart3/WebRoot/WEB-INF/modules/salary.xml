@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="salary" hasLine="false" width="800" height="240">
+	    <ts:cmpnt type="Pie2D" datamodel="dm22"  pos="0" width="180" height="180" para="{datatime:'2009'}">
+	    	<ts:dataset d1="datetype" value="datevalue" ></ts:dataset>
+	    	<ts:chart caption="单位：万元" pieRadius="45"  isSmartLineSlanted='0' showValues='0' baseFontSize='12' smartLabelClearance="2"  slicingDistance ="5" enableSmartLabels="1" skipOverlapLabels="0"></ts:chart>
+	    </ts:cmpnt>
+	     <ts:cmpnt type="MSStackedColumn2DLineDY" datamodel="dm27"  pos="1" width="380" height="190" para="{}" >
+	    	<ts:dataset d1="datatime"  d2="datetype" value="datavalue" lineSet="工资占比"  sAxis="工资占比"></ts:dataset>
+	    	<ts:chart caption=""  showValues='0' placeValuesInside='1' SYAxisMinValue="40" SYAxisMaxValue="90" bgColor="FFFFFF" showBorder="0" rotateValues='1' baseFontSize='12' numberPrefix=" " sNumberSuffix="%25" showLegend="1" legendPosition="bottem" useRoundEdges="1" ></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="ext-listgrid" datamodel="dm33" pos="2" width="210" height="205"  para="{}">
+			<ts:Columns>
+				<ts:Column name="时间" type="dim" code="datatime" selectvalue="1" />
+				<ts:Column name="工资" code="salary" />
+				<ts:Column name="福利与社保"  code="other" />
+				<ts:Column name="工资占比"  code="bilv" />
+			</ts:Columns>
+		</ts:cmpnt>
+		<ts:cmpnt type="text"  pos="3" width="580" height="20"  para="{}" style="font-size:9pt">
+			<text>集团公司员工工资总额是26万元，工资占比为61.90%,工资占比=工资/（工资+福利+社保）</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

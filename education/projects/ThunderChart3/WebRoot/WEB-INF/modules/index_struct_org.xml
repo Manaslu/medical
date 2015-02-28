@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="index" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="0">
+	     <ts:cmpnt hasShowValue="false" message="{'chart.showValue':'setAttribute'}" type="Pie3D"  datamodel="index-org-prop-chart"  
+	   pos="0" width="300" height="200" >
+	    	<ts:dataset d1="dim1"  value="curval"  ></ts:dataset>
+	    	<ts:chart 
+	    	slicingDistance="5"  
+	    	baseFontSize="12" 
+	    	showValues="0" 
+	    	pieRadius="80"
+            colorset="0" 
+            isSmartLineSlanted='1'
+	    	smartLabelClearance="0" 
+	    	enableSmartLabels="1" 
+	    	skipOverlapLabels="0" 
+	    	showPercentInToolTip="0" 
+	    	yAxisName="" 
+	    	xportAction="download"     
+	    	exportEnabled='1' 
+	    	exportAtClient='0' 
+	    	exportAction='download' 
+	    	exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+	   <ts:cmpnt type="ext-listgrid" datamodel="index-org-prop-grid" pos="1" width="300" height="200" frame="false" border="false"  hideHeaders="0" para="{}">
+		<ts:Columns>
+			<ts:Column name="机构"  code="dim1" width="80" align="center"/>
+			<ts:Column name="本期值（万元）" code="curval" width="100" renderer="Thunder.changeUnit" align="right"/>
+			<ts:Column name="比例(%)" code="val"  width="80" align="right"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

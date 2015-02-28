@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="kpi" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="1" zoom="1">
+	     <ts:cmpnt  type="StackedColumn2D" datamodel="dim"  init="false" 
+	  	 pos="0" width="900" height="300" para="">
+	    	<ts:dataset d3="dim1" d1="dim1" d2="dim2" value="curval"  ></ts:dataset>
+	    	<ts:chart setAdaptiveYMin="1" caption="维度分析"  numVisiblePlot='10' labelDisplay='WRAP' decimals="2" 
+	    	showBorder="0" bgcolor="ffffff"  bgAlpha="10" placeValuesInside='0' plotSpacePercent="90"  rotateValues='0' showLegend='1' baseFontSize='12' numberPrefix=" " legendPosition="bottom" 
+	    	customerColor="1" colorset="0" colorsFile="DimColors.xml"  legendStyle="1"
+	    	useRoundEdges="1" formatNumberScale="0" yAxisName="" xportAction="download"     exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+	   <ts:cmpnt type="ext-crossgrid" enableColumnResize="0" datamodel="dim" pos="1" sort="f1|f2"  colWidth="100" width="850"  height="160" showBorder="1" useRoundEdge="0" init="true" 
+		measurepos="col"   para='' autoColumnWidth="1">
+		<ts:RowDims>
+			<ts:Dim name="机构" code="dim1" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim name="" code="dim2" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre name="" code="curval" type="number" renderer="Thunder.changeUnit"/>
+		</ts:Measures>
+	 </ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

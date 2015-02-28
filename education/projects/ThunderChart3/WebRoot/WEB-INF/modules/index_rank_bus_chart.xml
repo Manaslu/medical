@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="index" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="0">
+	  <ts:cmpnt type="text"  pos="name" width="430" height="30" para="{}">
+	    	<text>
+	    		<table style="width:100%;font:12px tahoma, arial, helvetica, sans-serif;margin:auto;"><tr><td style="text-align:left;" width="25%">收入(万元)</td><td style="text-align:center;" width="55%"><img src="/ThunderChart/chart/images/legend/legend_busi.gif" /></td><td style="text-align:center;" width="15%">增幅</td></tr></table>
+	    	</text>
+	    </ts:cmpnt>
+		<ts:cmpnt hasShowValue="true" message="{'chart.showValue':'setAttribute'}" type="MSCombiDY2D"  datamodel="index-bus-rank-chart"  
+	   pos="0" width="440" height="177" >
+	    	<ts:dataset d3="secodedim" d1="secodedim" d2="s" value="curvalue"  sAxis="增幅" line="增幅" primitive="增幅"></ts:dataset>
+	    	<ts:chart  
+	    	decimals="2" 
+	    	labelDisplay='WRAP'
+	    	numVisiblePlot='35' 
+	    	canvasPadding="10" 
+	    	showLegend='0' 
+	    	plotSpacePercent="50"
+	    	customerColor="1" 
+	    	colorset="0" 
+	    	colorsFile="ColumnLineOrg.xml"  
+	    	showValues="0" 
+	    	slantLabels ="0" 
+	    	rotateLabels="0" 	    	
+	    	setAdaptiveYMin="1"  
+	    	showBorder="0" 
+	    	bgcolor="ffffff"  
+	    	bgAlpha="10" 
+	    	placeValuesInside='1'  
+	    	rotateValues='0' 
+	    	baseFontSize='12' 
+	    	numberPrefix=" " 
+	    	legendPosition="bottom" 
+	    	useRoundEdges="1" 
+	    	formatNumberScale="0" 
+	    	xportAction="download"  
+	    	exportEnabled='1' 
+	    	exportAtClient='0' 
+	    	exportAction='download' 
+	    	sNumberSuffix='%25'  
+	    	anchorBgColor='0000ff'
+	    	anchorSides='4'
+	    	exportFormat='jpg'></ts:chart>
+		</ts:cmpnt>
+	</ts:layout>
+</ts:page>
+
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="200" height="200">
+	    <!-- ts:cmpnt type="ext-listgrid" datamodel="dm23" pos="2" width="220" height="210" para="{vswftype:'grid',vdim:'time',vregion:'1100',vyear:'2009'}">
+			<ts:Columns>
+				<ts:Column name="期间" type="dim" code="time" >
+				</ts:Column>
+				<ts:Column name="本期值" code="cur_value" />
+				<ts:Column name="同比" type="meaure" code="like_value" />
+			</ts:Columns>
+		</ts:cmpnt> 
+		<ts:cmpnt type="ext-listgrid" datamodel="dm24"  pos="4" width="220" height="230"  para="{vswftype:'grid',vdim:'region',vyear:'2009',v_order:'cur_value'}">
+			<ts:Columns selectheader="1" gridid="effec_region">
+				<ts:Column name="排名" type="dim" code="rank"/>
+				<ts:Column name="地域" code="region" />
+				<ts:Column name="本期值" code="cur_value" />
+				<ts:Column name="同比" type="meaure" code="like_value" />
+			</ts:Columns>
+		</ts:cmpnt> 
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm25"  pos="1" width="450" height="210" para="{vswftype:'gragh',vdim:'time',vregion:'1100',vyear:'2009'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:chart caption="人均成本" labelDisplay="ROTATE" Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='12' numberPrefix=" " showLegend="0" legendPosition="right" useRoundEdges="1" numberScaleValue='10000,100000000' numberScaleUnit='万,亿'></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="ScrollCombiDY2D" datamodel="dm26"  pos="3" width="575" height="230" para="{vswftype:'gragh',vdim:'region',vyear:'2009',v_order:'cur_value'}" >
+	    	<ts:dataset d1="region"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	<ts:chart caption="人均成本" showMedian = "0"  bgColor="0xffffff" showBorder="0" numVisiblePlot="0" sNumberSuffix="%25" showValues='0' placeValuesInside='1' rotateValues='1' baseFontSize='12' numberPrefix=" " showLegend="0" legendPosition="right" useRoundEdges="1" numberScaleValue='10000,100000000' numberScaleUnit='万,亿'></ts:chart>
+	    </ts:cmpnt-->
+	    <ts:cmpnt type="text" template="textTemplate1" pos="0" datamodel="dm400" width="126" height="150"  style="font-size:10pt;text-align:left;margin-top:20px;"  para="{id:'1'}">
+			<text>
+			</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

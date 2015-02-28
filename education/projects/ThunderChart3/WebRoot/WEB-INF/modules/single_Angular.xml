@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/"> 
+	<ts:layout template="hori" hasLine="false" width="906" height="230">
+		 <ts:cmpnt type="HLinearGauge" datamodel="dm1001060101" pos="0" width="400" height="80" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1" v2="v1"></ts:dataset>
+	   		<ts:chart radius="80" showBorder = "0"  pointerPlateFillColor=  "FFFFFF"  pointerPlateBorderColor=  "EDEDED"  circleFillColor= "000000,ebebeb,d4d4d4"  circleFillRatio="80,15, 5"  circleBorderColor=  "c5c5c5"  showTickValues = "1"  showGaugeBorder = "0">
+            </ts:chart>
+	    </ts:cmpnt>
+    </ts:layout>
+</ts:page>

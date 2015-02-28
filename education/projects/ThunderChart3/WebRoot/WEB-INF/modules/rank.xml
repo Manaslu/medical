@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="kpi" hasLine="false" width="480" height="160" style="padding-top:20px;" unit="1" zoom="1">
+	     <ts:cmpnt   type="MSCombiDY2D"  datamodel="orgrank"  
+	   pos="0" width="900" height="300" >
+	    	<ts:dataset d3="secodeDim" d1="secodeDim" d2="s" value="curvalue"  sAxis="增幅" line="增幅" primitive="增幅"></ts:dataset>
+	    	<ts:chart decimals='1' showAverage="1" AverageToAxis="S" averageDisplay="平均增幅" AverageSeries="增幅"
+	    	averageDisplaySuffix="%" AverageFormat="0.00"  sNumberSuffix='%25' 
+	    	numVisiblePlot='10' caption="排名分析" customerColor="1" colorset="0" colorsFile="ColumnLine.xml"  formatNumberScale="0"  anchorBgColor='0000ff'
+	    	anchorSides='4'  setAdaptiveYMin="1"  plotSpacePercent="90" labelDisplay='WRAP'  legendStyle="1"
+	    	showBorder="0" bgcolor="ffffff"  bgAlpha="10" placeValuesInside='0'  rotateValues='0' showLegend='1' baseFontSize='12' numberPrefix=" " legendPosition="bottom" 
+	    	useRoundEdges="1" yAxisName="" xportAction="download"     exportEnabled='1' exportAtClient='0' exportAction='download' exportFormat='jpg'></ts:chart>
+	   </ts:cmpnt>
+	  <ts:cmpnt type="ext-listgrid" datamodel="orgrank-grid" pos="1" showBorder="1" useRoundEdge="0" enableColumnResize="0" width="850" height="160"  hideHeaders="0" para="{}">
+		<ts:Columns>
+			<ts:Column name="{dim}"  code="secodeDim" width="200" sortable="1"/>
+			<ts:Column name="指标值" code="curvalue" width="150" sortable="1" renderer="Thunder.changeUnit" type="float" align="right"/>
+			<ts:Column name="增幅(%)" code="curvalue1" width="100" sortable="1" type="float" convert="Thunder.Converts.emptyFloat2pixConvert" align="right"/>			
+			<ts:Column name="名次" code="rnum"  width="200" sortable="1" type="int" convert="Thunder.Converts.emptyNumberConvert"/>
+		</ts:Columns>
+		</ts:cmpnt> 
+    </ts:layout>
+</ts:page>
+
+

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="ygqkfx" hasLine="true" width="480"
+		height="160">
+		<!--   8002020101 -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm8002020101"  pos="0" width="160" height="160" para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000' }">
+	    	<ts:dataset d1="type" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" customerColor="1" colorsFile="Pie.xml" caption="用工构成" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <!--   8002020101 -->
+	    <ts:cmpnt type="Legend" datamodel="dm8002020101"  pos="1" width="80" height="60" para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000' }">
+	    	<ts:dataset d1="type" value="null_value" ></ts:dataset>
+	    	<ts:chart  customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt>
+	    
+	     <!--   8002020201 -->
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8002020201" pos="2" sort="f1|f2"   width="150" height="100" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cycle:'4',v_time:top.window.hr.stuct_time}" >
+		<ts:RowDims>
+			<ts:Dim name="地域" code="lines" width="60"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" width="70"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>
+		
+		
+        <!--   8002020202 
+		<ts:cmpnt type="ext-crossgrid" datamodel="dm8002020202" pos="2" sort="f1|f2"  colWidth="55" width="150" height="820" showBorder="0" useRoundEdge="0" 
+		   measurepos="col" para="{v_cycle:'1',v_time:'2009',v_col:'col2' }" >
+		<ts:RowDims>
+			<ts:Dim name="地域" code="lines" />
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim   code="cols" />
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre   code="value" />
+		</ts:Measures>
+		</ts:cmpnt>  -->
+		
+	   <ts:cmpnt type="ext-listgrid" datamodel="dm8002020202" pos="3" width="150" height="750"  para="{v_cycle:'4',v_time:top.window.hr.stuct_time,v_org:'0000' }">
+			<ts:Columns>
+				<ts:Column name="地域"  width="50" code="area" ></ts:Column>
+				<ts:Column name="总员工数" sortable="1" width="50" code="total" />
+				<ts:Column name="其中劳务派遣人员" sortable="1" width="60" code="lwpq" />
+			</ts:Columns>
+		</ts:cmpnt> 
+	    
+	</ts:layout>
+</ts:page>

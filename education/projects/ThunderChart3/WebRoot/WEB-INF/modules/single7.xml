@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="cross" >
+<ts:cmpnt type="text"   pos="0" width="900" height="40" style="text-align:center;margin-left:0;font-size:16pt">
+                        <text>
+                 		行业机构TOP10
+					 </text>  
+		</ts:cmpnt>   
+<!-- 机构数 -->
+ <ts:cmpnt  type="Bar2D" datamodel="dm110058"  pos="1" width="300" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="type" value="value"  ></ts:dataset>
+	    	<ts:chart  caption="机构数"    charLeftMargin="0"  tickValueDecimals="4" 
+NumberSuffix='%'	  legendPosition="bottom"  baseFontSize="9" showLegend="1" limitsDecimalPrecision="4"
+ useRoundEdges="1"  bgColor="0xffffff" showBorder="0" showValues='1' ></ts:chart>
+	    </ts:cmpnt> 
+<!-- 期发数 -->	     
+ <ts:cmpnt  type="Bar2D" datamodel="dm110059"  pos="2" width="300" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="type" value="value"  ></ts:dataset>
+	    	<ts:chart  caption="期发数"    charLeftMargin="0"  tickValueDecimals="4" 
+NumberSuffix='%'	  legendPosition="bottom"  baseFontSize="9" showLegend="1" limitsDecimalPrecision="4"
+ useRoundEdges="1"  bgColor="0xffffff" showBorder="0" showValues='1' ></ts:chart>
+	    </ts:cmpnt>  
+<!-- 订户数 -->	 	    
+ <ts:cmpnt  type="Bar2D" datamodel="dm110060"  pos="3" width="300" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="type" value="value"  ></ts:dataset>
+	    	<ts:chart  caption="订户数"    charLeftMargin="0"  tickValueDecimals="4" 
+NumberSuffix='%'	  legendPosition="bottom"  baseFontSize="9" showLegend="1" limitsDecimalPrecision="4"
+ useRoundEdges="1"  bgColor="0xffffff" showBorder="0" showValues='1' ></ts:chart>
+	    </ts:cmpnt>  
+<!-- 流转额 -->	     
+ <ts:cmpnt  type="Bar2D" datamodel="dm110061"  pos="4" width="300" height="265" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="type" value="value"  ></ts:dataset>
+	    	<ts:chart  caption="流转额"    charLeftMargin="0"  tickValueDecimals="4" 
+NumberSuffix='%'	  legendPosition="bottom"  baseFontSize="9" showLegend="1" limitsDecimalPrecision="4"
+ useRoundEdges="1"  bgColor="0xffffff" showBorder="0" showValues='1' ></ts:chart>
+	    </ts:cmpnt>  	    		       		
+    </ts:layout>
+</ts:page>

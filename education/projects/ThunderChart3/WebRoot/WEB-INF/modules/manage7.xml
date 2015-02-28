@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" >
+  
+<ts:cmpnt type="MSColumn3DLineDY" datamodel="dm110055"  pos="0" width="600" height="265" para="{org:window.dasp.org,year:window.dasp.year}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="异常地址数据总数" sAxis="异常地址数据总数" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="indexArea.xml"  caption="区域数据质量对比"  Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+             labelDisplay='WRAP'       showValues='0' sNumberSuffix="" placeValuesInside='1' rotateValues='1' baseFontSize='11' 
+ showMedian="1" medianDisplay="平均值" medianColor="1"
+       showLabels="1"        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+
+	    </ts:cmpnt>  
+	
+      		
+    </ts:layout>
+</ts:page>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="300" height="236">
+         <ts:cmpnt type="Radar" datamodel="dm1001130101" pos="0" width="350" height="256" para="{v_org:'0010',v_time:'200910'}">
+			<ts:dataset d1="type" d2="name" value="value"> </ts:dataset>
+			<ts:chart caption= ""  yAxisMaxValue='5' chartRightMargin="80" anchorAlpha="0" showBorder="0"
+				      baseFontSize="9" bgColor="0xffffff" showlegend="0">
+			</ts:chart>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

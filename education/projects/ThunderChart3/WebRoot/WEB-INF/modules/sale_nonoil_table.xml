@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="900" height="450" >
+		
+
+	  <ts:cmpnt type="ext-crossgrid" datamodel="dm243001" pos="0" sort="f1|f2" width = "967" height="145" showBorder="0" useRoundEdge="0" 
+		measurepos="col" para="{v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_goods:top.window.sale.v_goods}">
+		<ts:RowDims>
+			<ts:Dim name="时间" code="dim" width = "100"/>
+		</ts:RowDims>
+		<ts:ColDims>
+			<ts:Dim  code="datatype" width = "100"/>
+		</ts:ColDims>
+		<ts:Measures>
+			<ts:Meausre code="datavalue" />
+		</ts:Measures>
+	</ts:cmpnt>
+		
+    </ts:layout>
+</ts:page>

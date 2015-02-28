@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+	<ts:layout template="sale_plan" hasLine="false" width="450" height="250">
+<ts:cmpnt type="text"   pos="0" width="500" height="18"  >
+                        <text>
+                        <table width="380" style="text-align:middle;margin-left:5;font-size:9pt;"><tr>
+<td align="middle" >库存量告警</td><td align="right" >站存量告警</td> </tr>  </table>                  		
+					 </text>
+         </ts:cmpnt>
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm224303"  pos="1" width="470" height="220" para="{v_cycle:'4',v_time:'200907',v_col:'col2'}" >
+	    	<ts:dataset d1="region"  d2="type" value="value" line="同比,环比" sAxis="同比,环比" ></ts:dataset>
+	    	
+	    	<ts:chart caption="库存量排名分析" customerColor="1" colorsFile="indexArea.xml"   bgColor="0xffffff" showBorder="0" numVisiblePlot="0" sNumberSuffix="%25" showValues='0' placeValuesInside='1' rotateValues='1' 
+	    	          baseFontSize='12' numberPrefix=" " showLegend="1" legendPosition="buttom" legendBorderColor="0xffffff" useRoundEdges="1" showMedian="1" MedianSeries="本期值" medianDisplay="  " anchorRadius='4'></ts:chart>
+	    </ts:cmpnt>
+		 <ts:cmpnt type="AngularGaugeRPM" datamodel="dm1001060101"  pos="2" width="200" height="200" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	   	<ts:chart radius="55" 
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColor.xml" 
+	    	          
+	    	               displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                baseFontSize='16'
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+                       
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>
+	   
+<ts:cmpnt type="AngularGaugeRPM" datamodel="dm1001060101"  pos="4" width="200" height="200" para="{v_type:'col1',v_metric:'50111130000',v_time:'200901',v_org:'0010'}">
+	    	<ts:dataset  v1="v1"></ts:dataset>
+	   	<ts:chart radius="55" caption="1212"
+	    	          customerColor="1" 
+	    	          colorsFile="GaugeColor.xml" 
+	    	          
+	    	          displayValue="0" 
+	    	          showBorder="0"
+	    	          showTickValues='0'
+	                baseFontSize='16'
+	                  arcFillColor=  "ffffff"
+		  			  arcBorderColor=  "c5c5c5"
+                      arcFillAlpha=   "50"
+                       
+                      dialPlateFillColor=  "FFFFFF"
+                      dialPlateBorderColor=  "EDEDED"
+                      dialPlateFillRatio=  "100"
+
+                      circleFillColor= "000000,ebebeb,d4d4d4"
+                      circleFillRatio=   "80,15, 5"
+          			  circleBorderColor=   "c5c5c5"
+                        
+                      dialColor=   "A19CFF">
+            </ts:chart>
+	    </ts:cmpnt>
+ 
+	   
+
+	    
+    </ts:layout>
+</ts:page>

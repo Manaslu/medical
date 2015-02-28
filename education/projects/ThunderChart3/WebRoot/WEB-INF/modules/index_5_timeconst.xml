@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="200" height="200">
+		<!--ts:cmpnt type="text"  datamodel="dm1001000000" pos="0" width="240" height="20" style="font-size:9pt" para="{v_time:'200910'}">
+			<text>
+			<div style="text-align:right;margin-left:5"></div>
+			</text>
+		</ts:cmpnt-->
+		<ts:cmpnt type="text"  datamodel="dm1001000003" pos="0" width="390" height="20" style="font-size:9pt;text-align:right;" para="{v_metric:top.window.kpiorder.v_metric81}">
+			<text>
+			</text>
+		</ts:cmpnt>
+		 <ts:cmpnt type="MSLine" datamodel="dm1001050101"  pos="1" width="400" height="140" para="{v_time:top.window.kpiorder.v_time,v_org:top.window.kpiorder.v_org ,v_begin_time:top.window.kpiorder.v_begin_time,v_type:top.window.kpiorder.v_type,v_metric:top.window.kpiorder.v_metric81,v_metric_2:top.window.kpiorder.v_metric82}" >
+	    	<ts:dataset d1="display_time"  d2="type" value="value"  ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id" ></ts:link>
+	    	<ts:chart customerColor="1" colorsFile="MSLine.xml" caption="" labelDisplay="ROTATE" showLegend="1" chartBottomMargin="1" Stagger="1"  slantLabels='1' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='10' numberPrefix=" "  legendPosition="bottom" useRoundEdges="1"></ts:chart>
+	    </ts:cmpnt>
+	    <ts:cmpnt type="text" datamodel="dm1001050301"  pos="2" width="400" height="50" style="font-size:9pt" para="{v_time:top.window.kpiorder.v_time,v_org:top.window.kpiorder.v_org ,v_type:top.window.kpiorder.v_type,v_metric:top.window.kpiorder.v_metric81,v_metric_2:top.window.kpiorder.v_metric82}">
+			<text>
+			
+			</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

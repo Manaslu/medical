@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="150" height="200">
+	    <ts:cmpnt type="MSLine" datamodel="dm8003040101"  pos="0" width="385" height="175" para="{v_time:top.window.hr.effec_time,v_begin_time:top.window.hr.effec_begin_time,v_org:'0000',v_cycle:'4'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value"></ts:dataset>
+	    	<ts:chart customerColor="1" colorsFile="MSLine.xml" caption="人均利润、人均成本和人均收入对比" chartRightMargin="1" setAdaptiveYMin="1"   showLimits="0" chartTopMargin="1" 
+	    	    chartBottomMargin="1" labelDisplay="ROTATE" slantLabels='1' legendPosition="right"  baseFontSize="10" showLegend="1" 
+	    	    canvasBorderThickness="1" checkboxFontsize="12" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  checkboxBgColor="FFFFFF" 
+	    	    bgColor="0xffffff" showBorder="0" showValues='0'  ></ts:chart>
+	    </ts:cmpnt>	
+	    
+	    <ts:cmpnt type="MSLine" datamodel="dm8003040102"  pos="1" width="410" height="175" para="{v_time:top.window.hr.effec_time,v_begin_time:top.window.hr.effec_begin_time,v_org:'0000',v_cycle:'4'}" >
+	    	<ts:dataset d1="time"  d2="type" value="value"></ts:dataset>
+	    	<ts:chart customerColor="1" colorsFile="MSLine.xml" caption="人均利润、人均成本和人均收入的增长率对比" NumberSuffix="%25" chartRightMargin="1"  showLimits="0" chartTopMargin="1" 
+	    	chartBottomMargin="1" labelDisplay="ROTATE" slantLabels='1' setAdaptiveYMin="1" legendPosition="right"  baseFontSize="10" showLegend="1" 
+	    	canvasBorderThickness="1" checkboxFontsize="12" showCheckbox="0" checkboxPosition="bottom" checkboxAlign="center"  checkboxBgColor="FFFFFF" 
+	    	bgColor="0xffffff" showBorder="0" showValues='0'  ></ts:chart>
+	    </ts:cmpnt>	
+    </ts:layout>
+</ts:page>

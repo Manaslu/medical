@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" hasLine="false" width="160" height="600">
+	    <ts:cmpnt type="text" datamodel="dm8001020304" pos="0" width="160" height="43"  para="{v_time:top.window.hr.index_time}"  style="font-size:9pt;text-align:right;margin-right:5">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    
+	    <!--   8001020101 -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm8001020101"  pos="1" width="160" height="160" para="{v_time:top.window.hr.index_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" caption="学历分布" customerColor="1" colorsFile="Pie.xml" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	 <!--  
+	    <ts:cmpnt type="Legend" datamodel="dm8001020101"  pos="2" width="80" height="90" para="{v_time:top.window.hr.index_time,v_org:'0000' }">
+	    	<ts:dataset d1="dim" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt> 
+	     --> 
+	     
+	     	    <ts:cmpnt type="text" pos="2" width="150" height="50"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/xueli.jpg"/>
+			</text>
+		</ts:cmpnt>
+	     
+	    <ts:cmpnt type="text" datamodel="dm8001020301"  pos="3" width="160" height="53"  para="{v_time:top.window.hr.index_time,v_org:'0000'}"  style="margin-top:10;font-size:9pt;text-align:left">
+			<text>
+			</text>
+		</ts:cmpnt>
+	    
+	    <!--  
+	    <ts:cmpnt type="Pie2D" datamodel="dm8001020102"  pos="3" width="160" height="160" para="{v_time:top.window.hr.index_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart caption="年龄分布" customerColor="1" colorsFile="PieColor.xml" pieRadius="35" isSmartLineSlanted='0' showValues='0' baseFontSize='12' smartLabelClearance="2"  slicingDistance ="5" enableSmartLabels="1" skipOverlapLabels="0"></ts:chart>
+	    </ts:cmpnt>
+	    
+	    <ts:cmpnt type="text" datamodel="dm8001020302" pos="4" width="160" height="53"  para="{v_time:top.window.hr.index_time,v_org:'0000'}"  style="font-size:9pt">
+			<text>
+			</text>
+		</ts:cmpnt>-->
+	    
+	    <!--  横线text       -->
+	    <ts:cmpnt type="text"  pos="4" width="160" height="20" style="font-size:9pt;text-align:left;margin-top:0;margin-left:0;margin-right:0" para="{}">
+			<text>
+	           <div style="margin-top:10;height:1px;background-color:#B3DAF8;font-size:1px;line-height:0;overflow: hidden;"></div>
+			</text>
+		</ts:cmpnt>
+	    
+	    <!--   8001020103 -->
+	    <ts:cmpnt type="Pie2D" datamodel="dm8001020103"  pos="5" width="160" height="160" para="{v_time:top.window.hr.index_time,v_org:'0000'}">
+	    	<ts:dataset d1="dim" value="value" ></ts:dataset>
+	    	<ts:link f="MyDM7001020101" para="metrics_id,data_time,region_id,org_name" ></ts:link>
+	    	<ts:chart formatNumberScale="1"  radius3D="10" showPlotBorder="0" caption="岗位分布" customerColor="1" colorsFile="Pie.xml" showLabels="0" showPercentageValues="0" chartTopMargin="0" baseFontSize="12" showValues="1" pieRadius="40" smartLabelClearance="2" enableSmartLabels="1" skipOverlapLabels="1" enableRotation="1" slicingDistance ='3'></ts:chart>
+	    </ts:cmpnt>
+	    
+	    	    <ts:cmpnt type="text" pos="6" width="150" height="50"  para="" style="font-size:9pt">
+			<text>
+			<img src="/MDSS/images/arrow/gangwei.jpg"/>
+			</text>
+		</ts:cmpnt>
+	    
+	    
+	    <!--   8001020103 
+	    <ts:cmpnt type="Legend" datamodel="dm8001020103"  pos="6" width="80" height="80" para="{v_time:top.window.hr.index_time,v_org:'0000' }">
+	    	<ts:dataset d1="dim" value="null_value" ></ts:dataset>
+	    	<ts:chart customerColor="1" 
+               colorsFile="Pie.xml"
+               
+               colorBoxWidth='7'
+               colorBoxHeight='7'
+               
+               borderColor= '000000'
+               showBorder='0'
+               borderThickness= '1'
+               borderAlpha= '100'
+               
+                bgColor= 'FFFFFF' 
+                bgAlpha= '40'
+                
+                baseFont= 'Tahoma'
+                baseFontSize= '10'
+                baseFontColor= '000000'></ts:chart>
+		</ts:cmpnt> 
+		-->
+		
+	    <ts:cmpnt type="text" datamodel="dm8001020303" pos="7" width="160" height="43"  para="{v_time:top.window.hr.index_time,v_org:'0000'}"  style="margin-top:10;font-size:9pt">
+			<text>
+			</text>
+		</ts:cmpnt>
+    </ts:layout>
+</ts:page>

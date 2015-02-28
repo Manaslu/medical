@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="vert" >
+  
+    <ts:cmpnt type="StackedColumn2D" datamodel="dm110071"  pos="0" width="1100" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='1' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt>
+    <ts:cmpnt type="StackedColumn2D" datamodel="dm110072"  pos="1" width="1100" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='1' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt>
+     <ts:cmpnt type="StackedColumn2D" datamodel="dm110073"  pos="2" width="1100" height="200" para="{org:window.dasp.org,year:window.dasp.year,table:window.dasp.type}">
+	    	<ts:dataset d1="dim" d2="datatype" value="datavalue" ></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+showPercentValues="1"     legendPosition="bottom" showSum='1' chartTopMargin="1" decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt>      		
+    </ts:layout>
+</ts:page>

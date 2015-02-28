@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ts:page xmlns:ts="http://www.w3.org/TR/html4/">
+    <ts:layout template="hori" hasLine="false" width="900" height="450" >
+		
+		
+	  <ts:cmpnt type="StackedColumn2D" datamodel="dm232001"  pos="0" width="400" height="150" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_area:top.window.sale.v_area,v_station:top.window.sale.v_station}">
+	    	<ts:dataset d1="name" d2="type" value="value" ></ts:dataset>
+<ts:chart customerColor="1" colorsFile="Stacked.xml"  caption="" baseFontSize="10" showValues="0"  bgcolor="FFFFFF" 
+	    	          legendPosition="bottom" showSum='1' decimals = '2' canvasBorderColor ='FFFFFF' showBorder='0'
+	    	          useRoundEdges="1" canvasBgAlpha = '100'></ts:chart>
+		</ts:cmpnt><!--dm943-->
+		<ts:cmpnt type="ScrollCombiDY2D" datamodel="dm232002"  pos="1" width="500" height="160" para="{v_oil:top.window.sale.v_oil,v_begin_time:top.window.sale.v_begin_time,v_time:top.window.sale.v_time,v_city:top.window.sale.v_city,v_area:top.window.sale.v_area,v_station:top.window.sale.v_station}">
+	    	<ts:dataset d1="dim"  d2="datatype" value="datavalue" line="同比" sAxis="同比"></ts:dataset>
+	    	
+	    	<ts:chart customerColor="1" colorsFile="ColumnLine.xml"  caption=""  Stagger="1"  labelDisplay='WRAP' bgColor="0xffffff" showBorder="0" numVisiblePlot="0" 
+	    	showValues='0' sNumberSuffix="%25" placeValuesInside='1' rotateValues='1' baseFontSize='11'
+	        showLegend="1" legendPosition="buttom" useRoundEdges="1" anchorRadius='4'></ts:chart>
+	    </ts:cmpnt> <!--dm1500-->		
+    </ts:layout>
+</ts:page>
