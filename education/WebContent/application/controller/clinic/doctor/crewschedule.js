@@ -153,10 +153,14 @@ define(function (require, exports, module) {
         	     
         	});
         var  initialCaendar=function (){
+        	
+        	 var params = {
+            		 clinicId : $scope.USER_INFO.orgCd    
+             };
          
 			FullCalendar.query({ //初始化排班列表
 			                isArray:true,
-			                params: {}
+			                params: angular.toJson(params)
 			   },  function (list){
 			      $scope.calendars =list; 
 			      
