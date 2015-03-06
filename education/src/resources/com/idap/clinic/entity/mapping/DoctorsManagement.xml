@@ -13,6 +13,7 @@
     	    <result property="doctorTel" column="DOCTOR_TEL" jdbcType="VARCHAR" />	    	    	    
     	    <result property="doctorSpeciality" column="DOCTOR_SPECIALITY" jdbcType="VARCHAR" />
     	    <result property="doctorDepartment" column="DOCTOR_DEPARTMENT" jdbcType="VARCHAR" />
+    	    <result property="doctorDepartmentName" column="DOCTOR_DEPARTMENT_NAME" jdbcType="VARCHAR" />
     	    <result property="doctorDate" column="DOCTOR_DATE" jdbcType="DATE" />
     	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
     	    <result property="doctorGender" column="DOCTOR_GENDER" jdbcType="VARCHAR" />
@@ -55,6 +56,7 @@
 			<include refid="allColumn" />
 			 from
 			DOCTOR t left join DEPARTMENT d on(t.doctor_department=d.department_id )
+			left join Clinic c on (t.clinic_id=c.clinic_id)
 			<include refid="dynamicWhere" />
 		 
 	</select>
@@ -64,7 +66,7 @@
 		select
 		count(1)
 		from
-		DOCTOR
+		DOCTOR t
 		<include refid="dynamicWhere" />
 		    
 	</select>
@@ -85,7 +87,7 @@
 					)
 				</if>
 				<if test="clinicId!=null">
-					AND CLINIC_ID = #{clinicId}
+					AND t.CLINIC_ID = #{clinicId}
 				</if>
 			</trim>
 	</sql>
