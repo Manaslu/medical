@@ -472,7 +472,10 @@ define(function() {
 	} ]);
 	app.factory('UserEvaluate', [ '$resource', function($resource) {
 		return $resource('userEvaluate.shtml');
-	} ]);		
+	} ]);	
+	app.factory('UserInformation', [ '$resource', function($resource) {
+		return $resource('userInformation.shtml');
+	} ]);	
 	
 	
 });

@@ -1,6 +1,7 @@
 define(function (require, exports, module) {
     return function setApp(app) {
-        app.controller('ClinicDoctorPatientresultCtrl', ['$scope','$http' ,'$filter','DiagnoseResult','UserAppointment','$timeout',function ($scope,$http,$filter,DiagnoseResult,UserAppointment,$timeout) { 
+        app.controller('ClinicDoctorPatientresultCtrl', ['$scope','$http' ,'$filter','DiagnoseResult','UserAppointment','UserInformation','$timeout',
+                                                         function ($scope,$http,$filter,DiagnoseResult,UserAppointment,UserInformation,$timeout) { 
  
   
         	var dateFIlter = $filter('date'); 
@@ -8,12 +9,12 @@ define(function (require, exports, module) {
  
          var paramsBefore = {
         		 clinicId : $scope.USER_INFO.orgCd,
-        		 doctorId : $scope.USER_INFO.id,
+//        		 doctorId : $scope.USER_INFO.id,
         		 beforeNoon:    1
          };
          var paramsAfter = {
         		 clinicId : $scope.USER_INFO.orgCd,
-        		 doctorId : $scope.USER_INFO.id,
+//        		 doctorId : $scope.USER_INFO.id,
         		 afterNoon:    1
          };
        	UserAppointment.query({ //初始化用户列表
@@ -36,6 +37,18 @@ define(function (require, exports, module) {
                 var params = {
                    orderId : orderid
                 };
+                var params1 = {
+                		mUserId : userid
+                     };
+                
+                UserInformation.query({
+                    isArray:true,
+                    params: angular.toJson(params1)
+                    },
+                    function (list){
+				     $scope.clickUser = list[0];
+				});
+                
                 DiagnoseResult.query({
                                       isArray:true,
                                       params: angular.toJson(params)
