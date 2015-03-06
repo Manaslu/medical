@@ -46,15 +46,18 @@
 	           t.TITLE,
 	           t.START,
 	           t.END    from FULLCALENDAR t
+	           <include refid="dynamicWhere" />
 	 
 	</select>
  
 	<select id="findByPager" parameterType="java.util.Map" resultMap="FullCalendar">
 		<include refid="queryBody" />
+		<include refid="dynamicWhere" />
 	</select>
 	
 	<select id="fullCalendarquery" parameterType="java.util.Map" resultMap="FullCalendar">
 		<include refid="queryBody" />
+		<include refid="dynamicWhere" />
 	</select>
 	
 
@@ -71,9 +74,9 @@
 	 
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
-				<if test="querykeyword!=null">
-					AND (DEPARTMENT_NAME like concat('%',#{querykeyword},'%') 
-					OR   DEPARTMENT_DESC like concat('%',#{querykeyword},'%')  )
+				 
+				<if test="clinicId!=null">
+					AND CLINIC_ID = #{clinicId}
 				</if>
 				 
 			</trim>
