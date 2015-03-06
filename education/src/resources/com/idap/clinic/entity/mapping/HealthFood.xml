@@ -9,7 +9,8 @@
     	    <result property="eatTitle" column="EAT_TITLE" jdbcType="VARCHAR" />
     	    <result property="eatContent" column="EAT_CONTENT" jdbcType="VARCHAR" />
     	    <result property="eatPic" column="EAT_PIC" jdbcType="VARCHAR" />
-    	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	    	    	    
+    	    <result property="eatDate" column="EAT_DATE" jdbcType="DATE" />	   
+    	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" /> 	    	    
 	</resultMap>
 	    <resultMap id="HealthFoodAssClinic" type="com.idap.clinic.entity.HealthFood">
     	    <result property="eatId" column="EAT_ID" jdbcType="VARCHAR" />
@@ -51,6 +52,7 @@
 	           t.EAT_CONTENT,
 	           t.EAT_PIC,
 	           t.EAT_DATE,
+	           c.CLINIC_ID,
 	           c.CLINIC_NAME
 	</sql>
  

@@ -149,12 +149,7 @@
                             <div class="form-group">
                                 <label class="col-lg-2 control-label" >标题:</label>
                                 <div class="col-lg-8">
-                                    <input type="text" name="knowname"  
-	                                               ng-model="keye.eatTitle" id="roleDefault" 
-	                                     class="form-control"
-	                                      required  valid-tip="{required:'字段是必填的',maxlength:'最大长度不能超过30个字符'}"     
-	                                      valid-pos="bottom"
-	                                      ng-maxlength="30" /> 
+                                    <input type="text" name="knowname"      ng-model="keye.eatTitle" id="roleDefault"   class="form-control"   required   /> 
                                 	  
                                 </div>
                                 <span class="mustItem">*</span>   
@@ -178,7 +173,7 @@
 					                    <div uploader  ng-model="uploadPic"
 					                         server="upload.shtml"
 					                         extensions="jpg,gif,png，jpeg"  
-					                         files="files">
+					                         files="files" required>
 					                    </div>	         
 				                    
 				                     
@@ -239,9 +234,9 @@
 		                        	.float-img{              
 		                        		display:  visible;
 		                        		position: absolute;
-		                        		margin-top:-16px;                                                                   
-		                        		width: 172px;                                                               
-		                        		height:172px;             
+		                        		margin-top:-40px;                                                                   
+		                        		width: 152px;                                                               
+		                        		height:152px;             
 		                        	    right:28px;        
 		                        		overflow:auto;
 		                        		background-color: #ff;                
@@ -251,7 +246,7 @@
 		              	</style>                                                                                                           
 	                  <div >    
 	                       <div     class="float-img"   >    
-	                          <img class="img-thumbnail"  ng-src="{{imgShow(keyv.eatPic)}}"  style="width: 170px; height:169px;"/>            
+	                          <img class="img-thumbnail"  ng-src="{{imgShow(keyv.eatPic)}}"  style="width: 150px; height:149px;"/>            
 	                       </div>   
 	                  </div>
 	           			<div class="form-group"  style=" height:372px; "> 
