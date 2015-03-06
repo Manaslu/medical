@@ -135,6 +135,7 @@ define(function (require, exports, module) {
 		    				               	
 		    				             ClinicInformation.save(clinicadmin,function(){
 					                         	$('#add').modal('hide');
+					                         	alert("你已经成功添加了诊所的信息,现在需要您添加医生的信息,请点击菜单栏上的'医生'");
 					                         });
                 				 }
        	  		                   
