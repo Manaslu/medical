@@ -17,6 +17,8 @@ public class CommonIllness implements java.io.Serializable {
  	private String     clinicId;//clinic_id CLINIC_ID
  	
 	private ClinicInformation     clinic;//CLINIC_ID 
+	private String clinicName;
+	private String diseaseIcon;
 	
 	
   
@@ -61,6 +63,19 @@ public class CommonIllness implements java.io.Serializable {
 	}
 	public void setClinic(ClinicInformation clinic) {
 		this.clinic = clinic;
+	}
+	public String getClinicName() {
+		return clinicName;
+	}
+	public void setClinicName(String clinicName) {
+		this.clinicName = clinicName;
+	}
+
+	public String getDiseaseIcon() {
+		return diseaseIcon;
+	}
+	public void setDiseaseIcon(String diseaseIcon) {
+		this.diseaseIcon = diseaseIcon;
 	}
  
  

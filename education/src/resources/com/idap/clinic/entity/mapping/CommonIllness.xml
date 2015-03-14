@@ -11,11 +11,8 @@
     	    <result property="diseasePic"     column="DISEASE_PIC"     jdbcType="VARCHAR" />
     	    <result property="diseaseDate"    column="DISEASE_DATE"    jdbcType="DATE" />
     	    <result property="clinicId"       column="CLINIC_ID"       jdbcType="VARCHAR" />
-    	     
-    	     <association property="clinic" javaType="com.idap.clinic.entity.ClinicInformation">
-    	    	<id column="clinic_id" property="clinicId"/>
-    	    	<result column="clinic_name" property="clinicName"/>
-    	    </association>
+    	    <result property="clinicName" column="CLINIC_NAME" jdbcType="VARCHAR" />
+    	    <result property="diseaseIcon" column="FILEPATH" jdbcType="VARCHAR" />	 
 	</resultMap>
 	 
  
@@ -25,7 +22,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			COMMONDISEASE t
+			COMMONDISEASE t left join Clinic c on t.clinic_id=c.clinic_id left join uploadfile u on t.DISEASE_pic=u.id
 			 
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
@@ -36,7 +33,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			COMMONDISEASE t
+			COMMONDISEASE t left join Clinic c on t.clinic_id=c.clinic_id left join uploadfile u on t.DISEASE_pic=u.id
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>
@@ -47,7 +44,9 @@
 	           t.DISEASE_CONTENT,
 	           t.DISEASE_PIC,
 	           t.DISEASE_DATE,
-	           t.CLINIC_ID
+	           t.CLINIC_ID,
+	           c.CLINIC_NAME,
+	           u.FILEPATH AS diseaseIcon
 	</sql>
  
 	
@@ -72,6 +71,19 @@
 		COMMONDISEASE
 		<include refid="dynamicWhere" />
 		    
+	</select>
+	<select id="getById" parameterType="java.util.Map" resultMap="CommonIllness">
+			select
+			   t.DISEASE_ID,
+	           t.DISEASE_NAME,
+	           t.DISEASE_CONTENT,
+	           t.DISEASE_PIC,
+	           t.DISEASE_DATE,
+	           t.CLINIC_ID,
+	           c.CLINIC_NAME
+			 from
+			COMMONDISEASE t left join Clinic c on t.clinic_id=c.clinic_id
+			where t.DISEASE_ID=#{Id}
 	</select>
 	 	          
 	<sql id="dynamicWhere">

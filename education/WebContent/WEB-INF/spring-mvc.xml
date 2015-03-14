@@ -30,7 +30,7 @@
 			</list>
 		</property>
 	</bean>
-	<!-- url访问权限访问控制拦截器 -->
+	<!-- url访问权限访问控制拦截器-->
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/*.shtml" />
@@ -47,7 +47,7 @@
 		   <mvc:mapping path="/auth.shtml" />
 		   <bean class="com.idp.security.web.interceptor.UsersMonitorInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> 
 	<!-- 声明一个jsp视图解析器. -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"

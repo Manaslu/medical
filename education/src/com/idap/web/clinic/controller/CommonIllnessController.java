@@ -35,7 +35,7 @@ public class CommonIllnessController extends BaseController<CommonIllness, Strin
 		Pager<CommonIllness> pillness=new Pager<CommonIllness>();
 		pillness.setCurrent(pageno);
 		Map<String,Object> hmap=new HashMap<String,Object>();
-		hmap.put("orderBy", "illness_date");
+		hmap.put("orderBy", "disease_date");
 		Pager<CommonIllness> p=this.getBaseService().findByPager(pillness, hmap);
 		return p.getData();
 		

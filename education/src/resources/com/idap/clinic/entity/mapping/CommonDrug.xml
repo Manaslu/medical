@@ -12,10 +12,8 @@
     	    <result property="drugPic" column="DRUG_PIC" jdbcType="VARCHAR" />
     	    <result property="drugDate" column="DRUG_DATE" jdbcType="DATE" />	    	    	    
     	    <result property="clinicId" column="CLINIC_ID" jdbcType="VARCHAR" />
-    	    <association property="clinic" javaType="com.idap.clinic.entity.ClinicInformation">
-    	    	<id column="clinic_id" property="clinicId"/>
-    	    	<result column="clinic_name" property="clinicName"/>
-    	    </association>
+    	    <result property="clinicName" column="CLINIC_NAME" jdbcType="VARCHAR" />
+    	    <result property="drugIcon" column="FILEPATH" jdbcType="VARCHAR" />	 
     	 
 	</resultMap>
 	 
@@ -26,7 +24,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			DRUG t left join Clinic c on t.clinic_id=c.clinic_id
+			DRUG t left join Clinic c on t.clinic_id=c.clinic_id left join uploadfile u on t.drug_pic=u.id
 			<include refid="dynamicWhere" />
 			<include refid="dynamicOrderBy" />
 			limit ${sno-1},${eno}
@@ -36,7 +34,7 @@
 			select
 			<include refid="allColumn" />
 			 from
-			DRUG t left join Clinic c on t.clinic_id=c.clinic_id
+			DRUG t left join Clinic c on t.clinic_id=c.clinic_id left join uploadfile u on t.drug_pic=u.id
 			<include refid="dynamicWhere" />
 			limit ${sno-1},${eno}
 		</if>
@@ -47,7 +45,8 @@
 	           t.DRUG_CONTENT,
 	           t.DRUG_PIC,
 	           t.DRUG_DATE,
-	           c.CLINIC_NAME
+	           c.CLINIC_NAME,
+	           u.FILEPATH AS drugIcon
 	</sql>
  
 	
@@ -73,7 +72,18 @@
 		<include refid="dynamicWhere" />
 		    
 	</select>
-	 
+	 <select id="getById" parameterType="java.util.Map" resultMap="CommonDrug">
+			select
+			    t.DRUG_ID,
+	           t.DRUG_NAME,
+	           t.DRUG_CONTENT,
+	           t.DRUG_PIC,
+	           t.DRUG_DATE,
+	           c.CLINIC_NAME
+			 from
+			DRUG t left join Clinic c on t.clinic_id=c.clinic_id
+			where t.DRUG_ID=#{Id}
+	</select>
 	<sql id="dynamicWhere">
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="querykeyword!=null">

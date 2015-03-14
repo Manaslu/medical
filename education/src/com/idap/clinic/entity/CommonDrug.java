@@ -14,6 +14,8 @@ public class CommonDrug implements java.io.Serializable {
 	private String     drugPic;  //DRUG_PIC drug_pic
 	private Date       drugDate;  //DRUG_PIC drug_pic
 	private String clinicId;
+	private String clinicName;
+	private String drugIcon;
 	
 	
 	
@@ -60,6 +62,18 @@ public class CommonDrug implements java.io.Serializable {
 	}
 	public void setClinic(ClinicInformation clinic) {
 		this.clinic = clinic;
+	}
+	public String getClinicName() {
+		return clinicName;
+	}
+	public void setClinicName(String clinicName) {
+		this.clinicName = clinicName;
+	}
+	public String getDrugIcon() {
+		return drugIcon;
+	}
+	public void setDrugIcon(String drugIcon) {
+		this.drugIcon = drugIcon;
 	}
   
 	
