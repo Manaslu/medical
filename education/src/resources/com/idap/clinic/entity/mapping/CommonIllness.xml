@@ -68,7 +68,7 @@
 		select
 		count(1)
 		from
-		COMMONDISEASE
+		COMMONDISEASE t
 		<include refid="dynamicWhere" />
 		    
 	</select>
@@ -93,7 +93,7 @@
 					OR DISEASE_CONTENT like concat('%',#{querykeyword},'%')  )
 				</if>
 				<if test="clinicId!=null">
-					AND CLINIC_ID = #{clinicId}
+					AND t.CLINIC_ID = #{clinicId}
 				</if>
 				 
 			</trim>
