@@ -111,8 +111,9 @@
 		.pagination > li > div.page {display:inline}
 		
 		label {font-weight:normal;display:block}
+		.navbar .nav > li > a,.nav > li > a {color:#0F1315}
+		.navbar .nav > li > a:hover,.navbar  .nav > li > a:focus {color:#fff}
 		
-		.navbar .nav > li > a,.navbar .nav > li > a:hover,.navbar  .nav > li > a:focus {color:#555}
 		.dropdown-menu li a {-webkit-border-radius: 4px;-moz-border-radius: 4px;-ms-border-radius: 4px;border-radius: 4px}
 		.navbar .divider-vertical {height: 40px;margin: 0 9px;border-width:0 1px;border-style:solid}
 		

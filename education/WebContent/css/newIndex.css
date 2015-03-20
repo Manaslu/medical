@@ -242,7 +242,7 @@ util.print: Use console.log instead
   .menubar {
 	background-color: #39B1DD;
 	border-radius: 2px 2px 2px 2px;
-	box-shadow: 0 2px 5px #156785, 0 2px 25px rgba(0, 0, 0, 0.9);
+	box-shadow: 2px 3px 5px #156785, 0 2px 0px rgba(0, 0, 0, 0.9);
 	color: #FFFFFF;
 	font- size: 22px;
 	margin: 10px 1px;
@@ -264,6 +264,7 @@ util.print: Use console.log instead
 	width: 80px;
 }
 .navright {
+	color: #fff;
 	float: right;
 	margin-top: 25px;
 	margin-right: 20px;
@@ -280,6 +281,11 @@ util.print: Use console.log instead
  
      
 }
+.navright > li > a:hover,.navright > li > a:focus {
+    height: 33px;
+    font- size: 14px;
+}
+ 
  
  
 .form-custom .btn-custom {

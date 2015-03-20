@@ -264,7 +264,8 @@ body .fc {
 	border-style: solid;
 	border-width: 1px;
 	padding: 0;
-	vertical-align: top
+	vertical-align: top;
+	color : #D9EBFE;
 }
 
 .fc td.fc-today {
@@ -470,7 +471,8 @@ a.fc-more:hover {
 }
 
 .fc .fc-toolbar>*>:first-child {
-	margin-left: 0
+	margin-left: 0;
+	color : #D9EBFE;
 }
 
 .fc-toolbar h2 {
