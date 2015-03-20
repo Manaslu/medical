@@ -249,7 +249,7 @@
 					<span ng-show="!user.id">
 						<button type="button" class="btn btn-primary"
 							ng-click="create(user)" ng-disabled='!mm.$valid' data-dismiss="modal">保存</button>
-						<button class="btn btn-custom" type="reset" ng-click="resetUser(user)">重置</button>
+						<button class="btn btn-danger" type="reset" ng-click="resetUser(user)">重置</button>
 					</span> <span ng-show="user.id">
 						<button type="button" class="btn btn-primary"
 							ng-click="modify(user)" data-dismiss="modal">修改</button>
@@ -408,7 +408,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="setRole(role_check1,role_check2)">设置</button>
-                <button type="button" class="btn btn-primary" ng-click="toSetUserRole(user)" >重置</button>
+                <button type="button" class="btn btn-danger" ng-click="toSetUserRole(user)" >重置</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>

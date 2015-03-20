@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activation-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activiti-bpmn-converter-5.15.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activiti-bpmn-model-5.15.1.jar"/>
@@ -125,5 +124,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xpp3_min-1.1.4c.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xstream-1.4.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jdom-2.0.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_40"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

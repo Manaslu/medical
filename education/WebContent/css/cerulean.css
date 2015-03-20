@@ -198,13 +198,15 @@ table {
   padding: 4px 5px;
 }
 .table-bordered {
-  border: 1px solid #dddddd;
-  border-collapse: separate;
-  *border-collapse: collapsed;
-  border-left: 0;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  	margin-bottom: 10px;
+  	margin-top: 15px;
+	background: linear-gradient(to bottom, rgba(128, 146, 184, 0.7) 0%, rgba(109, 127, 165, 0.7) 2%, rgba(106, 125, 165, 0.7) 12%, rgba(87, 116, 148, 0.7) 50%, rgba(72, 109, 136, 0.7) 73%, rgba(74, 109, 137, 0.7) 75%, rgba(65, 105, 131, 0.7) 88%, rgba(62, 104, 128, 0.7) 100%) repeat scroll 0% 0% transparent;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 12px;
+	line-height: 1.42857;
+	color: #4EBAD4;
+	background-color: #085D8A;
+	
 }
 .table-bordered th,
 .table-bordered td {
@@ -250,7 +252,7 @@ table {
 }
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: #f9f9f9;
+  background-color: #065986;
 }
 .table tbody tr:hover td,
 .table tbody tr:hover th {
@@ -1872,3 +1874,4 @@ i[class^="icon-"] {
 .invisible {
   visibility: hidden;
 }
+ 

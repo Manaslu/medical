@@ -5,8 +5,7 @@ define(function(require) {
   app = angular.module('app', ['base']);
   loginBoxCtrl = ['$scope' , '$http' , '$timeout' , function($scope , $http, $timeout) {
 	  
-	  $scope.userName='admin'|| $scope.userName;
-	  $scope.password='123'||$scope.password;
+ 
 	  
 	  
     $scope.login = function() {

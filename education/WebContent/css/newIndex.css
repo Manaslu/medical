@@ -3,14 +3,7 @@ util.print: Use console.log instead
 	empty: true
 }
 
-body {
-	font-family: "Helvetica Neue" !important;
-	background-color: #fff
-}
-
-.modal {
-	background-color: rgba(0, 0, 0, .3)
-}
+ 
 
 .my-header {
 	position: fixed;
@@ -78,7 +71,7 @@ body {
 	top: 67px;
 	left: 0;
 	bottom: 0;
-	background-color: #EAEAEA;
+	background-color: rgba(6, 32, 48, 0.7);
 	border-right: 1px solid #8D9BA6;
 	overflow: hidden
 }
@@ -86,8 +79,9 @@ body {
 .sub-menu .topMenu,.sub-menu .topMenu ul,.sub-menu .topMenu li {
 	list-style: none;
 	text-align: left;
-	margin: 0;
-	padding: 0
+	margin: 30px 10px 10px 10px;
+	padding: 0;
+	
 }
 
 .sub-menu .topMenu a {
@@ -95,14 +89,14 @@ body {
 }
 
 .sub-menu .topMenu>li>a {
-	color: #FFF;
+	color: #ccc;
 	display: block;
 	font-size: 12px;
 	height: 31px;
 	line-height: 31px;
 	padding-left: 30px;
-	background-color: #D7D7D7;
-	border-bottom: 1px solid #3F5165;
+	background-color:  #085D8A;
+ 
 	position: relative
 }
 
@@ -117,15 +111,19 @@ body {
 }
 
 .sub-menu .topMenu>li>a:hover {
-	background-color: #868686;
+	background-color: #357ebd;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075);
 	color: #fff;
-	border-color: #022451
+	border-color:  #285e8e
 }
 
 .sub-menu .topMenu>li>a.active-menu {
-	background-color: #F6F6F6;
-	border-color: #868686;
-	color: #000
+ 
+	color: #000;
+	
+	background-color: #357ebd;
+	border-color:  #285e8e;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .sub-menu .topMenu>li>ul {
@@ -149,8 +147,8 @@ body {
 }
 
 .my-nav {
-	background: #f8f8f8;
-	height: 36px
+	 
+	height: 78px
 }
 
 .my-nav a {
@@ -164,7 +162,7 @@ body {
 }
 
 .my-nav a:hover,.my-nav a.active,.my-nav a:focus {
-	background: url(bg/nav-dq.png) repeat-x;
+	 
 	text-decoration: none
 }
 
@@ -218,15 +216,9 @@ body {
 }
 
 .form-custom {
-	margin-bottom: 10px;
-	border: 1px solid #CFCFCF;
-	padding: 7px 10px;
-	background-color: #fff;
-	background-image: -webkit-linear-gradient(top, #fff, #ecefee);
-	background-image: -moz-linear-gradient(top, #fff, #ecefee);
-	background-image: -o-linear-gradient(top, #fff, #ecefee);
-	background-image: -ms-linear-gradient(top, #fff, #ecefee);
-	background-image: linear-gradient(top, #fff, #ecefee);
+	 margin-bottom: 10px;
+  	margin-top: 15px;
+	 
 	filter: progid : DXImageTransform.Microsoft.Gradient ( gradientType = 0,
 		startColorstr = '#ffffff', endColorstr = '#ecefee' );
 	-webkit-border-radius: 5px;
@@ -234,14 +226,68 @@ body {
 	-ms-border-radius: 5px;
 	-o-border-radius: 5px;
 	border-radius: 5px
+	outline: medium none;
+	color: #DEE0E9;
+	display: block;
+	box-sizing: border-box;
+	padding-top: 0.1em;
+	padding-bottom: 0.1em;
+	 
+	background: linear-gradient(to bottom, rgba(128, 146, 184, 0.7) 0%, rgba(109, 127, 165, 0.7) 2%, rgba(106, 125, 165, 0.7) 12%, rgba(87, 116, 148, 0.7) 50%, rgba(72, 109, 136, 0.7) 73%, rgba(74, 109, 137, 0.7) 75%, rgba(65, 105, 131, 0.7) 88%, rgba(62, 104, 128, 0.7) 100%) repeat scroll 0% 0% transparent;
+	
+	
 }
 
+
+  .menubar {
+	background-color: #39B1DD;
+	border-radius: 2px 2px 2px 2px;
+	box-shadow: 0 2px 5px #156785, 0 2px 25px rgba(0, 0, 0, 0.9);
+	color: #FFFFFF;
+	font- size: 22px;
+	margin: 10px 1px;
+	padding: 2px;
+	position: relative;
+	text-align: center;
+	width: 110px;
+}
+
+.namebar {
+	box-shadow: 0 2px 5px #156785, 0 2px 25px rgba(0, 0, 0, 0.9);
+	color: #156785;
+	font- size: 22px;
+	 
+	margin-left: 10px;
+	margin-right: 20px;
+	position: relative;
+	text-align: center;
+	width: 80px;
+}
+.navright {
+	float: right;
+	margin-top: 25px;
+	margin-right: 20px;
+	cursor: pointer;
+} 
+.navright > li > a {
+    display: block;
+    float: left;
+    height: 29px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+ 
+     
+}
+ 
+ 
 .form-custom .btn-custom {
 	background-color: #428bca;
 	border-color: #357ebd;
-	color: #fff;
+	color: #DEE0E9;
 	font-size: 12px;
-	padding: 4px 8px
+	padding: 7px 8px
 }
 
 .form-inline input,.form-inline select {
@@ -256,13 +302,28 @@ body {
 }
 
 .table-costom thead>tr>th {
-	color: #000;
-	background-color: #EDEDED;
-	padding: 4px 5px;
-	font-size: 14px;
+	color: #272A2D;
+	 
+	 
+	 
 	text-shadow: none;
 	text-align: center;
-	border-color: #dcdcdc
+	border-color: #ffffff
+	
+	 
+	padding: 7px 10px;
+	filter: progid : DXImageTransform.Microsoft.Gradient ( gradientType = 0,
+		startColorstr = '#ffffff', endColorstr = '#ecefee' );
+	 
+	outline: medium none;
+	 
+ 
+	box-sizing: border-box;
+	font-size: 1em;
+	padding-left: 1em;
+	margin: 0px 17px 0.15em 2em;
+	background: linear-gradient(to bottom, rgba(128, 146, 184, 0.7) 0%, rgba(109, 127, 165, 0.7) 2%, rgba(106, 125, 165, 0.7) 12%, rgba(87, 116, 148, 0.7) 50%, rgba(72, 109, 136, 0.7) 73%, rgba(74, 109, 137, 0.7) 75%, rgba(65, 105, 131, 0.7) 88%, rgba(62, 104, 128, 0.7) 100%) repeat scroll 0% 0% transparent;
+	
 }
 
 .table-costom tbody>tr:nth-child (2n+ 1)>td {
@@ -520,7 +581,9 @@ body {
 }
 
 input[readonly],input[disabled] {
-	background: #fff !important;
+	background: #064B74;
+	color: #40C6E3;
+    background-color: rgba(5, 119, 190, 0.4);
 	cursor: default !important
 }
 

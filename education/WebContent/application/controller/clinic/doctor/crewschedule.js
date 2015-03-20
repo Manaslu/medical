@@ -179,7 +179,7 @@ define(function (require, exports, module) {
 					defaultEventMinutes:480,
 					slotEventOverlap:'true',
 					firstHour:'8',
-					weekMode : 'liquid',
+					weekMode : 'variable',
 					editable: true,
 					droppable: true, // this allows things to be dropped onto the calendar
 					eventClick: function(event, jsEvent, view) {

@@ -28,11 +28,11 @@
             <th>主治</th>
             <th>科室</th>
             <th>时间</th>
-            <th>操作</th>
+            <th style="width:120px">操作</th>
           
         </tr>
         </thead>
-        <tbody>
+        <tbody >
         <tr class="rowlink" ng-repeat="it in limitArr">
             <td>{{current*limit+$index+1}}</td>
             <td>{{it.doctorName}}</td>
@@ -77,10 +77,7 @@
 	            <div class="modal-body">
 	                <div class="row">
 	                    <div class="col-sm-12 col-md-12">
-	                       <div class="alert alert-danger alert-dismissable"   style="padding-left:80px">
-								<a data-dismiss="alert" class="close">×</a>
-								<strong>友情提示：</strong> 图片文件大小不要超过1M
-							</div>
+	                       
 						<div class="form-group">
 			                <label class="col-lg-2 control-label">姓名</label>
 			                <div class="col-lg-3">
@@ -141,15 +138,15 @@
                                          
                
 						   <div class="form-group">                                  
-				               <label class="col-lg-2 control-label">照片: </label>             
-				                <div class="col-lg-4">                
+				               <label class="col-lg-2 control-label">照片 </label>             
+				                <div class="col-lg-3">                
 					                    <div uploader  thumb ng-model="uploadProfilePic"
 					                         server="upload.shtml"
 					                         extensions="jpg,gif,png,jpeg"  
 					                         files="files">
 					                    </div>	         
 				                </div>  
-				               <label class="col-lg-2 control-label">证书: </label>             
+				               <label class="col-lg-1 control-label">证书 </label>             
 				                <div class="col-lg-3">                
 					                    <div uploader  thumb ng-model="uploadCertificatePic"
 					                         server="upload.shtml"
@@ -170,7 +167,7 @@
 	                </div>
 	            </div>  
 	            <div class="modal-footer">   
-	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="reset" class="btn btn-danger">重置</button>
 	              <button type="submit" class="btn btn-primary" > 保 存</button>
 	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
 	            </div>
@@ -278,7 +275,7 @@
                                          
 						   <div class="form-group">                                  
 				               <label class="col-lg-2 control-label" title="不选代表删除原有照片">照片: </label>             
-				                <div class="col-lg-4">                
+				                <div class="col-lg-3">                
 					                    <div uploader  thumb ng-model="uploadProfilePic"
 					                         server="upload.shtml"
 					                         extensions="jpg,gif,png,jpeg"  
@@ -306,7 +303,7 @@
 	                </div>
 	            </div>  
 	            <div class="modal-footer">       
-	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="reset" class="btn btn-danger">重置</button>
 	              <button type="submit" class="btn btn-primary"   ng-disabled="shareFm.$invalid" ng-click=""> 保存</button>
 	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
 	            </div>
@@ -355,9 +352,9 @@
 		                        		height:152px;             
 		                        	    right:28px;        
 		                        		overflow:auto;
-		                        		background-color: #ff;                
+		                        		             
 		                        		z-index:1;
-		                        		border:1px solid #f2f2f2;
+		                        	 
 		                        	}  
 		                        	.float-img1{              
 		                        		display:  visible;
@@ -367,9 +364,9 @@
 		                        		height:152px;             
 		                        	    right:28px;        
 		                        		overflow:auto;
-		                        		background-color: #ff;                
+		                        		               
 		                        		z-index:1;
-		                        		border:1px solid #f2f2f2;
+		                        		 
 		                        	}              
 		              	</style>                                                                                                           
 	                  <div >    

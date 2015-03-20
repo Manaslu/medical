@@ -45,8 +45,11 @@
 		width: 120px;
 		padding: 0 20px;
 		border: 1px solid #ccc;
-		background: #eee;
+		 
 		text-align: left;
+		background-color: rgba(6, 32, 48, 0.7);
+        border-right: 1px solid #8D9BA6;
+		
 	}
 		
  
@@ -54,12 +57,16 @@
 	#external-events .fc-event {
 		margin: 20px 0;
 		cursor: pointer;
+color: #000;
+background-color: #357EBD;
+border-color: #285E8E;
+box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075);
 	}
 		
 	#external-events p {
 		margin: 1.5em 0;
 		font-size: 11px;
-		color: #666;
+		color: #7D94C3;
 	}
 		
 	#external-events p input {
@@ -67,7 +74,12 @@
 		vertical-align: middle;
 	}
  
-	 
+	 .nav > li {
+    color: #7D94C3; 
+    }
+    .nav-tabs {
+    border-bottom: 1px solid #0B2B41;
+}
 
 </style>
  
@@ -80,7 +92,7 @@
           
          </div>
         <div class="row">
-            <div style="padding:  70px 0px 0px 20px;" class="main-menu-span" >
+            <div style="padding:  30px 0px 0px 20px;" class="main-menu-span" >
                 <div id='external-events' class="well nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
                 <li class="nav-header hidden-tablet" > 医生  </li>
@@ -93,7 +105,7 @@
 				</div>
             </div>
          </div>
-         <br><br><br><br><br><br><br><br>
+         <br><br><br>
              	<div class="modal-footer" style="padding:0  20px;">
 							
 				</div>
@@ -111,13 +123,13 @@
 					
              
          </div>
-          <br><br><br><br><br><br><br><br>
+          <br><br><br><br> 
              	<div class="modal-footer">
 							
 				</div> 
-          <div class="row" style="padding:0  0 0  50px;">
+          <div class="row"  >
              
-                <button type="submit" class="btn btn-primary"    ng-click="saveCalendar()"  >保存排班-></button> 
+                <button type="submit" class="btn btn-primary"    ng-click="saveCalendar()"  >保存排班</button> 
             
          </div>
       </div>

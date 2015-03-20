@@ -71,7 +71,7 @@
                             <div class="form-group">
 	                            <label class="col-lg-2 control-label">标题</label>
 				                <div class="col-lg-9">
-				                    <input type="text" name="title" class="form-control" required ng-model="key.drugName" ng-maxlength="50" ng-trim maxlength="50" />
+				                    <input type="text" required name="title" class="form-control" required ng-model="key.drugName" ng-maxlength="50" ng-trim maxlength="50" />
 				                </div>
 				                 <span class="mustItem">*</span>         
                             </div>                  
@@ -79,7 +79,7 @@
 						   <div class="form-group">                                  
 				                 <label class="col-lg-2 control-label">图片: </label>             
 				                <div class="col-lg-8">                
-					                    <div uploader  thumb ng-model="uploadPic"
+					                    <div uploader required thumb ng-model="uploadPic"
 					                         server="upload.shtml"
 					                         extensions="jpg,gif,png,jpeg"  
 					                         files="files">
@@ -97,7 +97,7 @@
 	                </div>
 	            </div>  
 	            <div class="modal-footer">   
-	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="reset" class="btn btn-danger">重置</button>
 	              <button type="submit" class="btn btn-primary" > 保 存</button>
 	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
 	            </div>
@@ -188,7 +188,7 @@
 	                </div>
 	            </div>  
 	            <div class="modal-footer">       
-	              <button type="reset" class="btn btn-default">重置</button>
+	              <button type="reset" class="btn btn-danger">重置</button>
 	              <button type="submit" class="btn btn-primary"   ng-disabled="shareFm.$invalid" ng-click=""> 保存</button>
 	              <button type="button" class="btn btn-default" data-dismiss="modal"  > 取消</button>
 	            </div>
@@ -237,9 +237,9 @@
 		                        		height:152px;           
 		                        	    right:28px;        
 		                        		overflow:auto;
-		                        		background-color: #ff;                
+		                        		          
 		                        		z-index:1;
-		                        		border:1px solid #f2f2f2;
+		                        	 
 		                        	}               
 		              	</style>                                                                                                           
 	                  <div >    

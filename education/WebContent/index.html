@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
 <meta charset="UTF-8">
-<title>medicial system</title>
+<title>北京市诊所预约诊疗服务系统</title>
 <!-- favicon -->
 <link rel="icon" href="favicon.ico" mce_href="favicon.ico"
 	type="image/x-icon">
@@ -46,14 +46,30 @@
     <link rel="stylesheet" href="css/lt-ie9.css"/>
     <![endif]-->
 </head>
-<body class="slider-show" ng-class="{'slider-show' : !isHideSidebar()}">
+
+	                  	<style type="text/css">
+		                        	.mainbody{              
+										background: url("img/framebg.jpg") no-repeat scroll left top / 100% auto transparent;
+		                        	}               
+		                        	.topbar{              
+		                        		 
+										background: url("img/navbar.jpg") no-repeat scroll left top / 100% auto transparent;
+		                        	}   
+		                        	.quitbar {
+			background: url(img/mail.png) no-repeat  transparent;
+		}
+		                        	
+		                        	            
+		              	</style> 
+<body class="mainbody"   ng-class="{'slider-show' : !isHideSidebar()}">
 
 	<!-- 加载遮罩层 -->
 	<div defer-box="deferApi"></div>
 
+ 
 
 
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="navbar navbar-default navbar-static-top topbar" role="navigation">
       <div class="my-nav clearfix">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -62,22 +78,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">北京市诊所预约诊疗服务系统</a>
         </div>
         <div >
           <ul class="nav navbar-nav">
           
              <li ng-repeat="item in menu">  
-                 <a ng-href="{{showRoute(item)}}"	ng-class="{active:checkActive(item , 0)}">{{item.name}}
+                 <a class="menubar" ng-href="{{showRoute(item)}}"	 >{{item.name}}
                  </a>
             </li>
 
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="javascript:"	data-toggle="modal" data-target="#editUserInfo">{{USER_INFO.userName}}</a> </li>
-            <li><a href="javascript:" ng-click="logout()">退出</a></li>
-            <li>3</li>
+           
+          <ul class="nav navbar-nav navright">
+           	 
+             <li><a class="namebar" href="javascript:"	data-toggle="modal" data-target="#editUserInfo">{{USER_INFO.userName}}</a> </li>
+             <li  ><img src="img/quit.jpg" height="30px" width="30px"  ng-click="logout()"></img> </li>
+            
           </ul>
+         
         </div>
         
       </div>
@@ -402,9 +421,9 @@
 		                        		height:152px;             
 		                        	    right:28px;        
 		                        		overflow:auto;
-		                        		background-color: #ff;                
+		                        		             
 		                        		z-index:1;
-		                        		border:1px solid #f2f2f2;
+		                        		 
 		                        	}  
 		                        	.float-img1{              
 		                        		display:  visible;
@@ -414,9 +433,9 @@
 		                        		height:152px;             
 		                        	    right:28px;        
 		                        		overflow:auto;
-		                        		background-color: #ff;                
+		                        	           
 		                        		z-index:1;
-		                        		border:1px solid #f2f2f2;
+		                        		 
 		                        	}              
 		              	</style>                                                                                                           
 	                  <div >    

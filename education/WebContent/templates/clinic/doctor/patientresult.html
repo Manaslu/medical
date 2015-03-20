@@ -4,7 +4,7 @@
 		<div class="row">
 				
 			<!-- left menu starts -->
-			<div class="span2 main-menu-span">
+			<div class="span2 main-menu-span"  ng-show="userAppointmentBeforeNoon || userAppointmentAfterNoon">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">上午</li>
@@ -31,7 +31,7 @@
 			
 	 
 			
-			<div class="span10" id="content">
+			<div class="span10" id="content" ng-show="userAppointmentBeforeNoon || userAppointmentAfterNoon">
 			<!-- content starts -->
 			<div>
 				<ul class="breadcrumb">
@@ -91,9 +91,54 @@
 			</div><!--/row-->
 					<!-- content ends -->
 			</div><!--/#content.span10-->
+			
+
+                    
+                    
 		</div><!--/fluid-row-->
 	</div>
+	
+	
+	<style type="text/css">
+		                        	.showmassage{              
+		                        		cursor: pointer;
+										color: #FFF;
+										display: block;
+										box-sizing: border-box;
+										font-size: 2.5em;
+										padding-left: 1em;
+										background: linear-gradient(to bottom, rgba(128, 146, 184, 0.7) 0%, rgba(109, 127, 165, 0.7) 2%, rgba(106, 125, 165, 0.7) 12%, rgba(87, 116, 148, 0.7) 50%, rgba(72, 109, 136, 0.7) 73%, rgba(74, 109, 137, 0.7) 75%, rgba(65, 105, 131, 0.7) 88%, rgba(62, 104, 128, 0.7) 100%) repeat scroll 0% 0% transparent;
+										border-color: #285E8E;
+                                        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.7);
+		                        	 
+		                        	}  
+		                        	           
+		              	</style>   
+	
+	
+			<div class="row" style="padding-top: 6em;" ng-show="userAppointmentBeforeNoon=='' && userAppointmentAfterNoon==''"   >
+			             
+             <div class="col-sm-4 col-md-3"> </div> 
+             <div class="col-sm-4 col-md-6"> 
+             <div class="showmassage">
+                                                          唷，还没有患者预约您的诊所。  
+             </div>
+                                                      
+              
+                                                     
+              </div> 
+             
+              <div class="col-sm-4 col-md-3"> </div>   
+                                                                     
+          
+			
+			</div>
 </div>
+ 
+		                        	
+
+		                       
+
 
 <!-- 新增修改对话框 -->
 

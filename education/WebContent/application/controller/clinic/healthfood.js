@@ -12,8 +12,8 @@ define(function (require, exports, module) {
         //------------reset botton---------------------
                $scope.clearForm = function(){//reset botton
 
-                   //$scope.key="";
-//                   $scope.tempeatPic=[];
+                    $scope.key="";
+                    $scope.tempeatPic=[];
                };
                
         //------------------add/edit--------- ----------- 	
@@ -84,7 +84,7 @@ define(function (require, exports, module) {
     		                          });
                       		
                       		UploadFile.put(uploadfile,function(){
-                      		 
+                      			$scope.clearForm();
                            });
                       	}
          				   
