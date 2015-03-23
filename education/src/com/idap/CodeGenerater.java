@@ -13,7 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.stereotype.Repository;
 
+import com.idap.clinic.entity.ClinicInformation;
+import com.idp.pub.dao.impl.DefaultBaseDao;
 import com.idp.pub.entity.annotation.MetaTable;
 
  
@@ -47,9 +50,31 @@ public class CodeGenerater {
 	
  
  
+	public static String GeneraterDao(String packagefullname,String classname,String lclassname){
+		String javadaostring="package "+packagefullname+".dao;\r\n";
+		javadaostring+="\r\n";
+		javadaostring+="import org.springframework.stereotype.Repository;\r\n";
+		javadaostring+="import com.idp.pub.dao.impl.DefaultBaseDao;\r\n";
+		javadaostring+="import "+packagefullname+".entity."+classname+";\r\n";
+		javadaostring+="\r\n";
+		javadaostring+="@Repository(\""+lclassname+"Dao\")\r\n";
+		javadaostring+="public class "+classname+"Dao extends DefaultBaseDao<"+classname+",String>{\r\n";
+		javadaostring+="	@Override\r\n";
+		javadaostring+="	public String getNamespace() {\r\n";
+		javadaostring+="		return "+classname+".class.getName();\r\n";
+		javadaostring+="	}\r\n";
+		javadaostring+="}\r\n";
+		
+ 
+		   javadaostring+="\r\n";
+		return javadaostring;
+	}
+	
+	
 	public static void main(String[] args) {
 		
 		String classname="ClinicInfo";
+		String lclassname="clinicInfo";
 		String packagename="clinic";
 		String[][] tablearr = {
 				                {"clinic_id","String"},
@@ -58,7 +83,7 @@ public class CodeGenerater {
 				                {"clinic_license","int"}
 				              };
 		
-		 
+	//---------------------------------------------------------------------------	 
 		ArrayList table = new ArrayList();
 		for(int i=0;i<tablearr.length;i++){
 			Map<String, String> map = new HashMap<String, String>();
@@ -97,7 +122,22 @@ public class CodeGenerater {
 			  }
 		 
 		
-
+//javaDao		
+		 try {
+			   File f = new File(absolutePath+daoPath+classname+"Dao.java");
+			   if (!f.exists()) {
+			    f.createNewFile();
+			   }
+			   OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(f),"UTF-8");
+			   BufferedWriter writer=new BufferedWriter(write);   
+			   String javaDaoContent=GeneraterDao(packagefullname,classname,lclassname);
+			   writer.write(javaDaoContent);
+			   writer.close();
+			   System.out.println("写dao文件成功");
+			  } catch (Exception e) {
+			   System.out.println("写dao文件内容操作出错");
+			   e.printStackTrace();
+			  }
  
 
  
