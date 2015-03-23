@@ -12,12 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idap.clinic.entity.ClinicInformation;
+import com.idp.pub.dao.IBaseDao;
+import com.idp.pub.dao.IPagerDao;
 import com.idp.pub.dao.impl.DefaultBaseDao;
 import com.idp.pub.entity.annotation.MetaTable;
+import com.idp.pub.generatekey.service.IGenerateKeyMangerService;
+import com.idp.pub.service.impl.DefaultBaseService;
 
  
 
@@ -70,7 +78,62 @@ public class CodeGenerater {
 		return javadaostring;
 	}
 	
-	
+
+	public static String GeneraterImpl(String packagefullname,String classname,String lclassname,String primirykey){
+		String javaimplstring="package "+packagefullname+".service.impl;\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="import java.util.Date;\r\n";
+		javaimplstring+="import java.util.Map;\r\n";
+		javaimplstring+="import javax.annotation.Resource;\r\n";
+		javaimplstring+="import org.springframework.stereotype.Service;\r\n";
+		javaimplstring+="import org.springframework.transaction.annotation.Transactional;\r\n";
+		javaimplstring+="import com.idp.pub.dao.IBaseDao;\r\n";
+		javaimplstring+="import com.idp.pub.dao.IPagerDao;\r\n";
+		javaimplstring+="import com.idp.pub.generatekey.service.IGenerateKeyMangerService;\r\n";
+		javaimplstring+="import com.idp.pub.service.impl.DefaultBaseService;\r\n";
+		javaimplstring+="import com.idap.clinic.entity."+classname+";\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="@Transactional\r\n";
+		javaimplstring+="@Service(\""+lclassname+"Service\")\r\n";
+		javaimplstring+="public class "+classname+"ServiceImpl extends DefaultBaseService<"+classname+", String>\r\n";
+		javaimplstring+="{\r\n";
+		javaimplstring+="	@Resource(name = \""+lclassname+"Dao\")\r\n";
+		javaimplstring+="	public void setBaseDao(IBaseDao<"+classname+", String> baseDao) {\r\n";
+		javaimplstring+="		super.setBaseDao(baseDao);\r\n";
+		javaimplstring+="	}\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="	@Resource(name = \""+lclassname+"Dao\")\r\n";
+		javaimplstring+="	public void setPagerDao(IPagerDao<"+classname+"> pagerDao) {\r\n";
+		javaimplstring+="		super.setPagerDao(pagerDao);\r\n";
+		javaimplstring+="	}\r\n";
+		javaimplstring+="	@Resource(name = \"generateKeyServcie\")\r\n";
+		javaimplstring+="	private IGenerateKeyMangerService generateKeyService;\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="	 @Override\r\n";
+		javaimplstring+="	public "+classname+" save("+classname+" entity) {\r\n";
+		javaimplstring+="		 String id =  generateKeyService.getNextGeneratedKey(null).getNextKey();\r\n";
+		javaimplstring+="		 entity.set"+primirykey+"(id);\r\n";
+		javaimplstring+="	 	 return   this.getBaseDao().save(entity);\r\n";
+		javaimplstring+="	    }\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="	 @Override\r\n";
+		javaimplstring+="     public "+classname+" update("+classname+" entity) {\r\n";
+		javaimplstring+="			return  this.getBaseDao().update(entity);\r\n";
+		javaimplstring+="	    }\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="    @Override\r\n";
+		javaimplstring+="    public Integer delete(Map<String, Object> params) {\r\n";
+		javaimplstring+="        return this.getBaseDao().delete(params); \r\n";
+		javaimplstring+="    }\r\n";
+		javaimplstring+="\r\n";
+		javaimplstring+="}\r\n";
+ 
+		
+ 
+		javaimplstring+="\r\n";
+		return javaimplstring;
+	}
 	public static void main(String[] args) {
 		
 		String classname="ClinicInfo";
@@ -82,6 +145,7 @@ public class CodeGenerater {
 				                {"clinic_date","Date"},
 				                {"clinic_license","int"}
 				              };
+		String primirykey="ClinicId"; //新增时赋予主键值
 		
 	//---------------------------------------------------------------------------	 
 		ArrayList table = new ArrayList();
@@ -140,7 +204,22 @@ public class CodeGenerater {
 			  }
  
 
- 
+//javaImpl		
+		 try {
+			   File f = new File(absolutePath+implPath+classname+"ServiceImpl.java");
+			   if (!f.exists()) {
+			    f.createNewFile();
+			   }
+			   OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(f),"UTF-8");
+			   BufferedWriter writer=new BufferedWriter(write);   
+			   String javaImplContent=GeneraterImpl(packagefullname,classname,lclassname,primirykey);
+			   writer.write(javaImplContent);
+			   writer.close();
+			   System.out.println("写impl文件成功");
+			  } catch (Exception e) {
+			   System.out.println("写impl文件内容操作出错");
+			   e.printStackTrace();
+			  }
 		
  
 	
