@@ -12,20 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.idap.clinic.entity.ClinicInformation;
-import com.idp.pub.dao.IBaseDao;
-import com.idp.pub.dao.IPagerDao;
-import com.idp.pub.dao.impl.DefaultBaseDao;
-import com.idp.pub.entity.annotation.MetaTable;
-import com.idp.pub.generatekey.service.IGenerateKeyMangerService;
-import com.idp.pub.service.impl.DefaultBaseService;
+ 
 
  
 
@@ -79,7 +66,7 @@ public class CodeGenerater {
 	}
 	
 
-	public static String GeneraterImpl(String packagefullname,String classname,String lclassname,String primirykey){
+	public static String GeneraterImpl(String packagename,String packagefullname,String classname,String lclassname,String primirykey){
 		String javaimplstring="package "+packagefullname+".service.impl;\r\n";
 		javaimplstring+="\r\n";
 		javaimplstring+="import java.util.Date;\r\n";
@@ -91,7 +78,7 @@ public class CodeGenerater {
 		javaimplstring+="import com.idp.pub.dao.IPagerDao;\r\n";
 		javaimplstring+="import com.idp.pub.generatekey.service.IGenerateKeyMangerService;\r\n";
 		javaimplstring+="import com.idp.pub.service.impl.DefaultBaseService;\r\n";
-		javaimplstring+="import com.idap.clinic.entity."+classname+";\r\n";
+		javaimplstring+="import com.idap."+packagename+".entity."+classname+";\r\n";
 		javaimplstring+="\r\n";
 		javaimplstring+="\r\n";
 		javaimplstring+="@Transactional\r\n";
@@ -113,7 +100,7 @@ public class CodeGenerater {
 		javaimplstring+="	 @Override\r\n";
 		javaimplstring+="	public "+classname+" save("+classname+" entity) {\r\n";
 		javaimplstring+="		 String id =  generateKeyService.getNextGeneratedKey(null).getNextKey();\r\n";
-		javaimplstring+="		 entity.set"+primirykey+"(id);\r\n";
+		javaimplstring+="		 entity."+primirykey+"(id);\r\n";
 		javaimplstring+="	 	 return   this.getBaseDao().save(entity);\r\n";
 		javaimplstring+="	    }\r\n";
 		javaimplstring+="\r\n";
@@ -134,18 +121,49 @@ public class CodeGenerater {
 		javaimplstring+="\r\n";
 		return javaimplstring;
 	}
+	
+	
+	
+	
+	public static String GeneraterControllor(String packagename,String classname,String lclassname){
+		String javacontrollorlstring="package com.idap.web."+packagename+".controller;\r\n";
+		javacontrollorlstring+="\r\n";
+		javacontrollorlstring+="import javax.annotation.Resource;\r\n";
+		javacontrollorlstring+="import org.springframework.stereotype.Controller;\r\n";
+		javacontrollorlstring+="import org.springframework.web.bind.annotation.RequestMapping;\r\n";
+		javacontrollorlstring+="import com.idp.pub.service.IBaseService;\r\n";
+		javacontrollorlstring+="import com.idp.pub.web.controller.BaseController;\r\n";
+		javacontrollorlstring+="import com.idap."+packagename+".entity."+classname+";\r\n";
+		javacontrollorlstring+="\r\n";
+		javacontrollorlstring+="\r\n";
+		javacontrollorlstring+="@Controller\r\n";
+		javacontrollorlstring+="@RequestMapping(value = \"/"+lclassname+"\")\r\n";
+		javacontrollorlstring+="public class "+classname+"Controller extends BaseController<"+classname+", String> {\r\n";
+		javacontrollorlstring+="	@Resource(name = \""+lclassname+"Service\")\r\n";
+		javacontrollorlstring+="	public void setBaseService(IBaseService<"+classname+", String> baseService) {\r\n";
+		javacontrollorlstring+="		super.setBaseService(baseService);\r\n";
+		javacontrollorlstring+="	}\r\n";
+		javacontrollorlstring+="}\r\n";
+		 
+ 
+		
+ 
+		javacontrollorlstring+="\r\n";
+		return javacontrollorlstring;
+	}
+	
 	public static void main(String[] args) {
 		
-		String classname="ClinicInfo";
-		String lclassname="clinicInfo";
-		String packagename="clinic";
+		String classname="ClinicInfo"; //entity name
+		String lclassname="clinicInfo";//entity name string
+		String packagename="clinic";//package name
 		String[][] tablearr = {
 				                {"clinic_id","String"},
 				                {"clinic_name","String"},
 				                {"clinic_date","Date"},
 				                {"clinic_license","int"}
-				              };
-		String primirykey="ClinicId"; //新增时赋予主键值
+				              };//database table
+		String primirykey="setClinicId"; //id setter
 		
 	//---------------------------------------------------------------------------	 
 		ArrayList table = new ArrayList();
@@ -161,7 +179,7 @@ public class CodeGenerater {
 		String entityPath="\\src\\com\\idap\\"+packagename+"\\entity\\";
 		String daoPath = "\\src\\com\\idap\\"+packagename+"\\dao\\";
 		String implPath="\\src\\com\\idap\\"+packagename+"\\service\\impl\\";
-		String controllerPath="src\\com\\idap\\web\\"+packagename+"\\controller\\";
+		String controllerPath="\\src\\com\\idap\\web\\"+packagename+"\\controller\\";
 		String xmlPath = "\\src\\resources\\com\\idap\\"+packagename+"\\entity\\mapping\\";
 		String absolutePath= new File("").getAbsolutePath() ;  
  
@@ -212,7 +230,7 @@ public class CodeGenerater {
 			   }
 			   OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(f),"UTF-8");
 			   BufferedWriter writer=new BufferedWriter(write);   
-			   String javaImplContent=GeneraterImpl(packagefullname,classname,lclassname,primirykey);
+			   String javaImplContent=GeneraterImpl(packagename,packagefullname,classname,lclassname,primirykey);
 			   writer.write(javaImplContent);
 			   writer.close();
 			   System.out.println("写impl文件成功");
@@ -221,7 +239,22 @@ public class CodeGenerater {
 			   e.printStackTrace();
 			  }
 		
- 
+//controllor		
+		 try {
+			   File f = new File(absolutePath+controllerPath+classname+"Controller.java");
+			   if (!f.exists()) {
+			    f.createNewFile();
+			   }
+			   OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(f),"UTF-8");
+			   BufferedWriter writer=new BufferedWriter(write);   
+			   String javaControllorContent=GeneraterControllor(packagename,classname,lclassname);
+			   writer.write(javaControllorContent);
+			   writer.close();
+			   System.out.println("写controllor文件成功");
+			  } catch (Exception e) {
+			   System.out.println("写controllor文件内容操作出错");
+			   e.printStackTrace();
+			  }
 	
 	}
 }
